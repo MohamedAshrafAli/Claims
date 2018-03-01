@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:hz="https://www.hazelcast.com/schema/spring" xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd        
+        http://www.springframework.org/schema/util 
+        http://www.springframework.org/schema/util/spring-util-4.3.xsd
+        http://www.hazelcast.com/schema/spring 
+        https://www.hazelcast.com/schema/spring/hazelcast-spring-3.7.xsd
+        http://www.springframework.org/schema/cache 
+        http://www.springframework.org/schema/cache/spring-cache.xsd
+        http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	<context:annotation-config />
+	<mvc:annotation-driven />
+	<cache:annotation-driven cache-manager="cacheManager"
+		mode="proxy" proxy-target-class="true" />
+
+
+	<import resource="classpath:config/environment/profile-dev.xml" />
+	<import resource="classpath:config/environment/profile-iqc.xml" />
+	<import resource="classpath:config/environment/profile-qc.xml" />
+	<import resource="classpath:config/environment/profile-uat.xml" />
+	<import resource="classpath:config/environment/profile-sch.xml" />
+	<import resource="classpath:config/environment/profile-preprod.xml" />
+	<import resource="classpath:config/environment/profile-prod.xml" />
+	<import
+		resource="classpath:config/environment/beyontec-suite-foundation-dev.xml" />
+	<import
+		resource="classpath:config/environment/beyontec-suite-foundation-iqc.xml" />
+	<import resource="classpath:config/environment/beyontec-suite-foundation-qc.xml" />
+	<import
+		resource="classpath:config/environment/beyontec-suite-foundation-uat.xml" />
+	<import
+		resource="classpath:config/environment/beyontec-suite-foundation-sch.xml" />
+	<import
+		resource="classpath:config/environment/beyontec-suite-foundation-preprod.xml" />
+	<import
+		resource="classpath:config/environment/beyontec-suite-foundation-prod.xml" />
+
+	<!-- Load all client Properties -->
+	<bean id="appProperties"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations">
+			<list>
+				<value>
+					classpath:config/environment/application-${beyon.deploy.region}.properties
+				</value>
+				<value>
+					classpath:config/environment/foundation-${beyon.deploy.region}.properties
+				</value>
+				<value>
+					classpath:properties/beyontec-suite-foundation.properties
+				</value>
+				<value>classpath:properties/*.properties</value>
+				<value>classpath:properties/client/*.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="errorProperties"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations">
+			<list>
+				<value>classpath:properties/error/beyontec-suite-foundation-error.properties
+				</value>
+				<value>classpath:properties/error/*.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<import resource="classpath:config/beyontec-suite-foundation.xml" />
+	<import resource="classpath:config/beyontec-medical-claims.xml" />
+
+</beans>
