@@ -21,6 +21,17 @@
                     {'label': 'Service From Date', 'fieldName' : 'serviceFmDate', 'redirectable' : false, type:"date"}
                 ];
             }
+            this.getRemittanceListViewHeader = function() {
+                return [
+                    {'label': 'Batch Id', 'fieldName' : 'batchId', 'redirectable' : false},
+                    {'label': 'Batch File Name', 'fieldName' : 'batchFileName', 'redirectable' : false},
+                    {'label': 'Received Date ', 'fieldName' : 'receivedDate', 'redirectable' : false,type:"date"},
+                    {'label': 'Provider Code', 'fieldName' : 'providerCode', 'redirectable' : false},
+                    {'label': 'Provider License ', 'fieldName' : 'providerLicense', 'redirectable' : false},
+                    {'label': 'Provider Name', 'fieldName' : 'providerName', 'redirectable' : false},
+                    {'label': 'Remittance Upload Date', 'fieldName' : 'remittanceUploadDate', 'redirectable' : false,type:"date"},
+                ];
+            }
 
             this.setRequestData = function(request) {
                 this.requestData = request;

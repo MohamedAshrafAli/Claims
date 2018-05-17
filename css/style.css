@@ -58,6 +58,7 @@ section {
     height: calc( 100% - 79px);
     position: relative;
     overflow: auto;
+    overflow-x:hidden;
 }
 
 .regLeftContainer {

@@ -97,6 +97,12 @@ angular
                 }
             })
 
+            .state('eClaims-remittance', {
+                url: "/eClaims-remittance",
+                templateUrl:"resources/eclaim/remittance/view/eclaim-remittance.html",
+                controller: 'EclaimRemittanceController'
+            })
+
             .state('eclaim-processing', {
                 url: "/eclaim-processing",
                 templateUrl: "resources/eclaim/view/eclaim-processing.html",
