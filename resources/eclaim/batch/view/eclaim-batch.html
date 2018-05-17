@@ -1,0 +1,119 @@
+<nav class="navbar pt-1 pb-1">
+    <span class="navbar-brand p-0 m-0">Claims Registration</span>
+</nav>
+<section>
+    <div class="leftContainer">
+        <my-search-box search-info="searchFields" search-auto="registeredClaims" drop-down="dropdownValues" search-text="searchValue"
+            callback="filterValues(data)"></my-search-box>
+        
+        <div class="resultInfo pl-2">
+            <a href="javascript:void(0);" class="btn btn-primary btn-sm finlizeBtn btn-finalize float-right" ng-click="rejectSelectedClaims();">Reject</a>
+        </div>
+        <div class="mt-5 pb-1">
+            <div class="row m-0">
+                <span href="javascript:;" class="custCheckboxBtn" ng-class="{'custCheckboxBtnSected' : isChecked}" ng-click="isChecked = !isChecked;" style="cursor:pointer; outline:none">
+                    <span class="oi" data-glyph="check"></span>
+                </span>&nbsp;
+                <!-- <div class="column" style="width:98%"> -->
+                <div class="claimRequestDetInner mb-2 clearfix" style="border-top:1px solid #e0e0e0 !important;width:98%">
+                    <table class="batchTable">
+                        <tr class="row pb-1">
+                            <td class="col-sm-4">
+                                <div>
+                                    <span class="pr-4"><strong>Received Date: </strong>12/52017</span>
+                                    <span><strong>Requet Type: </strong>Initial Request</span>
+                                </div>
+                                <div>
+                                    <strong>Batch ID: 10209092</strong>
+                                </div>
+                                <div>
+                                    <span><strong> XML File Name:</strong> 9741856-652d-d34552-MF17879-CLAIM</span>
+                                </div>
+                            </td>
+                            <td class="col-sm">
+                                <div>
+                                    <span><strong>Provider Code: </strong>4341</span>
+                                </div>
+                                <div>
+                                    <span><strong>Provider License: </strong>MF17152</span>
+                                </div>
+                                <div>
+                                    <span><strong>Provider Name: </strong>Alnoor Hospital</span>
+                                </div>
+                            </td>
+                            <td class="col-sm">
+                                <div>
+                                    <span><strong>Registered Date: </strong>12/04/2018</span>
+                                </div>
+                                <div>
+                                    <span><strong>Remittance Upload Date: </strong>12/04/2018</span>
+                                </div>
+                                <div>
+                                    <span><strong>Rejection Code: </strong>REJ-001</span>
+                                </div>
+                                <div>&nbsp;</div>
+                            </td>
+                            <!-- <td class="col-sm-3">
+                                <div class="masterCodes" style="border: 1px solid #b3b3b3; width: 65%; border-radius: 3px;">
+                                    <md-autocomplete
+                                        md-selected-item="claim.rejectionCode"
+                                        md-search-text="rejectionText"
+                                        md-items="item in querySearch(rejectionText, 'R')"
+                                        md-item-text="item.name"
+                                        md-floating-label="Rejection Code"
+                                        md-clear-button="true"
+                                        style="height: 50px;">
+                                        <md-item-template>
+                                            <span md-highlight-text="rejectionText" md-highlight-flags="^i">{{item.name}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No Result Found
+                                        </md-not-found>
+                                    </md-autocomplete>
+                                </div>
+                            </td>     -->
+                        </tr>
+                        <tr class="row">
+                            <td class="col-sm">
+                                <div><strong>Claims</strong><br>500444</div>
+                            </td>
+                            <td class="col-sm">
+                                <div><strong>Processed</strong><br>500444</div>
+                            </td>
+                            <td class="col-sm">
+                                <div><strong>UnProcessed</strong><br>5044440</div>
+                            </td>
+                            <td class="col-sm">
+                                <div><strong>Batch Paid Amount</strong><br>54444400</div>
+                            </td>
+                            <td class="col-sm">
+                                <div><strong>Rejected Amount</strong><br>5044440</div>
+                            </td>
+                            <td class="col-sm">
+                                <div><strong>Payment Reference</strong><br>Referenceas ass </div>
+                            </td>
+                            <td class="col-sm">
+                                <div><strong>Payment Date</strong><br>May 22 2018 </div>
+                            </td>
+                            <td class="col-sm">
+                                <div><strong>Payment Way</strong><br>Online</div>
+                            </td>
+                            <td class="col-sm">
+                                <div><strong>Rejection Descritpion</strong><br>&nbsp;</div>
+                            </td>
+                            <!-- <td class="col-sm-3">
+                                <div style="border: 1px solid #b3b3b3;margin: 0 3px 0 0;border-radius: 3px;">
+                                    <md-input-container flex-gt-sm>
+                                        <label>Rejection Descritpion</label>
+                                        <textarea class="claimReqIput" maxlength="150" ng-model="claim.internalRemarks"></textarea>
+                                    </md-input-container>
+                                </div>
+                            </td>                                         -->
+                        </tr>
+                    </table>
+                </div>                    
+                <!-- </div> -->
+            </div>
+        </div>    
+    </div>
+</section>

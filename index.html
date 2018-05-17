@@ -13,7 +13,6 @@
         <link rel="stylesheet" href="css/style.css" />
         <link rel="stylesheet" type="text/css" href="css/page.css" />
         <link rel="stylesheet" type="text/css" href="css/jPushMenu.css" />
-        <link rel="stylesheet" type="text/css" href="css/directiveCss.css" />
         <title>Beyontec</title>
     </head>
     <body ng-app="claims">
@@ -61,13 +60,12 @@
                 <div uib-accordion-group class="panel-default">
                     <uib-accordion-heading> Medical Claims </uib-accordion-heading>    
                     <uib-accordion close-others="true">
-                        <!-- <div uib-accordion-group class="panel-default child-panel" is-open="true">
+                        <div uib-accordion-group class="panel-default child-panel" is-open="true">
                             <uib-accordion-heading> <h3>E-Claims</h3> </uib-accordion-heading>
-                            <h4 ui-sref="claim-registration">Registration</h4>
-                            <h4 ui-sref="user-assignment({ param: 'eclaims' })">User Assignment</h4>
-                            <h4 ui-sref="finalization">Finalization</h4>
-                        </div> -->
-                        <h3>E-Claims</h3>
+                            <h4 ui-sref="eclaim-batch">Batch</h4>
+                            <h4>User Assignment</h4>
+                            <h4>Finalization</h4>
+                        </div>
                         <div uib-accordion-group class="panel-default child-panel">
                             <uib-accordion-heading> <h3>Reimbursement Claims</h3> </uib-accordion-heading>
                             <h4 ui-sref="reimbursement-registration">Registration</h4>
@@ -113,6 +111,8 @@
     <script src="resources/eclaim/processing/script/eclaim-processing.service.js"></script>
     <script src="resources/eclaim/finalization/script/eclaim-finalization.controller.js"></script>
     <script src="resources/eclaim/finalization/script/eclaim-finalization.service.js"></script>
+    <script src="resources/eclaim/batch/script/eclaim-batch.controller.js"></script>
+    <script src="resources/eclaim/batch/script/eclaim-batch.service.js"></script>
 
     <!-- Reimbursement Claims -->
     <script src="resources/reimbursement-claims/registration/script/reimbursement-registration-general.controller.js"></script>

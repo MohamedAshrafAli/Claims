@@ -67,8 +67,8 @@ section {
 .leftContainer {
     position: absolute;
     top: 15px;
-    left: -5px;
-    right: 15px;
+    left: 10px;
+    right: 10px;
     bottom: 20px;
 } 
 
@@ -102,20 +102,7 @@ section {
     box-shadow: 0 0 3px 1px #d3d8de;
 }
 
-.searchBarSample {
-    border: 1px solid #d3d7df;
-    background: #fff;
-    display: table;
-    width: 100%;
-    -webkit-box-shadow: 0 0 3px 1px #d3d8de;
-    box-shadow: 0 0 3px 1px #d3d8de;
-}
-
 .searchBarRow {
-    display: table-row;
-}
-
-.searchBarRowSample {
     display: table-row;
 }
 
@@ -773,10 +760,6 @@ md-input-container md-select label {
 }
 
 .searchBarRow md-input-container {
-    margin-left: 10px;
-}
-
-.searchBarRowSample md-input-container {
     margin-left: 10px;
 }
 
@@ -1746,23 +1729,12 @@ footer {
     margin-top: 0.5% !important;
     margin-right: 0% !important;
 }
-.searchBarRow md-autocomplete md-input-container{
-    margin: 0px;
-}
-.searchBarRow md-autocomplete .md-show-clear-button button {
-    top: 0px;
-}
-.searchBarRow md-autocomplete md-input-container .md-input {
-    border: none !important;
-}
+
 .nav-item:focus {
     outline: none;
 }
-.searchBarRow md-autocomplete .md-virtual-repeat-container.md-autocomplete-suggestions-container {
-    top :150px !important;
-}
 
-.searchBarRowSample md-autocomplete .md-virtual-repeat-container.md-autocomplete-suggestions-container {
+.searchBarRow md-autocomplete .md-virtual-repeat-container.md-autocomplete-suggestions-container {
     top :150px !important;
 }
 
@@ -1876,4 +1848,25 @@ a {
 
 .md-datepicker-calendar-pane {
     z-index: 22222;
-} 
+}
+
+.batchTable {
+    width: 100%;
+    font: 13px 'open_sansregular';
+    line-height: 1.8;
+}
+.batchTable td span {
+    font: 12px 'open_sansregular';
+}
+
+.batchTable .col-sm strong{
+    font-size: 11px !important;
+}
+
+.batchTable strong {
+    font-family: 'open_sanssemibold'
+}
+
+.batchTable .claimRequestDetInner {
+    box-shadow: 1px 1px 1px 1px #e0e0e0;
+}

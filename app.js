@@ -39,7 +39,7 @@ angular
                 controller: 'ReimbursementRegistrationController',
                 resolve: {
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
-                        $translatePartialLoader.addPart('reimbursement-registration');
+                        $translatePartialLoader.addPart('registration');
                         return $translate.refresh();
                     }]
                 }
@@ -79,7 +79,7 @@ angular
                 controller: 'ReimbursementFinalizationController',
                 resolve: {
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
-                        $translatePartialLoader.addPart('reimbursement-finalization');
+                        $translatePartialLoader.addPart('finalization');
                         return $translate.refresh();
                     }]
                 }
@@ -91,7 +91,7 @@ angular
                 controller: 'ReimbursementUserAssignmentController',
                 resolve: {
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
-                        $translatePartialLoader.addPart('reimbursement-user-assignment');
+                        $translatePartialLoader.addPart('user-assignment');
                         return $translate.refresh();
                     }]
                 }
@@ -109,10 +109,16 @@ angular
                 controller: 'ReimbursmentProcessingController',
                 resolve: {
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
-                        $translatePartialLoader.addPart('reimbursement-processing');
+                        $translatePartialLoader.addPart('processing');
                         return $translate.refresh();
                     }]
                 }
+            })
+
+            .state('eclaim-batch', {
+                url: "/eclaim-batch",
+                templateUrl: "resources/eclaim/batch/view/eclaim-batch.html",
+                controller: 'EclaimBatchController'
             })
         $urlRouterProvider.otherwise("/");    
     }
