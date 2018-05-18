@@ -1,0 +1,32 @@
+
+<div class="resultInfo pl-2">
+    <a href="javascript:void(0);" class="btn btn-primary btn-sm finlizeBtn btn-finalize float-right" ng-click="rejectSelectedClaims();">Reject</a>
+</div>
+<div class="mt-5 pb-1">
+    <div class="row m-0">
+        <span href="javascript:;" class="custCheckboxBtn" ng-class="{'custCheckboxBtnSected' : isChecked}" ng-click="isChecked = !isChecked;" style="cursor:pointer; outline:none">
+            <span class="oi" data-glyph="check"></span>
+        </span>&nbsp;
+        <div class="claimRequestDetInner mb-2 clearfix" style="border-top:1px solid #e0e0e0 !important;width:98%">
+            <table class="batchTable">
+                <tr class="row pb-1" ng-repeat="rows in fieldsInfo">
+                    <td class="col-sm" ng-repeat="columns in rows">
+                        <div ng-repeat="colGroup in columns.colGroup" ng-if="columns.colGroup">
+                            <div ng-if="!colGroup.subGroup">
+                                <span><strong> {{colGroup.label}}</strong> 9741856</span>
+                            </div>
+                            <div ng-if="colGroup.subGroup">
+                                <span ng-repeat="groupCol in colGroup.subGroup" ng-class="{'pr-4' : $even}"> 
+                                    <strong>{{groupCol.label}} </strong>12/52017
+                                </span>
+                            </div>
+                        </div>
+                        <div ng-if="!columns.colGroup">
+                            <span><strong> {{columns.label}}</strong> 9741856-652d-d34552-MF17879-CLAIM</span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>                    
+    </div>
+</div>    

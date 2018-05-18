@@ -22,5 +22,41 @@
                 // { label: 'Transaction Date To', type: 'date', name: 'transactionToDate'}
             ];
         }
+
+        this.getRecordsFieldsInfo = function() {
+            return [
+                [
+                    {'colGroup' : 
+                            [   {'subGroup' : [{label : 'Received Date: ', name: ''}, {label : 'Requet Type: ', name: ''}]},
+                                {label : 'Batch ID:', name: ''},
+                                {label : 'XML File Name: ', name: ''}
+                            ]
+                    },
+                    {'colGroup' : 
+                            [   {label : 'Provider Code: ', name: ''},
+                                {label : 'Provider License: ', name: ''},
+                                {label : 'Provider Name: ', name: ''}
+                            ]
+                    },
+                    {'colGroup' : 
+                            [   {label : 'Registered Date: ', name: ''},
+                                {label : 'Remittance Upload Date: ', name: ''},
+                                {label : 'Rejection Code: ', name: ''}
+                            ]
+                    }
+                ],
+                [
+                    {label : 'Claims', name: ''},
+                    {label : 'Processed', name: ''},
+                    {label : 'UnProcessed', name: ''},
+                    {label : 'Batch Paid Amount', name: ''},
+                    {label : 'Rejected Amount', name: ''},
+                    {label : 'Payment Reference', name: ''},
+                    {label : 'Payment Date', name: ''},
+                    {label : 'Payment Way', name: ''},
+                    {label : 'Rejection Descritpion', name: ''}
+                ]                
+            ];
+        }
     }
 })()

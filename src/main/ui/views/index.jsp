@@ -65,6 +65,7 @@
         <script src="<s:url value="resources/directives/finalization-directive/script/finalizationlistview.directive.js"/>"></script>
         <script src="<s:url value="resources/directives/listView-directive/script/listview.directive.js"/>"></script>
         <script src="<s:url value="resources/directives/search-directive/script/search.directive.js"/>"></script>
+        <script src="<s:url value="resources/directives/batch-directive/script/batch.directive.js"/>"></script>
         <!-- EClaims -->
         <script src="<s:url value="resources/eclaim/user-assignment/script/eclaim-user-assignment.controller.js"/>"></script>
         <script src="<s:url value="resources/eclaim/user-assignment/script/eclaim-user-assignment.service.js"/>"></script>
@@ -88,7 +89,6 @@
         <script src="<s:url value="resources/reimbursement-claims/finalization/script/reimbursement-finalization.controller.js"/>"></script>
         <script src="<s:url value="resources/reimbursement-claims/finalization/script/reimbursement-finalization.service.js"/>"></script>
     </head>
-    <!-- <body ng-app="claims" ng-attr-dir="{{selectedLanguage == 'ar-AR' ? 'rtl' : 'ltr'}}"> -->
     <body ng-app="claims">
         <header class="clearfix">
             <div class="">
