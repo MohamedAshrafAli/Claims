@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>BeyontecMedicalClaims</title>
-    <%@taglib prefix="s" uri="http://java.sun.com/jsp/jstl/core"%>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>BeyontecMedicalClaims</title>
+        <%@taglib prefix="s" uri="http://java.sun.com/jsp/jstl/core"%>
 
         <script type="text/javascript">
             var contextPath = '<%=request.getContextPath()%>';
@@ -18,127 +18,141 @@
             }
         </script>
 
-
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+        <!-- Style Sheets -->
+        <link rel="stylesheet" href="<s:url value="resources/static/bower_components/bootstrap/dist/css/bootstrap.min.css"/>">
+        <link rel="stylesheet" href="<s:url value="resources/static/bower_components/Font-Awesome-4.7.0/css/font-awesome.min.css"/>">
+        <link rel="stylesheet" href="<s:url value="resources/static/bower_components/angular-ui-carousel/dist/ui-carousel.css"/>">
+        <link rel="stylesheet" href="<s:url value="resources/static/bower_components/angular-ui-grid/ui-grid.min.css"/>">
+        <link rel="stylesheet" href="<s:url value="resources/static/bower_components/angular-material/angular-material.min.css"/>">
+        <link rel="stylesheet" href="<s:url value="resources/static/bower_components/ng-notify/dist/ng-notify.min.css"/>">
+        <link rel="stylesheet" href="<s:url value="resources/static/css/open-iconic.css"/>">
+        <link rel="stylesheet" href="<s:url value="resources/static/css/style.css"/>">
+        <link rel="stylesheet" type="text/css" href="<s:url value="resources/static/css/page.css"/>">
+        <link rel="stylesheet" type="text/css" href="<s:url value="resources/static/css/jPushMenu.css"/>">
         
 
-        <!-- For ng-table in view -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0/ng-table.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0/ng-table.js"></script>
+        <!-- External Libraies -->
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="<s:url value="resources/static/bower_components/jquery/dist/jquery.min.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/bootstrap/dist/js/bootstrap.bundle.min.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/angular/angular.min.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/angular-ui-router/release/angular-ui-router.min.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/ng-file-upload/ng-file-upload.min.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/angular-thumbnails/dist/angular-thumbnails.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/pdfjs-dist/build/pdf.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/angular-ui-carousel/dist/ui-carousel.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/angular-ui-grid/ui-grid.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/angular-animate/angular-animate.min.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/angular-aria/angular-aria.min.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/angular-messages/angular-messages.min.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/angular-material/angular-material.min.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/ng-notify/dist/ng-notify.min.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/angular-translate/angular-translate.min.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/underscore/underscore-min.js"/>"></script>
+        <script src="<s:url value="resources/static/lib/ui-bootstrap-tpls-3.0.3.min.js"/>"></script>
 
-        <!-- For reading xls files in controller -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.1/xlsx.full.min.js"></script>
-        <script src="http://oss.sheetjs.com/js-xlsx/jszip.js"></script>
+        <script src="<s:url value="resources/app.js"/>"></script>
+        <!-- Components -->
+        <script src="<s:url value="resources/component/listView-component/listview.component.js"/>"></script>
+        <script src="<s:url value="resources/component/listView-component/listview.component.service.js"/>"></script>
+        <script src="<s:url value="resources/component/userAssignment-component/userAssignment.component.js"/>"></script>
+        <!-- Directives -->
+        <script src="<s:url value="resources/directives/grid-directive/script/grid-wrapper.directive.js"/>"></script>
+        <script src="<s:url value="resources/util/pagination/pagination.directive.js"/>"></script>
+        <script src="<s:url value="resources/directives/claimsListView-directive/script/claimslistview.directive.js"/>"></script>
+        <script src="<s:url value="resources/directives/claimsListView-directive/script/claimslistview.directive.service.js"/>"></script>
+        <script src="<s:url value="resources/directives/finalization-directive/script/finalizationlistview.directive.js"/>"></script>
+        <script src="<s:url value="resources/directives/listView-directive/script/listview.directive.js"/>"></script>
+        <script src="<s:url value="resources/directives/search-directive/script/search.directive.js"/>"></script>
+        <!-- EClaims -->
+        <script src="<s:url value="resources/eclaim/user-assignment/script/eclaim-user-assignment.controller.js"/>"></script>
+        <script src="<s:url value="resources/eclaim/user-assignment/script/eclaim-user-assignment.service.js"/>"></script>
+        <script src="<s:url value="resources/eclaim/processing/script/eclaim-processing.controller.js"/>"></script>
+        <script src="<s:url value="resources/eclaim/processing/script/eclaim-processing.service.js"/>"></script>
+        <script src="<s:url value="resources/eclaim/finalization/script/eclaim-finalization.controller.js"/>"></script>
+        <script src="<s:url value="resources/eclaim/finalization/script/eclaim-finalization.service.js"/>"></script>
+        <script src="<s:url value="resources/eclaim/batch/script/eclaim-batch.controller.js"/>"></script>
+        <script src="<s:url value="resources/eclaim/batch/script/eclaim-batch.service.js"/>"></script>
+        <script src="<s:url value="resources/eclaim/remittance/script/eclaim-remittance.controller.js"/>"></script>
+        <script src="<s:url value="resources/eclaim/remittance/script/eclaim-remittance.service.js"/>"></script>
 
-        <!-- For Datepicker -->
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
-
-
-        <script src="<s:url value=" /resources/static/js/app.js "/>" type="text/javascript"></script>
-
-
-
-        <!--  ****************** TPA - CLAIMS *************************************-->
-
-
-        <script src="<s:url value=" /resources/static/js/TPA/claim_mapping/controller/beyonMedicalController_Tpa_ClaimMapping.js "/>" type="text/javascript"></script>
-        <script src="<s:url value=" /resources/static/js/TPA/policy_mapping/controller/beyonMedicalController_Tpa_PolicyMapping.js "/>" type="text/javascript"></script>
-
-        <!-- 
-    <script src="<s:url value="/resources/static/js/TPA/claim_mapping/service/onloadFetchIndetailsClaimsOrPolicies.js"/>" type="text/javascript"></script> 
-    <script src="<s:url value="/resources/static/js/TPA/claim_mapping/service/uploadFileToaPath.js"/>" type="text/javascript"></script>    
-    <script src="<s:url value="/resources/static/js/TPA/policy_mapping/service/policyMappingHttpFac.js"/>" type="text/javascript"></script> 
-    <script src="<s:url value="/resources/static/js/TPA/policy_mapping/service/uploadFileToaPath_PolMapp.js"/>" type="text/javascript"></script> 
-    -->
-
-        <script src="<s:url value=" /resources/static/js/TPA/genricFac_PostGetCalls.js "/>" type="text/javascript"></script>
-
-
-        <script src="<s:url value=" /resources/static/js/TPA/claim_upload/controller/beyonMedicalController_Tpa_Claims.js "/>" type="text/javascript"></script>
-        <script src="<s:url value=" /resources/static/js/TPA/claim_upload/controller/beyonMedicalController_Reports.js "/>" type="text/javascript"></script>
-        <script src="<s:url value=" /resources/static/js/TPA/policy_export/beyonMedicalController_Tpa_Policy_Export.js "/>" type="text/javascript"></script>
-
-        <script type="text/javascript" src="<s:url value=" /resources/static/js/createquote/controller/ClaimInfoCntrl.js "/>"></script>
-        <script type="text/javascript" src="<s:url value=" /resources/static/js/regulatory_Intg/controller/beyonMedicalController_Regulatory_Intg.js "/>"></script>
-
-
-
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/ngprogress/1.1.3/ngProgress.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/ngprogress/1.1.3/ngprogress.min.js"></script>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.css" rel="stylesheet" type="text/css" />
-
-
-        <script src="<s:url value=" https://cdnjs.cloudflare.com/ajax/libs/alasql/0.4.2/alasql.min.js "/>"></script>
-        <script src="<s:url value=" /resources/static/js/TPA/claim_upload/angular-fcsa-number.js "/>" type="text/javascript"></script>
-
-
-
-
-
-
-
-        <link rel="stylesheet" href="<s:url value=" /resources/static/css/beyonMedicalTPA.css "/>">
-
-
-
-        <!-- 
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
-     -->
-
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-animate.js"></script>
-        <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.2.4.js"></script>
-        <link data-require="bootstrap-css@*" data-semver="3.3.6" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angucomplete-alt/3.0.0/angucomplete-alt.min.js"></script>
-        <script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
-
-        <link rel="stylesheet" href="<s:url value=" /resources/static/css/style.css "/>">
-
-
-
-</head>
-
-<body style="background-color: #e9ecf3;">
-
-    <div class="container-fluid">
-
-        <div class="row">
-
-            <div class="col-sm-5"><img src="resources/static/images/Beyontec_logo1.png" /></div>
-            <div class="col-sm-4"> <img src="resources/static/images/headericon.png" /></div>
-            <div class="col-sm-3"><img src="resources/static/images/Beyontec_Identity_CMYK_Y60p-Horizontal-BG-Alpha.png" /></div>
-
-        </div>
-
-        <div class="row">
-            <div class="topbar">
-                <div class="col-sm-8"><a href="workbasket.html" class="label">Home</a></div>
-                <div class="col-sm-1">
-                    <div class="label">Mohammad Ali</div>
-                </div>
-                <div class="col-sm-1">
-                    <div class="label">|</div>
-                </div>
-                <div class="col-sm-1">
-                    <div class="label" onClick="location.href='login.html';">Logout</div>
-                </div>
+        <!-- Reimbursement Claims -->
+        <script src="<s:url value="resources/reimbursement-claims/registration/script/reimbursement-registration-general.controller.js"/>"></script>
+        <script src="<s:url value="resources/reimbursement-claims/registration/script/reimbursement-registration.controller.js"/>"></script>
+        <script src="<s:url value="resources/reimbursement-claims/registration/script/reimbursement-registration.service.js"/>"></script>
+        <script src="<s:url value="resources/reimbursement-claims/user-assignment/script/reimbursement-user-assignment.controller.js"/>"></script>
+        <script src="<s:url value="resources/reimbursement-claims/user-assignment/script/reimbursement-user-assignment.service.js"/>"></script>
+        <script src="<s:url value="resources/reimbursement-claims/processing/script/reimbursement-processing.controller.js"/>"></script>
+        <script src="<s:url value="resources/reimbursement-claims/processing/script/reimbursement-processing.service.js"/>"></script>
+        <script src="<s:url value="resources/reimbursement-claims/finalization/script/reimbursement-finalization.controller.js"/>"></script>
+        <script src="<s:url value="resources/reimbursement-claims/finalization/script/reimbursement-finalization.service.js"/>"></script>
+    </head>
+    <!-- <body ng-app="claims" ng-attr-dir="{{selectedLanguage == 'ar-AR' ? 'rtl' : 'ltr'}}"> -->
+    <body ng-app="claims">
+        <header class="clearfix">
+            <div class="">
+                <span class="float-left" ng-click="navbar = !navbar"><i class="fa fa-bars toggle-menu menu-left"></i></span>
+                <span ><img class="headLeft float-left" src="<s:url value="resources/static/img/Beyontec_logo1.png"/>" alt=""/></span>
+                <span>&nbsp;</span>
+                <span ><img class="headRight float-right" src="<s:url value="resources/static/img/Beyontec_Identity_CMYK_Y60p-Horizontal-BG-Alpha.png"/>" alt=""/></span>
+                <span class="headRight float-right" ng-controller="LanguageController">
+                    <select ng-options="key as value for (key, value) in languages" ng-model="$parent.selectedLanguage" ng-change="changelanguage()"></select>
+                </span>
             </div>
-        </div>
-        <br>
-    </div>
-
-
-
-    <ui-view style="margin-left:1.46%;width:97.08%">
-
-    </ui-view>
-
-</body>
-
-
+        </header>
+        <nav id="navbar" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" ng-class="{'menu-open' : navbar}">
+            <uib-accordion close-others="true">
+                <div uib-accordion-group class="panel-default" is-open="true">
+                    <uib-accordion-heading> Transaction </uib-accordion-heading>
+                    <h3>Underwriting</h3>
+                    <h3>Reinsurance</h3>
+                    <h3>Claims</h3>
+                    <h4>TPA Claims</h4>
+                    <h4 >Export Claims</h4>
+                </div>
+                <div uib-accordion-group class="panel-default">
+                    <uib-accordion-heading> Processing </uib-accordion-heading>
+                    <span>
+                        <h3>Renewal Query Screen</h3>
+                        <h3>RTA Resubmission</h3>
+                    </span>
+                </div>
+                <div uib-accordion-group class="panel-default">
+                    <uib-accordion-heading> Reports and Queries </uib-accordion-heading>
+                    <span>
+                        <h3>Report</h3>
+                    </span>
+                </div>
+                <div uib-accordion-group class="panel-default">
+                    <uib-accordion-heading> Admin </uib-accordion-heading>
+                    <span>
+                        <h3>TPA Claims Import Mapping</h3>
+                    </span>
+                </div>
+                <div uib-accordion-group class="panel-default">
+                    <uib-accordion-heading> Medical Claims </uib-accordion-heading>
+                    <uib-accordion close-others="true">
+                        <div uib-accordion-group class="panel-default child-panel" is-open="true">
+                            <uib-accordion-heading> <h3>E-Claims</h3> </uib-accordion-heading>
+                            <h4 ui-sref="eclaim-batch">Batch</h4>
+                            <h4>User Assignment</h4>
+                            <h4>Finalization</h4>
+                            <h4 ui-sref="eClaims-remittance">Remittance</h4>
+                        </div>
+                        <div uib-accordion-group class="panel-default child-panel">
+                            <uib-accordion-heading> <h3>Reimbursement Claims</h3> </uib-accordion-heading>
+                            <h4 ui-sref="reimbursement-registration">Registration</h4>
+                            <h4 ui-sref="reimbursement-user-assignment">User Assignment</h4>
+                            <h4 ui-sref="reimbursement-finalization">Finalization</h4>
+                        </div>
+                        <h3>PBM Claims</h3>
+                        <h3>Provider Paper Claims</h3>
+                        <h3>Pre-Authorization</h3>
+                    <uib-accordion>
+                </div>
+            </uib-accordion>
+        </nav>
+        <ui-view></ui-view>
+    </body>
 </html>
