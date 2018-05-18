@@ -1,0 +1,40 @@
+<Style>
+    .md-select-menu-container {
+        z-index: 10001;
+    }
+</Style>
+<div id="uploadModal" style="width: 530px !important;">
+    {{hello}}
+    <div class="container modal-header">
+        <span style="float:right">
+            <button type="button" class="close" ng-click="cancelModal();">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </span>
+        <br>
+    </div>
+    <div class="modal-body" id="modal-body" style="min-height:160px;max-height:400px; overflow:auto; padding: 0rem 1rem 0rem 1rem;">
+        <div class="fldsWrap clearfix">
+            <md-input-container flex-gt-sm>    
+                <label>Upload Type</label>
+                <md-select ng-model="docObj.documentTyp" ng-disabled="isUpload">
+                    <md-option value="Iban" ng-if="paymentWay == 'iban'">Iban</md-option>
+                    <md-option value="Reimbursement Form">Reimbursement form</md-option>
+                    <md-option value="Medical Bills">Medical bills</md-option>
+                    <md-option value="Medical Bills Summary">Medical bills Summary</md-option>
+                    <md-option value="Prescription">Prescription</md-option>
+                    <md-option value="Other Documents">Other Documents</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <div class="fldsWrap clearfix">
+            <md-input-container flex-gt-sm>    
+                <label>Document Description</label>
+                <input type="text" ng-model="docObj.documentDesc" placeholder="File Description">
+            </md-input-container>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-right pt-1">
+        <button type="button" class="btn btn-primary" ng-click="saveDocument()" ng-disabled="">Continue</button>
+    </div>
+</div>
