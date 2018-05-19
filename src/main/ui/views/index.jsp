@@ -88,6 +88,19 @@
         <script src="<s:url value="resources/reimbursement-claims/processing/script/reimbursement-processing.service.js"/>"></script>
         <script src="<s:url value="resources/reimbursement-claims/finalization/script/reimbursement-finalization.controller.js"/>"></script>
         <script src="<s:url value="resources/reimbursement-claims/finalization/script/reimbursement-finalization.service.js"/>"></script>
+    
+        <!-- PBM -->
+        <script src="<s:url value="resources/pbm/user-assignment/script/pbm-user-assignment.controller.js"/>"></script>
+        <script src="<s:url value="resources/pbm/user-assignment/script/pbm-user-assignment.service.js"/>"></script>
+
+        <!-- Provider Paper -->
+        <script src="<s:url value="resources/provider-paper/user-assignment/script/providerPaper-user-assignment.controller.js"/>"></script>
+        <script src="<s:url value="resources/provider-paper/user-assignment/script/providerPaper-user-assignment.service.js"/>"></script>
+    
+        <!-- Pre Authorization -->
+        <script src="<s:url value="resources/pre-authorization/user-assignment/script/preAuthorization-user-assignment.controller.js"/>"></script>
+        <script src="<s:url value="resources/pre-authorization/user-assignment/script/preAuthorization-user-assignment.service.js"/>"></script>
+    
     </head>
     <body ng-app="claims">
         <header class="clearfix">
@@ -136,7 +149,7 @@
                         <div uib-accordion-group class="panel-default child-panel" is-open="true">
                             <uib-accordion-heading> <h3>E-Claims</h3> </uib-accordion-heading>
                             <h4 ui-sref="eclaim-batch">Batch</h4>
-                            <h4>User Assignment</h4>
+                            <h4 ui-sref="eclaims-user-assignment">User Assignment</h4>
                             <h4>Finalization</h4>
                             <h4 ui-sref="eClaims-remittance">Remittance</h4>
                         </div>
@@ -146,9 +159,18 @@
                             <h4 ui-sref="reimbursement-user-assignment">User Assignment</h4>
                             <h4 ui-sref="reimbursement-finalization">Finalization</h4>
                         </div>
-                        <h3>PBM Claims</h3>
-                        <h3>Provider Paper Claims</h3>
-                        <h3>Pre-Authorization</h3>
+                        <div uib-accordion-group class="panel-default child-panel">
+                            <uib-accordion-heading> <h3>PBM Claims</h3> </uib-accordion-heading>
+                            <h4 ui-sref="pbm-user-assignment">User Assignment</h4>
+                        </div>
+                        <div uib-accordion-group class="panel-default child-panel">
+                            <uib-accordion-heading> <h3>Provider Paper Claims</h3> </uib-accordion-heading>
+                            <h4 ui-sref="providerPaper-user-assignment">User Assignment</h4>
+                        </div>
+                        <div uib-accordion-group class="panel-default child-panel">
+                            <uib-accordion-heading> <h3>Pre-Authorization</h3> </uib-accordion-heading>
+                            <h4 ui-sref="PreAuthorization-user-assignment">User Assignment</h4>
+                        </div>
                     <uib-accordion>
                 </div>
             </uib-accordion>

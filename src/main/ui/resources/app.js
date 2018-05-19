@@ -126,6 +126,57 @@ angular
                 templateUrl: "resources/eclaim/batch/view/eclaim-batch.html",
                 controller: 'EclaimBatchController'
             })
+
+
+            .state('eclaims-user-assignment', {
+                url: "/eclaims-user-assignment",
+                templateUrl: "resources/eclaim/user-assignment/view/eclaim-user-assignment.html",
+                controller: 'EclaimUserAssignmentController',
+                resolve: {
+                    translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
+                        $translatePartialLoader.addPart('user-assignment');
+                        return $translate.refresh();
+                    }]
+                }
+            })
+
+            .state('pbm-user-assignment', {
+                url: "/pbm-user-assignment",
+                templateUrl: "resources/pbm/user-assignment/view/pbm-user-assignment.html",
+                controller: 'PBMUserAssignmentController',
+                resolve: {
+                    translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
+                        $translatePartialLoader.addPart('user-assignment');
+                        return $translate.refresh();
+                    }]
+                }
+            })
+
+            .state('providerPaper-user-assignment', {
+                url: "/providerPaper-user-assignment",
+                templateUrl: "resources/provider-paper/user-assignment/view/providerPaper-user-assignment.html",
+                controller: 'ProviderPaperUserAssignmentController',
+                resolve: {
+                    translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
+                        $translatePartialLoader.addPart('user-assignment');
+                        return $translate.refresh();
+                    }]
+                }
+            })
+
+            .state('PreAuthorization-user-assignment', {
+                url: "/PreAuthorization-user-assignment",
+                templateUrl: "resources/pre-authorization/user-assignment/view/preAuthorization-user-assignment.html",
+                controller: 'preAuthorizationAssignmentController',
+                resolve: {
+                    translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
+                        $translatePartialLoader.addPart('user-assignment');
+                        return $translate.refresh();
+                    }]
+                }
+            })
+
+            
         $urlRouterProvider.otherwise("/");    
     }
     

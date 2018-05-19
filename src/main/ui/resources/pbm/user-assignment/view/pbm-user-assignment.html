@@ -1,16 +1,20 @@
+<!-- <div><h1>{{model}}</h1></div> -->
 <nav class="navbar pt-1 pb-1">
-    <span class="navbar-brand p-0 m-0" data-translate="reImbUserAssignment.title">User Assignment</span>
+    <span class="navbar-brand p-0 m-0" data-translate="reImbUserAssignment.title">Eclaim-User Assignment</span>
 </nav>
 <section>
     <div class="leftContainer leftuser">
-        <my-search-box search-info="fieldsObject" search-auto="userNamesObject" drop-down="dropDownValue" search-text="searchValue" callback="filterValues(data)"></my-search-box>
+        <toaster-container></toaster-container>
+        <div>
+            <my-search-box search-info="fieldsObject" callback="filterValues(data)"></my-search-box>
+        </div>
         <div class="contentPart pb-3">
             <h2 class="title">Total {{claimList.length}} available</h2>
             <div class="container-fluid" style="padding-left:0px;">
                 <div class="row">
                     <div class="col-9">
                         <div class="tabOuter">
-                            <claims-list-view tabs-to-display="tabsToDisplay" all-claim-records="claimList" selected-claims="claimsToAssign" navigate-to="reimbursement-processing" rerender-view="rerenderView" search-by="searchBy"model-dir="model"></claims-list-view>
+                            <claims-list-view tabs-to-display="tabsToDisplay" all-claim-records="claimList" selected-claims="claimsToAssign" navigate-to="{{selectedClaim == 'eclaims' ? 'eclaim' : 'reimbursement-processing'}}" rerender-view="rerenderView" search-by="searchBy" model-dir="model"></claims-list-view>
                         </div>
                     </div>
                     <div class="col-3 innerRight">
