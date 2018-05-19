@@ -6,7 +6,7 @@
         <div class="row m-0">
             <div class="leftContentPart float-left pl-0" id="detailAccWrap" ng-class="{'detailAccWrapClose' : !infoToggle}">
                 <div id="detailAcc" style="height:90%; overflow-y: auto;">
-                    <form name="reimbursementForm" novalidate>
+                    <form name="processingForm" novalidate>
                         <uib-accordion close-others="isCloseOthers">
                             <div uib-accordion-group class="panel-default" is-open="accordionToggle.isProviderDetailOpen">
                                 <uib-accordion-heading>
@@ -21,61 +21,61 @@
                                 </uib-accordion-heading> 
                                 <div class="accordion-input">
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && reimbursementForm.primaryDiag.$invalid}">    
+                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.primaryDiag.$invalid}">    
                                             <label>Primary Diagnosis</label>
                                             <input name="primaryDiag" type="text" ng-model="providerDetails.primaryDiagnosis" ng-value="'501.02'" required />
                                         </md-input-container>
                                     </div>
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && reimbursementForm.primaryDiagDisc.$invalid}">
+                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.primaryDiagDisc.$invalid}">
                                             <label>Primary Diagnosis Disc</label>
                                             <input name="primaryDiagDisc" type="text" ng-model="providerDetails.primaryDiagDisc" ng-value="'Surgery'" required />
                                         </md-input-container>
                                     </div>
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && reimbursementForm.secDiag.$invalid}">    
+                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.secDiag.$invalid}">    
                                             <label>Secondary Diagnosis (ICD)</label>
                                             <input name="secDiag" type="text" ng-model="providerDetails.secDiagnosis" ng-value="'301.2,508.2'" required />
                                         </md-input-container>
                                     </div>
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && reimbursementForm.secDiagDesc.$invalid}">    
+                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.secDiagDesc.$invalid}">    
                                             <label>Secondary Diagnosis Description</label>
                                             <input name="secDiagDesc" type="text" ng-model="providerDetails.secDiagnosisDesc" required />
                                         </md-input-container>
                                     </div>
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && reimbursementForm.providerName.$invalid}">    
+                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.providerName.$invalid}">    
                                             <label>Provider Name</label>
                                             <input name="providerName" type="text" ng-model="providerDetails.providerName" ng-value="'Alnoor Hospital'" required />
                                         </md-input-container>
                                     </div>
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && reimbursementForm.providerCode.$invalid}">    
+                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.providerCode.$invalid}">    
                                             <label>Provider Code</label>
                                             <input name="providerCode" type="text" ng-model="providerDetails.providerCode" ng-value="'4341'" required />
                                         </md-input-container>
                                     </div>
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && reimbursementForm.providerLicense.$invalid}">    
+                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.providerLicense.$invalid}">    
                                             <label>Provider License</label>
                                             <input name="providerLicense" type="text" ng-model="providerDetails.providerLicense" ng-value="'MF28291'" required />
                                         </md-input-container>
                                     </div>
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && reimbursementForm.voucherNum.$invalid}">    
+                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.voucherNum.$invalid}">    
                                             <label>Voucher Number</label>
                                             <input name="voucherNum" type="text" ng-model="providerDetails.voucherNumber" required />
                                         </md-input-container>
                                     </div>
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm  ng-class="{'md-input-invalid' : submitted && reimbursementForm.encTyp.$invalid}">
+                                        <md-input-container flex-gt-sm  ng-class="{'md-input-invalid' : submitted && processingForm.encTyp.$invalid}">
                                             <label>Encounter Type </label>
                                             <input name="encTyp" type="text" ng-model="providerDetails.encounterType" required />
                                         </md-input-container>
                                     </div>
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && reimbursementForm.claimTyp.$invalid}">    
+                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.claimTyp.$invalid}">    
                                             <label>Claim Type</label>
                                             <input name="claimTyp" type="text" ng-model="providerDetails.claimType" required />
                                         </md-input-container>
@@ -105,7 +105,7 @@
                                 </uib-accordion-heading>
                                 <div class="accordion-input">
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && reimbursementForm.eventCountry.$invalid}">    
+                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.eventCountry.$invalid}">    
                                             <label>Event Country</label>
                                             <input name="eventCountry" type="text" ng-model="claimDetails.country" required />
                                         </md-input-container>
@@ -125,7 +125,7 @@
                                 </uib-accordion-heading>
                                 <div class="accordion-input">
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && reimbursementForm.claimCondition.$invalid}">
+                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.claimCondition.$invalid}">
                                             <label>Claim Condition</label>
                                             <input name="claimCondition" type="text" ng-model="policyDetails.claimCondition" ng-value="'Special Case/Ex-Gratia'" required/>
                                         </md-input-container>
@@ -179,25 +179,25 @@
                                 </uib-accordion-heading>
                                 <div class="accordion-input">
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && reimbursementForm.memberName.$invalid}">
+                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.memberName.$invalid}">
                                             <label>Member Name</label>
                                             <input  name="memberName" type="text" ng-model="memberDetails.memberName" ng-value="'Khalifa'" ng-disabled="true" required />
                                         </md-input-container>
                                     </div>
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && reimbursementForm.memberNum.$invalid}">    
+                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.memberNum.$invalid}">    
                                             <label>Member No</label>
                                             <input name="memberNum" type="text" ng-model="memberDetails.memberNo" ng-value="'500001-1-A'" ng-disabled="true" required />
                                         </md-input-container>
                                     </div>
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && reimbursementForm.category.$invalid}">    
+                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.category.$invalid}">    
                                             <label>Category</label>
                                             <input name="category" type="text" ng-model="memberDetails.category" ng-value="'B'" ng-disabled="true" required />
                                         </md-input-container>
                                     </div>
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && reimbursementForm.gender.$invalid}">    
+                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.gender.$invalid}">    
                                             <label>Gender</label>
                                             <input name="gender" type="text" ng-model="memberDetails.gender" ng-value="'Male'" ng-disabled="true" required />
                                         </md-input-container>
@@ -274,7 +274,7 @@
                                 <strong>{{selectedClaim.memberNo}}</strong>
                             </li>
                         </div>
-                        <div class="row reimbursement-carousel">
+                        <div class="row processing-carousel">
                             <ui-carousel slides="claimReqList" class="" slides-to-show="1" slides-to-scroll="1" initial-slide="0" style="width:100%;margin:0px">
                                 <carousel-item  class="eclaim-item">
                                     <ul>
@@ -309,7 +309,7 @@
                         <!-- <ul> -->
                             <li style="list-style: none;">
                                 <span style="width: auto !important;padding-left: 6px;"> Insured Name:</span>
-                                <span>High Treatment Service - Medic Policy</span>
+                                <span>Naseeha</span>
                             </li> 
                         <!-- </ul> -->
                         <ul>
@@ -541,9 +541,13 @@
                 <span class="oi" data-glyph="envelope-closed"></span>
                 Send Rejection
             </a>
-            <a href="javascript:;" class="btn-link footerLink float-left">
+            <a href="javascript:;" class="btn-link footerLink float-left mr-3">
                 <span class="oi" data-glyph="document"></span>
-                Documents & Correspondence
+                Documents
+            </a>
+            <a href="javascript:;" class="btn-link footerLink float-left mr-3">
+                <span class="oi" data-glyph="document"></span>
+                Correspondence
             </a>
         </footer>
     </div>

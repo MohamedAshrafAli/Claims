@@ -240,17 +240,17 @@
                 $scope.accordionToggle.isClaimDetailOpen = (claimErrorArray.length > 0);
                 $scope.accordionToggle.isPolicyDetailOpen = (policyErrorArray.length > 0);
                 $scope.accordionToggle.isMemberDetailOpen = (memberErrorArray.length > 0);                
-                $scope.isCloseOthers = $scope.reimbursementForm.$valid;
-                if ($scope.reimbursementForm.$invalid) {
+                $scope.isCloseOthers = $scope.processingForm.$valid;
+                if ($scope.processingForm.$invalid) {
                     swal("Please Enter all the required fields", "", "error").then(
                         function() {
-                            ($scope.reimbursementForm.$error.required[0].$$element[0]).focus();
+                            ($scope.processingForm.$error.required[0].$$element[0]).focus();
                         }
                     );
                     $scope.infoToggle = true;
                     return false;
                 }
-                return $scope.reimbursementForm.$valid;
+                return $scope.processingForm.$valid;
             }
 
             function renderTotals(result) {
@@ -272,7 +272,7 @@
 
             $scope.toggleInfo = function() {
                 $scope.infoToggle = !$scope.infoToggle;
-                $scope.accordionToggle.isProviderDetailOpen = $scope.accordionToggle.isProviderDetailOpen ? $scope.accordionToggle.isProviderDetailOpen : $scope.reimbursementForm.$valid;
+                $scope.accordionToggle.isProviderDetailOpen = $scope.accordionToggle.isProviderDetailOpen ? $scope.accordionToggle.isProviderDetailOpen : $scope.processingForm.$valid;
                 $scope.isCloseOthers = true;
             }
 
