@@ -27,7 +27,8 @@
                     </td>
                 </tr>
                 <tr ng-repeat="claim in filteredClaims | filter : filterByStatus | orderBy: orderByField: reverseSort">
-                    <td>
+<!--Reimbursement-UserAssignment -->
+                    <td ng-if="modelDir =='reimbursementUserAssignment'">
                         <div class="text-nowrap">
                             <span class="d-inline-block pr-2"><strong>Claim No: </strong>
                                 <a class="currencyTypeCustom" href="javascript:void(0);"ng-click="redirectTo(navigateTo);">#{{claim.claimNo}}</a>
@@ -48,14 +49,14 @@
                             </div>
                         </div>
                     </td>
-                    <td class="align-bottom">
+                    <td ng-if="modelDir =='reimbursementUserAssignment'" class="align-bottom">
                         <div class="text-nowrap">Emirates ID :{{claim.emiratesId}}</a></div>
                         <div class="text-nowrap">Document Link :
                             <a href="">{{claim.documentLink}}</a>
                         </div>
                         <div class="text-nowrap">Prev Request : {{claim.prevRequest}}</div>
                     </td>
-                    <td>
+                    <td ng-if="modelDir =='reimbursementUserAssignment'">
                         <div class="text-nowrap">
                             <span class="tablLal">Pay Mode:</span>
                             <span class="tablCont">{{claim.payMode}}</span>
@@ -69,14 +70,280 @@
                             <span class="tablCont">{{claim.payRefNo}}</span>
                         </div>
                     </td>
-                    <td class="text-right">
+                    <td ng-if="modelDir =='reimbursementUserAssignment'" class="text-right">
                         <div class="text-nowrap">
                             Requested Amount
                             <h4>{{claim.currencyCode}} {{claim.requestedAmount}}</h4>
                             Approved Amount: {{claim.currencyCode}} {{claim.approvedAmount}}
                         </div>
                     </td>
-                    <td class="align-middle text-center">
+                    <td ng-if="modelDir =='reimbursementUserAssignment'" class="align-middle text-center">
+                        <a href="javascript:void(0);" class="custSelectBtn" ng-class="{custSelectBtnSected : claim.selected}" aria-label="Select Claim" ng-click="claim.selected=!claim.selected;claimsToSelect(claim);">
+                            <span class="oi align-middle" data-glyph="check"></span>
+                        </a>
+                    </td>
+<!-- E-Claims-UserAssignment -->
+                    <td ng-if="modelDir =='eClaimsUserAssignment'"> 
+                        <div class="text-nowrap">
+                                <span class="d-inline-block pr-2">
+                                        <strong>Batch: {{claim.batchId}}</strong>
+                                </span>
+                        </div>
+                        <div class="text-nowrap">
+                            <span class="d-inline-block pr-2"><strong>Claim No: </strong>
+                                <a class="currencyTypeCustom" href="javascript:void(0);"ng-click="redirectTo(navigateTo);">#{{claim.claimNo}}</a>
+                            </span>
+                            <span class="d-inline-block pr-2">
+                                <strong>Member No: {{claim.memberNo}}</strong>
+                            </span>
+                        </div>
+                        <div class="text-nowrap">
+                            <class="d-inline-block pr-2">Provider Name: {{claim.providerName}}&nbsp;
+                            <class="d-inline-block pr-2">Provider Code: {{claim.providerCode}}
+                        </div>
+                        <div class="text-nowrap">
+                            <div class="receiveInfo d-inline-block pr-3"><span class="oi" data-glyph="timer"></span> Registered Date: {{claim.registered}}</div>
+                            <div class="statusInfo d-inline-block text-success" ng-class="{'text-inprogress': claim.status=='InProgress','text-assigned': claim.status=='Assigned','text-waiting': claim.status=='Waitingforapproval','text-new': claim.status=='New Request','text-success': claim.status=='Approved','text-danger': claim.status!='Approved'}">
+                                <span ng-if="claim.status=='Approved'" class="oi" data-glyph="thumb-up"></span>
+                                <span ng-if="claim.status!='Approved'" class="oi" data-glyph="thumb-down"></span> &nbsp;{{claim.status}}
+                            </div>
+                        </div>
+                    </td>
+                    <td ng-if="modelDir =='eClaimsUserAssignment'">
+                        <div class="text-nowrap">Submission Type :{{claim.submissionType}}</a></div>
+                        <div class="text-nowrap">Gross Submitted :{{claim.grossSubmitted}}</a></div>
+                        <div class="text-nowrap">Patient Share : {{claim.patientShare}}</div>
+                        <div class="text-nowrap">Net Submitted : {{claim.netSubmitted}}</div>
+                    </td>
+                    <td ng-if="modelDir =='eClaimsUserAssignment'">
+                        <div class="text-nowrap">
+                            <span class="tablLal">Payment Way:</span>
+                            <span class="tablCont">{{claim.paymentWay}}</span>
+                        </div>
+                        <div class="text-nowrap">
+                            <span class="tablLal">Remittance:</span>
+                            <span class="tablCont">{{claim.remittance}}</span>
+                        </div>
+                        <div class="text-nowrap">
+                            <span class="tablLal">Assigned Date:</span>
+                            <span class="tablCont">{{claim.assignedDate}}</span>
+                        </div>
+                        <div class="text-nowrap">
+                                <span class="tablLal">Approved Date:</span>
+                                <span class="tablCont">{{claim.approvedDate}}</span>
+                        </div>
+                    </td>
+                    <td ng-if="modelDir =='eClaimsUserAssignment'"  class="text-right">
+                        <div class="text-nowrap">
+                                Rejected Amount
+                            <h4>{{claim.currencyCode}} {{claim.rejectedAmount}}</h4>
+                            Approved Amount: {{claim.currencyCode}} {{claim.approvedAmount}}
+                        </div>
+                        <div class="text-nowrap">
+                                Assigned To: {{claim.assignedTo}}
+                                Assigned By:  {{claim.assignedBy}}
+                        </div>
+                    </td>
+                    <td ng-if="modelDir =='eClaimsUserAssignment'" class="align-middle text-center">
+                        <a href="javascript:void(0);" class="custSelectBtn" ng-class="{custSelectBtnSected : claim.selected}" aria-label="Select Claim" ng-click="claim.selected=!claim.selected;claimsToSelect(claim);">
+                            <span class="oi align-middle" data-glyph="check"></span>
+                        </a>
+                    </td>
+<!-- PBM-UserAssignment -->
+                    <td ng-if="modelDir =='PbmUserAssignment'"> 
+                        <div class="text-nowrap">
+                                <span class="d-inline-block pr-2">
+                                        <strong>Batch Id: {{claim.batchId}}</strong>
+                                </span>
+                        </div>
+                        <div class="text-nowrap">
+                            <span class="d-inline-block pr-2"><strong>Claim No: </strong>
+                                <a class="currencyTypeCustom" href="javascript:void(0);"ng-click="redirectTo(navigateTo);">#{{claim.claimNo}}</a>
+                            </span>
+                            <span class="d-inline-block pr-2">
+                                <strong>Member No: {{claim.memberNo}}</strong>
+                            </span>
+                        </div>
+                        <div class="text-nowrap">
+                            <class="d-inline-block pr-2">Provider Name: {{claim.providerName}}&nbsp;
+                            <class="d-inline-block pr-2">Provider Code: {{claim.providerCode}}
+                        </div>
+                        <div class="text-nowrap">
+                            <div class="receiveInfo d-inline-block pr-3"><span class="oi" data-glyph="timer"></span> Registered Date: {{claim.receivedDate}}</div>
+                            <div class="statusInfo d-inline-block text-success" ng-class="{'text-inprogress': claim.status=='InProgress','text-assigned': claim.status=='Assigned','text-waiting': claim.status=='Waitingforapproval','text-new': claim.status=='New Request','text-success': claim.status=='Approved','text-danger': claim.status!='Approved'}">
+                                <span ng-if="claim.status=='Approved'" class="oi" data-glyph="thumb-up"></span>
+                                <span ng-if="claim.status!='Approved'" class="oi" data-glyph="thumb-down"></span> &nbsp;{{claim.status}}
+                            </div>
+                        </div>
+                    </td>
+                    <td ng-if="modelDir =='PbmUserAssignment'" class="align-bottom">
+                        <div class="text-nowrap">Submission Type :{{claim.submissionType}}</a></div>
+                        <div class="text-nowrap">Gross Submitted :{{claim.grossSubmitted}}</a></div>
+                        <div class="text-nowrap">Patient Share : {{claim.patientShare}}</div>
+                        <div class="text-nowrap">Net Submitted : {{claim.netSubmitted}}</div>
+                    </td>
+                    <td ng-if="modelDir =='PbmUserAssignment'">
+                        <div class="text-nowrap">
+                            <span class="tablLal">Payment Way:</span>
+                            <span class="tablCont">{{claim.paymentWay}}</span>
+                        </div>
+                        <div class="text-nowrap">
+                            <span class="tablLal">Assigned Date:</span>
+                            <span class="tablCont">{{claim.assignedDate}}</span>
+                        </div>
+                        <div class="text-nowrap">
+                                <span class="tablLal">Approved Date:</span>
+                                <span class="tablCont">{{claim.approvedDate}}</span>
+                        </div>
+                    </td>
+                    <td ng-if="modelDir =='PbmUserAssignment'"  class="text-right">
+                        <div class="text-nowrap">
+                                Rejected Amount
+                            <h4>{{claim.currencyCode}} {{claim.rejectedAmount}}</h4>
+                            Approved Amount: {{claim.currencyCode}} {{claim.approvedAmount}}
+                        </div>
+                        <div class="text-nowrap">
+                                Assigned To: {{claim.assignedTo}}
+                                Assigned By:  {{claim.assignedBy}}
+                        </div>
+                    </td>
+                    <td ng-if="modelDir =='PbmUserAssignment'" class="align-middle text-center">
+                        <a href="javascript:void(0);" class="custSelectBtn" ng-class="{custSelectBtnSected : claim.selected}" aria-label="Select Claim" ng-click="claim.selected=!claim.selected;claimsToSelect(claim);">
+                            <span class="oi align-middle" data-glyph="check"></span>
+                        </a>
+                    </td>
+<!-- Provider-Paper-Assignment -->
+                    <td ng-if="modelDir =='ProviderPaperUserAssignment'"> 
+                        <div class="text-nowrap">
+                                <span class="d-inline-block pr-2">
+                                        <strong>Batch Id: {{claim.batchId}}</strong>
+                                </span>
+                        </div>
+                        <div class="text-nowrap">
+                            <span class="d-inline-block pr-2"><strong>Claim No: </strong>
+                                <a class="currencyTypeCustom" href="javascript:void(0);"ng-click="redirectTo(navigateTo);">#{{claim.claimNo}}</a>
+                            </span>
+                            <span class="d-inline-block pr-2">
+                                <strong>Member No: {{claim.memberNo}}</strong>
+                            </span>
+                        </div>
+                        <div class="text-nowrap">
+                            <class="d-inline-block pr-2">Provider Name: {{claim.providerName}}&nbsp;
+                            <class="d-inline-block pr-2">Provider Code: {{claim.providerCode}}
+                        </div>
+                        <div class="text-nowrap">
+                            <div class="receiveInfo d-inline-block pr-3"><span class="oi" data-glyph="timer"></span> Registered Date: {{claim.receivedDate}}</div>
+                            <div class="statusInfo d-inline-block text-success" ng-class="{'text-inprogress': claim.status=='InProgress','text-assigned': claim.status=='Assigned','text-waiting': claim.status=='Waitingforapproval','text-new': claim.status=='New Request','text-success': claim.status=='Approved','text-danger': claim.status!='Approved'}">
+                                <span ng-if="claim.status=='Approved'" class="oi" data-glyph="thumb-up"></span>
+                                <span ng-if="claim.status!='Approved'" class="oi" data-glyph="thumb-down"></span> &nbsp;{{claim.status}}
+                            </div>
+                        </div>
+                    </td>
+                    <td ng-if="modelDir =='ProviderPaperUserAssignment'" class="align-bottom">
+                        <div class="text-nowrap">Submission Type :{{claim.submissionType}}</a></div>
+                        <div class="text-nowrap">Gross Submitted :{{claim.grossSubmitted}}</a></div>
+                        <div class="text-nowrap">Patient Share : {{claim.patientShare}}</div>
+                        <div class="text-nowrap">Net Submitted : {{claim.netSubmitted}}</div>
+                    </td>
+                    <td ng-if="modelDir =='ProviderPaperUserAssignment'">
+                        <div class="text-nowrap">
+                            <span class="tablLal">Payment Way:</span>
+                            <span class="tablCont">{{claim.paymentWay}}</span>
+                        </div>
+                        <div class="text-nowrap">
+                            <span class="tablLal">Assigned Date:</span>
+                            <span class="tablCont">{{claim.assignedDate}}</span>
+                        </div>
+                        <div class="text-nowrap">
+                                <span class="tablLal">Approved Date:</span>
+                                <span class="tablCont">{{claim.approvedDate}}</span>
+                        </div>
+                    </td>
+                    <td ng-if="modelDir =='ProviderPaperUserAssignment'"  class="text-right">
+                        <div class="text-nowrap">
+                                Rejected Amount
+                            <h4>{{claim.currencyCode}} {{claim.rejectedAmount}}</h4>
+                            Approved Amount: {{claim.currencyCode}} {{claim.approvedAmount}}
+                        </div>
+                        <div class="text-nowrap">
+                                Assigned To: {{claim.assignedTo}}
+                                Assigned By:  {{claim.assignedBy}}
+                        </div>
+                    </td>
+                    <td ng-if="modelDir =='ProviderPaperUserAssignment'" class="align-middle text-center">
+                        <a href="javascript:void(0);" class="custSelectBtn" ng-class="{custSelectBtnSected : claim.selected}" aria-label="Select Claim" ng-click="claim.selected=!claim.selected;claimsToSelect(claim);">
+                            <span class="oi align-middle" data-glyph="check"></span>
+                        </a>
+                    </td>
+ <!-- Pre-Authorization-Assignment -->
+                    <td ng-if="modelDir =='preAuthorizationAssignment'"> 
+                        <div class="text-nowrap">
+                            <span class="d-inline-block pr-2"><strong>Source: </strong>
+                                <a  href="javascript:void(0);"ng-click="redirectTo(navigateTo);">#{{claim.Source}}</a>
+                            </span>
+                            <span class="d-inline-block pr-2">
+                                <strong>Member Name: {{claim.memberName}}</strong>
+                            </span>
+                        </div>
+                        <div class="text-nowrap">
+                            <class="d-inline-block pr-2">Member Type: {{claim.memberType}}
+                            <class="d-inline-block pr-2">Claim Type: {{claim.claimType}}
+                        </div>
+                        <div class="text-nowrap">
+                            <span class="d-inline-block pr-2"><strong>Provider Code: </strong>
+                                <a  class="currencyTypeCustom">#{{claim.providerCode}}</a>
+                            </span>
+                            <span class="d-inline-block pr-2">
+                                <strong>Provider Name: {{claim.providerName}}</strong>
+                            </span>
+                        </div>
+                        <div class="text-nowrap">
+                            <div class="receiveInfo d-inline-block pr-3"><span class="oi" data-glyph="timer"></span> Registration Date: {{claim.registrationDate}}</div>
+                            <div class="statusInfo d-inline-block text-success" ng-class="{'text-inprogress': claim.status=='InProgress','text-assigned': claim.status=='Assigned','text-waiting': claim.status=='Waitingforapproval','text-new': claim.status=='New Request','text-success': claim.status=='Approved','text-danger': claim.status!='Approved'}">
+                                <span ng-if="claim.status=='Approved'" class="oi" data-glyph="thumb-up"></span>
+                                <span ng-if="claim.status!='Approved'" class="oi" data-glyph="thumb-down"></span> &nbsp;{{claim.status}}
+                            </div>
+                        </div>
+                    </td>
+                    <td ng-if="modelDir =='preAuthorizationAssignment'" class="align-bottom">
+                        <div class="text-nowrap">Encounter Type:{{claim.encounterType}}</a></div>
+                        <div class="text-nowrap">Previous Request :{{claim.previousRequest}}</a></div>
+                        <div class="text-nowrap">Document Link :
+                            <a href="">{{claim.documentLink}}</a>
+                        </div>
+                        <div class="text-nowrap">Rejection Reason: {{claim.rejectionReason}}</div>
+                    </td>
+                    <td ng-if="modelDir =='preAuthorizationAssignment'">
+                        <div class="text-nowrap">
+                            <span class="tablLal">Assigned To:</span>
+                            <span class="tablCont">{{claim.assignedTo}}</span>
+                        </div>
+                        <div class="text-nowrap">
+                            <span class="tablLal">Assigned Date:</span>
+                            <span class="tablCont">{{claim.assignedDate}}</span>
+                        </div>
+                        <div class="text-nowrap">
+                            <span class="tablLal">Assigned By:</span>
+                            <span class="tablCont">{{claim.assignedBy}}</span>
+                        </div>
+                        <div class="text-nowrap">
+                            <span class="tablLal"> Request Type:</span>
+                            <span class="tablCont">{{claim.requestType}}</span>
+                        </div>
+                        
+                    </td>
+                    <td ng-if="modelDir =='preAuthorizationAssignment'" class="text-right">
+                        <div class="text-nowrap">
+                            Approved Amount
+                            <h4>{{claim.currencyCode}} {{claim.approvedAmount}}</h4>
+                            Rejected Amount: {{claim.currencyCode}} {{claim.rejectedAmount}}
+                        </div>
+                        <div class="text-nowrap">
+                                Approved By {{claim.approvedBy}}
+                                Approved Date: {{claim.approvedDate}}
+                            </div>
+                    </td>
+                    <td ng-if="modelDir =='preAuthorizationAssignment'" class="align-middle text-center">
                         <a href="javascript:void(0);" class="custSelectBtn" ng-class="{custSelectBtnSected : claim.selected}" aria-label="Select Claim" ng-click="claim.selected=!claim.selected;claimsToSelect(claim);">
                             <span class="oi align-middle" data-glyph="check"></span>
                         </a>

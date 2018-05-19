@@ -8,6 +8,7 @@
 
     function ReimbursementUserAssignmentController($scope, $rootScope, ReimbursementUserAssignmentService, $filter, $state, $stateParams, ngNotify, ListViewService, ClaimsListViewService) {
         // $scope.selectedClaim = $stateParams.param;
+        $scope.model = "reimbursementUserAssignment";
         $scope.selectall = false;
         $scope.selectedUserToAssign;
         $scope.claimsToAssign = [];

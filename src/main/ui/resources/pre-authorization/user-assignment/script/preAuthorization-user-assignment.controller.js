@@ -2,11 +2,11 @@
     'use strict';
     angular
         .module('claims')
-        .controller('EclaimUserAssignmentController', EclaimUserAssignmentController)
+        .controller('preAuthorizationAssignmentController', preAuthorizationAssignmentController)
 
-    EclaimUserAssignmentController.$inject = ['$scope', '$rootScope', 'UserAssignmentService', '$filter', '$state', '$stateParams', 'ngNotify', 'ListViewService', 'ClaimsListViewService'];
-    function EclaimUserAssignmentController($scope, $rootScope, UserAssignmentService, $filter, $state, $stateParams, ngNotify, ListViewService, ClaimsListViewService) {
-        $scope.model = "eClaimsUserAssignment";
+    preAuthorizationAssignmentController.$inject = ['$scope', '$rootScope', 'preAuthorizationAssignmentService', '$filter', '$state', '$stateParams', 'ngNotify', 'ListViewService', 'ClaimsListViewService'];
+    function preAuthorizationAssignmentController($scope, $rootScope, preAuthorizationAssignmentService, $filter, $state, $stateParams, ngNotify, ListViewService, ClaimsListViewService) {
+        $scope.model = "preAuthorizationAssignment";
         $scope.selectedClaim = $stateParams.param;
         $scope.selectall = false;
         $scope.selectedUserToAssign;
@@ -15,25 +15,6 @@
         $scope.rerenderView = false;
         $scope.filteredClaims = [];
         $scope.searchBy = {};
-
-        // $scope.search = function() {
-        //     if (($scope.climeNo == "" || $scope.climeNo == null) && ($scope.memberNumber == "" || $scope.memberNumber == null) && ($scope.voucherNumber == "" || $scope.voucherNumber == null)) {
-        //         $scope.claimList = $scope.claim;
-        //     } else {
-        //         $scope.claimList = $filter('filter')($scope.claim, { climeNo: $scope.climeNo, memberNo: $scope.memberNumber,voucherNo: $scope.voucherNumber});
-        //     }
-        // }
-
-        $scope.clear = function() {
-            $scope.climeNo = '';
-            $scope.memberNumber = '';
-            $scope.voucherNumber = '';
-            $scope.approvedBy = undefined;
-            $scope.assignedUser = undefined;
-            $scope.requestedFromDate = undefined;
-            $scope.requestedToDate = undefined;
-            $scope.claimList = $scope.claim;
-        }
 
         $scope.querySearch = function(query) {
             return query ? $scope.users.filter(createFilterFor(query)) : $scope.users;
@@ -75,31 +56,23 @@
         $scope.filterValues = function(searchValue) {
             if (searchValue) {
                 $scope.searchBy = {
-                    providerCode :searchValue.provider,
-                    batchId: searchValue.batchId
+                    providerCode :searchValue.provider
                 };
             } else {
                 $scope.searchBy = {};
             }
         }
 
-        // function createFilterFor(query) {
-        //     var lowercaseQuery = angular.lowercase(query);
-        //     return function filterFn(state) {
-        //         return (((angular.lowercase(state.name).indexOf(lowercaseQuery) != 0) && angular.lowercase(state.name).indexOf(lowercaseQuery) != -1) || (angular.lowercase(state.name).indexOf(lowercaseQuery) === 0));
-        //     };
-        // }
-
         function init() {
-            $scope.claim = UserAssignmentService.getClaimsForUserAssignment();
-            $scope.users = $scope.userNamesObject = UserAssignmentService.getUsers();
+            $scope.claim = preAuthorizationAssignmentService.getClaimsForUserAssignment();
+            $scope.users = $scope.userNamesObject = preAuthorizationAssignmentService.getUsers();
             $scope.claimList = $scope.claim;
             $scope.userAssignmentHeader = ListViewService.getUserAssignmentListViewHeader();
             $scope.userssearch = $scope.users;
             $scope.recordTotal = $scope.claim.length;
             $scope.result = $scope.users;
             $scope.tabsToDisplay = ClaimsListViewService.getTabsToDisplay();
-            $scope.fieldsObject =  UserAssignmentService.getSearchFields();
+            $scope.fieldsObject =  preAuthorizationAssignmentService.getSearchFields();
         }
 
         init();

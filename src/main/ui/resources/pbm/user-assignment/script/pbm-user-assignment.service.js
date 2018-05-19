@@ -2,36 +2,61 @@
     'use strict';    
     angular
         .module('claims')
-        .service('UserAssignmentService', UserAssignmentService)
+        .service('PBMUserAssignmentService', PBMUserAssignmentService)
 
-    UserAssignmentService.$inject = [];
+    PBMUserAssignmentService.$inject = [];
 
-    function UserAssignmentService() {
+    function PBMUserAssignmentService() {
 
         this.getClaimsForUserAssignment = function() {
             return [{
-                'batchId':'1231232',
+                
+                // Batch ID	
+                // Member No	
+                // Claim No	
+                // Provider Name	
+                // Provider Code	
+                // Submission Type	
+                // Gross Submitted	
+                // Patient Share	
+                // Net Submitted	
+                // Approved Amount	
+                // Rejected Amount	
+                // Status	
+                // Payment Reference	
+                // Payment Date	
+                // Payment Way	
+                // Assigned To	
+                // Assigned Date	
+                // Assigned by	
+                // Approved By	
+                // Approved Date	
+                // Registered Date
+
+
+
+                'batchId':'876',
                 'claimNo': '456',
                 'memberNo': '9562467936',
                 'providerName':'ProviderNameOne',
                 'providerCode':'4922867',
-                'submissionType':'NA',
-                'grossSubmitted':'NA',
-                'patientShare':'NA',
-                'netSubmitted':'NA',
+                'submissionType':'submissionType',
+                'grossSubmitted':'grossSubmitted',
+                'patientShare':'patientShare',
+                'netSubmitted':'netSubmitted',
                 'approvedAmount': '1,00,550',
-                'rejectedAmount':'1,00,345',
+                'rejectedAmount':'1,00,5',
                 'status': 'New Request',
                 'paymentReference':'Nill',
                 'payDate': '08 Jan 2018',
                 'paymentWay':'Check',
-                'remittance':'23 jan 2018',
+                //'remittance':'23 jan 2018',
                 'assignedTo':'John',
                 'assignedDate':'08 Jan 2018',
                 'assignedBy':'Mohamed',
                 'approvedBy':'Osama Bin',
                 'approvedDate':'23 jun 2018',
-                'receivedDate':"9 Dec 2018",
+                'registered':"9 Dec 2018",
                 'currencyCode': 'AED',
                 "id" : new Date().getTime() + 1
             },{
@@ -40,17 +65,17 @@
                 'memberNo': '9562467936',
                 'providerName':'ProviderNameOne',
                 'providerCode':'8978',
-                'submissionType':'NA',
-                'grossSubmitted':'NA',
-                'patientShare':'NA',
-                'netSubmitted':'NA',
+                'submissionType':'submissionType',
+                'grossSubmitted':'grossSubmitted',
+                'patientShare':'patientShare',
+                'netSubmitted':'netSubmitted',
                 'approvedAmount': '1,00,550',
-                'rejectedAmount':'1,22,100',
+                'rejectedAmount':'1,22,1',
                 'status': 'New Request',
                 'paymentReference':'Nill',
                 'payDate': '08 Jan 2018',
                 'paymentWay':'Check',
-                'remittance':'23 jan 2018',
+                //'remittance':'23 jan 2018',
                 'assignedTo':'John',
                 'assignedDate':'08 Jan 2018',
                 'assignedBy':'Mohamed',

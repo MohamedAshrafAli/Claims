@@ -13,7 +13,8 @@
                         selectedClaims: '=',
                         navigateTo: '@',
                         rerenderView: '=',
-                        searchBy: '='
+                        searchBy: '=',
+                        modelDir:'='
                     },
                     link: function(scope, element, attrs) {
                         

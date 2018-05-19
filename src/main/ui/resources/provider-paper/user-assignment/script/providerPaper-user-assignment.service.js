@@ -2,15 +2,15 @@
     'use strict';    
     angular
         .module('claims')
-        .service('UserAssignmentService', UserAssignmentService)
+        .service('ProviderPaperUserAssignmentService', ProviderPaperUserAssignmentService)
 
-    UserAssignmentService.$inject = [];
+    ProviderPaperUserAssignmentService.$inject = [];
 
-    function UserAssignmentService() {
+    function ProviderPaperUserAssignmentService() {
 
         this.getClaimsForUserAssignment = function() {
             return [{
-                'batchId':'1231232',
+                'batchId':'876',
                 'claimNo': '456',
                 'memberNo': '9562467936',
                 'providerName':'ProviderNameOne',
@@ -20,18 +20,18 @@
                 'patientShare':'NA',
                 'netSubmitted':'NA',
                 'approvedAmount': '1,00,550',
-                'rejectedAmount':'1,00,345',
+                'rejectedAmount':'1,00,5',
                 'status': 'New Request',
                 'paymentReference':'Nill',
                 'payDate': '08 Jan 2018',
                 'paymentWay':'Check',
-                'remittance':'23 jan 2018',
+                //'remittance':'23 jan 2018',
                 'assignedTo':'John',
                 'assignedDate':'08 Jan 2018',
                 'assignedBy':'Mohamed',
                 'approvedBy':'Osama Bin',
                 'approvedDate':'23 jun 2018',
-                'receivedDate':"9 Dec 2018",
+                'registered':"9 Dec 2018",
                 'currencyCode': 'AED',
                 "id" : new Date().getTime() + 1
             },{
@@ -45,12 +45,12 @@
                 'patientShare':'NA',
                 'netSubmitted':'NA',
                 'approvedAmount': '1,00,550',
-                'rejectedAmount':'1,22,100',
+                'rejectedAmount':'1,22,1',
                 'status': 'New Request',
                 'paymentReference':'Nill',
                 'payDate': '08 Jan 2018',
                 'paymentWay':'Check',
-                'remittance':'23 jan 2018',
+                //'remittance':'23 jan 2018',
                 'assignedTo':'John',
                 'assignedDate':'08 Jan 2018',
                 'assignedBy':'Mohamed',
