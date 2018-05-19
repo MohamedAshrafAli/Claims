@@ -9,7 +9,8 @@
                 templateUrl: 'resources/directives/batch-directive/view/batch.directive.html',
                 scope: {
                     moduleName: '=',
-                    fieldsInfo: '='
+                    fieldsInfo: '=',
+                    records: '='
                 },
                 link: function(scope, elem, attrs, ngModel) {
                     console.log(scope.fieldsInfo);

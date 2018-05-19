@@ -1871,3 +1871,16 @@ a {
 .batchTable .claimRequestDetInner {
     box-shadow: 1px 1px 1px 1px #e0e0e0;
 }
+
+
+.boldText {
+    font-weight: bolder !important;
+}
+.textColor {
+    font-weight: bolder !important;
+    color: #00B3B5;
+}
+.batchText {
+    font-weight: bolder !important;
+    font-size: 15px !important;
+}
