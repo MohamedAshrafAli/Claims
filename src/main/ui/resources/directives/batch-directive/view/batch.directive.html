@@ -1,0 +1,39 @@
+
+<div class="resultInfo pl-2 col-sm-12">
+    <a href="javascript:void(0);" class="btn btn-primary btn-sm finlizeBtn btn-finalize float-right" ng-click="rejectSelectedClaims();">Reject</a>
+</div>
+<div class="mt-5 pb-1">
+    <div class="row m-0"  ng-repeat="record in records">
+        <span href="javascript:;" class="custCheckboxBtn" ng-class="{'custCheckboxBtnSected' : isChecked}" ng-click="isChecked = !isChecked;" style="cursor:pointer; outline:none">
+            <span class="oi" data-glyph="check"></span>
+        </span>&nbsp;
+        <div class="claimRequestDetInner mb-2 clearfix" style="border-top:1px solid #e0e0e0 !important;width:98%">
+            <table class="batchTable">
+                <tr class="row pb-1" ng-repeat="rows in fieldsInfo">
+                    <td class="col-sm" ng-repeat="columns in rows">
+                        <div ng-repeat="colGroup in columns.colGroup" ng-if="columns.colGroup">
+                            <div ng-if="!colGroup.subGroup">    
+                                <span>
+                                    <span class="{{colGroup.labelClass}}">{{colGroup.label}}</span> 
+                                    <span class="{{colGroup.valueClass}}">{{record[colGroup.name]}}</span>
+                                </span>
+                            </div>
+                            <div ng-if="colGroup.subGroup">
+                                <span ng-repeat="subgroupCol in colGroup.subGroup" ng-class="{'pr-4' : $even}"> 
+                                    <span class="{{subgroupCol.labelClass}}">{{subgroupCol.label}} </span>
+                                    <span class="{{subgroupCol.valueClass}}">{{record[subgroupCol.name]}}</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div ng-if="!columns.colGroup">
+                            <div>
+                                <span class="{{columns.labelClass}}">{{columns.label}}</span><br>
+                                <span class="{{columns.valueClass}}">{{record[columns.name]}}</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>                    
+    </div>
+</div>
