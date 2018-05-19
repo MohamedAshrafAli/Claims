@@ -1419,7 +1419,7 @@ footer li strong {
     font-size: 12px;
 }
 
-.reimbursement-carousel {
+.processing-carousel {
     font: 12px/16px "open_sanssemibold";
     top: -17px;
     left:-66px;
@@ -1427,7 +1427,7 @@ footer li strong {
     padding: 20px 1.5rem;
 }
 
-.reimbursement-carousel ul {
+.processing-carousel ul {
     padding: 15px 10px !important;
     list-style: none;
     border-radius: 2px;
@@ -1435,12 +1435,12 @@ footer li strong {
     margin-bottom: 0px;
 }
 
-.reimbursement-carousel .track-wrapper {
+.processing-carousel .track-wrapper {
     width: 97%;
 }
 
-.reimbursement-carousel .carousel-prev,
-.reimbursement-carousel .carousel-next {
+.processing-carousel .carousel-prev,
+.processing-carousel .carousel-next {
     top: 20px;
 }
     
@@ -1786,15 +1786,15 @@ a {
     cursor: pointer;
 }
  
-.reimbursement-carousel li span {
+.processing-carousel li span {
     font-size: 12px;
 }
 
-.reimbursement-carousel li b {
+.processing-carousel li b {
     font-size: 11px;
 }
 
-.reimbursement-carousel li {
+.processing-carousel li {
     padding: 0px;
     float: left
 }
@@ -1883,4 +1883,10 @@ a {
 .batchText {
     font-weight: bolder !important;
     font-size: 15px !important;
+}
+.eclaims .medicalCardInfoBox {
+    height: 95px !important; 
+}
+.eclaims .processing-carousel {
+    padding: 5px 1.5rem !important;
 }

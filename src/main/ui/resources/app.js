@@ -97,18 +97,6 @@ angular
                 }
             })
 
-            .state('eClaims-remittance', {
-                url: "/eClaims-remittance",
-                templateUrl:"resources/eclaim/remittance/view/eclaim-remittance.html",
-                controller: 'EclaimRemittanceController'
-            })
-
-            .state('eclaim-processing', {
-                url: "/eclaim-processing",
-                templateUrl: "resources/eclaim/view/eclaim-processing.html",
-                controller: 'EclaimProcessingController'
-            })
-            
             .state('reimbursement-processing', {
                 url: "/reimbursement-processing",
                 templateUrl: "resources/reimbursement-claims/processing/view/reimbursement-processing.html",
@@ -127,6 +115,17 @@ angular
                 controller: 'EclaimBatchController'
             })
 
+            .state('eclaim-processing', {
+                url: "/eclaim-processing",
+                templateUrl: "resources/eclaim/processing/view/eclaim-processing.html",
+                controller: 'EclaimProcessingController'
+            })
+
+            .state('eClaims-remittance', {
+                url: "/eClaims-remittance",
+                templateUrl:"resources/eclaim/remittance/view/eclaim-remittance.html",
+                controller: 'EclaimRemittanceController'
+            })
 
             .state('eclaims-user-assignment', {
                 url: "/eclaims-user-assignment",
@@ -138,6 +137,24 @@ angular
                         return $translate.refresh();
                     }]
                 }
+            })
+
+            .state('pbm-batch', {
+                url: "/pbm-batch",
+                templateUrl: "resources/pbm/batch/view/pbm-batch.html",
+                controller: 'PBMBatchController'
+            })
+
+            .state('pbm-remittance', {
+                url: "/pbm-remittance",
+                templateUrl: "resources/pbm/remittance/view/pbm-remittance.html",
+                controller: 'PBMRemittanceController'
+            })
+
+            .state('pbm-processing', {
+                url: "/pbm-processing",
+                templateUrl: "resources/pbm/processing/view/pbm-processing.html",
+                controller: 'PBMProcessingController'
             })
 
             .state('pbm-user-assignment', {
@@ -152,7 +169,13 @@ angular
                 }
             })
 
-            .state('providerPaper-user-assignment', {
+            .state('provider-paper-batch', {
+                url: "/providerpaper-batch",
+                templateUrl: "resources/provider-paper/batch/view/provider-paper-batch.html",
+                controller: 'ProviderBatchController'
+            })
+            
+            .state('provider-paper-user-assignment', {
                 url: "/providerPaper-user-assignment",
                 templateUrl: "resources/provider-paper/user-assignment/view/providerPaper-user-assignment.html",
                 controller: 'ProviderPaperUserAssignmentController',
@@ -164,7 +187,13 @@ angular
                 }
             })
 
-            .state('PreAuthorization-user-assignment', {
+            .state('provider-paper-processing', {
+                url: "/provider-paper-processing",
+                templateUrl: "resources/provider-paper/processing/view/provider-paper-processing.html",
+                controller: 'ProviderPaperProcessingController'
+            })
+
+            .state('pre-authorization-user-assignment', {
                 url: "/PreAuthorization-user-assignment",
                 templateUrl: "resources/pre-authorization/user-assignment/view/preAuthorization-user-assignment.html",
                 controller: 'preAuthorizationAssignmentController',
@@ -174,6 +203,12 @@ angular
                         return $translate.refresh();
                     }]
                 }
+            })
+
+            .state('pre-authorization-remittance', {
+                url: "/pre-authorization-remittance",
+                templateUrl:"resources/pre-authorization/remittance/view/pre-authorization-remittance.html",
+                controller: 'PreAuthorizationRemittanceController'
             })
 
             

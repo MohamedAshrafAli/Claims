@@ -92,14 +92,26 @@
         <!-- PBM -->
         <script src="<s:url value="resources/pbm/user-assignment/script/pbm-user-assignment.controller.js"/>"></script>
         <script src="<s:url value="resources/pbm/user-assignment/script/pbm-user-assignment.service.js"/>"></script>
+        <script src="<s:url value="resources/pbm/batch/script/pbm-batch.controller.js"/>"></script>
+        <script src="<s:url value="resources/pbm/batch/script/pbm-batch.service.js"/>"></script>
+        <script src="<s:url value="resources/pbm/remittance/script/pbm-remittance.controller.js"/>"></script>
+        <script src="<s:url value="resources/pbm/remittance/script/pbm-remittance.service.js"/>"></script>
+        <script src="<s:url value="resources/pbm/processing/script/pbm-processing.controller.js"/>"></script>
+        <script src="<s:url value="resources/pbm/processing/script/pbm-processing.service.js"/>"></script>
 
         <!-- Provider Paper -->
+        <script src="<s:url value="resources/provider-paper/batch/script/provider-paper-batch.controller.js"/>"></script>
+        <script src="<s:url value="resources/provider-paper/batch/script/provider-paper-batch.service.js"/>"></script>
         <script src="<s:url value="resources/provider-paper/user-assignment/script/providerPaper-user-assignment.controller.js"/>"></script>
         <script src="<s:url value="resources/provider-paper/user-assignment/script/providerPaper-user-assignment.service.js"/>"></script>
+        <script src="<s:url value="resources/provider-paper/processing/script/provider-paper-processing.controller.js"/>"></script>
+        <script src="<s:url value="resources/provider-paper/processing/script/provider-paper-processing.service.js"/>"></script>
     
         <!-- Pre Authorization -->
         <script src="<s:url value="resources/pre-authorization/user-assignment/script/preAuthorization-user-assignment.controller.js"/>"></script>
         <script src="<s:url value="resources/pre-authorization/user-assignment/script/preAuthorization-user-assignment.service.js"/>"></script>
+        <script src="<s:url value="resources/pre-authorization/remittance/script/pre-authorization-remittance.controller.js"/>"></script>
+        <script src="<s:url value="resources/pre-authorization/remittance/script/pre-authorization-remittance.service.js"/>"></script>
     
     </head>
     <body ng-app="claims">
@@ -150,7 +162,7 @@
                             <uib-accordion-heading> <h3>E-Claims</h3> </uib-accordion-heading>
                             <h4 ui-sref="eclaim-batch">Batch</h4>
                             <h4 ui-sref="eclaims-user-assignment">User Assignment</h4>
-                            <h4>Finalization</h4>
+                            <!-- <h4>Finalization</h4> -->
                             <h4 ui-sref="eClaims-remittance">Remittance</h4>
                         </div>
                         <div uib-accordion-group class="panel-default child-panel">
@@ -161,15 +173,19 @@
                         </div>
                         <div uib-accordion-group class="panel-default child-panel">
                             <uib-accordion-heading> <h3>PBM Claims</h3> </uib-accordion-heading>
+                            <h4 ui-sref="eclaim-batch">Batch</h4>
                             <h4 ui-sref="pbm-user-assignment">User Assignment</h4>
+                            <h4 ui-sref="pbm-remittance">Remittance</h4>
                         </div>
                         <div uib-accordion-group class="panel-default child-panel">
                             <uib-accordion-heading> <h3>Provider Paper Claims</h3> </uib-accordion-heading>
-                            <h4 ui-sref="providerPaper-user-assignment">User Assignment</h4>
+                            <h4 ui-sref="provider-paper-batch">Batch</h4>
+                            <h4 ui-sref="provider-paper-user-assignment">User Assignment</h4>
                         </div>
                         <div uib-accordion-group class="panel-default child-panel">
                             <uib-accordion-heading> <h3>Pre-Authorization</h3> </uib-accordion-heading>
-                            <h4 ui-sref="PreAuthorization-user-assignment">User Assignment</h4>
+                            <h4 ui-sref="pre-authorization-user-assignment">User Assignment</h4>
+                            <h4 ui-sref="pre-authorization-remittance">Remittance</h4>
                         </div>
                     <uib-accordion>
                 </div>
