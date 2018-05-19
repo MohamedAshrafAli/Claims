@@ -3,19 +3,19 @@
 
     angular
         .module('claims')
-        .controller('EclaimProcessingController', EclaimProcessingController)
+        .controller('PBMProcessingController', PBMProcessingController)
 
-    EclaimProcessingController.$inject = ['$scope', '$rootScope', 'EclaimProcessingService', 'ngNotify'];
+    PBMProcessingController.$inject = ['$scope', '$rootScope', 'PBMProcessingService', 'ngNotify'];
 
-    function EclaimProcessingController($scope, $rootScope, EclaimProcessingService, ngNotify) {
-        $scope.claimReqList = EclaimProcessingService.getClaimsRequest();
+    function PBMProcessingController($scope, $rootScope, PBMProcessingService, ngNotify) {
+        $scope.claimReqList = PBMProcessingService.getClaimsRequest();
         $scope.claim = $scope.claimReqList[0];
         $scope.isToggled = true;
         $scope.isInlineEdit = true;
         $scope.moduleName = 'eclaim';
 
         $scope.gridOptions = {
-            data : EclaimProcessingService.getEclaimList(true),
+            data : PBMProcessingService.getPBMList(true),
             columnDefs: [
                 {name:'action', displayName:'', headerCellTemplate:'headerCheckboxTemplate.html', cellTemplate:'staticTemplate.html',width:40, pinnedLeft:true, enableCellEdit:false, enableColumnMenu: false},
                 {name:'serviceType', displayName:'Service Type', cellTemplate:'textTemplate.html',width:120},
@@ -48,7 +48,7 @@
         }
         
         $scope.addRow = function() {
-            var newClaim = EclaimProcessingService.newClaim();
+            var newClaim = PBMProcessingService.newClaim();
             newClaim.serviceType = ($scope.gridOptions.data.length +1 ).toString();
             newClaim.editable = true;
             newClaim.editedColName = 'serviceType';
@@ -64,7 +64,7 @@
         $scope.toggleJson = function(item) {
             $scope.claim = item;
             $scope.isToggled = !$scope.isToggled;
-            $scope.gridOptions.data = EclaimProcessingService.getEclaimList($scope.isToggled);
+            $scope.gridOptions.data = PBMProcessingService.getEclaimList($scope.isToggled);
         }
 
         $scope.approveClaim = function() {

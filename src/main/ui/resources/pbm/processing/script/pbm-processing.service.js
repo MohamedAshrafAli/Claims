@@ -3,11 +3,11 @@
 
     angular
         .module('claims')
-        .service('EclaimProcessingService', EclaimProcessingService)
+        .service('PBMProcessingService', PBMProcessingService)
 
-    EclaimProcessingService.$inject = [];
+    PBMProcessingService.$inject = [];
 
-    function EclaimProcessingService() {
+    function PBMProcessingService() {
         this.getClaimsRequest = function() {
             return [
                 {'claimNum' : 80010201,'reqNum': 987896, 'status':'Rejected', 'statusReason':'Waiting for Finalization', 'rejectedReason':'Waiting for Finalization', 'policyNum' : 'AE-1000', 'voucherNum' : 10, 'memberNum': 'MEM-001', 'approvedAmt' : 5000, 'rejectedAmt' : 9000,},
@@ -20,7 +20,7 @@
             ];
         }
 
-        this.getEclaimList = function(isToggled) {
+        this.getPBMList = function(isToggled) {
             if(isToggled) {
                 return [
                     {'serviceType':'1', 'serviceCode' : '90807', 'serviceFrmDate':new Date(), days:20, quantity: 10, 'treatmentCode' : '10010201-1', 'dhaPrice' : 1020, 'price':100, 'reqAmount':1000, 'dedAmount':500, 'approvedAmt' : 5000, 'rejectedAmt' : 9000, 'rejectedCode' : '100-1', 'shortfallAmount' : 500, 'status' : 'Approved', 'remarks' : 'Approved Claim.', 'rejDesc': ''},

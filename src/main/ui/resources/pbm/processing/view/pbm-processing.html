@@ -1,6 +1,5 @@
 <nav class="navbar pt-1 pb-1">
-    <span ui-sref="eclaims-user-assignment" class="navbar-brand p-0 m-0"><i class="fa fa-arrow-left" style="cursor:pointer"></i>&nbsp;&nbsp;<span>EClaim: Processing</span></span>
-    <span class="navbar-brand p-0 m-0">EClaim</span>
+    <span ui-sref="pbm-user-assignment" class="navbar-brand p-0 m-0"><i class="fa fa-arrow-left" style="cursor:pointer"></i>&nbsp;&nbsp;<span>PBM Claim: Processing</span></span>
 </nav>
 <section id="eClaims">
     <div class="eclaims leftContainer"  style="left:0px !important">
@@ -119,6 +118,12 @@
                                             </md-input-container>
                                         </div>
                                         <div class="fldsWrap clearfix">
+                                            <md-input-container flex-gt-sm>    
+                                                <label>Authorization ID</label>
+                                                <input name="authorizationId" type="text" ng-model="providerDetails.authorizationId" ng-value="'19291'" ng-disabled="true"/>
+                                            </md-input-container>
+                                        </div>
+                                        <div class="fldsWrap clearfix">
                                             <md-input-container flex-gt-sm>
                                                 <label>Approval Number</label>
                                                 <input name="approvalNumber" type="text" ng-model="providerDetails.approvalNumber" ng-value="'19291'" ng-disabled="true"/>
@@ -130,12 +135,6 @@
                                                 <input name="claimCase" type="text" ng-model="providerDetails.claimCase" ng-value="'Work Related/Accident/Normal'" ng-disabled="true"/>
                                             </md-input-container>
                                         </div>
-                                        <!-- <div class="fldsWrap clearfix">
-                                            <md-input-container flex-gt-sm>    
-                                                <label>Gross Submitted</label>
-                                                <input name="grossSubmitted" type="text" ng-model="providerDetails.grossSubmitted" ng-value="'1000'" ng-disabled="true"/>
-                                            </md-input-container>
-                                        </div> -->
                                         <div class="fldsWrap clearfix">
                                             <md-input-container flex-gt-sm>    
                                                 <label>Provider Network</label>
@@ -321,7 +320,7 @@
                         <h3>Medical card info</h3>
                         <li style="list-style: none;">
                             <span style="width: auto !important;padding-left: 6px;"> Insured Name:</span>
-                            <span>Sherif</span>
+                            <span>Shakhil</span>
                         </li> 
                         <ul>
                             <li>
