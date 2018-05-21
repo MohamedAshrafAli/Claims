@@ -95,12 +95,9 @@ section {
 }
 
 .searchBar {
-    border: 1px solid #d3d7df;
     background: #fff;
     display: table;
     width: 100%;
-    -webkit-box-shadow: 0 0 3px 1px #d3d8de;
-    box-shadow: 0 0 3px 1px #d3d8de;
 }
 
 .searchBarRow {
@@ -175,7 +172,7 @@ section {
     display: inline-block;
     text-align: center;
     line-height: 36px;
-    color: #fff;
+    color: #fff !important;
 }
 
 .searBtnWithText {
@@ -1889,4 +1886,8 @@ a {
 }
 .eclaims .processing-carousel {
     padding: 5px 1.5rem !important;
+}
+.batchCustCheckboxBtnSected {
+    width: 23px !important; 
+    height: 24px !important;
 }
