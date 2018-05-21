@@ -173,7 +173,7 @@
                         </div>
                         <div uib-accordion-group class="panel-default child-panel">
                             <uib-accordion-heading> <h3>PBM Claims</h3> </uib-accordion-heading>
-                            <h4 ui-sref="eclaim-batch">Batch</h4>
+                            <h4 ui-sref="pbm-batch">Batch</h4>
                             <h4 ui-sref="pbm-user-assignment">User Assignment</h4>
                             <h4 ui-sref="pbm-remittance">Remittance</h4>
                         </div>

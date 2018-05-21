@@ -1887,3 +1887,7 @@ a {
 .eclaims .processing-carousel {
     padding: 5px 1.5rem !important;
 }
+.batchCustCheckboxBtnSected {
+    width: 23px !important; 
+    height: 24px !important;
+}
