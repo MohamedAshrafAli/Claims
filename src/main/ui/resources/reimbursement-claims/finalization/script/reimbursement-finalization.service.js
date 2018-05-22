@@ -123,7 +123,7 @@
         this.getSearchFields = function() {
             return [
                 { label : 'Payment Reference', type :'text', name: 'payRef', width: '80%'},
-                { label : 'Payment Way', type: 'dropDown', name: 'payWay', width: '80%'},
+                { label : 'Payment Way', type: 'dropDown', name: 'payWay', width: '80%', class: 'pr-2'},
                 { label : 'Claim Number', type: 'text', name: 'claimNumber', width: '80%'}
             ];
         }
