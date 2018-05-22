@@ -5,12 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.*;
 
 import com.beyon.medical.claims.exception.MedicalClaimsException;
 import com.beyon.medical.claims.ui.facade.service.MedicalClaimsUIServiceFacade;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @RestController
 @RequestMapping("/medical/claims/ui")
@@ -31,82 +36,103 @@ public class MedicalClaimsUIController{
 		return cardNumbers;
 	}
 	
-	@GetMapping("/getMemberNumberList")
-	public List<String> getMemberNumberList(@RequestParam("compId") String compId,@RequestParam("memberNumber") String memberNumber) throws MedicalClaimsException {
-		List<String> cardNumbers = null;
+	@PostMapping("/getMemberNumberList")
+	public  @ResponseBody ObjectNode getMemberNumberList(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode memberNumbers = null;
 		try {
-			cardNumbers = uiServiceFacade.getMemberNumberList(compId,memberNumber);
+			memberNumbers = uiServiceFacade.getMemberNumberList(inputMap);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
-		return cardNumbers;
+		return memberNumbers;
 	}
 	
 	
 	@GetMapping("/getPolicyNumberList")
-	public List<String> getPolicyNumberList(@RequestParam("compId") String compId,@RequestParam("policyNumber") String policyNumber) throws MedicalClaimsException {
-		List<String> cardNumbers = null;
+	public  @ResponseBody ObjectNode getPolicyNumberList(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode policyNumbers = null;
 		try {
-			cardNumbers = uiServiceFacade.getPolicyNumberList(compId,policyNumber);
+			policyNumbers = uiServiceFacade.getPolicyNumberList(inputMap);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
-		return cardNumbers;
+		return policyNumbers;
 	}
 	
-	@GetMapping("/getEncounterTypes")
-	public List<String> getEncounterTypes(@RequestParam("compId") String compId) throws MedicalClaimsException {
-		List<String> cardNumbers = null;
+	@PostMapping("/getEncounterTypes")
+	public @ResponseBody ObjectNode getEncounterTypes(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode encounterTypes = null;
 		try {
-			cardNumbers = uiServiceFacade.getEncounterTypes(compId);
+			encounterTypes = uiServiceFacade.getUIDefinitionList(GENERAL_QUERIES_UID_ENCOUNTER_TYPE, inputMap);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
-		return cardNumbers;
+		return encounterTypes;
 	}
 	
-	@GetMapping("/getRequestTypes")
-	public List<String> getRequestTypes(@RequestParam("compId") String compId) throws MedicalClaimsException {
-		List<String> cardNumbers = null;
+	@PostMapping("/getRequestTypes")
+	public @ResponseBody ObjectNode getRequestTypes(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode requestTypes = null;
 		try {
-			cardNumbers = uiServiceFacade.getRequestTypes(compId);
+			requestTypes = uiServiceFacade.getUIDefinitionList(GENERAL_QUERIES_UID_REQUEST_TYPE ,inputMap);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
-		return cardNumbers;
+		return requestTypes;
 	}
 	
-	@GetMapping("/getReportByTypes")
-	public List<String> getReportByTypes(@RequestParam("compId") String compId) throws MedicalClaimsException {
-		List<String> cardNumbers = null;
+	@PostMapping("/getReportByTypes")
+	public @ResponseBody ObjectNode getReportByTypes(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode reportByTypes = null;
 		try {
-			cardNumbers = uiServiceFacade.getReportByTypes(compId);
+			reportByTypes = uiServiceFacade.getUIDefinitionList(GENERAL_QUERIES_UID_REPORT_BY_TYPE ,inputMap);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
-		return cardNumbers;
+		return reportByTypes;
 	}
 	
-	@GetMapping("/getPaymentTypes")
-	public List<String> getPaymentTypes(@RequestParam("compId") String compId) throws MedicalClaimsException {
-		List<String> cardNumbers = null;
+	@PostMapping("/getPaymentTypes")
+	public @ResponseBody ObjectNode getPaymentTypes(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode paymentTypes = null;
 		try {
-			cardNumbers = uiServiceFacade.getPaymentTypes(compId);
+			paymentTypes = uiServiceFacade.getUIDefinitionList(GENERAL_QUERIES_UID_PAYMENT_TYPE ,inputMap);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
-		return cardNumbers;
+		return paymentTypes;
 	}
 	
-	@GetMapping("/getDocumentTypes")
-	public List<String> getDocumentTypes(@RequestParam("compId") String compId) throws MedicalClaimsException {
-		List<String> cardNumbers = null;
+	@PostMapping("/getDocumentTypes")
+	public @ResponseBody ObjectNode getDocumentTypes(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode documentTypes = null;
 		try {
-			cardNumbers = uiServiceFacade.getDocumentTypes(compId);
+			documentTypes = uiServiceFacade.getUIDefinitionList(GENERAL_QUERIES_UID_DOCUMENT_TYPE ,inputMap);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
-		return cardNumbers;
+		return documentTypes;
 	}
 	
+	@PostMapping("/getSourceTypes")
+	public @ResponseBody ObjectNode getSourceTypes(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode sourceTypes = null;
+		try {
+			sourceTypes = uiServiceFacade.getUIDefinitionList(GENERAL_QUERIES_UID_SOURCE_TYPE ,inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return sourceTypes;
+	}
+	
+	@PostMapping("/getStatusTypes")
+	public @ResponseBody ObjectNode getStatusTypes(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode statusTypes = null;
+		try {
+			statusTypes = uiServiceFacade.getUIDefinitionList(GENERAL_QUERIES_UID_STATUS_TYPE ,inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return statusTypes;
+	}
 }

@@ -1,13 +1,20 @@
 package com.beyon.medical.claims.ui.facade.service;
 
+import static com.beyon.framework.util.Constants.INTERNAL_ERROR_OCCURED;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.*;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.beyon.framework.util.FoundationUtils;
 import com.beyon.medical.claims.constants.ClaimConstants;
 import com.beyon.medical.claims.exception.DAOException;
 import com.beyon.medical.claims.general.dao.GeneralClaimsDAOImpl;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Service
 public class MedicalClaimsUIServiceFacadeImpl implements MedicalClaimsUIServiceFacade {
@@ -24,46 +31,40 @@ public class MedicalClaimsUIServiceFacadeImpl implements MedicalClaimsUIServiceF
 	}  
 
 	@Override
-	public List<String> getMemberNumberList(String compId,String memberNumber) throws DAOException {
-		List<String> memberNumbers = generalClaimsDao.getMemberNumberList(compId, memberNumber);
-		return memberNumbers;
+	public ObjectNode getMemberNumberList(ObjectNode paramMap) throws DAOException {
+		ObjectNode memberNumberList = null;
+		try {
+			Map<Integer, String> outputMap = new HashMap<>();
+			outputMap.put(1, "ULME_MEMBER_ID");
+			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
+			memberNumberList =  generalClaimsDao.getSearchDataList(GENERAL_QUERIES_GET_MEMBER_NUMBERS, inputMap, outputMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return memberNumberList;
 	}
 
 	@Override
-	public List<String> getPolicyNumberList(String compId,String policyNumber) throws DAOException {
-		List<String> policyNumbers = generalClaimsDao.getPolicyNumbersList(compId, policyNumber);
-		return policyNumbers;
+	public ObjectNode getPolicyNumberList(ObjectNode paramMap) throws DAOException {
+		ObjectNode memberNumberList = null;
+		try {
+			Map<Integer, String> outputMap = new HashMap<>();
+			outputMap.put(1, "ILM_NO");
+			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
+			memberNumberList =  generalClaimsDao.getSearchDataList(GENERAL_QUERIES_GET_MEMBER_NUMBERS, inputMap, outputMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return memberNumberList;
 	}
 
 	@Override
-	public List<String> getEncounterTypes(String compId) throws DAOException {
-		List<String> encounterTypes = generalClaimsDao.getEncounterTypes(compId);
-		return encounterTypes;
+	public ObjectNode getUIDefinitionList(String definition,ObjectNode paramMap) throws DAOException {
+		return generalClaimsDao.getUIDataListForDefinition(definition,paramMap);
 	}
 
-	@Override
-	public List<String> getRequestTypes(String compId) throws DAOException {
-		List<String> requestTypes = generalClaimsDao.getRequestTypes(compId);
-		return requestTypes;
-	}
-
-	@Override
-	public List<String> getReportByTypes(String compId) throws DAOException {
-		List<String> reportByTypes = generalClaimsDao.getReportByTypes(compId);
-		return reportByTypes;
-	}
-
-	@Override
-	public List<String> getPaymentTypes(String compId) throws DAOException {
-		List<String> paymentTypes = generalClaimsDao.getPaymentTypes(compId);
-		return paymentTypes;
-	}
-
-	@Override
-	public List<String> getDocumentTypes(String compId) throws DAOException {
-		List<String> documentTypes = generalClaimsDao.getDocumentTypes(compId);
-		return documentTypes;
-	}
 
 	
 }
