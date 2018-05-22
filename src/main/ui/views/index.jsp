@@ -160,7 +160,7 @@
                 <div uib-accordion-group class="panel-default" is-open="true">
                     <uib-accordion-heading> Medical Claims </uib-accordion-heading>
                     <uib-accordion close-others="true">
-                        <div uib-accordion-group class="panel-default child-panel" is-open="true">
+                        <div uib-accordion-group class="panel-default child-panel">
                             <uib-accordion-heading> <h3>E-Claims</h3> </uib-accordion-heading>
                             <h4 ui-sref="eclaim-batch">Batch</h4>
                             <h4 ui-sref="eclaims-user-assignment">User Assignment</h4>

@@ -29,37 +29,37 @@
 
 	<context:component-scan base-package="com.beyon.medical" />
 
-	<bean id="dataSource0021" class="org.apache.tomcat.jdbc.pool.DataSource"
+	<bean id="dataSourcegm" class="org.apache.tomcat.jdbc.pool.DataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="${beyon.0021.database.url}" />
-		<property name="username" value="${beyon.0021.database.user}" />
-		<property name="password" value="${beyon.0021.database.password}" />
+		<property name="url" value="${beyon.gm.database.url}" />
+		<property name="username" value="${beyon.gm.database.user}" />
+		<property name="password" value="${beyon.gm.database.password}" />
 		<property name="initialSize" value="${beyon.database.initialSize}" />
 		<property name="maxActive" value="${beyon.database.activeConn}" />
 		<property name="maxIdle" value="${beyon.database.maxIdle}" />
 		<property name="minIdle" value="${beyon.database.minIdle}" />
 		<property name="defaultAutoCommit" value="false" />
 		<property name="testOnBorrow" value="${beyon.database.testOnBorrow}" />
-		<property name="validationQuery" value="${beyon.0021.database.validation.query}" />
+		<property name="validationQuery" value="${beyon.gm.database.validation.query}" />
 	</bean>
 
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="10000000" />
 	</bean>
-	<bean id="txManager0021"
+	<bean id="txManagergm"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource0021" />
+		<property name="dataSource" ref="dataSourcegm" />
 	</bean>
 
-	<bean id="jdbcTemplate0021" class="org.springframework.jdbc.core.JdbcTemplate">
-		<property name="dataSource" ref="dataSource0021" />
+	<bean id="jdbcTemplategm" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSourcegm" />
 	</bean>
 
-	<bean id="namedJdbcTemplate0021"
+	<bean id="namedJdbcTemplategm"
 		class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
-		<constructor-arg ref="dataSource0021" />
+		<constructor-arg ref="dataSourcegm" />
 	</bean>
 
 </beans>
