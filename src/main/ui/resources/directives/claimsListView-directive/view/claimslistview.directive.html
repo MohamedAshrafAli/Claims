@@ -6,7 +6,7 @@
 <div class="tab-content" id="resultTabContent">
     <div class="tab-pane fade active show" role="tabpanel">
         <div class="row">
-            <div class="col-sm-11">
+            <div class="col-sm-10">
                 <div class="text-right">
                     <font size="2">Sort :</font>
                     <select class="custom-select innerFilterSortBy" ng-change="sortByValue()" ng-model="sortBy">
@@ -15,8 +15,8 @@
                     </select>
                 </div>
             </div>
-            <div class="col-sm-1">
-                <div ng-click="selectAllClaims()" class="align-middle selectline outline-none"><a href="javascript:void(0);" id="selectAll" style="font-size:75%;">{{selectAll ? 'De-SelectAll' : 'Select All'}}</a></div>
+            <div class="col-sm-2">
+                <div ng-click="selectAllClaims()" class="align-middle selectline outline-none"><a href="javascript:void(0);" id="selectAll" style="font-size:75%;float:right;padding-right:8px">{{selectAll ? 'De-SelectAll' : 'Select All'}}</a></div>
             </div>
         </div>
         <table class="table">
