@@ -7,7 +7,9 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-11 p-0">
-                        <my-search-box search-info="fieldsObject" search-auto="registeredClaims" search-text="searchValue" callback="filterValues(data)"></my-search-box>
+                        <div class="searchBarRow reimbListTabl" style="display: block">
+                            <my-search-box search-info="fieldsObject" search-auto="registeredClaims" callback="filterValues(data)" is-buttons-text="true" buttons-class="reg-search-btns"></my-search-box>
+                        </div>                            
                     </div>
                     <div class="col-1 p-0">
                         <a href="javascript:void(0);" class="btn btn-primary createNewBtn float-right mt-3 ml-4" ui-sref="reimbursement-registration-new">Register</a>

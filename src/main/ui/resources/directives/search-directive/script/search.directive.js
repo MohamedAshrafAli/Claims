@@ -15,7 +15,9 @@
                     searchInfo: '=',
                     dropDown: '=',
                     searchAuto: '=',
-                    callback: '&'
+                    callback: '&',
+                    isButtonsText: '@',
+                    buttonsClass: '@'
                 },
                 controller: function ($scope) {
 

@@ -58,7 +58,6 @@ section {
     height: calc( 100% - 79px);
     position: relative;
     overflow: auto;
-    overflow-x:hidden;
 }
 
 .regLeftContainer {
@@ -68,15 +67,10 @@ section {
 .leftContainer {
     position: absolute;
     top: 15px;
-    left: 10px;
-    right: 10px;
+    left: -5px;
+    right: 15px;
     bottom: 20px;
 } 
-
-.leftContainer-search {
-    padding-left: 15px;
-    padding-top: 15px;
-}
 
 .withRightContainer .leftContainer {
     right: 560px;
@@ -95,9 +89,12 @@ section {
 }
 
 .searchBar {
+    border: 1px solid #d3d7df;
     background: #fff;
     display: table;
     width: 100%;
+    -webkit-box-shadow: 0 0 3px 1px #d3d8de;
+    box-shadow: 0 0 3px 1px #d3d8de;	
 }
 
 .searchBarRow {
@@ -150,12 +147,6 @@ section {
 
 .searchColm input:focus {
     outline: none;
-}
-
-.searchColm:last-child {
-     width: 130px !important; 
-    /* width: 50% !important;
-    padding-top: 10px; */
 }
 
 .inputFilled label {
@@ -1691,8 +1682,6 @@ footer {
 }
 .regfont{
     font-size:14px;
-    padding-right: 12px; 
-    padding-left: 12px;
 }
 .leftreg {
     position: absolute;
@@ -1727,7 +1716,15 @@ footer {
     margin-top: 0.5% !important;
     margin-right: 0% !important;
 }
-
+.searchBarRow md-autocomplete md-input-container{		
+    margin: 0px;		
+}		
+.searchBarRow md-autocomplete .md-show-clear-button button {		
+    top: 0px;		
+}		
+.searchBarRow md-autocomplete md-input-container .md-input {		
+    border: none !important;		
+}
 .nav-item:focus {
     outline: none;
 }
@@ -1743,7 +1740,7 @@ footer {
     white-space: nowrap;
 }
 
-.md-datepicker-input-container {
+.claimRequestDetInner .md-datepicker-input-container {
     width: 60% !important;
 }
 
@@ -1831,11 +1828,6 @@ a {
     padding-left:20px;
     padding-right:20px;
 }
-
-.suja{
-    -webkit-appearance: button-bevel;
-}
-
 .truncate .md-input {
     width: 65% !important;
     text-overflow: ellipsis;
@@ -1890,4 +1882,32 @@ a {
 .batchCustCheckboxBtnSected {
     width: 23px !important; 
     height: 24px !important;
+}
+.autoSearch {
+    width:80%;
+    top: 0;
+    left: 7px;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    margin-left: 15px;
+    float: left;
+}
+
+.searchAutoIcon {
+    margin-top: 36px;
+    padding-left:5px;
+}
+.searchCol-bl {
+    border-left: 1px solid #e6e6e6;
+}
+.searchCol-relative-pos{
+    position: relative;
+}
+.reg-search-btns {
+    width: 90% !important
+}
+.user-assignment-btns {
+    width: 50% !important;
+    padding-top:10px;
 }

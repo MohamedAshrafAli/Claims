@@ -16,7 +16,7 @@
                     link: function(scope, element, attrs) {
                         
                         scope.filteredRecords = [];
-                        scope.reverse = false;
+                        scope.reverse = true;
 
                         scope.sortBy = function(fieldName) {
                             scope.reverse = (scope.fieldName === fieldName) ? !scope.reverse : false;
