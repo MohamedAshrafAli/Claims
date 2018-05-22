@@ -135,10 +135,10 @@
 
         this.getSearchFields = function() {
             return [
-                { label : 'Provider', type :'text', name: 'PaidToProviderCode'},
-                { label : 'Select Batch', type: 'text', name: 'PaidTo'},
-                { label : 'Batch ID ', type: 'text', name: 'batch'},
-                { label : 'Batch File Name ', type: 'text', name: 'batchFileName'}
+                { label : 'Provider', type :'text', name: 'PaidToProviderCode', width:'90%'},
+                { label : 'Select Batch', type: 'text', name: 'PaidTo', width:'90%'},
+                { label : 'Batch ID ', type: 'text', name: 'batch', width:'90%'},
+                { label : 'Batch File Name ', type: 'text', name: 'batchFileName', width:'90%'}
             ];
         }
     }
