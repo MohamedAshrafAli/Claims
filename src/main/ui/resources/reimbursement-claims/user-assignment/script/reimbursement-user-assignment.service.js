@@ -528,12 +528,12 @@
 
         this.getSearchFields = function() {
             return [
-                { label: 'Member Number', type: 'text', name: 'memberNo'},
-                { label: 'Claim Number', type: 'text', name: 'cliamNumber'},
-                { label: 'Approved By', type: 'autoSearch', name: 'name'},
-                { label: 'Request Recevied From', type: 'date', name: 'receviedFrom'},
-                { label: 'Request Recevied To', type: 'date', name: 'receviedTo'},
-                { label: 'Assigned User', type: 'autoSearch', name: 'name'}
+                { label: 'Member Number', type: 'text', name: 'memberNo', width:'100%'},
+                { label: 'Claim Number', type: 'text', name: 'cliamNumber', width:'100%'},
+                { label: 'Approved By', type: 'autoSearch', name: 'name', width: '135%', iconClass:'searchAutoIcon', class: 'searchCol-relative-pos', autoCompleteClass:'autoSearch'},
+                { label: 'Request Recevied From', type: 'date', name: 'receviedFrom', width: '175%'},
+                { label: 'Request Recevied To', type: 'date', name: 'receviedTo', width: '170%'},
+                { label: 'Assigned User', type: 'autoSearch', name: 'name', width: '135%', iconClass:'searchAutoIcon', class: 'searchCol-relative-pos', autoCompleteClass:'autoSearch'}
             ];
         }
     }

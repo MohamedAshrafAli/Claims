@@ -267,11 +267,11 @@
 
         this.getSearchFields = function() {
             return [
-                { label: 'Card Number', type: 'autoSearch', name: 'memberNumber'},
-                { label: 'Member Name', type: 'autoSearch', name: 'memberName'},
-                { label: 'Emirates  Id', type: 'text', name: 'emiratesId'},
-                { label: 'Voucher  Number', type: 'text', name: 'voucherNumber'},
-                { label: 'Policy Number', type: 'autoSearch', name: 'policyNumber'}
+                { label: 'Card Number', type: 'autoSearch', name: 'memberNumber', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos'},
+                { label: 'Member Name', type: 'autoSearch', name: 'memberName', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos'},
+                { label: 'Emirates  Id', type: 'text', name: 'emiratesId', width:'90%'},
+                { label: 'Voucher  Number', type: 'text', name: 'voucherNumber', width:'90%'},
+                { label: 'Policy Number', type: 'autoSearch', name: 'policyNumber', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos'}
             ];
         }
     }

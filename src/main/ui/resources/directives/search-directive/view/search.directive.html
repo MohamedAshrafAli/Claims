@@ -1,40 +1,44 @@
-<div class="searchBar">
-    <div class="searchBarRow">
-        <md-grid-list md-cols='{{searchInfo.length+1}}' md-gutter='0px' md-row-height='60px' style='width:100%;'>
-            <md-grid-tile ng-repeat='x in searchInfo' style='border-left: 1px solid #e6e6e6;width: 194% !important;'>
-                <md-input-container flex-gt-sm ng-if="x.type == 'text'">
-                    <label>{{x.label}}</label>
-                    <input ng-model="search[x.name]">
-                </md-input-container>
-                <md-input-container flex-gt-sm ng-if="x.type == 'dropDown'">
-                    <label>{{x.label}}</label>
-                    <md-select ng-model='search[x.name]'>
-                        <md-option ng-repeat='s in dropDown' value="{{s.text}}">{{s.text}}</md-option>
-                    </md-select>
-                </md-input-container>
-                <md-input-container ng-if="x.type == 'date'">
-                    <label>{{x.label}}</label>
-                    <md-datepicker class="icon" ng-keyup="clearDatepickerKeyupValue($event)" ng-model="search[x.name]" md-hide-icons="triangle"
-                        md-open-on-focus></md-datepicker>
-                </md-input-container>
-                <div flex-gt-sm ng-if="x.type == 'autoSearch'" style="margin-top: -10px;">
-                    <md-icon style='margin-top: 46px; padding-left:5px;'>
-                        <i class='oi align-middle' data-glyph='magnifying-glass'></i>
-                    </md-icon>
-                    <md-autocomplete flex-gt-sm style="width:80%; top: 0; left: 7px; bottom: 0; right: 0; position: absolute; margin-left: 15px; float: left; margin-top:10px;"
-                        md-selected-item='search[x.name]' md-search-text='approvedSearchText' md-items='item in querySearch(approvedSearchText, x.name)'
-                        md-item-text='item[x.name]' md-floating-label='{{x.label}}' md-clear-button='true'>
-                        <md-item-template>
-                            <span md-highlight-text='approvedSearchText'>{{item[x.name]}}</span>
-                        </md-item-template>
-                        <md-not-found>No Result Found</md-not-found>
-                    </md-autocomplete>
-                </div>
-            </md-grid-tile>
-            <md-grid-tile style='border-left: 1px solid #e6e6e6;width: 194% !important;'>
-                <a ng-click="doSearch()" class="searBtn searBtnWithText mt-3 ml-3 mr-3 align-middle">Search</a>
-                <a ng-click="clearSearch()" class="searBtn searBtnWithText mt-3 ml-3 mr-3 align-middle">Clear</a>
-            </md-grid-tile>
-        </md-grid-list>
+<div layout-gt-sm="row">
+    <div ng-repeat='x in searchInfo' class="searchCol-bl" ng-class="x.class" ng-style="{'width' : x.width}">
+        <md-input-container flex-gt-sm ng-if="x.type == 'text'">
+            <label>{{x.label}}</label>
+            <input ng-model="search[x.name]">
+        </md-input-container>
+        <md-input-container flex-gt-sm ng-if="x.type == 'dropDown'">
+            <label>{{x.label}}</label>
+            <md-select ng-model='search[x.name]'>
+                <md-option ng-repeat='s in dropDown' value="{{s.text}}">{{s.text}}</md-option>
+            </md-select>
+        </md-input-container>
+        <md-input-container ng-if="x.type == 'date'">
+            <label>{{x.label}}</label>
+            <md-datepicker class="icon" ng-keyup="clearDatepickerKeyupValue($event)" ng-model="search[x.name]" md-hide-icons="triangle"
+                md-open-on-focus></md-datepicker>
+        </md-input-container>
+        <md-icon ng-class="x.iconClass" ng-if="x.type == 'autoSearch'">
+            <i class='oi align-middle' data-glyph='magnifying-glass'></i>
+        </md-icon>
+        <md-autocomplete flex-gt-sm ng-class="x.autoCompleteClass" ng-if="x.type == 'autoSearch'"
+            md-selected-item='search[x.name]' md-search-text='approvedSearchText' md-items='item in querySearch(approvedSearchText, x.name)'
+            md-item-text='item[x.name]' md-floating-label='{{x.label}}' md-clear-button='true'>
+            <md-item-template>
+                <span md-highlight-text='approvedSearchText'>{{item[x.name]}}</span>
+            </md-item-template>
+            <md-not-found>No Result Found</md-not-found>
+        </md-autocomplete>
+    </div>
+    <div class="searchColm align-middle text-center" ng-class="buttonsClass" ng-if="isButtonsText == 'true'">
+        <a ng-click="doSearch()" class="searBtn searBtnWithText mt-3 ml-3 mr-3 align-middle">
+            <span class="oi align-middle" data-glyph="magnifying-glass"></span> Search
+        </a>
+        <a ng-click="clearSearch()" class="searBtn searBtnWithText mt-3 ml-3 mr-3 align-middle">Clear</a>
+    </div>
+    <div class="searchColm align-middle text-center" ng-class="buttonsClass" ng-if="isButtonsText == 'false'">
+        <a ng-click="doSearch()" href="javascript:;" class="searBtn mt-1 ml-3 mr-3 align-middle">
+            <span class="oi align-middle" data-glyph="magnifying-glass"></span>
+        </a>
+        <a ng-click="clearSearch()" href="javascript:;" class="searBtn mt-1 ml-3 mr-3 align-middle">
+            <span class="oi align-middle" data-glyph="x"></span>
+        </a>
     </div>
 </div>
