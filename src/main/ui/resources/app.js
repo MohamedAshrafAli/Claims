@@ -187,6 +187,12 @@ angular
                 }
             })
 
+            .state('provider-paper-finalization', {
+                url: "/provider-paper-finalization",
+                templateUrl: "resources/provider-paper/finalization/view/provider-paper-finalization.html",
+                controller: 'ProviderFinalizationController'
+            })
+
             .state('provider-paper-processing', {
                 url: "/provider-paper-processing",
                 templateUrl: "resources/provider-paper/processing/view/provider-paper-processing.html",

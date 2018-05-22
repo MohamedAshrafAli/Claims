@@ -122,9 +122,9 @@
 
         this.getSearchFields = function() {
             return [
-                { label : 'Payment Reference', type :'text', name: 'payRef', class: 'col-sm-3'},
-                { label : 'Payment Way', type: 'dropDown', name: 'payWay', class: 'col-sm-3'},
-                { label : 'Claim Number', type: 'text', name: 'claimNumber', class: 'col-sm-3'}
+                { label : 'Payment Reference', type :'text', name: 'payRef', width: '80%'},
+                { label : 'Payment Way', type: 'dropDown', name: 'payWay', width: '80%'},
+                { label : 'Claim Number', type: 'text', name: 'claimNumber', width: '80%'}
             ];
         }
     }
