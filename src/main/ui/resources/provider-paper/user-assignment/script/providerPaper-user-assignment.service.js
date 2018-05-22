@@ -108,19 +108,18 @@
 
         this.getSearchFields = function() {
             return [
-                { label: 'Provider', type: 'text', name: 'provider'},
-                //{ label: 'Select Batch', type: 'text', name: 'selectBatch'},
-                { label: 'Batch Id', type: 'text', name: 'batchId'}
-                //{ label: 'Batch File Name', type: 'text', name: 'batchFileName'},
-                //{ label: 'Received Date From', type: 'date', name: 'receivedDateFrom'},
-                //{ label: 'Received Date To', type: 'date', name: 'receivedDateTo'},
-               // { label: 'Cheque Period From', type: 'date', name: 'chequePeriodFrom'},
-               // { label: 'Cheque Period To', type: 'date', name: 'chequePeriodTo'},
-               // { label: 'Transaction Date from', type: 'date', name: 'transactionDatefrom'},
-               // { label: 'Transaction Date To', type: 'date', name: 'transactionDateTo'},
-                //{ label : 'Status', type: 'dropDown', name: 'status', dropDownValue: this.getSearchDropDownValues()},
-                //{ label : 'Regulator', type: 'dropDown', name: 'regulator', dropDownValue: this.getSearchDropDownValuesRegulator()},
-                //{ label: 'User Id', type: 'text', name: 'userId'},
+                { label: 'Provider', type: 'text', name: 'provider',width: '50%'},
+                { label: 'Batch Id', type: 'text', name: 'batchId', width: '50%'},
+                { label: 'Batch File Name', type: 'text', name: 'batchFileName', width: '80%'},
+                { label: 'Received Date From', type: 'date', name: 'receivedDateFrom', width: '100%'},
+                { label: 'Received Date To', type: 'date', name: 'receivedDateTo', width: '90%'},
+            //    { label: 'Cheque Period From', type: 'date', name: 'chequePeriodFrom', width: '80%'},
+            //    { label: 'Cheque Period To', type: 'date', name: 'chequePeriodTo', width: '80%'},
+            //    { label: 'Transaction Date from', type: 'date', name: 'transactionDatefrom', width: '80%'},
+            //    { label: 'Transaction Date To', type: 'date', name: 'transactionDateTo', width: '80%'},
+            //     { label : 'Status', type: 'dropDown', name: 'status', dropDownValue: this.getSearchDropDownValues(), width: '80%'},
+            //     { label : 'Regulator', type: 'dropDown', name: 'regulator', dropDownValue: this.getSearchDropDownValuesRegulator(), width: '80%'},
+                { label: 'User Id', type: 'text', name: 'userId', width: '50%'},
             ];
         }
     }
