@@ -128,7 +128,7 @@
         </header>
         <nav id="navbar" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" ng-class="{'menu-open' : navbar}">
             <uib-accordion close-others="true">
-                <div uib-accordion-group class="panel-default" is-open="true">
+                <div uib-accordion-group class="panel-default">
                     <uib-accordion-heading> Transaction </uib-accordion-heading>
                     <h3>Underwriting</h3>
                     <h3>Reinsurance</h3>
@@ -155,7 +155,7 @@
                         <h3>TPA Claims Import Mapping</h3>
                     </span>
                 </div>
-                <div uib-accordion-group class="panel-default">
+                <div uib-accordion-group class="panel-default" is-open="true">
                     <uib-accordion-heading> Medical Claims </uib-accordion-heading>
                     <uib-accordion close-others="true">
                         <div uib-accordion-group class="panel-default child-panel" is-open="true">
