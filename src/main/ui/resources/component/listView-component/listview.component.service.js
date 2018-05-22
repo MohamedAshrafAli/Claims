@@ -21,6 +21,7 @@
                     {'label': 'Service From Date', 'fieldName' : 'serviceFmDate', 'redirectable' : false, type:"date"}
                 ];
             }
+
             this.getRemittanceListViewHeader = function() {
                 return [
                     {'label': 'Batch Id', 'fieldName' : 'batchId', 'redirectable' : false},
@@ -30,6 +31,18 @@
                     {'label': 'Provider License ', 'fieldName' : 'providerLicense', 'redirectable' : false},
                     {'label': 'Provider Name', 'fieldName' : 'providerName', 'redirectable' : false},
                     {'label': 'Remittance Upload Date', 'fieldName' : 'remittanceUploadDate', 'redirectable' : false,type:"date"},
+                ];
+            }
+
+            this.getPreAuthorizationRegistrationListViewHeader = function() {
+                return [
+                    {'label': 'Member Number', 'fieldName' : 'memberNumber', 'redirectable' : false},
+                    {'label': 'Member Name', 'fieldName' : 'memberName', 'redirectable' : false},
+                    {'label': 'Policy Number', 'fieldName' : 'policyNumber', 'redirectable' : false},
+                    {'label': 'Provider Name', 'fieldName' : 'providerName', 'redirectable' : false},
+                    {'label': 'Claim Type', 'fieldName' : 'claimType', 'redirectable' : false},
+                    {'label': 'Fax Number', 'fieldName' : 'faxNumber', 'redirectable' : false},
+                    {'label': 'Request Received Date', 'fieldName' : 'reqReceivedDate', 'redirectable' : false, type:"date"}
                 ];
             }
 

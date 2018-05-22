@@ -217,6 +217,18 @@ angular
                 controller: 'PreAuthorizationRemittanceController'
             })
 
+            .state('pre-authorization-registration', {
+                url: "/pre-authorization-registration",
+                templateUrl:"resources/pre-authorization/registration/view/pre-authorization-registration.html",
+                controller: 'PreAuthorizationRegistrationController',
+                resolve: {
+                    translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
+                        $translatePartialLoader.addPart('registration');
+                        return $translate.refresh();
+                    }]
+                }
+            })
+
             
         $urlRouterProvider.otherwise("/");    
     }
