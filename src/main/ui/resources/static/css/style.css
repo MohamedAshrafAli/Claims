@@ -1904,10 +1904,6 @@ a {
 .searchCol-relative-pos{
     position: relative;
 }
-.reg-search-btns {
-    width: 90% !important
-}
-.user-assignment-btns {
-    width: 50% !important;
+.search-btns {
     padding-top:10px;
 }

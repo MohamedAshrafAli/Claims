@@ -106,6 +106,8 @@
         <script src="<s:url value="resources/provider-paper/user-assignment/script/providerPaper-user-assignment.service.js"/>"></script>
         <script src="<s:url value="resources/provider-paper/processing/script/provider-paper-processing.controller.js"/>"></script>
         <script src="<s:url value="resources/provider-paper/processing/script/provider-paper-processing.service.js"/>"></script>
+        <script src="<s:url value="resources/provider-paper/finalization/script/provider-paper-finalization.controller.js"/>"></script>
+        <script src="<s:url value="resources/provider-paper/finalization/script/provider-paper-finalization.service.js"/>"></script>
     
         <!-- Pre Authorization -->
         <script src="<s:url value="resources/pre-authorization/user-assignment/script/preAuthorization-user-assignment.controller.js"/>"></script>
@@ -181,6 +183,7 @@
                             <uib-accordion-heading> <h3>Provider Paper Claims</h3> </uib-accordion-heading>
                             <h4 ui-sref="provider-paper-batch">Batch</h4>
                             <h4 ui-sref="provider-paper-user-assignment">User Assignment</h4>
+                            <h4 ui-sref="provider-paper-finalization"> Finalization</h4>
                         </div>
                         <div uib-accordion-group class="panel-default child-panel">
                             <uib-accordion-heading> <h3>Pre-Authorization</h3> </uib-accordion-heading>
