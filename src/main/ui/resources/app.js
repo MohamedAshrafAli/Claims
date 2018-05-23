@@ -12,11 +12,13 @@ angular
         'ngMaterial',
         'ui.bootstrap',
         'ngNotify',
-        'pascalprecht.translate'
+        'pascalprecht.translate',
+        'ngResource'
     ])
     .config(stateConfig)
     .config(translationConfig)
     .run(appConfig)
+    .constant('urlRoutePrefix',contextPath);
 
     stateConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
 
