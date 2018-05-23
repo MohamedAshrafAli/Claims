@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="claims">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -51,6 +51,7 @@
         <script src="<s:url value="resources/static/bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min.js"/>"></script>
         <script src="<s:url value="resources/static/bower_components/underscore/underscore-min.js"/>"></script>
         <script src="<s:url value="resources/static/lib/ui-bootstrap-tpls-3.0.3.min.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/angular-resource/angular-resource.min.js"/>"></script>
 
         <script src="<s:url value="resources/app.js"/>"></script>
         <!-- Components -->
@@ -60,6 +61,7 @@
         <!-- Directives -->
         <script src="<s:url value="resources/directives/grid-directive/script/grid-wrapper.directive.js"/>"></script>
         <script src="<s:url value="resources/util/pagination/pagination.directive.js"/>"></script>
+        <script src="<s:url value="resources/util/dropdown-autocomplete.service.js"/>"></script>
         <script src="<s:url value="resources/directives/claimsListView-directive/script/claimslistview.directive.js"/>"></script>
         <script src="<s:url value="resources/directives/claimsListView-directive/script/claimslistview.directive.service.js"/>"></script>
         <script src="<s:url value="resources/directives/finalization-directive/script/finalizationlistview.directive.js"/>"></script>
@@ -116,11 +118,11 @@
         <script src="<s:url value="resources/pre-authorization/remittance/script/pre-authorization-remittance.service.js"/>"></script>
         <script src="<s:url value="resources/pre-authorization/registration/script/pre-authorization-registration.controller.js"/>"></script>
         <script src="<s:url value="resources/pre-authorization/registration/script/pre-authorization-registration.service.js"/>"></script>
-        <script src="<s:url value="resources/pre-authorization/processing/script/pre-authorization-processing.controller.js"/>"></script>
-        <script src="<s:url value="resources/pre-authorization/processing/script/pre-authorization-processing.service.js"/>"></script>
+        <!-- <script src="<s:url value="resources/pre-authorization/processing/script/pre-authorization-processing.controller.js"/>"></script>
+        <script src="<s:url value="resources/pre-authorization/processing/script/pre-authorization-processing.service.js"/>"></script> -->
     
     </head>
-    <body ng-app="claims">
+    <body >
         <header class="clearfix">
             <div class="">
                 <span class="float-left" ng-click="navbar = !navbar"><i class="fa fa-bars toggle-menu menu-left"></i></span>

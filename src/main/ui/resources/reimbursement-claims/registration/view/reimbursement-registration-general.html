@@ -128,8 +128,7 @@
                         <md-input-container flex-gt-sm>
                             <label class="focuslabel">Encounter Type</label>
                             <md-select name="EncounterType" ng-model="regDetail.encType">
-                                <md-option value="inPatient">In Patient</md-option>
-                                <md-option value="outPatient">Out Patient</md-option>
+                                <md-option value="{{option.id}}" ng-repeat="option in encounterTypes">{{option.value}}</md-option>
                             </md-select>
                         </md-input-container>
                     </div>
