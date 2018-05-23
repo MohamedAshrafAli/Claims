@@ -37,7 +37,7 @@
                 <tr ng-if="!registerNew">
                     <th scope="col">Member Name</th>
                     <th scope="col">Mobile Number</th>
-                    <th scope="col">Service From Date</th>
+                    <th scope="col">Previous Request</th>
                     <th scope="col">Encounter Type</th>
                     <th scope="col">Request received date</th>
                     <th scope="col">&nbsp;</th>
@@ -54,7 +54,7 @@
                 <tr ng-repeat="claim in searchedList | limitTo:5" ng-if="!registerNew">
                     <td>{{claim.memberName}}</td>
                     <td>{{claim.mobileNum1}}</td>
-                    <td>{{claim.serviceFmDate | date:'mediumDate'}}</td>
+                    <td>{{claim.prevRequest}}</td>
                     <td>{{claim.encType}}</td>
                     <td>{{claim.reqReceivedDate | date:'mediumDate'}}</td>
                     <td class="text-right"><button type="button" class="btn btn-outline-primary btn-sm" ng-click="continue(claim)">Continue</button></td>
