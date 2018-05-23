@@ -212,11 +212,10 @@ angular
                     }]
                 }
             })
-
-            .state('pre-authorization-remittance', {
-                url: "/pre-authorization-remittance",
-                templateUrl:"resources/pre-authorization/remittance/view/pre-authorization-remittance.html",
-                controller: 'PreAuthorizationRemittanceController'
+            .state('pre-authorization-processing', {
+                url: "/pre-authorization-processing",
+                templateUrl:"resources/pre-authorization/processing/view/pre-authorization-processing.html",
+                controller: 'PreAuthorizationProcessingController'
             })
 
             .state('pre-authorization-registration', {

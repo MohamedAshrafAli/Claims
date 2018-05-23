@@ -279,7 +279,7 @@
                     <td ng-if="modelDir =='preAuthorizationAssignment'"> 
                         <div class="text-nowrap">
                             <span class="d-inline-block pr-2"><strong>Source: </strong>
-                                <a  href="javascript:void(0);"ng-click="redirectTo(navigateTo);">#{{claim.Source}}</a>
+                                {{claim.Source}}
                             </span>
                             <span class="d-inline-block pr-2">
                                 <strong>Member Name: {{claim.memberName}}</strong>
@@ -291,7 +291,7 @@
                         </div>
                         <div class="text-nowrap">
                             <span class="d-inline-block pr-2"><strong>Provider Code: </strong>
-                                <a  class="currencyTypeCustom">#{{claim.providerCode}}</a>
+                                <a href="javascript:void(0);" class="currencyTypeCustom" ng-click="redirectTo(navigateTo);">#{{claim.providerCode}}</a>
                             </span>
                             <span class="d-inline-block pr-2">
                                 <strong>Provider Name: {{claim.providerName}}</strong>
