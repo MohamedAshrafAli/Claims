@@ -217,7 +217,6 @@ angular
                 templateUrl:"resources/pre-authorization/processing/view/pre-authorization-processing.html",
                 controller: 'PreAuthorizationProcessingController'
             })
-
             .state('pre-authorization-registration', {
                 url: "/pre-authorization-registration",
                 templateUrl:"resources/pre-authorization/registration/view/pre-authorization-registration.html",
@@ -228,6 +227,11 @@ angular
                         return $translate.refresh();
                     }]
                 }
+            })
+            .state('pre-authorization-remittance', {
+                url: "/pre-authorization-remittance",
+                templateUrl:"resources/pre-authorization/remittance/view/pre-authorization-remittance.html",
+                controller: 'PreAuthorizationRemittanceController'
             })
 
             

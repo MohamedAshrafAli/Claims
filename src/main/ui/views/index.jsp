@@ -118,6 +118,8 @@
         <script src="<s:url value="resources/pre-authorization/remittance/script/pre-authorization-remittance.service.js"/>"></script>
         <script src="<s:url value="resources/pre-authorization/processing/script/pre-authorization-processing.controller.js"/>"></script>
         <script src="<s:url value="resources/pre-authorization/processing/script/pre-authorization-processing.service.js"/>"></script>
+        <script src="<s:url value="resources/pre-authorization/registration/script/pre-authorization-registration.controller.js"/>"></script>
+        <script src="<s:url value="resources/pre-authorization/registration/script/pre-authorization-registration.service.js"/>"></script>
     
     </head>
     <body >
