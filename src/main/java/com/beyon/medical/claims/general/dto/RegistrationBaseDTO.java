@@ -1,16 +1,19 @@
 package com.beyon.medical.claims.general.dto;
 
+import java.time.LocalDate;
+
 public class RegistrationBaseDTO {
 	private String memberName;
-	private Integer mobileNum1;
-	private Integer mobileNum2;
+	private String mobileNum1;
+	private String mobileNum2;
 	private String email1;
 	private String email2;
 	private String policyNumber;
 	private String memberNumber;
+	private String memberCardNumber;
 	private String encType;
 	private String reqType;
-	private String reqReceivedDate;
+	private LocalDate reqReceivedDate;
 	private String prevRequest;
 	private String source;
 	private String documentLink;
@@ -21,16 +24,16 @@ public class RegistrationBaseDTO {
 	public void setMemberName(String memberName) {
 		this.memberName = memberName;
 	}
-	public Integer getMobileNum1() {
+	public String getMobileNum1() {
 		return mobileNum1;
 	}
-	public void setMobileNum1(Integer mobileNum1) {
+	public void setMobileNum1(String mobileNum1) {
 		this.mobileNum1 = mobileNum1;
 	}
-	public Integer getMobileNum2() {
+	public String getMobileNum2() {
 		return mobileNum2;
 	}
-	public void setMobileNum2(Integer mobileNum2) {
+	public void setMobileNum2(String mobileNum2) {
 		this.mobileNum2 = mobileNum2;
 	}
 	public String getEmail1() {
@@ -69,10 +72,10 @@ public class RegistrationBaseDTO {
 	public void setReqType(String reqType) {
 		this.reqType = reqType;
 	}
-	public String getReqReceivedDate() {
+	public LocalDate getReqReceivedDate() {
 		return reqReceivedDate;
 	}
-	public void setReqReceivedDate(String reqReceivedDate) {
+	public void setReqReceivedDate(LocalDate reqReceivedDate) {
 		this.reqReceivedDate = reqReceivedDate;
 	}
 	public String getPrevRequest() {
@@ -92,5 +95,11 @@ public class RegistrationBaseDTO {
 	}
 	public void setDocumentLink(String documentLink) {
 		this.documentLink = documentLink;
+	}
+	public String getMemberCardNumber() {
+		return memberCardNumber;
+	}
+	public void setMemberCardNumber(String memberCardNumber) {
+		this.memberCardNumber = memberCardNumber;
 	}
 }

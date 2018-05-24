@@ -1,10 +1,12 @@
 package com.beyon.medical.claims.reimbursement.dto;
 
+import java.time.LocalDate;
+
 import com.beyon.medical.claims.general.dto.RegistrationBaseDTO;
 
-public class ReimbursementRegistrationDTO extends RegistrationBaseDTO{
+public class ReimbursementRegistrationDTO extends RegistrationBaseDTO {
 	private String voucherNumber;
-	private String serviceFmDate;
+	private LocalDate serviceFmDate;
 	private Integer requestAmt;
 	private String paymentWay;
 	private String ibanNum;
@@ -16,10 +18,10 @@ public class ReimbursementRegistrationDTO extends RegistrationBaseDTO{
 	public void setVoucherNumber(String voucherNumber) {
 		this.voucherNumber = voucherNumber;
 	}
-	public String getServiceFmDate() {
+	public LocalDate getServiceFmDate() {
 		return serviceFmDate;
 	}
-	public void setServiceFmDate(String serviceFmDate) {
+	public void setServiceFmDate(LocalDate serviceFmDate) {
 		this.serviceFmDate = serviceFmDate;
 	}
 	public Integer getRequestAmt() {
