@@ -25,11 +25,11 @@ public class MedicalClaimsUIController{
 	@Autowired
 	private MedicalClaimsUIServiceFacade uiServiceFacade;
 	
-	@GetMapping("/getMedicalCardNumbers")
-	public List<String> getMedicalCardNumbers(@RequestParam("compId") String compId,@RequestParam("cardNumber") String cardNumber) throws MedicalClaimsException {
-		List<String> cardNumbers = null;
+	@GetMapping("/getMedicalCardNumberList")
+	public  @ResponseBody ObjectNode getMedicalCardNumberList(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode cardNumbers = null;
 		try {
-			cardNumbers = uiServiceFacade.getMemberCardNumberList(compId,cardNumber);
+			cardNumbers = uiServiceFacade.getMemberCardNumberList(inputMap);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
@@ -48,7 +48,7 @@ public class MedicalClaimsUIController{
 	}
 	
 	
-	@GetMapping("/getPolicyNumberList")
+	@PostMapping("/getPolicyNumberList")
 	public  @ResponseBody ObjectNode getPolicyNumberList(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
 		ObjectNode policyNumbers = null;
 		try {
@@ -57,6 +57,51 @@ public class MedicalClaimsUIController{
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
 		return policyNumbers;
+	}
+	
+	@PostMapping("/getVoucherNumbers")
+	public  @ResponseBody ObjectNode getVoucherNumbers(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode voucherNumbers = null;
+		try {
+			voucherNumbers = uiServiceFacade.getVoucherNumberList(inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return voucherNumbers;
+	}
+	
+	@PostMapping("/getMemberNameList")
+	public  @ResponseBody ObjectNode getMemberNameList(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode memberNames = null;
+		try {
+			memberNames = uiServiceFacade.getMemberNameList(inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return memberNames;
+	}
+	
+	
+	@PostMapping("/getClaimsPolicyNumberList")
+	public  @ResponseBody ObjectNode getClaimsPolicyNumberList(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode policyNumbers = null;
+		try {
+			policyNumbers = uiServiceFacade.getClaimsPolicyNumberList(inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return policyNumbers;
+	}
+	
+	@PostMapping("/getEmiratesId")
+	public  @ResponseBody ObjectNode getEmiratesId(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode emiratesIds = null;
+		try {
+			emiratesIds = uiServiceFacade.getEmiratesId(inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return emiratesIds;
 	}
 	
 	@PostMapping("/getEncounterTypes")

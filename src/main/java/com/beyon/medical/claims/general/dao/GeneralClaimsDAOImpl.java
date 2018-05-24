@@ -4,11 +4,11 @@ import static com.beyon.framework.util.AppLogger.DEBUG;
 import static com.beyon.framework.util.AppLogger.ERROR;
 import static com.beyon.framework.util.AppLogger.writeLog;
 import static com.beyon.framework.util.Constants.INTERNAL_ERROR_OCCURED;
-import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.*;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_UID_DEFINITION_TYPES;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.springframework.context.annotation.Scope;
@@ -29,28 +29,35 @@ public class GeneralClaimsDAOImpl {
 
 	private final String CLASS_NAME = GeneralClaimsDAOImpl.class.getCanonicalName();
 
-	public List<String> getMedicalCardNumbers(String compId,String cardNumber) throws DAOException {
-		List<String> lstBrIds = null;
-		try {
-			JdbcTemplate jdbcTemplate = DAOFactory.getJdbcTemplate("gm");
-			lstBrIds = jdbcTemplate.queryForList(GENERAL_QUERIES_GET_CARD_NUMBERS, new Object[] { compId }, String.class);
-		} catch (Exception e) {
-			writeLog(CLASS_NAME, "Exception occured while executing getMedicalCardNumbers", ERROR, e);
-			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
-		}
-		return lstBrIds;
-	}
 
 	public ObjectNode getSearchDataList(String strQuery,Map<String, Object> inputMap,Map<Integer,String> outputMap) throws DAOException {
 		ObjectNode objectNode = FoundationUtils.createObjectNode();
 		try {
+			if(strQuery.contains("<RESULTSET>")) {
+				Iterator<Integer> mapIter = outputMap.keySet().iterator();
+				StringBuilder builder = new StringBuilder();
+				while (mapIter.hasNext()) {
+					Integer key = (Integer) mapIter.next();
+					builder.append(outputMap.get(key));
+					if(mapIter.hasNext()) 
+						builder.append(",");
+				}
+				strQuery = strQuery.replaceAll("<RESULTSET>", builder.toString());
+			}
 			NamedParameterJdbcTemplate namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
 			ArrayNode jsonArray = FoundationUtils.createArrayNode();
 			namedParameterJdbcTemplate.query(strQuery, inputMap , new RowCallbackHandler() {
 				@Override
 				public void processRow(ResultSet rs) throws SQLException {
 					ObjectNode objectNode = FoundationUtils.createObjectNode();
-					objectNode.put(outputMap.get(1), rs.getString(1));
+					outputMap.entrySet().forEach(entry -> {
+						try {
+							objectNode.put(entry.getValue(), rs.getString(entry.getKey()));
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+						
+					}); 
 					jsonArray.add(objectNode);
 				}
 			});
