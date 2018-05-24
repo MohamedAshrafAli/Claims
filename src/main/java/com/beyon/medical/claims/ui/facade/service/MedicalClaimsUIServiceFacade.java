@@ -7,10 +7,14 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public interface MedicalClaimsUIServiceFacade{
 	
-	List<String> getMemberCardNumberList(String compId,String cardNumber) throws DAOException;
 	ObjectNode getMemberNumberList(ObjectNode paramMap) throws DAOException;
 	ObjectNode getPolicyNumberList(ObjectNode paramMap) throws DAOException;
+	ObjectNode getVoucherNumberList(ObjectNode paramMap) throws DAOException;
 	ObjectNode getUIDefinitionList(String definition,ObjectNode paramMap) throws DAOException;
+	ObjectNode getMemberCardNumberList(ObjectNode paramMap) throws DAOException;
+	ObjectNode getMemberNameList(ObjectNode paramMap) throws DAOException;
+	ObjectNode getClaimsPolicyNumberList(ObjectNode paramMap) throws DAOException;
+	ObjectNode getEmiratesId(ObjectNode paramMap) throws DAOException;
 
-
+	
 }
