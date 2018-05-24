@@ -37,30 +37,33 @@
                 <tr ng-if="!registerNew">
                     <th scope="col">Member Name</th>
                     <th scope="col">Mobile Number</th>
-                    <th scope="col">Service From Date</th>
+                    <th scope="col">Previous Request</th>
                     <th scope="col">Encounter Type</th>
                     <th scope="col">Request received date</th>
                     <th scope="col">&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="claim in searchedList | limitTo:5" ng-if="registerNew">
+                <tr ng-repeat="claim in filteredRecords" ng-if="registerNew">
                     <td>{{claim.policyNumber}}</td>
                     <td>{{claim.memberNumber}}</td>
                     <td>{{claim.memberName}}</td>
                     <td>{{claim.reqReceivedDate | date:'mediumDate'}}</td>
                     <td class="text-right"><button type="button" class="btn btn-outline-primary btn-sm" ng-click="continue(claim)">Continue</button></td>
                 </tr>
-                <tr ng-repeat="claim in searchedList | limitTo:5" ng-if="!registerNew">
+                <tr ng-repeat="claim in filteredRecords" ng-if="!registerNew">
                     <td>{{claim.memberName}}</td>
                     <td>{{claim.mobileNum1}}</td>
-                    <td>{{claim.serviceFmDate | date:'mediumDate'}}</td>
+                    <td>{{claim.prevRequest}}</td>
                     <td>{{claim.encType}}</td>
                     <td>{{claim.reqReceivedDate | date:'mediumDate'}}</td>
                     <td class="text-right"><button type="button" class="btn btn-outline-primary btn-sm" ng-click="continue(claim)">Continue</button></td>
                 </tr>
             </tbody>
         </table>
+        <div class="col-sm-12">
+            <pagination records-to-display="6" records="searchedList" total-record-count="records.length" filtered-claims="filteredRecords"></pagination>
+        </div>
     </div>
     <div class="modal-footer justify-content-center b0 pt-0">
         <button type="button" class="btn btn-primary" ng-click="newClaim()" ng-if="!registerNew">Register new claim</button>

@@ -98,16 +98,16 @@
 
         this.getSearchFields = function() {
             return [
-                { label: 'Provider', type: 'text', name: 'provider'},
-                //{ label: 'XML File', type: 'text', name: 'xmlFile'},
-                //{ label: 'Batch Id', type: 'text', name: 'batchId'},
-                //{ label: 'Member No', type: 'text', name: 'batchFileName'},
-                //{ label: 'Received Date From', type: 'date', name: 'receivedDateFrom'},
-                //{ label: 'Received Date To', type: 'date', name: 'receivedDateTo'},
-                //{ label: 'Approved Date From', type: 'date', name: 'approvedFrom'},
-               // { label: 'Approved Date  To', type: 'date', name: 'approvedTo'},
-                //{ label : 'Status', type: 'dropDown', name: 'status', dropDownValue: this.getSearchDropDownValues()},
-                { label: 'User Id', type: 'text', name: 'userId'}
+                { label: 'Provider', type: 'text', name: 'provider', width:'50%'},
+                { label: 'XML File', type: 'text', name: 'xmlFile', width:'50%'},
+                { label: 'Batch Id', type: 'text', name: 'batchId', width:'50%'},
+                { label: 'Member No', type: 'text', name: 'batchFileName', width:'90%'},
+                { label: 'Received Date From', type: 'date', name: 'receivedDateFrom', width:'100%'},
+                { label: 'Received Date To', type: 'date', name: 'receivedDateTo', width:'100%'},
+                // { label: 'Approved Date From', type: 'date', name: 'approvedFrom', width:'90%'},
+                // { label: 'Approved Date  To', type: 'date', name: 'approvedTo', width:'90%'},
+                // { label : 'Status', type: 'dropDown', name: 'status', dropDownValue: this.getSearchDropDownValues(),width:'90%'},
+                // { label: 'User Id', type: 'text', name: 'userId', width:'90%'}
             ];
         }
     }

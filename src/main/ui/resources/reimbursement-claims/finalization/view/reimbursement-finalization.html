@@ -5,11 +5,11 @@
     <div class="leftContainer pl-20-pr-20">
         <div class="searchBar">
             <div class="searchBarRow">
-                <my-search-box is-buttons-text="true" buttons-class="reg-search-btns" search-info="fieldsObject" drop-down="dropDownValue" search-text="searchValue" callback="filterValues(data)"></my-search-box>
+                <my-search-box search-info="fieldsObject" drop-down="dropDownValue" search-text="searchValue" callback="filterValues(data)" btns-width="30%"></my-search-box>
             </div>    
         </div>
         <div class="contentPart pt-3 pb-3">
-            <finalization-list-view finalization-records="finalizationRecords" redirect-to="reimbursement-processing" finalize-selected-claims="finalizeSelectedClaims()" selected-claims="claimsToFinalize" rerender-view="rerenderView" search-by="searchBy"></finalization-list-view>
+            <finalization-list-view finalization-records="finalizationRecords" redirect-to="reimbursement-processing" finalize-selected-claims="finalizeSelectedClaims()" selected-claims="claimsToFinalize" rerender-view="rerenderView" search-by="searchBy" model-name="reimbursementFinalization"></finalization-list-view>
         </div>
     </div>
 </section>

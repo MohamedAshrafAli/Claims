@@ -1,0 +1,29 @@
+<!-- <nav class="navbar pt-1 pb-1">
+    <span class="navbar-brand p-0 m-0" ui-sref="reimbursement-registration">Finalization</span>
+</nav>
+<section>
+    <div class="leftContainer pl-20-pr-20">
+        <div>
+            <my-search-box search-info="fieldsObject" drop-down="dropDownValue" search-text="searchValue" btns-width="50%"></my-search-box>
+        </div>
+        <div class="contentPart pt-3 pb-3">
+            <finalization-list-view finalization-records="finalizationRecords" redirect-to="reimbursement-processing" finalize-selected-claims="finalizeSelectedClaims()" selected-claims="claimsToFinalize" rerender-view="rerenderView" search-by="searchBy" model-name="providerPaperFinalization"></finalization-list-view>
+        </div>
+    </div>
+</section> -->
+<nav class="navbar pt-1 pb-1">
+        <span class="navbar-brand p-0 m-0" ui-sref="reimbursement-registration">Finalization</span>
+    </nav>
+    <section>
+        <div class="leftContainer pl-20-pr-20">
+            <div class="searchBar">
+                <div class="searchBarRow">
+                    <my-search-box search-info="fieldsObject" drop-down="dropDownValue" search-text="searchValue" callback="filterValues(data)" btns-width="50%"></my-search-box>
+                </div>    
+            </div>
+            <div class="contentPart pt-3 pb-3">
+                <finalization-list-view finalization-records="finalizationRecords" redirect-to="reimbursement-processing" finalize-selected-claims="finalizeSelectedClaims()" selected-claims="claimsToFinalize" rerender-view="rerenderView" search-by="searchBy" model-name="providerPaperFinalization"></finalization-list-view>
+            </div>
+        </div>
+    </section>
+    

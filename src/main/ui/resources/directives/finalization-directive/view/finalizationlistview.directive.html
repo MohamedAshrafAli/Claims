@@ -18,12 +18,12 @@
                         </td>
                     </tr>
                     <tr ng-repeat="record in filteredClaims | orderBy: orderByField : reverseSort">
-                        <td class="align-middle">
+                        <td ng-if="modelName=='reimbursementFinalization'"class="align-middle">
                             <a href="javascript:void(0);" class="custSelectBtn" ng-class="{custSelectBtnSected : record.selected}" aria-label="Select" ng-click="record.selected = !record.selected;selectClaimToFinalize(record);">
                                 <span class="oi align-middle l-8" data-glyph="check"></span>
                             </a>
                         </td>
-                        <td>
+                        <td ng-if="modelName=='reimbursementFinalization'">
                             <div class="d-inline-block pr-2">Claim Number: 
                                 <span class="currencyTypeCustom">{{record.batch}}</span>
                             </div>
@@ -37,13 +37,13 @@
                                 </div>
                             </div>
                         </td>
-                        <td>
+                        <td ng-if="modelName=='reimbursementFinalization'">
                             <div class="text-nowrap">
                                 <span class="tablLal" style="display: contents !important;">Paid To:</span>
                                 <span class="tablCont">{{record.PaidTo}}</span>
                             </div>
                         </td>
-                        <td>
+                        <td ng-if="modelName=='reimbursementFinalization'">
                             <div class="text-nowrap">
                                 <strong class="tablLal tablLal1">{{record.status=="Approved" ? 'ApprovedAmount' : 'RejectedAmount'}}</strong>
                                 <strong>Rs.{{record.rejectedAmount}}</strong>
@@ -53,7 +53,7 @@
                                 <strong>{{record.paymentWay}}</strong>
                             </div>
                         </td>
-                        <td>
+                        <td ng-if="modelName=='reimbursementFinalization'">
                             <div class="text-nowrap">
                                 <strong class="tablLal tablLal1">Payment Date:</strong>
                                 <strong>{{record.paymentDate}} </strong>
@@ -63,7 +63,83 @@
                                 <strong>{{record.paymentReference}}</strong>
                             </div>
                         </td>
-                        <td class="text-right">
+                        <td ng-if="modelName=='reimbursementFinalization'" class="text-right">
+                            <div class="text-nowrap">
+                                Total Claims
+                                <h4>Rs.{{record.totalClaims}}</h4>
+                            </div>
+                        </td>
+                        <td ng-if="modelName=='providerPaperFinalization'" class="align-middle">
+                            <a href="javascript:void(0);" class="custSelectBtn" ng-class="{custSelectBtnSected : record.selected}" aria-label="Select" ng-click="record.selected = !record.selected;selectClaimToFinalize(record);">
+                                <span class="oi align-middle l-8" data-glyph="check"></span>
+                            </a>
+                        </td>
+                        <td ng-if="modelName=='providerPaperFinalization'">
+                            <div class="d-inline-block pr-2">Batch Id:
+                                <span class="currencyTypeCustom">{{record.batch}}</span>
+                            </div>
+                            <div class="text-nowrap clearfix">
+                                <span>Batch File Name :{{record.batchFileName}}</span>
+                            </div>
+                            <div class="text-nowrap clearfix">
+                                <span>Request Type: {{record.requestType}}</span>
+                            </div>
+                        </td>
+                        <td ng-if="modelName=='providerPaperFinalization'">
+                            <div class="text-nowrap">
+                                <span class="tablLal" style="display: contents !important;">Paid To:</span>
+                                <span class="tablCont">{{record.PaidTo}}</span>
+                            </div>
+                            <div class="text-nowrap">
+                                <span class="tablLal" style="display: contents !important;">Paid To Provider Code:</span>
+                                <span class="tablCont">{{record.PaidToProviderCode}}</span>
+                            </div>
+                            <div class="text-nowrap">
+                                <span class="tablLal" style="display: contents !important;">Paid To Provider Name:</span>
+                                <span class="tablCont">{{record.PaidToProviderName}}</span>
+                            </div>
+                        </td>
+                        <td ng-if="modelName=='providerPaperFinalization'">
+                            
+                            <div class="text-nowrap">
+                                <strong class="tablLal tablLal1">Processed:</strong>
+                                <strong>{{record.Processed}}</strong>
+                            </div>
+                            <div class="text-nowrap">
+                                <strong class="tablLal tablLal1">UnProcessed:</strong>
+                                <strong>{{record.unProcessed}}</strong>
+                            </div>
+                        </td>
+                        <td ng-if="modelName=='providerPaperFinalization'">
+                            
+                            <div class="text-nowrap">
+                                <strong class="tablLal tablLal1">Payment Way:</strong>
+                                <strong>{{record.paymentWay}}</strong>
+                            </div>
+                            <div class="text-nowrap">
+                                <strong class="tablLal tablLal1">Payment Reference:</strong>
+                                <strong>{{record.paymentReference}}</strong>
+                            </div>
+                            <div class="text-nowrap">
+                                <strong class="tablLal tablLal1">Payment Date:</strong>
+                                <strong>{{record.paymentDate}}</strong>
+                            </div>
+                        </td>
+                        <td ng-if="modelName=='providerPaperFinalization'">
+                            <div class="text-nowrap">
+                                <strong class="tablLal tablLal1">Rejected Amount:</strong>
+                                <strong>{{record.rejectedAmount}} </strong>
+                            </div>
+                            <div class="text-nowrap">
+                                <strong class="tablLal tablLal1">Batch Paid Amount: </strong>
+                                <strong>{{record.batchPaidAmount}}</strong>
+                            </div>
+                            <div class="text-nowrap">
+                                <strong class="tablLal tablLal1">Received Date:</strong>
+                                <strong>{{record.receivedDate}}</strong>
+                            </div>
+                        </td>
+                        <td ng-if="modelName=='providerPaperFinalization'" class="text-right">
                             <div class="text-nowrap">
                                 Total Claims
                                 <h4>Rs.{{record.totalClaims}}</h4>

@@ -180,10 +180,10 @@
         }
         this.getSearchFields = function() {
             return [
-                { label: 'Batch Id', type: 'text', name: 'batchId'},
-                { label: 'Batch File Name', type: 'text', name: 'batchFileName'},
-                { label: 'Provider Name', type: 'text', name: 'providerName'},
-                { label: 'Provider Code', type: 'text', name: 'providerCode'},
+                { label: 'Batch Id', type: 'text', name: 'batchId', width:'90%'},
+                { label: 'Batch File Name', type: 'text', name: 'batchFileName', width:'90%'},
+                { label: 'Provider Name', type: 'text', name: 'providerName',  width:'90%'},
+                { label: 'Provider Code', type: 'text', name: 'providerCode',  width:'90%'},
             ];
         }
     }

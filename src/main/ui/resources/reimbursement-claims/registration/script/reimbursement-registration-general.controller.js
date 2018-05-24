@@ -5,9 +5,9 @@
         .module('claims')
         .controller('ReimbursementRegistrationGeneralController', ReimbursementRegistrationGeneralController)
     
-    ReimbursementRegistrationGeneralController.$inject = ['$scope', '$rootScope', 'ReimbursementRegistrationService', '$state', '$uibModal', '$timeout', 'ngNotify', '$stateParams', 'claim', 'isNew'];
+    ReimbursementRegistrationGeneralController.$inject = ['$scope', '$rootScope', 'ReimbursementRegistrationService', '$state', '$uibModal', '$timeout', 'ngNotify', '$stateParams', 'claim', 'isNew', 'DropdownAutocompleteService'];
 
-    function ReimbursementRegistrationGeneralController($scope, $rootScope, ReimbursementRegistrationService, $state, $uibModal, $timeout, ngNotify, $stateParams, claim, isNew) {
+    function ReimbursementRegistrationGeneralController($scope, $rootScope, ReimbursementRegistrationService, $state, $uibModal, $timeout, ngNotify, $stateParams, claim, isNew, DropdownAutocompleteService) {
         $scope.regDetail = claim;
         $scope.previewIndex = 0;
         $scope.isNew = isNew;
@@ -17,6 +17,10 @@
         $scope.docTypes = [];
         $scope.hasMandatory = true;
         $scope.documentTypes = ReimbursementRegistrationService.getDocumentTypes();
+        DropdownAutocompleteService.getEncounterTypes({'compId' : '0021'}, function(resp) {
+            $scope.encounterTypes = resp.rowData;
+        });       
+
         $scope.setDcoumentType = function(documentType) {
             $scope.regDetail['source'] = documentType;
             $scope.documentType = documentType;

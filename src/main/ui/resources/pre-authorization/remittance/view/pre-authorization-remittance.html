@@ -1,27 +1,32 @@
 <nav class="navbar pt-1 pb-1">
-    <span class="navbar-brand p-0 m-0">PAR Remittance</span>
-</nav>
-<section>
-    <div class="leftContainer leftreg">
-        <div class="row">
-            <div class="col-9">
-                <my-search-box search-info="fieldsObject" search-auto="registeredClaims"  search-text="searchValue" callback="filterValues(data)"></my-search-box>
+        <span class="navbar-brand p-0 m-0">Remittance</span>
+    </nav>
+    <section>
+        <div class="leftContainer leftreg">
+            <div class="contentPart">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12 p-0">
+                        <div class="searchBarRow reimbListTabl" style="display: block">
+                            <my-search-box search-info="fieldsObject" search-auto="registeredClaims" search-text="searchValue" callback="filterValues(data)" btns-width="50%"></my-search-box>
+                       </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-3">
-            </div>
-        </div>
-         <div class="clearfix"></div>
-        <div class="contentPart pt-3 pb-3">
-            <div class="container-fluid regfont">
-                <div class="row">
-                    <div class="col-12 p-0">
-                        <div class="reimbListTabl" id="reimbListTabl">
-                            <h3 class="innerHeadText mt-2 mb-2 ml-2 d-inline-block">Search Results</h3>
-                            <list-view headers="remittanceHeaders" records="registeredClaims" search-by="searchBy"></list-view>
+            <div class="clearfix"></div>
+            <div class="contentPart pt-3 pb-3">
+                <div class="container-fluid regfont">
+                    <div class="row">
+                        <div class="col-12 p-0">
+                            <div class="reimbListTabl" id="reimbListTabl">
+                                <h3 class="innerHeadText mt-2 mb-2 ml-2 d-inline-block">Search Results</h3>
+                                <list-view headers="remittanceHeaders" records="registeredClaims" search-by="searchBy"></list-view>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+    

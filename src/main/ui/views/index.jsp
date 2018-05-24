@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="claims">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -51,6 +51,7 @@
         <script src="<s:url value="resources/static/bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min.js"/>"></script>
         <script src="<s:url value="resources/static/bower_components/underscore/underscore-min.js"/>"></script>
         <script src="<s:url value="resources/static/lib/ui-bootstrap-tpls-3.0.3.min.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/angular-resource/angular-resource.min.js"/>"></script>
 
         <script src="<s:url value="resources/app.js"/>"></script>
         <!-- Components -->
@@ -60,6 +61,7 @@
         <!-- Directives -->
         <script src="<s:url value="resources/directives/grid-directive/script/grid-wrapper.directive.js"/>"></script>
         <script src="<s:url value="resources/util/pagination/pagination.directive.js"/>"></script>
+        <script src="<s:url value="resources/util/dropdown-autocomplete.service.js"/>"></script>
         <script src="<s:url value="resources/directives/claimsListView-directive/script/claimslistview.directive.js"/>"></script>
         <script src="<s:url value="resources/directives/claimsListView-directive/script/claimslistview.directive.service.js"/>"></script>
         <script src="<s:url value="resources/directives/finalization-directive/script/finalizationlistview.directive.js"/>"></script>
@@ -106,15 +108,21 @@
         <script src="<s:url value="resources/provider-paper/user-assignment/script/providerPaper-user-assignment.service.js"/>"></script>
         <script src="<s:url value="resources/provider-paper/processing/script/provider-paper-processing.controller.js"/>"></script>
         <script src="<s:url value="resources/provider-paper/processing/script/provider-paper-processing.service.js"/>"></script>
+        <script src="<s:url value="resources/provider-paper/finalization/script/provider-paper-finalization.controller.js"/>"></script>
+        <script src="<s:url value="resources/provider-paper/finalization/script/provider-paper-finalization.service.js"/>"></script>
     
         <!-- Pre Authorization -->
         <script src="<s:url value="resources/pre-authorization/user-assignment/script/preAuthorization-user-assignment.controller.js"/>"></script>
         <script src="<s:url value="resources/pre-authorization/user-assignment/script/preAuthorization-user-assignment.service.js"/>"></script>
         <script src="<s:url value="resources/pre-authorization/remittance/script/pre-authorization-remittance.controller.js"/>"></script>
         <script src="<s:url value="resources/pre-authorization/remittance/script/pre-authorization-remittance.service.js"/>"></script>
+        <script src="<s:url value="resources/pre-authorization/processing/script/pre-authorization-processing.controller.js"/>"></script>
+        <script src="<s:url value="resources/pre-authorization/processing/script/pre-authorization-processing.service.js"/>"></script>
+        <script src="<s:url value="resources/pre-authorization/registration/script/pre-authorization-registration.controller.js"/>"></script>
+        <script src="<s:url value="resources/pre-authorization/registration/script/pre-authorization-registration.service.js"/>"></script>
     
     </head>
-    <body ng-app="claims">
+    <body >
         <header class="clearfix">
             <div class="">
                 <span class="float-left" ng-click="navbar = !navbar"><i class="fa fa-bars toggle-menu menu-left"></i></span>
@@ -128,7 +136,7 @@
         </header>
         <nav id="navbar" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" ng-class="{'menu-open' : navbar}">
             <uib-accordion close-others="true">
-                <div uib-accordion-group class="panel-default" is-open="true">
+                <div uib-accordion-group class="panel-default">
                     <uib-accordion-heading> Transaction </uib-accordion-heading>
                     <h3>Underwriting</h3>
                     <h3>Reinsurance</h3>
@@ -155,7 +163,7 @@
                         <h3>TPA Claims Import Mapping</h3>
                     </span>
                 </div>
-                <div uib-accordion-group class="panel-default">
+                <div uib-accordion-group class="panel-default" is-open="true">
                     <uib-accordion-heading> Medical Claims </uib-accordion-heading>
                     <uib-accordion close-others="true">
                         <div uib-accordion-group class="panel-default child-panel">
@@ -181,9 +189,11 @@
                             <uib-accordion-heading> <h3>Provider Paper Claims</h3> </uib-accordion-heading>
                             <h4 ui-sref="provider-paper-batch">Batch</h4>
                             <h4 ui-sref="provider-paper-user-assignment">User Assignment</h4>
+                            <h4 ui-sref="provider-paper-finalization"> Finalization</h4>
                         </div>
                         <div uib-accordion-group class="panel-default child-panel">
                             <uib-accordion-heading> <h3>Pre-Authorization</h3> </uib-accordion-heading>
+                            <h4 ui-sref="pre-authorization-registration">Registration</h4>
                             <h4 ui-sref="pre-authorization-user-assignment">User Assignment</h4>
                             <h4 ui-sref="pre-authorization-remittance">Remittance</h4>
                         </div>

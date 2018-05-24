@@ -12,11 +12,13 @@ angular
         'ngMaterial',
         'ui.bootstrap',
         'ngNotify',
-        'pascalprecht.translate'
+        'pascalprecht.translate',
+        'ngResource'
     ])
     .config(stateConfig)
     .config(translationConfig)
     .run(appConfig)
+    .constant('urlRoutePrefix',contextPath);
 
     stateConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
 
@@ -187,6 +189,12 @@ angular
                 }
             })
 
+            .state('provider-paper-finalization', {
+                url: "/provider-paper-finalization",
+                templateUrl: "resources/provider-paper/finalization/view/provider-paper-finalization.html",
+                controller: 'ProviderFinalizationController'
+            })
+
             .state('provider-paper-processing', {
                 url: "/provider-paper-processing",
                 templateUrl: "resources/provider-paper/processing/view/provider-paper-processing.html",
@@ -204,7 +212,22 @@ angular
                     }]
                 }
             })
-
+            .state('pre-authorization-processing', {
+                url: "/pre-authorization-processing",
+                templateUrl:"resources/pre-authorization/processing/view/pre-authorization-processing.html",
+                controller: 'PreAuthorizationProcessingController'
+            })
+            .state('pre-authorization-registration', {
+                url: "/pre-authorization-registration",
+                templateUrl:"resources/pre-authorization/registration/view/pre-authorization-registration.html",
+                controller: 'PreAuthorizationRegistrationController',
+                resolve: {
+                    translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
+                        $translatePartialLoader.addPart('registration');
+                        return $translate.refresh();
+                    }]
+                }
+            })
             .state('pre-authorization-remittance', {
                 url: "/pre-authorization-remittance",
                 templateUrl:"resources/pre-authorization/remittance/view/pre-authorization-remittance.html",
