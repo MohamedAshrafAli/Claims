@@ -1,13 +1,16 @@
 package com.beyon.medical.claims.reimbursement.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.beyon.medical.claims.general.dto.RegistrationBaseDTO;
 
 public class ReimbursementRegistrationDTO extends RegistrationBaseDTO {
+	private String id;
+	private String claimRefNo;
 	private String voucherNumber;
 	private LocalDate serviceFmDate;
-	private Integer requestAmt;
+	private BigDecimal requestAmt;
 	private String paymentWay;
 	private String ibanNum;
 	private String emiratesId;
@@ -24,10 +27,10 @@ public class ReimbursementRegistrationDTO extends RegistrationBaseDTO {
 	public void setServiceFmDate(LocalDate serviceFmDate) {
 		this.serviceFmDate = serviceFmDate;
 	}
-	public Integer getRequestAmt() {
+	public BigDecimal getRequestAmt() {
 		return requestAmt;
 	}
-	public void setRequestAmt(Integer requestAmt) {
+	public void setRequestAmt(BigDecimal requestAmt) {
 		this.requestAmt = requestAmt;
 	}
 	public String getPaymentWay() {
@@ -47,5 +50,17 @@ public class ReimbursementRegistrationDTO extends RegistrationBaseDTO {
 	}
 	public void setEmiratesId(String emiratesId) {
 		this.emiratesId = emiratesId;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getClaimRefNo() {
+		return claimRefNo;
+	}
+	public void setClaimRefNo(String claimRefNo) {
+		this.claimRefNo = claimRefNo;
 	}
 }

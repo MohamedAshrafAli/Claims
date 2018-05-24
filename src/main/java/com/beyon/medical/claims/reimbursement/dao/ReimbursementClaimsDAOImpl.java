@@ -55,16 +55,18 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 				registrationDTO.setMemberNumber(row.getString("MemberNumber"));
 				registrationDTO.setMobileNum1(row.getString("MobileNumber1"));
 				registrationDTO.setMobileNum2(row.getString("MobileNumber2"));
-				registrationDTO.setPaymentWay(null);
+				registrationDTO.setPaymentWay(row.getString("PaymentRefNo"));
 				registrationDTO.setPolicyNumber(row.getString("Policynumber"));
-				registrationDTO.setPrevRequest(null);
+				registrationDTO.setPrevRequest(row.getString("PrevReqNo"));
 				registrationDTO.setReqReceivedDate(DateUtil.convertSQlDateToLocalDate(row.getDate("RequestReceivedDate")));
 				registrationDTO.setReqType(row.getString("RequestType"));
-				registrationDTO.setRequestAmt(null);
+				registrationDTO.setRequestAmt(row.getBigDecimal("RequestedAmt"));
 				registrationDTO.setServiceFmDate(DateUtil.convertSQlDateToLocalDate(row.getDate("ServiceFromDate")));
 				registrationDTO.setSource(null);
 				registrationDTO.setVoucherNumber(row.getString("VoucherNumber"));
 				registrationDTO.setMemberCardNumber(row.getString("CardNumber"));
+				registrationDTO.setId(row.getString("Id"));
+				registrationDTO.setClaimRefNo(row.getString("ClaimRefNo"));
 				return registrationDTO;
 			}
 		});
