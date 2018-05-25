@@ -9,6 +9,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 public interface ReimbursementClaimsService {
 
 	List<ReimbursementRegistrationDTO> getReimbursementRegistrationDetails(ObjectNode inputMap) throws DAOException;
+	
 	ReimbursementRegistrationDTO getReimbursementRegistrationDetailsById(String compId,String id) throws DAOException;
+	
+	List<ReimbursementRegistrationDTO> getRegistrationDetailsForPolicyAndMemberNo(ObjectNode inputMap) throws DAOException;
 
 }

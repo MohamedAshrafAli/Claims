@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.beyon.medical.claims.exception.MedicalClaimsException;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementRegistrationDTO;
 import com.beyon.medical.claims.reimbursement.service.ReimbursementClaimsService;
-import com.beyon.medical.claims.ui.facade.service.MedicalClaimsUIServiceFacade;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @RestController
-@RequestMapping("/medical/claims/reimbursement")
+@RequestMapping("/api/medical/claims/reimbursement")
 @CrossOrigin(origins = "*")
 public class ReimbursementController{
 	
@@ -46,5 +45,16 @@ public class ReimbursementController{
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
 		return registrationDTO;
+	}
+	
+	@PostMapping("/getReimbursementRegistrationDetailsForPolicyAndMemberNo")
+	public  @ResponseBody List<ReimbursementRegistrationDTO> getReimbursementRegistrationDetailsForPolicyAndMemberNo(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		List<ReimbursementRegistrationDTO> registrationDTOs = null;
+		try {
+			registrationDTOs = reimbursementClaimsService.getRegistrationDetailsForPolicyAndMemberNo(inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return registrationDTOs;
 	}
 }

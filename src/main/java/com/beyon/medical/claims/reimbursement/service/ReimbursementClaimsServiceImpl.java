@@ -6,6 +6,7 @@ import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesCon
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_POLICY_CRITERIA;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_VOUCHER_CRITERIA;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_ID_CRITERIA;
+import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_DETAILS;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,6 +20,7 @@ import com.beyon.framework.util.FoundationUtils;
 import com.beyon.medical.claims.exception.DAOException;
 import com.beyon.medical.claims.reimbursement.dao.ReimbursementClaimsDAOImpl;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementRegistrationDTO;
+import com.beyon.medical.claims.ui.facade.service.GeneralServiceFacade;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Service
@@ -26,6 +28,9 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 
 	@Autowired
 	private ReimbursementClaimsDAOImpl reimbursementClaimsDAO;
+	
+	@Autowired
+	private GeneralServiceFacade generalServiceFacade;
 
 	@Override
 	public List<ReimbursementRegistrationDTO> getReimbursementRegistrationDetails(ObjectNode paramMap) throws DAOException {
@@ -77,6 +82,21 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 			strQuery = strQuery.replaceAll("<CRITERIA>", builder.toString());
 		}
 		return strQuery;
+	}
+	
+	@Override
+	public List<ReimbursementRegistrationDTO> getRegistrationDetailsForPolicyAndMemberNo(ObjectNode paramMap) throws DAOException {
+		List<ReimbursementRegistrationDTO> reimbursementRegDetails = null;
+		try {
+			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
+			String strQuery = REIMBURSEMENT_QUERIES_DETAILS;
+			strQuery = getConstructedQuerywithCriterion(strQuery, inputMap);
+			reimbursementRegDetails =  reimbursementClaimsDAO.getRegistrationListData(strQuery, inputMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return reimbursementRegDetails;
 	}
 
 }

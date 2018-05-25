@@ -11,6 +11,9 @@ import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_IDS_COLUMN_MEMBER_NUMBERS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_IDS_COLUMN_POLICY_NUMBERS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_MEMBER_NUMBERS;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CURRENCY_DETAILS;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_USER_DIVISION;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_COB_DETAIL;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +28,7 @@ import com.beyon.medical.claims.general.dao.GeneralClaimsDAOImpl;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Service
-public class MedicalClaimsUIServiceFacadeImpl implements MedicalClaimsUIServiceFacade {
+public class GeneralServiceFacadeImpl implements GeneralServiceFacade {
 	
 	@Autowired
 	private GeneralClaimsDAOImpl generalClaimsDao;
@@ -46,6 +49,31 @@ public class MedicalClaimsUIServiceFacadeImpl implements MedicalClaimsUIServiceF
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
 		}
 		return memberNumberList;
+	}
+	
+	@Override
+	public ObjectNode getCurrencyDetailsForPolicyNo(ObjectNode paramMap) throws DAOException {
+		ObjectNode baseCurrency = null;
+		try {
+			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
+			baseCurrency =  generalClaimsDao.getCurrencyDetailsForPolicyNo(GENERAL_QUERIES_GET_CURRENCY_DETAILS,inputMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return baseCurrency;
+	}
+	
+	@Override
+	public String getUserDivisionForCompany(String userId,String compId) throws DAOException {
+		String baseCurrency = null;
+		try {
+			baseCurrency =  generalClaimsDao.getUserDivisionForCompany(GENERAL_QUERIES_GET_USER_DIVISION,userId,compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return baseCurrency;
 	}
 
 	@Override
@@ -144,6 +172,16 @@ public class MedicalClaimsUIServiceFacadeImpl implements MedicalClaimsUIServiceF
 		return generalClaimsDao.getUIDataListForDefinition(definition,paramMap);
 	}
 
-
+	@Override
+	public String getClassOfBusinessForPolicy(String policyNumber,String compId) throws DAOException {
+		String baseCurrency = null;
+		try {
+			baseCurrency =  generalClaimsDao.getClassOfBusinessForPolicy(GENERAL_QUERIES_GET_COB_DETAIL,policyNumber,compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return baseCurrency;
+	}
 	
 }

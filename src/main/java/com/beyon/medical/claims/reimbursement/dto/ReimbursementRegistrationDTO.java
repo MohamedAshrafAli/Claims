@@ -8,12 +8,17 @@ import com.beyon.medical.claims.general.dto.RegistrationBaseDTO;
 public class ReimbursementRegistrationDTO extends RegistrationBaseDTO {
 	private String id;
 	private String claimRefNo;
+	private String encType;
+	private String reqType;
+	private LocalDate reqReceivedDate;
+	private String prevRequest;
+	private String documentLink;
 	private String voucherNumber;
 	private LocalDate serviceFmDate;
 	private BigDecimal requestAmt;
+	private BigDecimal requestAmtBC;
 	private String paymentWay;
 	private String ibanNum;
-	private String emiratesId;
 	
 	public String getVoucherNumber() {
 		return voucherNumber;
@@ -45,11 +50,36 @@ public class ReimbursementRegistrationDTO extends RegistrationBaseDTO {
 	public void setIbanNum(String ibanNum) {
 		this.ibanNum = ibanNum;
 	}
-	public String getEmiratesId() {
-		return emiratesId;
+	
+	public String getEncType() {
+		return encType;
 	}
-	public void setEmiratesId(String emiratesId) {
-		this.emiratesId = emiratesId;
+	public void setEncType(String encType) {
+		this.encType = encType;
+	}
+	public String getReqType() {
+		return reqType;
+	}
+	public void setReqType(String reqType) {
+		this.reqType = reqType;
+	}
+	public LocalDate getReqReceivedDate() {
+		return reqReceivedDate;
+	}
+	public void setReqReceivedDate(LocalDate reqReceivedDate) {
+		this.reqReceivedDate = reqReceivedDate;
+	}
+	public String getPrevRequest() {
+		return prevRequest;
+	}
+	public void setPrevRequest(String prevRequest) {
+		this.prevRequest = prevRequest;
+	}
+	public String getDocumentLink() {
+		return documentLink;
+	}
+	public void setDocumentLink(String documentLink) {
+		this.documentLink = documentLink;
 	}
 	public String getId() {
 		return id;
@@ -62,5 +92,11 @@ public class ReimbursementRegistrationDTO extends RegistrationBaseDTO {
 	}
 	public void setClaimRefNo(String claimRefNo) {
 		this.claimRefNo = claimRefNo;
+	}
+	public BigDecimal getRequestAmtBC() {
+		return requestAmtBC;
+	}
+	public void setRequestAmtBC(BigDecimal requestAmtBC) {
+		this.requestAmtBC = requestAmtBC;
 	}
 }

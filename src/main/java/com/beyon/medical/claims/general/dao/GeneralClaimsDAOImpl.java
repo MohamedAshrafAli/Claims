@@ -1,6 +1,5 @@
 package com.beyon.medical.claims.general.dao;
 
-import static com.beyon.framework.util.AppLogger.DEBUG;
 import static com.beyon.framework.util.AppLogger.ERROR;
 import static com.beyon.framework.util.AppLogger.writeLog;
 import static com.beyon.framework.util.Constants.INTERNAL_ERROR_OCCURED;
@@ -9,11 +8,13 @@ import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -25,7 +26,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Repository("generalClaimsDAOImpl")
 @Scope(value="prototype")
-public class GeneralClaimsDAOImpl {
+public class GeneralClaimsDAOImpl extends BaseClaimsDAOImpl {
 
 	private final String CLASS_NAME = GeneralClaimsDAOImpl.class.getCanonicalName();
 
@@ -81,20 +82,6 @@ public class GeneralClaimsDAOImpl {
 		return objectNode;
 	}
 
-	private Long getSequenceNo(String sequenceName) {
-		writeLog(CLASS_NAME, "Entered method getSequenceNo --> sequenceName:" + sequenceName, DEBUG);
-		if (sequenceName == null) {
-			throw new IllegalArgumentException("The passed sequence name was null", new Throwable());
-		}
-
-		JdbcTemplate template = DAOFactory.getJdbcTemplate("gm");
-		String strSeqNoQry = "SELECT " + sequenceName + ".nextval FROM DUAL";
-		Long seqNo = template.queryForObject(strSeqNoQry, Long.class);
-		writeLog(CLASS_NAME, "Exit method getSequenceNo  --> sequenceName:" + sequenceName + " and seqNo:" + seqNo,
-				DEBUG);
-		return seqNo;
-	}
-
 	public ObjectNode getUIDefinitionDataList(String strQuery,ObjectNode inputNode) throws DAOException {
 		ObjectNode objectNode = FoundationUtils.createObjectNode();
 		try {
@@ -117,5 +104,9 @@ public class GeneralClaimsDAOImpl {
 		}
 		return objectNode;
 	}
+	
+	
+	
+	
 
 }
