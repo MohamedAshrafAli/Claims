@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -57,4 +58,16 @@ public class ReimbursementController{
 		} 
 		return registrationDTOs;
 	}
+	
+	@PostMapping("/saveRegistrationDetails")
+	public  @ResponseBody ReimbursementRegistrationDTO saveRegistrationDetails(@RequestParam String compId, @RequestBody ReimbursementRegistrationDTO registrationDTO) throws MedicalClaimsException {
+		ReimbursementRegistrationDTO _registrationDTO = null;
+		try {
+			_registrationDTO = reimbursementClaimsService.saveRegistrationDetails(compId,registrationDTO);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return _registrationDTO;
+	}
+	
 }

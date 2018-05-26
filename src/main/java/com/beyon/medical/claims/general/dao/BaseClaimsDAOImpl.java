@@ -78,6 +78,26 @@ public class BaseClaimsDAOImpl {
 		return userDivision;
 	}
 	
+	
+	public String getProviderIdDetails(String strQuery) throws DAOException {
+		String providerId = null;
+		try {
+			JdbcTemplate jdbcTemplate = DAOFactory.getJdbcTemplate("gm");
+			List<String> providerIdList = jdbcTemplate.query(strQuery, new Object[] { }, new RowMapper<String>() {
+				@Override
+				public String mapRow(ResultSet rs, int rownumber) throws SQLException {
+					return rs.getString("ProviderId");
+				}
+			});
+			providerId = providerIdList.get(0);
+		} catch (Exception e) {
+			writeLog(CLASS_NAME, "Exception occured while executing getProviderIdDetails", ERROR, e);
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return providerId;
+	}
+	
+	
 	public String getClassOfBusinessForPolicy(String strQuery,String policyNumber,String compId) throws DAOException {
 		String cobId = null;
 		try {

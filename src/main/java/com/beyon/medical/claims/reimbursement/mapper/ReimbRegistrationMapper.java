@@ -16,7 +16,7 @@ public class ReimbRegistrationMapper {
 		registrationDTO.setEmail2(row.getString("EmailId2"));
 		registrationDTO.setUidId(row.getString("EmiratesId"));
 		registrationDTO.setEncType(row.getString("EncounterType"));
-		registrationDTO.setIbanNum(row.getString("PaymentRefNo"));
+		registrationDTO.setPaymentRefNum(row.getString("PaymentRefNo"));
 		registrationDTO.setMemberName(row.getString("MemberName"));
 		registrationDTO.setMemberNumber(row.getString("MemberNumber"));
 		registrationDTO.setMobileNum1(row.getString("MobileNumber1"));
@@ -31,7 +31,7 @@ public class ReimbRegistrationMapper {
 		registrationDTO.setSourceType(null);
 		registrationDTO.setVoucherNumber(row.getString("VoucherNumber"));
 		registrationDTO.setCardNumber(row.getString("CardNumber"));
-		registrationDTO.setId(row.getString("Id"));
+		registrationDTO.setId(row.getLong("Id"));
 		registrationDTO.setClaimRefNo(row.getString("ClaimRefNo"));
 		return registrationDTO;
 	}
