@@ -37,11 +37,11 @@ public class ReimbursementController{
 		return registrationDTOs;
 	}
 	
-	@GetMapping("/getReimbursementRegistrationDetails/{compId}/{id}")
-	public ReimbursementRegistrationDTO getReimbursementRegistrationDetailsById(@PathVariable String compId,@PathVariable String id) throws MedicalClaimsException {
+	@GetMapping("/getReimbursementRegistrationDetails/{id}")
+	public ReimbursementRegistrationDTO getReimbursementRegistrationDetailsById(@PathVariable String id) throws MedicalClaimsException {
 		ReimbursementRegistrationDTO registrationDTO = null;
 		try {
-			registrationDTO = reimbursementClaimsService.getReimbursementRegistrationDetailsById(compId, id);
+			registrationDTO = reimbursementClaimsService.getReimbursementRegistrationDetailsById( id);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 

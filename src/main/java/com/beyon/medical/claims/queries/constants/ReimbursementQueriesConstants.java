@@ -28,7 +28,8 @@ public final class ReimbursementQueriesConstants implements Serializable{
 	public static final String REIMBURSEMENT_QUERIES_CTDS_DETAILS_POLICY_CRITERIA = reimbursementResourceBundle.getString("reimbursement.queries.ctds.details.policynumber.criteria");
 	public static final String REIMBURSEMENT_QUERIES_CTDS_DETAILS_MEM_NO_CRITERIA = reimbursementResourceBundle.getString("reimbursement.queries.ctds.details.membernumber.criteria");
 	public static final String REIMBURSEMENT_QUERIES_CTDS_DETAILS_VOUCHER_CRITERIA = reimbursementResourceBundle.getString("reimbursement.queries.ctds.details.vouchernumber.criteria");
-	public static final String REIMBURSEMENT_QUERIES_CTDS_DETAILS_ID_CRITERIA = reimbursementResourceBundle.getString("reimbursement.queries.ctds.details.sgsid.criteria");
+	
+	public static final String REIMBURSEMENT_QUERIES_CTDS_DETAILS_ID = reimbursementResourceBundle.getString("reimbursement.queries.ctds.details.id");
 
 	public static final String REIMBURSEMENT_QUERIES_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.details");
 

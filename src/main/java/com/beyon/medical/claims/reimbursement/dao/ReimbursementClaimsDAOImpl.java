@@ -36,14 +36,15 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 
 	private final String CLASS_NAME = ReimbursementClaimsDAOImpl.class.getCanonicalName();
 
-	public List<?> getReimbursementRegistrationDetails(String id,String compId) {
-		JdbcTemplate template = DAOFactory.getJdbcTemplate("gm");
-		return template.query(REIMBURSEMENT_QUERIES_CTDS_DETAILS, new Object[] {id, compId }, new RowMapper<Object>() {
+	public List<ReimbursementRegistrationDTO> getRegistrationDetailsById(String query ,Map<String,Object> inputMap) throws DAOException {
+		NamedParameterJdbcTemplate  namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValues(inputMap);
+		return namedParameterJdbcTemplate.query(query, parameters, new RowMapper<ReimbursementRegistrationDTO>() {
 			@Override
-			public Object mapRow(ResultSet row, int count) throws SQLException {
-				return null;
+			public ReimbursementRegistrationDTO mapRow(ResultSet row, int count) throws SQLException {
+				return ReimbRegistrationMapper.getViewReimbursementRegistrationDTO(row);
 			}
-
 		});
 	}
 

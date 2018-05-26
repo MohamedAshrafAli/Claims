@@ -5,7 +5,7 @@ import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesCon
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_MEM_NO_CRITERIA;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_POLICY_CRITERIA;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_VOUCHER_CRITERIA;
-import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_ID_CRITERIA;
+import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_ID;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_DETAILS;
 
 import java.util.HashMap;
@@ -47,14 +47,12 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 		return reimbursementRegDetails;
 	}
 	
-	public ReimbursementRegistrationDTO getReimbursementRegistrationDetailsById(String compId,String id) throws DAOException {
+	public ReimbursementRegistrationDTO getReimbursementRegistrationDetailsById(String id) throws DAOException {
 		List<ReimbursementRegistrationDTO> reimbursementRegDetails = null;
 		try {
-			String strQuery = REIMBURSEMENT_QUERIES_CTDS_DETAILS;
+			String strQuery = REIMBURSEMENT_QUERIES_CTDS_DETAILS_ID;
 			Map<String,Object> inputMap = new HashMap<>();
-			inputMap.put("compId", compId);
 			inputMap.put("id", id);
-			strQuery = getConstructedQuerywithCriterion(strQuery, inputMap);
 			reimbursementRegDetails =  reimbursementClaimsDAO.getRegistrationListViewData(strQuery, inputMap);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -75,8 +73,6 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 					builder.append(inputMap.get(REIMBURSEMENT_QUERIES_CTDS_DETAILS_MEM_NO_CRITERIA));
 				} else if(key.equalsIgnoreCase("voucherNumber")) {
 					builder.append(inputMap.get(REIMBURSEMENT_QUERIES_CTDS_DETAILS_VOUCHER_CRITERIA));
-				} else if(key.equalsIgnoreCase("id")) {
-					builder.append(inputMap.get(REIMBURSEMENT_QUERIES_CTDS_DETAILS_ID_CRITERIA));
 				} 
 			}
 			strQuery = strQuery.replaceAll("<CRITERIA>", builder.toString());
