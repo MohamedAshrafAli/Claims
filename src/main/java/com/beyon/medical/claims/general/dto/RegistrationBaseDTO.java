@@ -62,13 +62,18 @@ public class RegistrationBaseDTO {
 	private String uidId;
 	private String passportNumber;
 	private String cardNumber;
-	private String cardReceivedDate;
+	private LocalDate cardReceivedDate;
 	private String policyNumber;
 	private String mobileNum1;
 	private String mobileNum2;
 	private String email1;
 	private String email2;
-	
+	private String compId;
+	private String claimantIsCustomer;
+	private String reportedByCustomer;
+	private String reportedByInsured;
+	private String claimNumber;
+
 	public String getCustomerId() {
 		return customerId;
 	}
@@ -417,10 +422,10 @@ public class RegistrationBaseDTO {
 	public void setCardNumber(String cardNumber) {
 		this.cardNumber = cardNumber;
 	}
-	public String getCardReceivedDate() {
+	public LocalDate getCardReceivedDate() {
 		return cardReceivedDate;
 	}
-	public void setCardReceivedDate(String cardReceivedDate) {
+	public void setCardReceivedDate(LocalDate cardReceivedDate) {
 		this.cardReceivedDate = cardReceivedDate;
 	}
 	public String getModuleType() {
@@ -458,6 +463,36 @@ public class RegistrationBaseDTO {
 	}
 	public void setEmail2(String email2) {
 		this.email2 = email2;
+	}
+	public String getCompId() {
+		return compId;
+	}
+	public void setCompId(String compId) {
+		this.compId = compId;
+	}
+	public String getClaimantIsCustomer() {
+		return claimantIsCustomer;
+	}
+	public void setClaimantIsCustomer(String claimantIsCustomer) {
+		this.claimantIsCustomer = claimantIsCustomer;
+	}
+	public String getReportedByCustomer() {
+		return reportedByCustomer;
+	}
+	public void setReportedByCustomer(String reportedByCustomer) {
+		this.reportedByCustomer = reportedByCustomer;
+	}
+	public String getClaimNumber() {
+		return claimNumber;
+	}
+	public void setClaimNumber(String claimNumber) {
+		this.claimNumber = claimNumber;
+	}
+	public String getReportedByInsured() {
+		return reportedByInsured;
+	}
+	public void setReportedByInsured(String reportedByInsured) {
+		this.reportedByInsured = reportedByInsured;
 	}
 	
 }
