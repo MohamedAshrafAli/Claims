@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import com.beyon.medical.claims.general.dto.RegistrationBaseDTO;
 
 public class ReimbursementRegistrationDTO extends RegistrationBaseDTO {
-	private String id;
+	private Long id;
 	private String claimRefNo;
 	private String encType;
 	private String reqType;
@@ -18,7 +18,7 @@ public class ReimbursementRegistrationDTO extends RegistrationBaseDTO {
 	private BigDecimal requestAmt;
 	private BigDecimal requestAmtBC;
 	private String paymentWay;
-	private String ibanNum;
+	private String paymentRefNum;
 	
 	public String getVoucherNumber() {
 		return voucherNumber;
@@ -43,12 +43,6 @@ public class ReimbursementRegistrationDTO extends RegistrationBaseDTO {
 	}
 	public void setPaymentWay(String paymentWay) {
 		this.paymentWay = paymentWay;
-	}
-	public String getIbanNum() {
-		return ibanNum;
-	}
-	public void setIbanNum(String ibanNum) {
-		this.ibanNum = ibanNum;
 	}
 	
 	public String getEncType() {
@@ -81,10 +75,10 @@ public class ReimbursementRegistrationDTO extends RegistrationBaseDTO {
 	public void setDocumentLink(String documentLink) {
 		this.documentLink = documentLink;
 	}
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getClaimRefNo() {
@@ -98,5 +92,11 @@ public class ReimbursementRegistrationDTO extends RegistrationBaseDTO {
 	}
 	public void setRequestAmtBC(BigDecimal requestAmtBC) {
 		this.requestAmtBC = requestAmtBC;
+	}
+	public String getPaymentRefNum() {
+		return paymentRefNum;
+	}
+	public void setPaymentRefNum(String paymentRefNum) {
+		this.paymentRefNum = paymentRefNum;
 	}
 }

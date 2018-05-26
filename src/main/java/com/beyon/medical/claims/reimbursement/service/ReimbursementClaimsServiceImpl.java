@@ -98,5 +98,17 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 		}
 		return reimbursementRegDetails;
 	}
+	
+	@Override
+	public ReimbursementRegistrationDTO saveRegistrationDetails(String compId,ReimbursementRegistrationDTO registrationDTO) throws DAOException {
+		ReimbursementRegistrationDTO _registrationDTO = null;
+		try {
+			_registrationDTO =  reimbursementClaimsDAO.insertReimbursementRegistrationDetails(compId, registrationDTO);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return _registrationDTO;
+	}
 
 }
