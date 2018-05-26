@@ -35,10 +35,10 @@
                         $scope.callback({ 'data': searchText });
                     };
 
-                    $scope.getAutoCompleteList = function(searchText, field, info) {
+                    $scope.getAutoCompleteList = function (searchText, field, info) {
                         if(!searchText || searchText.length < 3) {
                             $scope[field] = [];
-                            return;
+                            return[];
                         }
                         var searchParams = {};
                         if($scope.moduleName == 'registration') {
@@ -50,17 +50,9 @@
                             searchParams["cardNumber"] = field == 'cardNumber' ? searchText+"%" : "%",
                             searchParams["emiratesId"] = field == 'emiratesId' ? searchText+"%" : "%"
                         }
-                        AutocompleteService[info.methodName](searchParams, function(resp) {
-                            $scope[field] = resp.rowData;
-                        });
-                    }
-            
-                    $scope.getQueriedItems = function (field) {
-                        var deferred = $q.defer();
-                        $timeout(function () { 
-                            deferred.resolve( $scope[field] );
-                        },Math.random() * 1000, false);
-                        return deferred.promise;
+                        return AutocompleteService[info.methodName](searchParams).$promise.then(function(resp) {
+                            return resp.rowData;
+                        })
                     }
 
                     $scope.querySearch = function (query, label) {

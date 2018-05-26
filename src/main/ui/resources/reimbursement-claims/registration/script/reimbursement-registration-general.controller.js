@@ -277,10 +277,10 @@
             $scope.documents = angular.copy($scope.fileInfos);
         }
 
-        $scope.getAutoCompleteList = function(searchText, field, methodName) {
+        $scope.getAutoCompleteList = function (searchText, field, methodName) {
             if(searchText.length && searchText.length < 3) {
                 $scope[field] = [];
-                return;
+                return [];
             }
             var searchParams = {
                 "compId": "0021",
@@ -290,17 +290,9 @@
                 "cardNumber" : "%",
                 "emiratesId" : "%"
             };
-            AutocompleteService[methodName](searchParams, function(resp) {
-                $scope[field] = resp.rowData;
-            });
-        }
-
-        $scope.getQueriedItems = function (field) {
-            var deferred = $q.defer();
-            $timeout(function () { 
-                deferred.resolve( $scope[field] );
-            },Math.random() * 1000, false);
-            return deferred.promise;
+            return AutocompleteService[methodName](searchParams).$promise.then(function(resp) {
+                return resp.rowData;
+            })
         }
 
         init();

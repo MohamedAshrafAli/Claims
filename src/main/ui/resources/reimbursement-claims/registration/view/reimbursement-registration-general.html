@@ -15,8 +15,7 @@
                         <md-autocomplete flex-gt-sm class="autoSearch" 
                             md-selected-item='search.memberNumber'  
                             md-search-text="memberNumberSearchText"
-                            md-search-text-change="getAutoCompleteList(memberNumberSearchText, 'memberNumber', 'getMemberNumberList');"
-                            md-items="item in getQueriedItems('memberNumber')"
+                            md-items="item in getAutoCompleteList(memberNumberSearchText, 'memberNumber', 'getMemberNumberList')"
                             md-item-text='item.ULME_MEMBER_ID' 
                             md-floating-label='Member Number' 
                             md-clear-button="true"
@@ -35,8 +34,7 @@
                         <md-autocomplete flex-gt-sm class="autoSearch" 
                             md-selected-item='search.policyNumber'  
                             md-search-text="policyNumberSearchText"
-                            md-search-text-change="getAutoCompleteList(policyNumberSearchText, 'policyNumber', 'getPolicyNumberList');"
-                            md-items="item in getQueriedItems('policyNumber')"
+                            md-items="item in getAutoCompleteList(policyNumberSearchText, 'policyNumber', 'getPolicyNumberList')"
                             md-item-text='item.ILM_NO' 
                             md-floating-label='Policy Number' 
                             md-clear-button="true"
