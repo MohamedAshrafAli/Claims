@@ -70,13 +70,13 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 			while (mapIter.hasNext()) {
 				String key = (String) mapIter.next();
 				if(key.equalsIgnoreCase("policyNumber")) {
-					builder.append(inputMap.get(REIMBURSEMENT_QUERIES_CTDS_DETAILS_POLICY_CRITERIA));
+					builder.append(REIMBURSEMENT_QUERIES_CTDS_DETAILS_POLICY_CRITERIA + " ");
 				} else if(key.equalsIgnoreCase("memberNumber")) {
-					builder.append(inputMap.get(REIMBURSEMENT_QUERIES_CTDS_DETAILS_MEM_NO_CRITERIA));
+					builder.append(REIMBURSEMENT_QUERIES_CTDS_DETAILS_MEM_NO_CRITERIA+ " ");
 				} else if(key.equalsIgnoreCase("voucherNumber")) {
-					builder.append(inputMap.get(REIMBURSEMENT_QUERIES_CTDS_DETAILS_VOUCHER_CRITERIA));
+					builder.append(REIMBURSEMENT_QUERIES_CTDS_DETAILS_VOUCHER_CRITERIA+ " ");
 				} else if(key.equalsIgnoreCase("id")) {
-					builder.append(inputMap.get(REIMBURSEMENT_QUERIES_CTDS_DETAILS_ID_CRITERIA));
+					builder.append(REIMBURSEMENT_QUERIES_CTDS_DETAILS_ID_CRITERIA+ " ");
 				} 
 			}
 			strQuery = strQuery.replaceAll("<CRITERIA>", builder.toString());
