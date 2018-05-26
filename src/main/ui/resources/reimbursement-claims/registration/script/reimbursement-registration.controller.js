@@ -14,21 +14,15 @@
             cardNumber : 'CLMR_TPA_CARD',
             memberNumber : 'CLMR_MEMBER_ID',
             emiratesId : 'CLMR_UID_ID',
-            policyNumber : 'CLF_ULM_NO'
+            policyNumber : 'CLF_ULM_NO',
+            voucherNumber : 'CLMF_VOUCH_NO'
         }
         
         $scope.filterValues = function(searchValue) {
             if (searchValue) {
-                var search = {compId : "0021"};
-                angular.forEach(searchValue, function(value,key){
-                    if(value != null) {
-                        search[key] = value
-                        if(autoCompleteMapping[key]){
-                            search[key] = value[autoCompleteMapping[key]];
-                        }
-                    }
-                });
-                getRegisteredClaimsList(search);
+                var searchparam = ReimbursementRegistrationFactory.constructSearchObj(autoCompleteMapping, searchValue);
+                searchparam.compId = "0021"                
+                getRegisteredClaimsList(searchparam);
             } else {
                 getRegisteredClaimsList({compId:"0021"});
             }

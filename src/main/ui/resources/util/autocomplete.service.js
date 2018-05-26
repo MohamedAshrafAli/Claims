@@ -34,6 +34,10 @@
                 'getEmiratesId': {
                     method: 'POST',
                     url: urlRoutePrefix + resourceUrl + '/getEmiratesId'
+                },
+                'getVoucherNumbers': {
+                    method: 'POST',
+                    url: urlRoutePrefix + resourceUrl + '/getVoucherNumbers'
                 }
             })
         }

@@ -51,11 +51,22 @@
                 { label: 'Card Number', type: 'autoSearch', name: 'cardNumber', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos', autoCompleteInfo : {methodName: 'getMedicalCardNumberList', displayName: 'CLMR_TPA_CARD'}},
                 { label: 'Member Name', type: 'autoSearch', name: 'memberName', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos',  autoCompleteInfo : {methodName: 'getMemberNameList', displayName: 'CLMR_MEMBER_NAME'}},
                 { label: 'Emirates  Id', type: 'autoSearch', name: 'emiratesId', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos',  autoCompleteInfo : {methodName: 'getEmiratesId', displayName: 'CLMR_UID_ID'}},
-                { label: 'Voucher  Number', type: 'text', name: 'voucherNumber', width:'90%'},
+                { label: 'Voucher Number', type: 'autoSearch', name: 'voucherNumber', width:'90%', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos',  autoCompleteInfo : {methodName: 'getVoucherNumbers', displayName: 'CLMF_VOUCH_NO'}},
                 { label: 'Policy Number', type: 'autoSearch', name: 'policyNumber', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos',  autoCompleteInfo : {methodName: 'getClaimsPolicyNumberList', displayName: 'CLF_ULM_NO'}}
             ];
         }
-
+        this.constructSearchObj = function(autoCompleteMapping, searchValue) {
+            var search = {};
+            angular.forEach(searchValue, function(value,key){
+                if(value != null) {
+                    search[key] = value
+                    if(autoCompleteMapping[key]){
+                        search[key] = value[autoCompleteMapping[key]];
+                    }
+                }
+            });
+            return search;
+        }
         return this;
     }
 })();

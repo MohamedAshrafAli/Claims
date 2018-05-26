@@ -13,15 +13,7 @@
             'getReimbursementRegistrationDetails' : {
                 method: 'POST',
                 url: urlRoutePrefix + resourceUrl + '/getReimbursementRegistrationDetails',
-                isArray : true,
-                /*transformResponse: function(data) {
-                    if (data) {
-                        data = angular.fromJson(data);
-                        data.reqReceivedDate = ReimbursementRegistrationFactory.convertDate(data.reqReceivedDate);
-                        data.serviceFmDate = ReimbursementRegistrationFactory.convertDate(data.serviceFmDate);
-                    }
-                    return data;
-                }*/
+                isArray : true
             }
         })
     }

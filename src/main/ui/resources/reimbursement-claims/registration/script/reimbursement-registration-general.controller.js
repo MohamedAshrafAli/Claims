@@ -136,11 +136,17 @@
                 size: 'lg',
                 backdrop: 'static',
                 keyboard :false,
-                controller: function ($scope, $uibModalInstance, claims, searchObj) {
-                    $scope.searchedList = claims;
-                    $scope.searchObj = angular.copy(searchObj);
-                    $scope.searchObj.memberNumber = $scope.searchObj.memberNumber ? $scope.searchObj.memberNumber.ULME_MEMBER_ID : $scope.searchObj.memberNumber;
-                    $scope.searchObj.policyNumber = $scope.searchObj.policyNumber ? $scope.searchObj.policyNumber.ILM_NO : $scope.searchObj.policyNumber;
+                controller: function ($scope, $uibModalInstance, searchObj) {
+                    var searchInfo = angular.copy(searchObj);
+                    var autoCompleteMapping = {
+                        memberNumber : 'ULME_MEMBER_ID',
+                        policyNumber : 'ILM_NO'
+                    }
+                    $scope.searchObj = ReimbursementRegistrationFactory.constructSearchObj(autoCompleteMapping, searchInfo);
+                    $scope.searchObj.compId = "0021"                
+                    ReimbursementRegistrationService.getReimbursementRegistrationDetails($scope.searchObj, function(resp) {
+                        $scope.searchedList = resp;
+                    })
                     $scope.cancelModal = function() {
                         $uibModalInstance.dismiss();
                         $('.modal-backdrop').remove();
@@ -156,9 +162,6 @@
                     }
                 },                    
                 resolve: {
-                    claims : function () {
-                        return ReimbursementRegistrationFactory.searchClaims($scope.search);
-                    },
                     searchObj : function() {
                         return $scope.search;
                     }

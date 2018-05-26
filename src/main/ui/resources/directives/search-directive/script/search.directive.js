@@ -46,7 +46,7 @@
                             searchParams["policyNumber"] = field == 'policyNumber' ? searchText+"%" : "%",
                             searchParams["memberNumber"] = "%",
                             searchParams["memberName"] = field == 'memberName' ? searchText+"%" : "%",
-                            searchParams["voucherNumber"] = "%",
+                            searchParams["voucherNumber"] = field == 'voucherNumber' ? searchText+"%" : "%",
                             searchParams["cardNumber"] = field == 'cardNumber' ? searchText+"%" : "%",
                             searchParams["emiratesId"] = field == 'emiratesId' ? searchText+"%" : "%"
                         }
