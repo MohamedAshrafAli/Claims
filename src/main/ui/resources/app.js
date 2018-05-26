@@ -52,8 +52,8 @@ angular
                 templateUrl: "resources/reimbursement-claims/registration/view/reimbursement-registration-general.html",
                 controller: 'ReimbursementRegistrationGeneralController',
                 resolve : {
-                    claim : function(ReimbursementRegistrationService) {
-                        return ReimbursementRegistrationService.createRegDetailObj();
+                    claim : function(ReimbursementRegistrationFactory) {
+                        return ReimbursementRegistrationFactory.createRegDetailObj();
                     },
                     isNew : function() {
                         return true;

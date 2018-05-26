@@ -1910,3 +1910,6 @@ a {
 .search-btns {
     padding-top:10px;
 }
+md-autocomplete md-autocomplete-wrap md-progress-linear.md-inline{
+    bottom: 0px !important;
+}

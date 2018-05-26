@@ -38,7 +38,7 @@
                             scope.setPage(1);
                         })
 
-                        init();
+                        // init();
                     }
                 }
             }

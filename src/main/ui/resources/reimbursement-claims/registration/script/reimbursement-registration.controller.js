@@ -5,32 +5,46 @@
         .module('claims')
         .controller('ReimbursementRegistrationController', ReimbursementRegistrationController)
 
-    ReimbursementRegistrationController.$inject = ['$scope', '$rootScope', 'ReimbursementRegistrationService', 'ngNotify', '$filter', '$state', 'ListViewService'];
+    ReimbursementRegistrationController.$inject = ['$scope', '$rootScope', 'ReimbursementRegistrationService', 'ngNotify', '$filter', '$state', 'ListViewService', 'ReimbursementRegistrationFactory'];
 
-    function ReimbursementRegistrationController($scope, $rootScope, ReimbursementRegistrationService, ngNotify, $filter, $state, ListViewService) {
+    function ReimbursementRegistrationController($scope, $rootScope, ReimbursementRegistrationService, ngNotify, $filter, $state, ListViewService, ReimbursementRegistrationFactory) {
 
         $scope.reverse = true;
-
+        var autoCompleteMapping = {
+            cardNumber : 'CLMR_TPA_CARD',
+            memberNumber : 'CLMR_MEMBER_ID',
+            emiratesId : 'CLMR_UID_ID',
+            policyNumber : 'CLF_ULM_NO'
+        }
+        
         $scope.filterValues = function(searchValue) {
             if (searchValue) {
-                $scope.searchBy = {
-                    memberNumber : searchValue['memberNumber'] ? searchValue['memberNumber']['memberNumber'] : '',
-                    memberName : searchValue['memberName'] ? searchValue['memberName']['memberName'] : '',
-                    emiratesId :searchValue['emiratesId'] ? searchValue['emiratesId'] : '',
-                    voucherNumber : searchValue['voucherNumber'] ? searchValue['voucherNumber'] : '',
-                    policyNumber: searchValue['policyNumber'] ? searchValue['policyNumber']['policyNumber'] : ''
-                };
+                var search = {compId : "0021"};
+                angular.forEach(searchValue, function(value,key){
+                    if(value != null) {
+                        search[key] = value
+                        if(autoCompleteMapping[key]){
+                            search[key] = value[autoCompleteMapping[key]];
+                        }
+                    }
+                });
+                getRegisteredClaimsList(search);
             } else {
-                $scope.searchBy = {};
+                getRegisteredClaimsList({compId:"0021"});
             }
+            
+        }
+
+        function getRegisteredClaimsList(searchParams) {
+            ReimbursementRegistrationService.getReimbursementRegistrationDetails(searchParams, function(resp) {
+                $scope.registeredClaims = resp;
+            })
         }
       
         function init() {
+            getRegisteredClaimsList({compId:"0021"});
             $scope.registrationHeaders = ListViewService.getRegistrationListViewHeader();
-            $scope.fieldsObject =  ReimbursementRegistrationService.getSearchFields();
-            //$scope.autoSearchObject = ReimbursementRegistrationService.getUsers();
-            $scope.registeredClaims = ReimbursementRegistrationService.getClaimRegistrationList();
-            $scope.claims = $scope.registeredClaims;
+            $scope.fieldsObject =  ReimbursementRegistrationFactory.getSearchFields();
         }
 
         init();
