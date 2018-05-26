@@ -8,17 +8,45 @@
         <div class="searchBar" ng-if="isNew">
             <div class="searchBarRow">
                 <div layout-gt-sm="row" style="height:auto !important">
-                    <div style="border-left: 1px solid #e6e6e6; width: 100% !important;">
-                        <md-input-container flex-gt-sm>
-                            <label>Member Number</label>
-                            <input ng-model="search.memberNumber">
-                        </md-input-container>
+                    <div style="border-left: 1px solid #e6e6e6; width: 100% !important;" class="searchCol-relative-pos">
+                        <md-icon class="searchAutoIcon">
+                            <i class='oi align-middle' data-glyph='magnifying-glass'></i>
+                        </md-icon>
+                        <md-autocomplete flex-gt-sm class="autoSearch" 
+                            md-selected-item='search.memberNumber'  
+                            md-search-text="memberNumberSearchText"
+                            md-search-text-change="getAutoCompleteList(memberNumberSearchText, 'memberNumber', 'getMemberNumberList');"
+                            md-items="item in getQueriedItems('memberNumber')"
+                            md-item-text='item.ULME_MEMBER_ID' 
+                            md-floating-label='Member Number' 
+                            md-clear-button="true"
+                            md-no-cache="true"
+                            md-delay="200">
+                            <md-item-template>
+                                <span md-highlight-text="memberNumberSearchText">{{item.ULME_MEMBER_ID}}</span>
+                            </md-item-template>
+                            <md-not-found>No Result Found</md-not-found>
+                        </md-autocomplete>
                     </div>
-                    <div style="border-left: 1px solid #e6e6e6; width: 100% !important;">
-                        <md-input-container flex-gt-sm>
-                            <label>Policy Number</label>
-                            <input ng-model="search.policyNumber">
-                        </md-input-container>
+                    <div style="border-left: 1px solid #e6e6e6; width: 100% !important;" class="searchCol-relative-pos">
+                        <md-icon class="searchAutoIcon">
+                            <i class='oi align-middle' data-glyph='magnifying-glass'></i>
+                        </md-icon>
+                        <md-autocomplete flex-gt-sm class="autoSearch" 
+                            md-selected-item='search.policyNumber'  
+                            md-search-text="policyNumberSearchText"
+                            md-search-text-change="getAutoCompleteList(policyNumberSearchText, 'policyNumber', 'getPolicyNumberList');"
+                            md-items="item in getQueriedItems('policyNumber')"
+                            md-item-text='item.ILM_NO' 
+                            md-floating-label='Policy Number' 
+                            md-clear-button="true"
+                            md-no-cache="true",
+                            md-delay="200">
+                            <md-item-template>
+                                <span md-highlight-text="policyNumberSearchText">{{item.ILM_NO}}</span>
+                            </md-item-template>
+                            <md-not-found>No Result Found</md-not-found>
+                        </md-autocomplete>
                     </div>
                     <div style="border-left: 1px solid #e6e6e6; width: 100% !important;">
                         <md-input-container flex-gt-sm>

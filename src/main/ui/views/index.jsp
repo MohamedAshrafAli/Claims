@@ -61,7 +61,8 @@
         <!-- Directives -->
         <script src="<s:url value="resources/directives/grid-directive/script/grid-wrapper.directive.js"/>"></script>
         <script src="<s:url value="resources/util/pagination/pagination.directive.js"/>"></script>
-        <script src="<s:url value="resources/util/dropdown-autocomplete.service.js"/>"></script>
+        <script src="<s:url value="resources/util/autocomplete.service.js"/>"></script>
+        <script src="<s:url value="resources/util/ui-defination.service.js"/>"></script>
         <script src="<s:url value="resources/directives/claimsListView-directive/script/claimslistview.directive.js"/>"></script>
         <script src="<s:url value="resources/directives/claimsListView-directive/script/claimslistview.directive.service.js"/>"></script>
         <script src="<s:url value="resources/directives/finalization-directive/script/finalizationlistview.directive.js"/>"></script>
@@ -84,6 +85,7 @@
         <script src="<s:url value="resources/reimbursement-claims/registration/script/reimbursement-registration-general.controller.js"/>"></script>
         <script src="<s:url value="resources/reimbursement-claims/registration/script/reimbursement-registration.controller.js"/>"></script>
         <script src="<s:url value="resources/reimbursement-claims/registration/script/reimbursement-registration.service.js"/>"></script>
+        <script src="<s:url value="resources/reimbursement-claims/registration/script/reimbursement-registration.factory.js"/>"></script>
         <script src="<s:url value="resources/reimbursement-claims/user-assignment/script/reimbursement-user-assignment.controller.js"/>"></script>
         <script src="<s:url value="resources/reimbursement-claims/user-assignment/script/reimbursement-user-assignment.service.js"/>"></script>
         <script src="<s:url value="resources/reimbursement-claims/processing/script/reimbursement-processing.controller.js"/>"></script>
