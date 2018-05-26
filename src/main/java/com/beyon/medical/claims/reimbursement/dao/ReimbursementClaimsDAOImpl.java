@@ -80,9 +80,9 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 			inParamMap.put("P_DOC_TYPE", docType);
 			inParamMap.put("P_CLF_SGS_ID", sequenceNumber);
 			inParamMap.put("P_PROD_ID", productId);
-			String strProcName = "CLK_GENERAL.UWP_GENERATE_DOC_NO";
+			String strProcName = "UWP_GENERATE_DOC_NO";
 			SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
-					.withProcedureName(strProcName);
+					.withProcedureName(strProcName).withCatalogName("CLK_GENERAL");
 			SqlParameterSource in = new MapSqlParameterSource(inParamMap);
 			simpleJdbcCallResult = simpleJdbcCall.execute(in);
 		}catch(Exception e) {
@@ -240,7 +240,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 			cardReceivedDate = java.sql.Date.valueOf(reimbursementRegistrationDTO.getCardReceivedDate());
 		}
 		
-		jdbcTemplate.update(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_R,
+		jdbcTemplate.update(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MR,
 				new Object[] { reimbursementRegistrationDTO.getId(), 
 						reimbursementRegistrationDTO.getRiskId(), 
 						reimbursementRegistrationDTO.getMemberNumber(), 
