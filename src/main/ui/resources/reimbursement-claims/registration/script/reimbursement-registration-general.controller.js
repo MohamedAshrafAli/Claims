@@ -30,10 +30,6 @@
             $scope.reportByTypes = resp.rowData;
         });
 
-        UIDefinationService.getSourceTypes({'compId' : '0021'}, function(resp) {
-            $scope.sourceTypes = resp.rowData;
-        });
-
         UIDefinationService.getPaymentTypes({'compId' : '0021'}, function(resp) {
             $scope.paymentTypes = resp.rowData;
         });
@@ -41,10 +37,6 @@
         UIDefinationService.getDocumentTypes({'compId' : '0021'}, function(resp) {
             $scope.documentTypes = resp.rowData;
         })
-
-        UIDefinationService.getEncounterTypes({'compId' : '0021'}, function(resp) {
-            $scope.encounterTypes = resp.rowData;
-        });
 
         $scope.setDcoumentType = function(documentType) {
             $scope.regDetail['reportedBy'] = documentType;
@@ -57,9 +49,11 @@
             $scope.regDetail['ibanNum'] = paymentType != 'cheque' ? $scope.regDetail['ibanNum'] : null;
         }
 
-        $scope.registerClaim = function() {
-            ReimbursementRegistrationFactory.registerClaim($scope.regDetail);
-            $state.go('reimbursement-registration');
+        $scope.saveRegistrationDetails = function() {
+            ReimbursementRegistrationService.saveRegistrationDetails($scope.regDetail, function(resp) {
+                $state.go('reimbursement-registration', {}, {reload: true});
+            });
+            
         }
 
         $scope.uploadFiles = function(files, doc) {
@@ -154,10 +148,13 @@
 
                     $scope.newClaim = function() {
                         $scope.registerNew = true;
+                        ReimbursementRegistrationService.getReimbursementRegistrationDetailsForPolicyAndMemberNo($scope.searchObj, function(resp) {
+                            $scope.searchedList = resp;
+                        });
                     }
 
                     $scope.continue = function(claim) {
-                        var claimObj = {'claim' : claim, 'isNew' : false};
+                        var claimObj = {'claim' : claim};
                         $uibModalInstance.close(claimObj);
                     }
                 },                    
@@ -169,14 +166,10 @@
             });
 
             modalInstance.result.then(function(result) {
-                $scope.regDetail = result.claim;
+                $scope.regDetail = ReimbursementRegistrationFactory.constructClaim(result.claim)//result.claim;
                 $('.modal-backdrop').remove();
-                if(result.isNew) {
-                    $scope.search = {};
-                } else {
-                    $scope.setDcoumentType($scope.regDetail.reportedBy);
-                    $scope.setPaymentWay($scope.regDetail.paymentWay);
-                }
+                $scope.setDcoumentType($scope.regDetail.reportedBy);
+                $scope.setPaymentWay($scope.regDetail.paymentWay);
             }, function() {});    
         }
 

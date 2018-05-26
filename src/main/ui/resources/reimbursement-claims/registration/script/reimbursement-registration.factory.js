@@ -22,11 +22,11 @@
                 "reqType" : null,
                 "reqReceivedDate" : null,
                 "prevRequest" : null,
-                "source" : "post",
+                "reportedBy" : "post",
                 "voucherNumber" : null,
                 "ibanNum" : null,
                 "emiratesId":null,
-                "paymentWay" : 'iban'
+                "paymentWay" : '01'
             };
         }
 
@@ -67,6 +67,14 @@
             });
             return search;
         }
+
+        this.constructClaim = function(claim) {
+            claim.reqReceivedDate = null;
+            claim.serviceFmDate = null;
+            claim.requestAmt = null;
+            return claim;
+        }
+
         return this;
     }
 })();

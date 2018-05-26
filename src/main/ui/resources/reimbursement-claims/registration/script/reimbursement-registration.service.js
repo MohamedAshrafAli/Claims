@@ -7,13 +7,22 @@
     
     ReimbursementRegistrationService.$inject = ['$resource', 'urlRoutePrefix', 'ReimbursementRegistrationFactory'];
     function ReimbursementRegistrationService($resource, urlRoutePrefix, ReimbursementRegistrationFactory) {
-        var resourceUrl = '/api/medical/claims/reimbursement';
-
+        var resourceUrl = urlRoutePrefix + '/api/medical/claims/reimbursement';
+        var compId = "0021";
         return $resource(resourceUrl, {}, {
             'getReimbursementRegistrationDetails' : {
                 method: 'POST',
-                url: urlRoutePrefix + resourceUrl + '/getReimbursementRegistrationDetails',
+                url: resourceUrl + '/getReimbursementRegistrationDetails',
                 isArray : true
+            },
+            'getReimbursementRegistrationDetailsForPolicyAndMemberNo' : {
+                method: 'POST',
+                url: resourceUrl + '/getReimbursementRegistrationDetailsForPolicyAndMemberNo',
+                isArray : true
+            },
+            'saveRegistrationDetails' : {
+                method: 'POST',
+                url: resourceUrl + '/saveRegistrationDetails/'+ compId,
             }
         })
     }
