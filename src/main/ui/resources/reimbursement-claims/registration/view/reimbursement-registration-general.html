@@ -136,8 +136,7 @@
                         <md-input-container flex-gt-sm>
                             <label>Request Type</label>
                             <md-select name="EncounterType" ng-model="regDetail.reqType">
-                                <md-option value="newRequest">New Request</md-option>
-                                <md-option value="resubmission">Resubmission</md-option>
+                                <md-option ng-repeat="option in requestTypes" value="{{option.id}}">{{option.value}}</md-option>
                             </md-select>
                         </md-input-container>
                     </div>
@@ -165,10 +164,9 @@
                 <div class="fieldsCol fieldsFilledCol">
                     <label class="top_4">Reported By</label>
                     <div class="buttonGroups">
-                        <button type="button" class="btn btn-outline-primary btn-sm" ng-class="{'btnSelect' : documentType == 'inPerson'}" ng-click="setDcoumentType('inPerson')">In Person</button>
-                        <button type="button" class="btn btn-outline-primary btn-sm" ng-class="{'btnSelect' : documentType == 'email'}" ng-click="setDcoumentType('email')">Email</button>
-                        <button type="button" class="btn btn-outline-primary btn-sm" ng-class="{'btnSelect' : documentType == 'post'}" ng-click="setDcoumentType('post')">Post</button>
-                        <button type="button" class="btn btn-outline-primary btn-sm" ng-class="{'btnSelect' : documentType == 'tpa'}" ng-click="setDcoumentType('tpa')">TPA</button>
+                        <span  ng-repeat="option in reportByTypes">
+                            <button type="button" class="btn btn-outline-primary btn-sm" ng-class="{'btnSelect' : regDetail.reportedBy == option.id}" ng-click="setDcoumentType(option.id)">{{option.value}}</button>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -176,11 +174,12 @@
                 <div class="fieldsCol fieldsFilledCol pb-2">
                     <label class="top_4">Payment Way</label>
                     <div class="buttonGroups">
-                        <button type="button" class="btn btn-outline-primary btn-sm" ng-class="{'btnSelect' : paymentWay == 'iban'}" ng-click="setPaymentWay('iban')">IBAN</button>
-                        <button type="button" class="btn btn-outline-primary btn-sm" ng-class="{'btnSelect' : paymentWay == 'cheque'}" ng-click="setPaymentWay('cheque')">Cheque</button>
+                        <span ng-repeat="option in paymentTypes">
+                              <button type="button" class="btn btn-outline-primary btn-sm" ng-class="{'btnSelect' : regDetail.paymentWay == option.value}" ng-click="setPaymentWay(option.value)">{{option.value}}</button>    
+                        </span>
                     </div>
                 </div>
-                <div class="fldsWrap clearfix b0 row" ng-show="paymentWay == 'iban'">
+                <div class="fldsWrap clearfix b0 row" ng-show="paymentWay == 'IBAN'">
                     <div class="col-sm-4">
                         <div layout-gt-sm="row">
                             <div class="pb-1 iban-box">
@@ -208,12 +207,7 @@
                     <div class="col-sm-3">
                         <md-input-container style="margin:0px;width:100%">
                             <md-select ng-model="docTypes" multiple="true" ng-change="filterDocuments()" ng-disabled="fileInfos.length == 0" placeholder="Type">
-                                <md-option value="Iban" ng-if="paymentWay == 'iban'">Iban</md-option>
-                                <md-option value="Reimbursement Form">Reimbursement form</md-option>
-                                <md-option value="Medical Bills">Medical bills</md-option>
-                                <md-option value="Medical Bills Summary">Medical bills Summary</md-option>
-                                <md-option value="Prescription">Prescription</md-option>
-                                <md-option value="Other Documents">Other Documents</md-option>
+                                <md-option ng-repeat="option in documentTypes" value="{{option.id}}">{{option.value}}</md-option>
                             </md-select>
                         </md-input-container>
                     </div>
@@ -321,12 +315,7 @@
                     <md-input-container flex-gt-sm>
                         <label>Upload Type</label>
                         <md-select ng-model="upload.type">
-                            <md-option value="Iban" ng-if="paymentWay == 'iban'">Iban</md-option>
-                            <md-option value="Reimbursement Form">Reimbursement form</md-option>
-                            <md-option value="Medical Bills">Medical bills</md-option>
-                            <md-option value="Medical Bills Summary">Medical bills Summary</md-option>
-                            <md-option value="Prescription">Prescription</md-option>
-                            <md-option value="Other Documents">Other Documents</md-option>
+                            <md-option ng-repeat="option in documentTypes" value="option.id">{{option.value}}</md-option>
                         </md-select>
                     </md-input-container>
                 </div>
@@ -356,7 +345,7 @@
                     ngf-drop="uploadFiles($files, doc)" ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true">
                     <uib-accordion-heading>
                         <div class="acc-header">
-                            {{doc.label}}
+                            {{doc.value}}
                             <!-- ({{!doc.files ? 0 : doc.files.length}}) -->
                             <span style="color:red;" ng-show="doc.isRequired">*</span>
                             <span class="oi expanded" data-glyph="chevron-bottom"></span>

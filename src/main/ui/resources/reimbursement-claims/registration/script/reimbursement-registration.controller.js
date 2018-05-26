@@ -28,7 +28,7 @@
         function init() {
             $scope.registrationHeaders = ListViewService.getRegistrationListViewHeader();
             $scope.fieldsObject =  ReimbursementRegistrationService.getSearchFields();
-            $scope.autoSearchObject = ReimbursementRegistrationService.getUsers();
+            //$scope.autoSearchObject = ReimbursementRegistrationService.getUsers();
             $scope.registeredClaims = ReimbursementRegistrationService.getClaimRegistrationList();
             $scope.claims = $scope.registeredClaims;
         }

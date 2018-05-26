@@ -17,12 +17,33 @@
         $scope.docTypes = [];
         $scope.hasMandatory = true;
         $scope.documentTypes = ReimbursementRegistrationService.getDocumentTypes();
+
         DropdownAutocompleteService.getEncounterTypes({'compId' : '0021'}, function(resp) {
             $scope.encounterTypes = resp.rowData;
-        });       
+        });  
+        
+        DropdownAutocompleteService.getRequestTypes({'compId' : '0021'}, function(resp) {
+            $scope.requestTypes = resp.rowData;
+        });
+
+        DropdownAutocompleteService.getReportByTypes({'compId' : '0021'}, function(resp) {
+            $scope.reportByTypes = resp.rowData;
+        });
+
+        DropdownAutocompleteService.getSourceTypes({'compId' : '0021'}, function(resp) {
+            $scope.sourceTypes = resp.rowData;
+        });
+
+        DropdownAutocompleteService.getPaymentTypes({'compId' : '0021'}, function(resp) {
+            $scope.paymentTypes = resp.rowData;
+        });
+
+        DropdownAutocompleteService.getDocumentTypes({'compId' : '0021'}, function(resp) {
+            $scope.documentTypes = resp.rowData;
+        });
 
         $scope.setDcoumentType = function(documentType) {
-            $scope.regDetail['source'] = documentType;
+            $scope.regDetail['reportedBy'] = documentType;
             $scope.documentType = documentType;
         }
 
@@ -70,7 +91,7 @@
             fileObj.contentType = file.type;
             fileObj.ext = 'excel';
             fileObj.uploadedDate = new Date();
-            fileObj.documentTyp = $scope.hasMandatory ? doc.label :  $scope.upload.type;
+            fileObj.documentTyp = $scope.hasMandatory ? doc.id :  $scope.upload.type;
             fileObj.documentDesc = $scope.upload ? $scope.upload.description : '';
             if(file.type.indexOf('image/') > -1)
                 fileObj.ext = 'image';
@@ -144,7 +165,7 @@
                 if(result.isNew) {
                     $scope.search = {};
                 } else {
-                    $scope.setDcoumentType($scope.regDetail.source);
+                    $scope.setDcoumentType($scope.regDetail.reportedBy);
                     $scope.setPaymentWay($scope.regDetail.paymentWay);
                 }
             }, function() {});    

@@ -17,13 +17,8 @@
         <div class="fldsWrap clearfix">
             <md-input-container flex-gt-sm>    
                 <label>Upload Type</label>
-                <md-select ng-model="docObj.documentTyp" ng-disabled="isUpload">
-                    <md-option value="Iban" ng-if="paymentWay == 'iban'">Iban</md-option>
-                    <md-option value="Reimbursement Form">Reimbursement form</md-option>
-                    <md-option value="Medical Bills">Medical bills</md-option>
-                    <md-option value="Medical Bills Summary">Medical bills Summary</md-option>
-                    <md-option value="Prescription">Prescription</md-option>
-                    <md-option value="Other Documents">Other Documents</md-option>
+                <md-select name="UploadType" ng-model="docObj.documentTyp" ng-disabled="isUpload">
+                    <md-option ng-repeat="option in documentTypes" value="{{option.id}}">{{option.value}}</md-option>
                 </md-select>
             </md-input-container>
         </div>
