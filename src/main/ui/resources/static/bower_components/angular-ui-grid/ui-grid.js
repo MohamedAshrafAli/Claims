@@ -8896,7 +8896,8 @@ angular.module('ui.grid')
   GridRenderContainer.prototype.updateViewableRowRange = function updateViewableRowRange(renderedRange) {
     // Slice out the range of rows from the data
     // var rowArr = uiGridCtrl.grid.rows.slice(renderedRange[0], renderedRange[1]);
-    var rowArr = this.visibleRowCache.slice(renderedRange[0], renderedRange[1]);
+    //var rowArr = this.visibleRowCache.slice(renderedRange[0], renderedRange[1]);/*Commented due to disappear of records above viewport/*
+    var rowArr = this.visibleRowCache
 
     // Define the top-most rendered row
     this.currentTopRow = renderedRange[0];

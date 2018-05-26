@@ -23,15 +23,33 @@ public final class GeneralQueriesConstants implements Serializable{
 	}
 	public static ResourceBundle claimsResourceBundle = ResourceBundle.getBundle("com.beyon.medical.claims.properties.queries.GeneralQueries");
 
-	public static final String GENERAL_QUERIES_GET_CARD_NUMBERS	 = claimsResourceBundle.getString("medical.claim.general.queries.cardnumbers");
-	public static final String GENERAL_QUERIES_GET_MEMBER_NUMBERS	 = claimsResourceBundle.getString("medical.claim.general.queries.membernumbers");
-	public static final String GENERAL_QUERIES_GET_POLICY_NUMBERS	 = claimsResourceBundle.getString("medical.claim.general.queries.policynumbers");
-	public static final String GENERAL_QUERIES_GET_EMIRATES_IDS = claimsResourceBundle.getString("medical.claim.general.queries.emiratesid");
-	public static final String GENERAL_QUERIES_GET_VOUCHER_NUMBERS = claimsResourceBundle.getString("medical.claim.general.queries.vouchernumbers");
-	public static final String GENERAL_QUERIES_GET_MEMBER_NAMES = claimsResourceBundle.getString("medical.claim.general.queries.membernames");
-	public static final String GENERAL_QUERIES_GET_PROVIDER_DETAILS = claimsResourceBundle.getString("medical.claim.general.queries.providerdetails");
-	public static final String GENERAL_QUERIES_GET_UID_DEFINITION_TYPES = claimsResourceBundle.getString("medical.claim.general.queries.uiddefinitiontype");
+	
+	public static final String GENERAL_QUERIES_GET_MEMBER_NUMBERS	 = claimsResourceBundle.getString("medical.claim.general.queries.ids.membernumbers");
+	
+	public static final String GENERAL_QUERIES_GET_IDS_COLUMN_MEMBER_NUMBERS	 = claimsResourceBundle.getString("medical.claim.general.queries.ids.column.membernumbers");
 
+	public static final String GENERAL_QUERIES_GET_POLICY_NUMBERS	 = claimsResourceBundle.getString("medical.claim.general.queries.ids.policynumbers");
+	
+	public static final String GENERAL_QUERIES_GET_IDS_COLUMN_POLICY_NUMBERS	 = claimsResourceBundle.getString("medical.claim.general.queries.ids.column.policynumbers");
+
+	public static final String GENERAL_QUERIES_GET_PROVIDER_DETAILS = claimsResourceBundle.getString("medical.claim.general.queries.providerdetails");
+	
+	public static final String GENERAL_QUERIES_GET_CURRENCY_DETAILS = claimsResourceBundle.getString("medical.claim.general.queries.currencydetail");
+
+	public static final String GENERAL_QUERIES_GET_USER_DIVISION = claimsResourceBundle.getString("medical.claim.general.queries.user.division");
+
+	public static final String GENERAL_QUERIES_GET_COB_DETAIL = claimsResourceBundle.getString("medical.claim.general.queries.cob.detail");
+
+	
+	public static final String GENERAL_QUERIES_GET_CTDS_LISTS	 = claimsResourceBundle.getString("medical.claim.general.queries.ctds.lists");
+	public static final String GENERAL_QUERIES_GET_CTDS_COLUMN_CARD_NUMBERS	 = claimsResourceBundle.getString("medical.claim.general.queries.ctds.column.cardnumbers");
+	public static final String GENERAL_QUERIES_GET_CTDS_COLUMN_MEMBER_NUMBERS	 = claimsResourceBundle.getString("medical.claim.general.queries.ctds.column.membernumbers");
+	public static final String GENERAL_QUERIES_GET_CTDS_COLUMN_POLICY_NUMBERS	 = claimsResourceBundle.getString("medical.claim.general.queries.ctds.column.policynumbers");
+	public static final String GENERAL_QUERIES_GET_CTDS_COLUMN_EMIRATES_IDS = claimsResourceBundle.getString("medical.claim.general.queries.ctds.column.emiratesid");
+	public static final String GENERAL_QUERIES_GET_CTDS_COLUMN_VOUCHER_NUMBERS = claimsResourceBundle.getString("medical.claim.general.queries.ctds.column.vouchernumbers");
+	public static final String GENERAL_QUERIES_GET_CTDS_COLUMN_MEMBER_NAMES = claimsResourceBundle.getString("medical.claim.general.queries.ctds.column.membernames");
+
+	public static final String GENERAL_QUERIES_GET_UID_DEFINITION_TYPES = claimsResourceBundle.getString("medical.claim.general.queries.uiddefinitiontype");
 	public static final String GENERAL_QUERIES_UID_STATUS_TYPE = claimsResourceBundle.getString("medical.claim.general.queries.uid.statustype");
 	public static final String GENERAL_QUERIES_UID_ENCOUNTER_TYPE = claimsResourceBundle.getString("medical.claim.general.queries.uid.encountertype");
 	public static final String GENERAL_QUERIES_UID_REPORT_BY_TYPE = claimsResourceBundle.getString("medical.claim.general.queries.uid.reportbytype");

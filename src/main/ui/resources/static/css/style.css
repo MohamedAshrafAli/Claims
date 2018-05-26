@@ -1312,6 +1312,9 @@ footer li strong {
     float: inherit;
     margin: 3px 5px;
 }
+.eclaimRequestTabl {
+    margin-bottom: 60px;
+}
 
 .ui-grid-cell .custCheckboxBtn {
     margin: 3px 9px;

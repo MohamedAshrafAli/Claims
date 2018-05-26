@@ -1,63 +1,32 @@
 package com.beyon.medical.claims.ui.facade.controller;
 
-import java.util.List;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_UID_DOCUMENT_TYPE;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_UID_ENCOUNTER_TYPE;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_UID_PAYMENT_TYPE;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_UID_REPORT_BY_TYPE;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_UID_REQUEST_TYPE;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_UID_SOURCE_TYPE;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_UID_STATUS_TYPE;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.*;
 
 import com.beyon.medical.claims.exception.MedicalClaimsException;
-import com.beyon.medical.claims.ui.facade.service.MedicalClaimsUIServiceFacade;
+import com.beyon.medical.claims.ui.facade.service.GeneralServiceFacade;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @RestController
-@RequestMapping("/medical/claims/ui")
+@RequestMapping("/api/medical/claims/uid")
 @CrossOrigin(origins = "*")
-public class MedicalClaimsUIController{
+public class UIDefinitionController{
 	
 	@Autowired
-	private MedicalClaimsUIServiceFacade uiServiceFacade;
-	
-	@GetMapping("/getMedicalCardNumbers")
-	public List<String> getMedicalCardNumbers(@RequestParam("compId") String compId,@RequestParam("cardNumber") String cardNumber) throws MedicalClaimsException {
-		List<String> cardNumbers = null;
-		try {
-			cardNumbers = uiServiceFacade.getMemberCardNumberList(compId,cardNumber);
-		} catch (Exception ex) {
-			throw new MedicalClaimsException(ex.getMessage());
-		} 
-		return cardNumbers;
-	}
-	
-	@PostMapping("/getMemberNumberList")
-	public  @ResponseBody ObjectNode getMemberNumberList(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
-		ObjectNode memberNumbers = null;
-		try {
-			memberNumbers = uiServiceFacade.getMemberNumberList(inputMap);
-		} catch (Exception ex) {
-			throw new MedicalClaimsException(ex.getMessage());
-		} 
-		return memberNumbers;
-	}
-	
-	
-	@GetMapping("/getPolicyNumberList")
-	public  @ResponseBody ObjectNode getPolicyNumberList(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
-		ObjectNode policyNumbers = null;
-		try {
-			policyNumbers = uiServiceFacade.getPolicyNumberList(inputMap);
-		} catch (Exception ex) {
-			throw new MedicalClaimsException(ex.getMessage());
-		} 
-		return policyNumbers;
-	}
+	private GeneralServiceFacade uiServiceFacade;
 	
 	@PostMapping("/getEncounterTypes")
 	public @ResponseBody ObjectNode getEncounterTypes(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
