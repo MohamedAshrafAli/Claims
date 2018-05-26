@@ -21,7 +21,7 @@
                         }
 
                         scope.setPage = function(page) {
-                            if (page < 1 || page > scope.pager.totalPages) {
+                            if (page < 1 || page > scope.pager.totalPages || !scope.records) {
                                 return;
                             }
                             scope.pager = PaginationFactory.getPageSettings(scope.records.length, page, scope.recordsToDisplay);
@@ -38,7 +38,7 @@
                             scope.setPage(1);
                         })
 
-                        // init();
+                        init();
                     }
                 }
             }
