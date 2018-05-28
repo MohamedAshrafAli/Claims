@@ -53,7 +53,6 @@
             ReimbursementRegistrationService.saveRegistrationDetails($scope.regDetail, function(resp) {
                 $state.go('reimbursement-registration', {}, {reload: true});
             });
-            
         }
 
         $scope.uploadFiles = function(files, doc) {
@@ -131,8 +130,8 @@
                     size: 'lg',
                     backdrop: 'static',
                     keyboard :false,
-                    controller: function ($scope, $uibModalInstance, searchObj) {
-                        var searchInfo = angular.copy(searchObj);
+                    controller: function ($scope, $uibModalInstance) {
+                        var searchInfo = angular.copy(data);
                         var autoCompleteMapping = {
                             memberNumber : 'ULME_MEMBER_ID',
                             policyNumber : 'ILM_NO'
@@ -158,11 +157,6 @@
                             ReimbursementRegistrationService.getReimbursementRegistrationDetailsById({'id' : claim.id}, function(resp) {
                                 $uibModalInstance.close(resp);
                             })                        
-                        }
-                    },                    
-                    resolve: {
-                        searchObj : function() {
-                            return $scope.search;
                         }
                     }
                 });
