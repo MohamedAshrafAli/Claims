@@ -58,7 +58,7 @@ public class UIDefinitionController{
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
-		return reportByTypes;
+		return reportByTypes;		
 	}
 	
 	@PostMapping("/getPaymentTypes")

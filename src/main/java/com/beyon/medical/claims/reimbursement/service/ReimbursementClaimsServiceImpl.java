@@ -53,7 +53,7 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 			String strQuery = REIMBURSEMENT_QUERIES_CTDS_DETAILS_ID;
 			Map<String,Object> inputMap = new HashMap<>();
 			inputMap.put("id", id);
-			reimbursementRegDetails =  reimbursementClaimsDAO.getRegistrationListViewData(strQuery, inputMap);
+			reimbursementRegDetails =  reimbursementClaimsDAO.getRegistrationDetailsById(strQuery, inputMap);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
@@ -68,11 +68,11 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 			while (mapIter.hasNext()) {
 				String key = (String) mapIter.next();
 				if(key.equalsIgnoreCase("policyNumber")) {
-					builder.append(inputMap.get(REIMBURSEMENT_QUERIES_CTDS_DETAILS_POLICY_CRITERIA));
+					builder.append(REIMBURSEMENT_QUERIES_CTDS_DETAILS_POLICY_CRITERIA + " ");
 				} else if(key.equalsIgnoreCase("memberNumber")) {
-					builder.append(inputMap.get(REIMBURSEMENT_QUERIES_CTDS_DETAILS_MEM_NO_CRITERIA));
+					builder.append(REIMBURSEMENT_QUERIES_CTDS_DETAILS_MEM_NO_CRITERIA+ " ");
 				} else if(key.equalsIgnoreCase("voucherNumber")) {
-					builder.append(inputMap.get(REIMBURSEMENT_QUERIES_CTDS_DETAILS_VOUCHER_CRITERIA));
+					builder.append(REIMBURSEMENT_QUERIES_CTDS_DETAILS_VOUCHER_CRITERIA + " ");
 				} 
 			}
 			strQuery = strQuery.replaceAll("<CRITERIA>", builder.toString());

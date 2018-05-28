@@ -59,8 +59,8 @@ public class ReimbursementController{
 		return registrationDTOs;
 	}
 	
-	@PostMapping("/saveRegistrationDetails")
-	public  @ResponseBody ReimbursementRegistrationDTO saveRegistrationDetails(@RequestParam String compId, @RequestBody ReimbursementRegistrationDTO registrationDTO) throws MedicalClaimsException {
+	@PostMapping("/saveRegistrationDetails/{compId}")
+	public  @ResponseBody ReimbursementRegistrationDTO saveRegistrationDetails(@PathVariable String compId, @RequestBody ReimbursementRegistrationDTO registrationDTO) throws MedicalClaimsException {
 		ReimbursementRegistrationDTO _registrationDTO = null;
 		try {
 			_registrationDTO = reimbursementClaimsService.saveRegistrationDetails(compId,registrationDTO);

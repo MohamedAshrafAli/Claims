@@ -7,6 +7,8 @@ import static com.beyon.framework.util.Constants.INTERNAL_ERROR_OCCURED;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -101,16 +103,21 @@ public class BaseClaimsDAOImpl {
 	public String getClassOfBusinessForPolicy(String strQuery,String policyNumber,String compId) throws DAOException {
 		String cobId = null;
 		try {
-			JdbcTemplate jdbcTemplate = DAOFactory.getJdbcTemplate("gm");
-			List<String> cobIdList = jdbcTemplate.query(strQuery, new Object[] { policyNumber,compId }, new RowMapper<String>() {
+			List<String> cobIds = new ArrayList<String>();
+			
+			NamedParameterJdbcTemplate namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
+			Map<String, Object> inputMap = new HashMap<>();
+			inputMap.put("compId",compId);
+			inputMap.put("policyNumber", policyNumber);
+			namedParameterJdbcTemplate.query(strQuery, inputMap , new RowCallbackHandler() {
 				@Override
-				public String mapRow(ResultSet rs, int rownumber) throws SQLException {
-					return rs.getString("COBId");
+				public void processRow(ResultSet rs) throws SQLException {
+					cobIds.add(rs.getString("CobId"));
 				}
 			});
-			cobId = cobIdList.get(0);
-		} catch (Exception e) {
-			writeLog(CLASS_NAME, "Exception occured while executing getClassOfBusinessForPolicy", ERROR, e);
+			cobId = cobIds.get(0);
+		} catch (Exception ex) {
+			writeLog(CLASS_NAME, "Exception occured while executing getDataList", ERROR, ex);
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
 		}
 		return cobId;

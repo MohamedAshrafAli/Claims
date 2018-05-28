@@ -16,17 +16,16 @@
                     dropDown: '=',
                     searchAuto: '=',
                     callback: '&',
-                    btnsWidth : '@'
+                    btnsWidth : '@',
+                    moduleName : '@'
                 },
-                controller: function ($scope) {
+                controller: function ($scope, $q, AutocompleteService, $timeout) {
 
                     $scope.autoSearch = $scope.searchAuto;
                     $scope.paymentWay = "";
                     $scope.search = {};
 
                     $scope.clearSearch = function () {
-                        $scope.searchText = "";
-                        $scope.localSearchText = "";
                         $scope.search = {};
                         $scope.callback({ 'data': null });
                     };
@@ -35,6 +34,26 @@
                         var searchText = $scope.search;
                         $scope.callback({ 'data': searchText });
                     };
+
+                    $scope.getAutoCompleteList = function (searchText, field, info) {
+                        if(!searchText || searchText.length < 3) {
+                            $scope[field] = [];
+                            return[];
+                        }
+                        var searchParams = {};
+                        if($scope.moduleName == 'registration') {
+                            searchParams["compId"] = "0021",
+                            searchParams["policyNumber"] = field == 'policyNumber' ? searchText+"%" : "%",
+                            searchParams["memberNumber"] = "%",
+                            searchParams["memberName"] = field == 'memberName' ? searchText+"%" : "%",
+                            searchParams["voucherNumber"] = field == 'voucherNumber' ? searchText+"%" : "%",
+                            searchParams["cardNumber"] = field == 'cardNumber' ? searchText+"%" : "%",
+                            searchParams["emiratesId"] = field == 'emiratesId' ? searchText+"%" : "%"
+                        }
+                        return AutocompleteService[info.methodName](searchParams).$promise.then(function(resp) {
+                            return resp.rowData;
+                        })
+                    }
 
                     $scope.querySearch = function (query, label) {
                         return query ? $scope.autoSearch.filter(createFilterFor(query, label)) : $scope.autoSearch;

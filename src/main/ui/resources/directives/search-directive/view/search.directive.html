@@ -19,10 +19,16 @@
             <i class='oi align-middle' data-glyph='magnifying-glass'></i>
         </md-icon>
         <md-autocomplete flex-gt-sm ng-class="x.autoCompleteClass" ng-if="x.type == 'autoSearch'"
-            md-selected-item='search[x.name]' md-search-text='approvedSearchText' md-items='item in querySearch(approvedSearchText, x.name)'
-            md-item-text='item[x.name]' md-floating-label='{{x.label}}' md-clear-button='true'>
+            md-selected-item='search[x.name]'  
+            md-search-text="searchText"
+            md-items="item in getAutoCompleteList(searchText, x.name, x.autoCompleteInfo);"
+            md-item-text="item[x.autoCompleteInfo.displayName]"
+            md-floating-label='{{x.label}}' 
+            md-clear-button="true"
+            md-no-cache="true"
+            md-delay="500">
             <md-item-template>
-                <span md-highlight-text='approvedSearchText'>{{item[x.name]}}</span>
+                <span md-highlight-text="searchText">{{item[x.autoCompleteInfo.displayName]}}</span>
             </md-item-template>
             <md-not-found>No Result Found</md-not-found>
         </md-autocomplete>

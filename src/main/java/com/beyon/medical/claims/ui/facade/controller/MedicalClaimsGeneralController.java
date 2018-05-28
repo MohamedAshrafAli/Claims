@@ -22,7 +22,7 @@ public class MedicalClaimsGeneralController{
 	@Autowired
 	private GeneralServiceFacade uiServiceFacade;
 	
-	@GetMapping("/getMedicalCardNumberList")
+	@PostMapping("/getMedicalCardNumberList")
 	public  @ResponseBody ObjectNode getMedicalCardNumberList(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
 		ObjectNode cardNumbers = null;
 		try {

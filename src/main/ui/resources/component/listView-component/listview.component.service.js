@@ -12,9 +12,9 @@
 
             this.getRegistrationListViewHeader = function() {
                 return [
-                    {'label': 'Card Number', 'fieldName' : 'memberNumber', 'redirectable' : true},
+                    {'label': 'Card Number', 'fieldName' : 'cardNumber', 'redirectable' : true},
                     {'label': 'Member Name', 'fieldName' : 'memberName', 'redirectable' : false},
-                    {'label': 'Emirates Id', 'fieldName' : 'emiratesId', 'redirectable' : false},
+                    {'label': 'Emirates Id', 'fieldName' : 'uidId', 'redirectable' : false},
                     {'label': 'Voucher Number', 'fieldName' : 'voucherNumber', 'redirectable' : false},
                     {'label': 'Policy Number', 'fieldName' : 'policyNumber', 'redirectable' : false},
                     {'label': 'Mobile Number', 'fieldName' : 'mobileNum1', 'redirectable' : false},
