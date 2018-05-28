@@ -11,7 +11,8 @@
                         headers: '<',
                         records: '=',
                         redirectTo: '@',
-                        searchBy: '='
+                        searchBy: '=',
+                        stateParam: '@'
                     },
                     link: function(scope, element, attrs) {
                         
@@ -25,7 +26,13 @@
                 
                         scope.navigateTo = function(requestData) {
                             ListViewService.setRequestData(requestData);
-                            $rootScope.navigateTo(scope.redirectTo);
+                            if(scope.stateParam) {
+                                var param = {}
+                                param[scope.stateParam] = requestData[scope.stateParam];
+                                $rootScope.navigateTo(scope.redirectTo, param);
+                            } else {
+                                $rootScope.navigateTo(scope.redirectTo, null);
+                            }                            
                         }
                 
                         scope.getSelectedData = function(selectedRecord) {

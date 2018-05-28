@@ -62,7 +62,7 @@ angular
             })
 
             .state('reimbursement-registration-edit', {
-                url: "/reimbursement-registration-general",
+                url: "/{id}/reimbursement-registration-general",
                 templateUrl: "resources/reimbursement-claims/registration/view/reimbursement-registration-general.html",
                 controller: 'ReimbursementRegistrationGeneralController',
                 resolve : {
@@ -263,8 +263,12 @@ angular
             }
         }
         
-        $rootScope.navigateTo = function(stateName) {
-            $state.go(stateName);
+        $rootScope.navigateTo = function(stateName, param) {
+            if(param != null) {
+                $state.go(stateName, param);
+            } else {
+                $state.go(stateName);
+            }            
         }
     }
 
