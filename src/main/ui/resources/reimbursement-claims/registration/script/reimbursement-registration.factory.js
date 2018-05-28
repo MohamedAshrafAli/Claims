@@ -75,6 +75,15 @@
             return claim;
         }
 
+        this.getreimbursementGeneral = function() {
+            return [
+                { label: 'Member Number', type: 'autoSearch', name: 'memberNumber', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos', autoCompleteInfo : {methodName: 'getMedicalCardNumberList', displayName: 'ULME_MEMBER_ID'}},
+                { label: 'Policy Number', type: 'autoSearch', name: 'policyNumber', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos', autoCompleteInfo : {methodName: 'getMedicalCardNumberList', displayName: 'ILM_NO'}},
+                { label: 'Voucher Number', type: 'autoSearch', name: 'voucherNumber', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos', autoCompleteInfo : {methodName: 'getMedicalCardNumberList', displayName: 'CLMR_TPA_CARD'}},
+                { label: 'Previous Request Number', type: 'text', name: 'requestNumber', iconClass:'searchAutoIcon', width:'90%'}
+            ];
+        }
+
         return this;
     }
 })();
