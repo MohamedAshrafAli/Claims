@@ -271,6 +271,7 @@
         function init() {
             $scope.regDetail.paymentWay ? $scope.setPaymentWay($scope.regDetail.paymentWay) : '';
             $scope.regDetail.source ? $scope.setDcoumentType($scope.regDetail.source) : '';
+            $scope.fieldsObject =  ReimbursementRegistrationFactory.getreimbursementGeneral();
         }
 
         $scope.clearDocFilter = function() {
