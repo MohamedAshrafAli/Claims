@@ -2,6 +2,7 @@ package com.beyon.medical.claims.reimbursement.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import com.beyon.medical.claims.general.dto.RegistrationBaseDTO;
 
@@ -12,14 +13,14 @@ public class ReimbursementRegistrationDTO extends RegistrationBaseDTO {
 	private String reqType;
 	private LocalDate reqReceivedDate;
 	private String prevRequest;
-	private String documentLink;
 	private String voucherNumber;
 	private LocalDate serviceFmDate;
 	private BigDecimal requestAmt;
 	private BigDecimal requestAmtBC;
 	private String paymentWay;
 	private String paymentRefNum;
-	
+	private List<RegistrationFileDTO> registrationFileDTOs;
+
 	public String getVoucherNumber() {
 		return voucherNumber;
 	}
@@ -69,12 +70,6 @@ public class ReimbursementRegistrationDTO extends RegistrationBaseDTO {
 	public void setPrevRequest(String prevRequest) {
 		this.prevRequest = prevRequest;
 	}
-	public String getDocumentLink() {
-		return documentLink;
-	}
-	public void setDocumentLink(String documentLink) {
-		this.documentLink = documentLink;
-	}
 	public Long getId() {
 		return id;
 	}
@@ -98,5 +93,11 @@ public class ReimbursementRegistrationDTO extends RegistrationBaseDTO {
 	}
 	public void setPaymentRefNum(String paymentRefNum) {
 		this.paymentRefNum = paymentRefNum;
+	}
+	public List<RegistrationFileDTO> getRegistrationFileDTOs() {
+		return registrationFileDTOs;
+	}
+	public void setRegistrationFileDTOs(List<RegistrationFileDTO> registrationFileDTOs) {
+		this.registrationFileDTOs = registrationFileDTOs;
 	}
 }

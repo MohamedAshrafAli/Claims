@@ -23,8 +23,9 @@ public class ClaimConstants
 	}
 	
 	
-	public ResourceBundle claimsResourceBundle = ResourceBundle.getBundle("com.beyon.medical.claims.properties.Claims");
-			
+	public static ResourceBundle claimsResourceBundle = ResourceBundle.getBundle("com.beyon.medical.claims.properties.Claims");
+	public static final String CLAIM_REIMBURSEMENT_REGISTRATION_FILE_SERVER = claimsResourceBundle.getString("reimbursement.registration.file.server");
+
 	
 	public final String DATE_FORMAT = this.claimsResourceBundle.getString("key.dateFormat");
 	

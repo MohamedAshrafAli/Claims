@@ -11,7 +11,6 @@ public class ReimbRegistrationMapper {
 	public static ReimbursementRegistrationDTO getViewReimbursementRegistrationDTO(ResultSet row) throws SQLException
 	{
 		ReimbursementRegistrationDTO registrationDTO = new ReimbursementRegistrationDTO();
-		registrationDTO.setDocumentLink(null);
 		registrationDTO.setEmail1(row.getString("EmailId1"));
 		registrationDTO.setEmail2(row.getString("EmailId2"));
 		registrationDTO.setUidId(row.getString("EmiratesId"));
@@ -144,7 +143,6 @@ public class ReimbRegistrationMapper {
 		registrationDTO.setRiskId(row.getString("RiskId"));
 		registrationDTO.setRiskType(row.getString("RiskType"));
 		registrationDTO.setUidId(row.getString("UIDId"));		
-		registrationDTO.setDocumentLink(null);
 		registrationDTO.setEncType(row.getString("EncounterType"));
 		registrationDTO.setPaymentRefNum(row.getString("PaymentGatewayRef"));
 		registrationDTO.setPaymentWay(row.getString("PaymentGatewayRef"));
