@@ -52,8 +52,8 @@ angular
                 templateUrl: "resources/reimbursement-claims/registration/view/reimbursement-registration-general.html",
                 controller: 'ReimbursementRegistrationGeneralController',
                 resolve : {
-                    claim : function(ReimbursementRegistrationService, $stateParams) {
-                        return ReimbursementRegistrationService.getReimbursementRegistrationDetailsById({'id' : $stateParams.id}).$promise
+                    claim : function(ReimbursementRegistrationFactory) {
+                        return ReimbursementRegistrationFactory.createRegDetailObj();
                     },
                     isNew : function() {
                         return true;
@@ -66,8 +66,8 @@ angular
                 templateUrl: "resources/reimbursement-claims/registration/view/reimbursement-registration-general.html",
                 controller: 'ReimbursementRegistrationGeneralController',
                 resolve : {
-                    claim : function(ListViewService) {
-                        return ListViewService.getRequestData();
+                    claim : function(ReimbursementRegistrationService, $stateParams) {
+                        return ReimbursementRegistrationService.getReimbursementRegistrationDetailsById({'id' : $stateParams.id}).$promise
                     },
                     isNew : function() {
                         return false;
