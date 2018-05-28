@@ -3,13 +3,14 @@ package com.beyon.medical.claims.reimbursement.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -60,10 +61,14 @@ public class ReimbursementController{
 	}
 	
 	@PostMapping("/saveRegistrationDetails/{compId}")
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public  @ResponseBody ReimbursementRegistrationDTO saveRegistrationDetails(@PathVariable String compId, @RequestBody ReimbursementRegistrationDTO registrationDTO) throws MedicalClaimsException {
 		ReimbursementRegistrationDTO _registrationDTO = null;
 		try {
 			_registrationDTO = reimbursementClaimsService.saveRegistrationDetails(compId,registrationDTO);
+			if(_registrationDTO.getRegistrationFileDTOs() != null && !_registrationDTO.getRegistrationFileDTOs().isEmpty()) {
+				reimbursementClaimsService.uploadAndSaveDocuments(compId, _registrationDTO);
+			}
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 

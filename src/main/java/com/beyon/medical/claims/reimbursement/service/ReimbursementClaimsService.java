@@ -15,5 +15,8 @@ public interface ReimbursementClaimsService {
 	List<ReimbursementRegistrationDTO> getRegistrationDetailsForPolicyAndMemberNo(ObjectNode inputMap) throws DAOException;
 
 	ReimbursementRegistrationDTO saveRegistrationDetails(String compId,ReimbursementRegistrationDTO registrationDTO) throws DAOException;
+	
+	void uploadAndSaveDocuments(String compId,ReimbursementRegistrationDTO registrationDTO) throws DAOException;
+
 
 }

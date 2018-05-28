@@ -1,24 +1,31 @@
 package com.beyon.medical.claims.reimbursement.service;
 
+import static com.beyon.framework.util.AppLogger.ERROR;
+import static com.beyon.framework.util.AppLogger.writeLog;
 import static com.beyon.framework.util.Constants.INTERNAL_ERROR_OCCURED;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS;
+import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_ID;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_MEM_NO_CRITERIA;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_POLICY_CRITERIA;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_VOUCHER_CRITERIA;
-import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_ID;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_DETAILS;
+import static com.beyon.medical.claims.constants.ClaimConstants.*;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.beyon.framework.util.FoundationUtils;
+import com.beyon.medical.claims.constants.ClaimConstants;
 import com.beyon.medical.claims.exception.DAOException;
 import com.beyon.medical.claims.reimbursement.dao.ReimbursementClaimsDAOImpl;
+import com.beyon.medical.claims.reimbursement.dto.RegistrationFileDTO;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementRegistrationDTO;
 import com.beyon.medical.claims.ui.facade.service.GeneralServiceFacade;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -105,6 +112,36 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
 		}
 		return _registrationDTO;
+	}
+	
+	@Override
+	public void uploadAndSaveDocuments(String compId,ReimbursementRegistrationDTO registrationDTO) throws DAOException {
+		try {
+			reimbursementClaimsDAO.insertTDSLEVELD(compId, registrationDTO);
+			for (RegistrationFileDTO  registrationFileDTO : registrationDTO.getRegistrationFileDTOs()) {
+				transferFilesToFileServer(registrationDTO,registrationFileDTO);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+	}
+	
+	private void transferFilesToFileServer(ReimbursementRegistrationDTO registrationDTO,RegistrationFileDTO  registrationFileDTO) throws DAOException {
+	        String filename = registrationFileDTO.getFile().getOriginalFilename();
+	        String path = CLAIM_REIMBURSEMENT_REGISTRATION_FILE_SERVER + File.separator + registrationDTO.getClaimRefNo() + File.separator+registrationFileDTO.getDocType();
+	        File uploadDir = null;			
+	        File uploadFile = null;
+	        try {
+	            uploadDir = new File(path);
+	            if (!uploadDir.exists()) {
+	                uploadDir.mkdirs();
+	            }
+	            uploadFile = new File(path + File.separator + filename);
+	            registrationFileDTO.getFile().transferTo(uploadFile);
+	        } catch (Exception ex) {
+	            throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+	        }
 	}
 
 }
