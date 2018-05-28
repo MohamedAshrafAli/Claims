@@ -43,7 +43,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		return namedParameterJdbcTemplate.query(query, parameters, new RowMapper<ReimbursementRegistrationDTO>() {
 			@Override
 			public ReimbursementRegistrationDTO mapRow(ResultSet row, int count) throws SQLException {
-				return ReimbRegistrationMapper.getViewReimbursementRegistrationDTO(row);
+				return ReimbRegistrationMapper.getReimbursementRegistrationDTOById(row);
 			}
 		});
 	}

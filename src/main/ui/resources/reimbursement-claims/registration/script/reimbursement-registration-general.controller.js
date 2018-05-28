@@ -154,8 +154,9 @@
                     }
 
                     $scope.continue = function(claim) {
-                        var claimObj = {'claim' : claim};
-                        $uibModalInstance.close(claimObj);
+                        ReimbursementRegistrationService.getReimbursementRegistrationDetailsById({'id' : claim.id}, function(resp) {
+                            $uibModalInstance.close(resp);
+                        })                        
                     }
                 },                    
                 resolve: {
@@ -166,7 +167,7 @@
             });
 
             modalInstance.result.then(function(result) {
-                $scope.regDetail = ReimbursementRegistrationFactory.constructClaim(result.claim)//result.claim;
+                $scope.regDetail = ReimbursementRegistrationFactory.constructClaim(result)
                 $('.modal-backdrop').remove();
                 $scope.setDcoumentType($scope.regDetail.reportedBy);
                 $scope.setPaymentWay($scope.regDetail.paymentWay);

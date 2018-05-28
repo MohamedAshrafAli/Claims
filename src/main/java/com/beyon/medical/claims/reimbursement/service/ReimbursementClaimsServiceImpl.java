@@ -53,7 +53,7 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 			String strQuery = REIMBURSEMENT_QUERIES_CTDS_DETAILS_ID;
 			Map<String,Object> inputMap = new HashMap<>();
 			inputMap.put("id", id);
-			reimbursementRegDetails =  reimbursementClaimsDAO.getRegistrationListViewData(strQuery, inputMap);
+			reimbursementRegDetails =  reimbursementClaimsDAO.getRegistrationDetailsById(strQuery, inputMap);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);

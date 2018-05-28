@@ -23,6 +23,10 @@
             'saveRegistrationDetails' : {
                 method: 'POST',
                 url: resourceUrl + '/saveRegistrationDetails/'+ compId,
+            },
+            'getReimbursementRegistrationDetailsById' : {
+                method: 'GET',
+                url: resourceUrl + '/getReimbursementRegistrationDetails/:id'
             }
         })
     }
