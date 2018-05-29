@@ -39,9 +39,40 @@
             getDocumentMap();
         })
 
-        $scope.setDcoumentType = function(documentType) {
+        if($scope.regDetail.id && $scope.regDetail.registrationFileDTOs.length) {
+            var files = []
+            angular.forEach($scope.regDetail.registrationFileDTOs, function(value, key) {
+                var pathName =  value.docPath+'/'+ value.docName;
+                ReimbursementRegistrationService.getReimbursementRegistrationDocument({'pathName' : pathName}, function(resp) {
+                    var base64String = arrayBufferToBase64(resp.data);
+                    //var base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(resp.data)));
+                    value.base64String = "data:" +  value.docContentType + ";base64," + base64String;
+                    value.ext = getFileExtension(value.docContentType);
+                    files.push( value);
+                    if($scope.regDetail.registrationFileDTOs.length-1 == key) {
+                        $scope.documents = $scope.fileInfos = files;
+                        $scope.uploaded = true;
+                        $scope.noOfSlides = 5;
+                        $scope.showUpload = false;
+                    }
+                })
+            })
+        }
+
+        function arrayBufferToBase64(buffer) {
+            let binary = '';
+            let bytes = new Uint8Array(buffer);
+            let len = bytes.byteLength;
+            for (let i = 0; i < len; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return window.btoa(binary);
+        }
+
+        console.log($scope.documents);
+
+        $scope.setReportedBy = function(documentType) {
             $scope.regDetail['reportedBy'] = documentType;
-            $scope.documentType = documentType;
         }
 
         $scope.setPaymentWay = function(paymentType) {
@@ -62,12 +93,7 @@
             $scope.fileInfos = ($scope.fileInfos && $scope.fileInfos.length) ? $scope.fileInfos :[];
             $scope.uploadedId = $scope.hasMandatory ? Math.random() : null;
             var files = [];
-            $scope.filesToSave = [];
             angular.forEach($scope.files, function(value, key) {
-                var fileObj = {};
-                fileObj.file = value;
-                fileObj.docName = value.name;
-                $scope.filesToSave.push(fileObj);
                 var reader  = new FileReader();
                 $timeout(function() {
                     value.progress = 20;
@@ -91,23 +117,29 @@
             var fileObj = {};
             fileObj.id = Math.random();
             var base64String = event.target.result;//base64 String..
-            fileObj.name = file.name;
-            fileObj.contentType = file.type;
-            fileObj.ext = 'excel';
+            fileObj.docName = file.name;
+            fileObj.docContentType = file.type;
+            fileObj.ext = getFileExtension(file.type);
             fileObj.uploadedDate = new Date();
-            fileObj.documentTyp = $scope.hasMandatory ? doc.id :  $scope.upload.type;
-            fileObj.documentDesc = $scope.upload ? $scope.upload.description : '';
-            if(file.type.indexOf('image/') > -1)
-                fileObj.ext = 'image';
-            if(file.type.indexOf('/pdf') > -1)
-                fileObj.ext = 'pdf';
-            if(file.type.indexOf('.document') > -1)
-                fileObj.ext = 'docx';
+            fileObj.docTypeId = $scope.hasMandatory ? doc.id :  $scope.upload.type;
+            fileObj.docTypeDesc = $scope.documentMap[fileObj.docTypeId];
+            fileObj.description = $scope.upload ? $scope.upload.description : '';
+            
 
-            fileObj.previewUrl = base64String;
+            fileObj.base64String = base64String;
             if($scope.hasMandatory) fileObj.uploadedId = $scope.uploadedId;
-
             return fileObj;
+        }
+
+        function getFileExtension(type) {
+            var ext = 'excel';
+            if(type.indexOf('image/') > -1)
+                ext = 'image';
+            if(type.indexOf('/pdf') > -1)
+                ext = 'pdf';
+            if(type.indexOf('.document') > -1)
+                ext = 'docx';
+            return ext;    
         }
 
         function documentsUploaded() {
@@ -219,10 +251,6 @@
 
             $scope.uploadModalInstance.result.then(
                 function() {
-                    angular.forEach($scope.filesToSave, function(value) {
-                        value.docType = $scope.docObj.documentTyp
-                        value.description = $scope.docObj.documentDesc
-                    })
                     if(uploadedId != null) {
                         angular.forEach($scope.documents, function(value, key) {
                             if(value.uploadedId == uploadedId) updateDocument(value);
@@ -231,7 +259,7 @@
                         angular.forEach($scope.fileInfos, function(value, key) {
                             if(value.id == $scope.docObj.id) updateDocument(value);
                         })
-                        $scope.documents[index] = $scope.docObj;                        
+                        $scope.documents[index] = $scope.docObj;
                     }
                     if($scope.docTypes && $scope.docTypes.length)$scope.filterDocuments();
                 }, function() {}
@@ -239,14 +267,9 @@
         }
 
         function updateDocument(value) {
-            value.documentTyp = $scope.docObj.documentTyp;
-            value.documentDesc = $scope.docObj.documentDesc;
-            value.docTypeId = value.documentTyp;
-            value.docTypeDesc = $scope.documentMap[value.documentTyp];
-            value.description = value.documentDesc;
-            value.base64String = value.previewUrl;
-            value.docName = value.name;
-            value.docContentType = value.contentType;
+            value.docTypeId = $scope.docObj.docTypeId;
+            value.description = $scope.docObj.description;
+            value.docTypeDesc = $scope.documentMap[value.docTypeId];
         }
 
         $scope.cancelModal = function() {
@@ -275,7 +298,7 @@
             if($scope.docTypes.length) {
                     $scope.docTypes.forEach(function(type) {
                         var filteredFiles =  $scope.fileInfos.filter(function(item) {
-                            return (item.documentTyp == type);
+                            return (item.docTypeId == type);
                         })
                         documents = documents.concat(filteredFiles);
                     })

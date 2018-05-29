@@ -327,7 +327,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 					ps.setString(3, fileDTO.getDescription());
 					ps.setString(4, "Y");
 					ps.setDate(5, uploadedDate);
-					ps.setString(6, reimbursementRegistrationDTO.getId()+"_"+fileDTO.getDocName());
+					ps.setString(6, fileDTO.getDocName());
 					ps.setString(7, CLAIM_MOD_TYPE);
 					ps.setString(8, reimbursementRegistrationDTO.getClaimRefNo());
 					ps.setString(9, null);
@@ -337,8 +337,8 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 					ps.setLong(13, 0);
 					ps.setString(14, "I");
 					ps.setString(15, fileDTO.getDocTypeDesc());
-					ps.setString(16, fileDTO.getDocContentType());
-					ps.setString(17, fileDTO.getDocPath());
+					ps.setString(16, fileDTO.getDocPath());
+					ps.setString(17, fileDTO.getDocContentType());
 
 				}
 
@@ -349,6 +349,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 			});
 		} catch (Exception e) {
 			writeLog(CLASS_NAME, "Exception occured while executing insertTDSLEVELD", ERROR, e);
+			e.printStackTrace();
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
 		}
 	}

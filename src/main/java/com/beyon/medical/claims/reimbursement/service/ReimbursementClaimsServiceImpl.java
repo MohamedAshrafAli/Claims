@@ -139,10 +139,10 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 	@Override
 	public void uploadAndSaveDocuments(String compId,ReimbursementRegistrationDTO registrationDTO) throws DAOException {
 		try {
-			reimbursementClaimsDAO.insertTDSLEVELD(compId, registrationDTO);
 			for (RegistrationFileDTO  registrationFileDTO : registrationDTO.getRegistrationFileDTOs()) {
 				transferFilesToFileServer(registrationDTO,registrationFileDTO);
 			}
+			reimbursementClaimsDAO.insertTDSLEVELD(compId, registrationDTO);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
@@ -153,7 +153,7 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 	public byte[] getDocumentDetails(String path) throws MedicalClaimsException {
 		byte[] docBytes = null;
 		try {
-			docBytes = Files.readAllBytes(new File(path).toPath());
+			docBytes = Files.readAllBytes(new File(ClaimConstants.CLAIM_REIMBURSEMENT_REGISTRATION_FILE_SERVER + File.separator + path).toPath());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new MedicalClaimsException(e);
@@ -167,8 +167,11 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 			 	String base64 = registrationFileDTO.getBase64String().split(",")[1];
 				byte [] filearray = Base64.getDecoder().decode(base64.getBytes("UTF-8"));
 				String filename = registrationFileDTO.getDocName();
-				String path = ClaimConstants.CLAIM_REIMBURSEMENT_REGISTRATION_FILE_SERVER + File.separator + registrationDTO.getClaimRefNo() + File.separator+registrationFileDTO.getDocTypeDesc();
+				String fileServer = ClaimConstants.CLAIM_REIMBURSEMENT_REGISTRATION_FILE_SERVER + File.separator;
+
+				String path = registrationDTO.getClaimRefNo() + File.separator+registrationFileDTO.getDocTypeDesc();
 				registrationFileDTO.setDocPath(path);
+				path = fileServer + path ;
 	            uploadDir = new File(path);
 	            if (!uploadDir.exists()) {
 	                uploadDir.mkdirs();

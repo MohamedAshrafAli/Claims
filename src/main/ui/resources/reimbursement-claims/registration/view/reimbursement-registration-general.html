@@ -15,6 +15,16 @@
         <div class="resultBox mb-4" ng-class="{'mt-3' : isNew}">
             <div class="fldsWrap clearfix">
                 <div layout-gt-sm="row">
+                    <div class="col-sm-12">
+                        <md-input-container flex-gt-sm>
+                            <label>Voucher Number</label>
+                            <input type="text" ng-model="regDetail.voucherNumber" />
+                        </md-input-container>
+                    </div>
+                </div>
+            </div>   
+            <div class="fldsWrap clearfix">
+                <div layout-gt-sm="row">
                     <div class="col-sm-6">
                         <md-input-container flex-gt-sm>
                             <label>Policy Number</label>
@@ -136,7 +146,7 @@
                     <label class="top_4">Reported By</label>
                     <div class="buttonGroups">
                         <span  ng-repeat="option in reportByTypes">
-                            <button type="button" class="btn btn-outline-primary btn-sm" ng-class="{'btnSelect' : regDetail.reportedBy == option.id}" ng-click="setDcoumentType(option.id)">{{option.value}}</button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" ng-class="{'btnSelect' : regDetail.reportedBy == option.id}" ng-click="setReportedBy(option.id)">{{option.value}}</button>
                         </span>
                     </div>
                 </div>
@@ -160,15 +170,6 @@
                                 </md-input-container>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-4 fieldsCol fieldsFilledCol d-inline-block b0">
-                        <label class="top_4 d-block grayText">Upload IBAN Document if any</label>
-                        <div class="fileuploadWrap" style="float:left;">
-                            <div ngf-select="uploadIbanFiles($file)" ng-disabled="ibanFile.isUploading">
-                                <span class="oi align-middle mr-1" data-glyph="cloud-upload"></span> Browse Files
-                            </div>
-                        </div>
-                        <a href="{{ibanFile.url}}" download="{{ibanFile.name}}" class="iban-filename-elipsis"> {{ibanFile.name}} </a>
                     </div>
                 </div>
             </div>
@@ -195,7 +196,7 @@
                         infinite="false" name="'thumbnailSlider'" ng-class="{'img-padding' : (showUpload && $odd), 'img-padding' : !showUpload}">
                         <carousel-item>
                             <div style="padding:0px 5px 2px 7px;">
-                                <span href="{{item.previewUrl}}" download="{{item.name}}" style="float:left; color:#00aeef;font-size:16px;cursor:pointer;">
+                                <span href="{{item.base64String}}" download="{{item.name}}" style="float:left; color:#00aeef;font-size:16px;cursor:pointer;">
                                     <i class="fa fa-cloud-download"></i>
                                 </span>
                                 <span style="float:right; cursor:pointer;">
@@ -205,9 +206,9 @@
                             </div>
                             <div class="thumbnail-card" ng-class="{'img-padding' : $odd}">
                                 <div style="height:127px;padding:10px;">
-                                    <thumbnail file-type="{{ item.ext }}" source="{{ item.previewUrl }}" max-height="118" max-width="195" class="pdf-view" ng-show="item.ext == 'image'"
+                                    <thumbnail file-type="{{ item.ext }}" source="{{ item.base64String }}" max-height="118" max-width="195" class="pdf-view" ng-show="item.ext == 'image'"
                                         style="padding:5px;"></thumbnail>
-                                    <thumbnail file-type="{{ item.ext }}" source="{{ item.previewUrl }}" class="pdf-view" max-height="118" max-width="195" ng-show="item.ext == 'pdf'"
+                                    <thumbnail file-type="{{ item.ext }}" source="{{ item.base64String }}" class="pdf-view" max-height="118" max-width="195" ng-show="item.ext == 'pdf'"
                                         style="padding:5px;"></thumbnail>
                                     <div ng-show="item.ext == 'docx'">
                                         <i class="fa fa-file-word-o center" style="font-size:90px; color:#26559a; width:160px; height: 95px; text-align:center"></i>
@@ -219,7 +220,7 @@
                                 <div class="upload-details">
                                     <p class="slide-text-truncate">
                                         <a href="" ng-click="showPreview($index, item)">
-                                            <span>{{item.name}}</span>
+                                            <span>{{item.docName}}</span>
                                             <br>
                                         </a>
                                         <span>Uploaded on {{item.uploadedDate | date: 'mediumDate'}}</span>

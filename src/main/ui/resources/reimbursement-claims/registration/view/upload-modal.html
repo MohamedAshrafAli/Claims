@@ -17,7 +17,7 @@
         <div class="fldsWrap clearfix">
             <md-input-container flex-gt-sm>    
                 <label>Upload Type</label>
-                <md-select name="UploadType" ng-model="docObj.documentTyp" ng-disabled="isUpload">
+                <md-select name="UploadType" ng-model="docObj.docTypeId" ng-disabled="isUpload">
                     <md-option ng-repeat="option in documentTypes" value="{{option.id}}">{{option.value}}</md-option>
                 </md-select>
             </md-input-container>
@@ -25,7 +25,7 @@
         <div class="fldsWrap clearfix">
             <md-input-container flex-gt-sm>    
                 <label>Document Description</label>
-                <input type="text" ng-model="docObj.documentDesc" placeholder="File Description">
+                <input type="text" ng-model="docObj.description" placeholder="File Description">
             </md-input-container>
         </div>
     </div>
