@@ -27,7 +27,6 @@ public class ClaimConstants
 	public static final String CLAIM_REIMBURSEMENT_REGISTRATION_FILE_SERVER = claimsResourceBundle.getString("reimbursement.registration.file.server");
 
 	
-	public final String DATE_FORMAT = this.claimsResourceBundle.getString("key.dateFormat");
 	
 	public String getCMErrPropValue(String key){
 		ResourceBundle bundle = ResourceBundle.getBundle("com.beyon.medical.properties.CMErrorMessages");

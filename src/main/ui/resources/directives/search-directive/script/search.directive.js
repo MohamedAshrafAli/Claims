@@ -40,19 +40,33 @@
                             $scope[field] = [];
                             return[];
                         }
-                        var searchParams = {};
-                        if($scope.moduleName == 'registration') {
-                            searchParams["compId"] = "0021",
-                            searchParams["policyNumber"] = field == 'policyNumber' ? searchText+"%" : "%",
-                            searchParams["memberNumber"] = "%",
-                            searchParams["memberName"] = field == 'memberName' ? searchText+"%" : "%",
-                            searchParams["voucherNumber"] = field == 'voucherNumber' ? searchText+"%" : "%",
-                            searchParams["cardNumber"] = field == 'cardNumber' ? searchText+"%" : "%",
-                            searchParams["emiratesId"] = field == 'emiratesId' ? searchText+"%" : "%"
-                        }
+                        var searchParams = constructSearchparams(field, searchText);
                         return AutocompleteService[info.methodName](searchParams).$promise.then(function(resp) {
                             return resp.rowData;
                         })
+                    }
+
+                    function constructSearchparams(field, searchText) {
+                        var searchObj = {}
+                        if($scope.moduleName == 'registration') {
+                            searchObj["compId"] = "0021",
+                            searchObj["policyNumber"] = field == 'policyNumber' ? searchText+"%" : "%",
+                            searchObj["memberNumber"] = "%",
+                            searchObj["memberName"] = field == 'memberName' ? searchText+"%" : "%",
+                            searchObj["voucherNumber"] = field == 'voucherNumber' ? searchText+"%" : "%",
+                            searchObj["cardNumber"] = field == 'cardNumber' ? searchText+"%" : "%",
+                            searchObj["emiratesId"] = field == 'emiratesId' ? searchText+"%" : "%"
+                        }
+
+                        if($scope.moduleName == 'registration-general') {
+                          searchObj["compId"] = "0021",
+                          searchObj["policyNumber"] = field == 'policyNumber' ? searchText+"%" : ($scope.search.policyNumber ? $scope.search.policyNumber.ILM_NO  : "%"),
+                          searchObj["memberNumber"] = field == 'memberNumber' ? searchText+"%" : ($scope.search.memberNumber ? $scope.search.memberNumber.ULME_MEMBER_ID : "%"),
+                          searchObj["voucherNumber"] = "%",
+                          searchObj["cardNumber"] = "%",
+                          searchObj["emiratesId"] = "%"
+                        }
+                        return searchObj;
                     }
 
                     $scope.querySearch = function (query, label) {

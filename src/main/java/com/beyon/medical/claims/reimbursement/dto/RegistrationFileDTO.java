@@ -2,12 +2,9 @@ package com.beyon.medical.claims.reimbursement.dto;
 
 import java.time.LocalDate;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class RegistrationFileDTO {
 	private String docType;
 	private String docName;
-	private MultipartFile file;
 	private LocalDate uploadedDate;
 	private String uploadedBy;
 	private String description;
@@ -23,12 +20,7 @@ public class RegistrationFileDTO {
 	public void setDocName(String docName) {
 		this.docName = docName;
 	}
-	public MultipartFile getFile() {
-		return file;
-	}
-	public void setFile(MultipartFile file) {
-		this.file = file;
-	}
+	
 	public LocalDate getUploadedDate() {
 		return uploadedDate;
 	}
@@ -48,4 +40,5 @@ public class RegistrationFileDTO {
 		this.description = description;
 	}
 
+	
 }

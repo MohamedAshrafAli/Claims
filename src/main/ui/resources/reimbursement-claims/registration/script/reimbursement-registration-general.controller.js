@@ -50,10 +50,16 @@
         }
 
         $scope.saveRegistrationDetails = function() {
-            ReimbursementRegistrationService.saveRegistrationDetails($scope.regDetail, function(resp) {
-                $state.go('reimbursement-registration', {}, {reload: true});
+            $scope.regDetail['registrationFileDTOs'] = $scope.filesToSave;
+            var formData = new FormData();
+            formData.append('formData',JSON.stringify($scope.regDetail));
+            angular.forEach($scope.regDetail['registrationFileDTOs'],function(value,key) {
+                var docname = value.docName +'|'+ value.docType +'|'+ value.file.name;
+                formData.append("files",value.file, docname);
             });
-            
+            ReimbursementRegistrationService.uploadFiles(formData, function(resp) {
+                //$state.go('reimbursement-registration', {}, {reload: true});
+            });
         }
 
         $scope.uploadFiles = function(files, doc) {
@@ -61,7 +67,12 @@
             $scope.fileInfos = ($scope.fileInfos && $scope.fileInfos.length) ? $scope.fileInfos :[];
             $scope.uploadedId = $scope.hasMandatory ? Math.random() : null;
             var files = [];
+            $scope.filesToSave = [];
             angular.forEach($scope.files, function(value, key) {
+                var fileObj = {};
+                fileObj.file = value;
+                fileObj.docName = value.name;
+                $scope.filesToSave.push(fileObj);
                 var reader  = new FileReader();
                 $timeout(function() {
                     value.progress = 20;
@@ -123,55 +134,56 @@
             $scope.showUpload = true;
         }
 
-        $scope.searchClaims = function() {
-            var modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'resources/reimbursement-claims/registration/view/claim-search-modal.html',
-                size: 'lg',
-                backdrop: 'static',
-                keyboard :false,
-                controller: function ($scope, $uibModalInstance, searchObj) {
-                    var searchInfo = angular.copy(searchObj);
-                    var autoCompleteMapping = {
-                        memberNumber : 'ULME_MEMBER_ID',
-                        policyNumber : 'ILM_NO'
-                    }
-                    $scope.searchObj = ReimbursementRegistrationFactory.constructSearchObj(autoCompleteMapping, searchInfo);
-                    $scope.searchObj.compId = "0021"                
-                    ReimbursementRegistrationService.getReimbursementRegistrationDetails($scope.searchObj, function(resp) {
-                        $scope.searchedList = resp;
-                    })
-                    $scope.cancelModal = function() {
-                        $uibModalInstance.dismiss();
-                        $('.modal-backdrop').remove();
-                    }
-
-                    $scope.newClaim = function() {
-                        $scope.registerNew = true;
-                        ReimbursementRegistrationService.getReimbursementRegistrationDetailsForPolicyAndMemberNo($scope.searchObj, function(resp) {
+        $scope.searchClaims = function(data) {
+            if(data != null) {
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: 'resources/reimbursement-claims/registration/view/claim-search-modal.html',
+                    size: 'lg',
+                    backdrop: 'static',
+                    keyboard :false,
+                    controller: function ($scope, $uibModalInstance) {
+                        var searchInfo = angular.copy(data);
+                        var autoCompleteMapping = {
+                            memberNumber : 'ULME_MEMBER_ID',
+                            policyNumber : 'ILM_NO'
+                        }
+                        $scope.searchObj = ReimbursementRegistrationFactory.constructSearchObj(autoCompleteMapping, searchInfo);
+                        $scope.searchObj.compId = "0021"                
+                        ReimbursementRegistrationService.getReimbursementRegistrationDetails($scope.searchObj, function(resp) {
                             $scope.searchedList = resp;
-                        });
+                        })
+                        $scope.cancelModal = function() {
+                            $uibModalInstance.dismiss();
+                            $('.modal-backdrop').remove();
+                        }
+    
+                        $scope.newClaim = function() {
+                            $scope.registerNew = true;
+                            ReimbursementRegistrationService.getReimbursementRegistrationDetailsForPolicyAndMemberNo($scope.searchObj, function(resp) {
+                                $scope.searchedList = resp;
+                            });
+                        }
+    
+                        $scope.continue = function(claim) {
+                            if(claim.id != null) {
+                                ReimbursementRegistrationService.getReimbursementRegistrationDetailsById({'id' : claim.id}, function(resp) {
+                                    $uibModalInstance.close(resp);
+                                })
+                            } else {
+                                $uibModalInstance.close(claim);
+                            }                                                   
+                        }
                     }
-
-                    $scope.continue = function(claim) {
-                        ReimbursementRegistrationService.getReimbursementRegistrationDetailsById({'id' : claim.id}, function(resp) {
-                            $uibModalInstance.close(resp);
-                        })                        
-                    }
-                },                    
-                resolve: {
-                    searchObj : function() {
-                        return $scope.search;
-                    }
-                }
-            });
-
-            modalInstance.result.then(function(result) {
-                $scope.regDetail = ReimbursementRegistrationFactory.constructClaim(result)
-                $('.modal-backdrop').remove();
-                $scope.setDcoumentType($scope.regDetail.reportedBy);
-                $scope.setPaymentWay($scope.regDetail.paymentWay);
-            }, function() {});    
+                });
+    
+                modalInstance.result.then(function(result) {
+                    $scope.regDetail = ReimbursementRegistrationFactory.constructClaim(result)
+                    $('.modal-backdrop').remove();
+                    $scope.setDcoumentType($scope.regDetail.reportedBy);
+                    $scope.setPaymentWay($scope.regDetail.paymentWay);
+                }, function() {});
+            }                
         }
 
         $scope.deleteFile = function(index, id) {
@@ -212,6 +224,10 @@
 
             $scope.uploadModalInstance.result.then(
                 function() {
+                    angular.forEach($scope.filesToSave, function(value) {
+                        value.docType = $scope.docObj.documentTyp
+                        value.description = $scope.docObj.documentDesc
+                    })
                     if(uploadedId != null) {
                         angular.forEach($scope.documents, function(value, key) {
                             if(value.uploadedId == uploadedId) updateDocument(value);
@@ -271,30 +287,13 @@
         function init() {
             $scope.regDetail.paymentWay ? $scope.setPaymentWay($scope.regDetail.paymentWay) : '';
             $scope.regDetail.source ? $scope.setDcoumentType($scope.regDetail.source) : '';
+            $scope.fieldsObject =  ReimbursementRegistrationFactory.getreimbursementGeneral();
         }
 
         $scope.clearDocFilter = function() {
             $scope.docTypes = [];
             $scope.documents = angular.copy($scope.fileInfos);
-        }
-
-        $scope.getAutoCompleteList = function (searchText, field, methodName) {
-            if(searchText.length && searchText.length < 3) {
-                $scope[field] = [];
-                return [];
-            }
-            var searchParams = {
-                "compId": "0021",
-                "policyNumber": field == 'policyNumber' ? searchText+"%" : ($scope.search.policyNumber ? $scope.search.policyNumber.ILM_NO : "%"),
-                "memberNumber": field == 'memberNumber' ? searchText+"%" : ($scope.search.memberNumber ? $scope.search.memberNumber.ULME_MEMBER_ID : "%"),
-                "voucherNumber" : "%",
-                "cardNumber" : "%",
-                "emiratesId" : "%"
-            };
-            return AutocompleteService[methodName](searchParams).$promise.then(function(resp) {
-                return resp.rowData;
-            })
-        }
+        }       
 
         init();
     }
