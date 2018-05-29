@@ -50,8 +50,15 @@
         }
 
         $scope.saveRegistrationDetails = function() {
-            ReimbursementRegistrationService.saveRegistrationDetails($scope.regDetail, function(resp) {
-                $state.go('reimbursement-registration', {}, {reload: true});
+            $scope.regDetail['registrationFileDTOs'] = $scope.filesToSave;
+            var formData = new FormData();
+            formData.append('formData',JSON.stringify($scope.regDetail));
+            angular.forEach($scope.regDetail['registrationFileDTOs'],function(value,key) {
+                var docname = value.docName +'|'+ value.docType +'|'+ value.file.name;
+                formData.append("files",value.file, docname);
+            });
+            ReimbursementRegistrationService.uploadFiles(formData, function(resp) {
+                //$state.go('reimbursement-registration', {}, {reload: true});
             });
         }
 
@@ -60,7 +67,12 @@
             $scope.fileInfos = ($scope.fileInfos && $scope.fileInfos.length) ? $scope.fileInfos :[];
             $scope.uploadedId = $scope.hasMandatory ? Math.random() : null;
             var files = [];
+            $scope.filesToSave = [];
             angular.forEach($scope.files, function(value, key) {
+                var fileObj = {};
+                fileObj.file = value;
+                fileObj.docName = value.name;
+                $scope.filesToSave.push(fileObj);
                 var reader  = new FileReader();
                 $timeout(function() {
                     value.progress = 20;
@@ -154,9 +166,13 @@
                         }
     
                         $scope.continue = function(claim) {
-                            ReimbursementRegistrationService.getReimbursementRegistrationDetailsById({'id' : claim.id}, function(resp) {
-                                $uibModalInstance.close(resp);
-                            })                        
+                            if(claim.id != null) {
+                                ReimbursementRegistrationService.getReimbursementRegistrationDetailsById({'id' : claim.id}, function(resp) {
+                                    $uibModalInstance.close(resp);
+                                })
+                            } else {
+                                $uibModalInstance.close(claim);
+                            }                                                   
                         }
                     }
                 });
@@ -208,6 +224,10 @@
 
             $scope.uploadModalInstance.result.then(
                 function() {
+                    angular.forEach($scope.filesToSave, function(value) {
+                        value.docType = $scope.docObj.documentTyp
+                        value.description = $scope.docObj.documentDesc
+                    })
                     if(uploadedId != null) {
                         angular.forEach($scope.documents, function(value, key) {
                             if(value.uploadedId == uploadedId) updateDocument(value);

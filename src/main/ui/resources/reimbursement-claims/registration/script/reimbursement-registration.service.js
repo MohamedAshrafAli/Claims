@@ -23,10 +23,17 @@
             'saveRegistrationDetails' : {
                 method: 'POST',
                 url: resourceUrl + '/saveRegistrationDetails/'+ compId,
+                headers: {'Content-Type': undefined}
             },
             'getReimbursementRegistrationDetailsById' : {
                 method: 'GET',
                 url: resourceUrl + '/getReimbursementRegistrationDetails/:id'
+            },
+            'uploadFiles' : {
+                method: 'POST',
+                url: resourceUrl + '/uploadFiles',
+                headers: {'Content-Type': undefined},
+                transformRequest : angular.identity
             }
         })
     }

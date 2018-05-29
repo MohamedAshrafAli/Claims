@@ -299,7 +299,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 					ps.setDate(11, uploadedDate);
 					ps.setString(12, compId);
 					ps.setLong(13, 0);
-					ps.setString(143, "I");
+					ps.setString(14, "I");
 				}
 
 				@Override
