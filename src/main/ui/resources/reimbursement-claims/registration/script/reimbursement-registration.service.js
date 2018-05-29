@@ -22,18 +22,11 @@
             },
             'saveRegistrationDetails' : {
                 method: 'POST',
-                url: resourceUrl + '/saveRegistrationDetails/'+ compId,
-                headers: {'Content-Type': undefined}
+                url: resourceUrl + '/saveRegistrationDetails/'+ compId
             },
             'getReimbursementRegistrationDetailsById' : {
                 method: 'GET',
                 url: resourceUrl + '/getReimbursementRegistrationDetails/:id'
-            },
-            'uploadFiles' : {
-                method: 'POST',
-                url: resourceUrl + '/uploadFiles',
-                headers: {'Content-Type': undefined},
-                transformRequest : angular.identity
             }
         })
     }

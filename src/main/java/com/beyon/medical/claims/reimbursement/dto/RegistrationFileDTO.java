@@ -3,16 +3,19 @@ package com.beyon.medical.claims.reimbursement.dto;
 import java.time.LocalDate;
 
 public class RegistrationFileDTO {
-	private String docType;
+	private String docTypeId;
+	private String docTypeDesc;
 	private String docName;
+	private String base64String;
 	private LocalDate uploadedDate;
 	private String uploadedBy;
 	private String description;
-	public String getDocType() {
-		return docType;
+	private String docContentType;
+	public String getDocContentType() {
+		return docContentType;
 	}
-	public void setDocType(String docType) {
-		this.docType = docType;
+	public void setDocContentType(String docContentType) {
+		this.docContentType = docContentType;
 	}
 	public String getDocName() {
 		return docName;
@@ -39,6 +42,22 @@ public class RegistrationFileDTO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	
+	public String getBase64String() {
+		return base64String;
+	}
+	public void setBase64String(String base64String) {
+		this.base64String = base64String;
+	}
+	public String getDocTypeId() {
+		return docTypeId;
+	}
+	public void setDocTypeId(String docTypeId) {
+		this.docTypeId = docTypeId;
+	}
+	public String getDocTypeDesc() {
+		return docTypeDesc;
+	}
+	public void setDocTypeDesc(String docTypeDesc) {
+		this.docTypeDesc = docTypeDesc;
+	}	
 }

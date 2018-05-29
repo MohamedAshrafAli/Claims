@@ -287,7 +287,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 					RegistrationFileDTO fileDTO = fileDTOs.get(i);
 					java.sql.Date uploadedDate = new java.sql.Date(new Date().getTime());
 					ps.setLong(1, reimbursementRegistrationDTO.getId());
-					ps.setString(2, fileDTO.getDocType());
+					ps.setString(2, fileDTO.getDocTypeDesc());
 					ps.setString(3, fileDTO.getDescription());
 					ps.setString(4, "Y");
 					ps.setDate(5, uploadedDate);

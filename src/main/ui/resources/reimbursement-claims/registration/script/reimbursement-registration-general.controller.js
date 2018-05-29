@@ -36,6 +36,7 @@
 
         UIDefinationService.getDocumentTypes({'compId' : '0021'}, function(resp) {
             $scope.documentTypes = resp.rowData;
+            getDocumentMap();
         })
 
         $scope.setDcoumentType = function(documentType) {
@@ -50,15 +51,9 @@
         }
 
         $scope.saveRegistrationDetails = function() {
-            $scope.regDetail['registrationFileDTOs'] = $scope.filesToSave;
-            var formData = new FormData();
-            formData.append('formData',JSON.stringify($scope.regDetail));
-            angular.forEach($scope.regDetail['registrationFileDTOs'],function(value,key) {
-                var docname = value.docName +'|'+ value.docType +'|'+ value.file.name;
-                formData.append("files",value.file, docname);
-            });
-            ReimbursementRegistrationService.uploadFiles(formData, function(resp) {
-                //$state.go('reimbursement-registration', {}, {reload: true});
+            $scope.regDetail['registrationFileDTOs'] = $scope.documents;
+            ReimbursementRegistrationService.saveRegistrationDetails($scope.regDetail, function(resp) {
+                $state.go('reimbursement-registration', {}, {reload: true});
             });
         }
 
@@ -246,6 +241,12 @@
         function updateDocument(value) {
             value.documentTyp = $scope.docObj.documentTyp;
             value.documentDesc = $scope.docObj.documentDesc;
+            value.docTypeId = value.documentTyp;
+            value.docTypeDesc = $scope.documentMap[value.documentTyp];
+            value.description = value.documentDesc;
+            value.base64String = value.previewUrl;
+            value.docName = value.name;
+            value.docContentType = value.contentType;
         }
 
         $scope.cancelModal = function() {
@@ -293,7 +294,14 @@
         $scope.clearDocFilter = function() {
             $scope.docTypes = [];
             $scope.documents = angular.copy($scope.fileInfos);
-        }       
+        }
+
+        function getDocumentMap() {
+            $scope.documentMap = {};
+            angular.forEach($scope.documentTypes,function(item, key) {
+                $scope.documentMap[item.id] = item.value;
+            })
+        }
 
         init();
     }
