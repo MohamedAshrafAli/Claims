@@ -1,7 +1,5 @@
 package com.beyon.medical.claims.reimbursement.service;
 
-import static com.beyon.framework.util.AppLogger.ERROR;
-import static com.beyon.framework.util.AppLogger.writeLog;
 import static com.beyon.framework.util.Constants.INTERNAL_ERROR_OCCURED;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_ID;
@@ -9,15 +7,18 @@ import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesCon
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_POLICY_CRITERIA;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_VOUCHER_CRITERIA;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_DETAILS;
-import static com.beyon.medical.claims.constants.ClaimConstants.*;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.FilenameUtils;
+import javax.xml.bind.DatatypeConverter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -128,18 +129,24 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 	}
 	
 	private void transferFilesToFileServer(ReimbursementRegistrationDTO registrationDTO,RegistrationFileDTO  registrationFileDTO) throws DAOException {
-	        String filename = registrationFileDTO.getFile().getOriginalFilename();
-	        String path = CLAIM_REIMBURSEMENT_REGISTRATION_FILE_SERVER + File.separator + registrationDTO.getClaimRefNo() + File.separator+registrationFileDTO.getDocType();
-	        File uploadDir = null;			
-	        File uploadFile = null;
-	        try {
+			File uploadDir = null;			
+		 try {
+			 	String base64 = registrationFileDTO.getBase64String().split(",")[1];
+				byte [] filearray = Base64.getDecoder().decode(base64.getBytes("UTF-8"));
+				String filename = registrationFileDTO.getDocName();
+				String path = ClaimConstants.CLAIM_REIMBURSEMENT_REGISTRATION_FILE_SERVER + File.separator + registrationDTO.getClaimRefNo() + File.separator+registrationFileDTO.getDocTypeDesc();
+
 	            uploadDir = new File(path);
 	            if (!uploadDir.exists()) {
 	                uploadDir.mkdirs();
 	            }
-	            uploadFile = new File(path + File.separator + filename);
-	            registrationFileDTO.getFile().transferTo(uploadFile);
+	            try (FileOutputStream fos = new FileOutputStream(path+ File.separator+filename)) {
+	    		    fos.write(filearray);
+	    		} catch (IOException ioe) {
+	    		    ioe.printStackTrace();
+	    		}
 	        } catch (Exception ex) {
+	        	ex.printStackTrace();
 	            throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
 	        }
 	}

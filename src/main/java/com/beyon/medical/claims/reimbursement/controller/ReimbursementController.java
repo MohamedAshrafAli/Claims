@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.beyon.medical.claims.exception.MedicalClaimsException;
+import com.beyon.medical.claims.reimbursement.dto.RegistrationFileDTO;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementRegistrationDTO;
 import com.beyon.medical.claims.reimbursement.service.ReimbursementClaimsService;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -82,18 +83,5 @@ public class ReimbursementController{
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
 		return _registrationDTO;
-	}
-	
-	@RequestMapping(value = "/uploadFiles", method = RequestMethod.POST)
-	public  @ResponseBody void uploadFiles(@RequestParam("files") MultipartFile uploadFiles[],@RequestParam("formData") String formDataJson) throws MedicalClaimsException {
-		try {
-			ReimbursementRegistrationDTO jsonAd = new ObjectMapper().readValue(formDataJson, ReimbursementRegistrationDTO.class);
-
-			System.out.println("hello" + jsonAd);
-		} catch (Exception ex) {
-			throw new MedicalClaimsException(ex.getMessage());
-		} 
-	}
-
-	
+	}	
 }
