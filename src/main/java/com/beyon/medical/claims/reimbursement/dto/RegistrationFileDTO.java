@@ -11,6 +11,8 @@ public class RegistrationFileDTO {
 	private String uploadedBy;
 	private String description;
 	private String docContentType;
+	private String docPath;
+
 	public String getDocContentType() {
 		return docContentType;
 	}
@@ -59,5 +61,11 @@ public class RegistrationFileDTO {
 	}
 	public void setDocTypeDesc(String docTypeDesc) {
 		this.docTypeDesc = docTypeDesc;
+	}
+	public String getDocPath() {
+		return docPath;
+	}
+	public void setDocPath(String docPath) {
+		this.docPath = docPath;
 	}	
 }

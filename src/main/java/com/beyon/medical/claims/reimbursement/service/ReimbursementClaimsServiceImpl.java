@@ -7,10 +7,12 @@ import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesCon
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_POLICY_CRITERIA;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_VOUCHER_CRITERIA;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_DETAILS;
+import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_DETAILS_TDS_LEVEL_D;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,6 +27,7 @@ import org.springframework.stereotype.Service;
 import com.beyon.framework.util.FoundationUtils;
 import com.beyon.medical.claims.constants.ClaimConstants;
 import com.beyon.medical.claims.exception.DAOException;
+import com.beyon.medical.claims.exception.MedicalClaimsException;
 import com.beyon.medical.claims.reimbursement.dao.ReimbursementClaimsDAOImpl;
 import com.beyon.medical.claims.reimbursement.dto.RegistrationFileDTO;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementRegistrationDTO;
@@ -57,16 +60,22 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 	
 	public ReimbursementRegistrationDTO getReimbursementRegistrationDetailsById(String id) throws DAOException {
 		List<ReimbursementRegistrationDTO> reimbursementRegDetails = null;
+		ReimbursementRegistrationDTO registrationDTO = null;
 		try {
 			String strQuery = REIMBURSEMENT_QUERIES_CTDS_DETAILS_ID;
 			Map<String,Object> inputMap = new HashMap<>();
 			inputMap.put("id", id);
 			reimbursementRegDetails =  reimbursementClaimsDAO.getRegistrationDetailsById(strQuery, inputMap);
+			if(reimbursementRegDetails != null && !reimbursementRegDetails.isEmpty()) {
+				registrationDTO = reimbursementRegDetails.get(0);
+				List<RegistrationFileDTO> fileDTOs= reimbursementClaimsDAO.getRegistrationFileDetailsById(REIMBURSEMENT_QUERIES_DETAILS_TDS_LEVEL_D,inputMap);
+				registrationDTO.setRegistrationFileDTOs(fileDTOs);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
 		}
-		return reimbursementRegDetails.get(0);
+		return registrationDTO;
 	}
 	
 	private String getConstructedQuerywithCriterion(String strQuery,Map<String,Object> inputMap) {
@@ -116,6 +125,18 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 	}
 	
 	@Override
+	public 	boolean deleteRegistrationDocument(String id, String docType, String docName, String path ) throws DAOException {
+		boolean isDeleted = false;
+		try {
+			isDeleted = reimbursementClaimsDAO.deleteRegistrationDocument(id, docType, docName, path);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return isDeleted;
+	}
+	
+	@Override
 	public void uploadAndSaveDocuments(String compId,ReimbursementRegistrationDTO registrationDTO) throws DAOException {
 		try {
 			reimbursementClaimsDAO.insertTDSLEVELD(compId, registrationDTO);
@@ -128,6 +149,18 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 		}
 	}
 	
+	@Override
+	public byte[] getDocumentDetails(String path) throws MedicalClaimsException {
+		byte[] docBytes = null;
+		try {
+			docBytes = Files.readAllBytes(new File(path).toPath());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new MedicalClaimsException(e);
+		}
+		return docBytes;
+	}
+	
 	private void transferFilesToFileServer(ReimbursementRegistrationDTO registrationDTO,RegistrationFileDTO  registrationFileDTO) throws DAOException {
 			File uploadDir = null;			
 		 try {
@@ -135,7 +168,7 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 				byte [] filearray = Base64.getDecoder().decode(base64.getBytes("UTF-8"));
 				String filename = registrationFileDTO.getDocName();
 				String path = ClaimConstants.CLAIM_REIMBURSEMENT_REGISTRATION_FILE_SERVER + File.separator + registrationDTO.getClaimRefNo() + File.separator+registrationFileDTO.getDocTypeDesc();
-
+				registrationFileDTO.setDocPath(path);
 	            uploadDir = new File(path);
 	            if (!uploadDir.exists()) {
 	                uploadDir.mkdirs();

@@ -1,5 +1,6 @@
 package com.beyon.medical.claims.reimbursement.dao;
 
+import static com.beyon.framework.util.AppLogger.DEBUG;
 import static com.beyon.framework.util.AppLogger.ERROR;
 import static com.beyon.framework.util.AppLogger.writeLog;
 import static com.beyon.framework.util.Constants.INTERNAL_ERROR_OCCURED;
@@ -8,6 +9,7 @@ import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.CLAIMANT_IS_THE_CUSTOMER;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.CLAIM_MOD_TYPE;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.CLAIM_REPORTED_BY_INSURED;
+import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_DELETE_TDS_LEVEL_D;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_FNOL;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MFNOL;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MR;
@@ -57,6 +59,18 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 			}
 		});
 	}
+	
+	public List<RegistrationFileDTO> getRegistrationFileDetailsById(String query ,Map<String,Object> inputMap) throws DAOException {
+		NamedParameterJdbcTemplate  namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValues(inputMap);
+		return namedParameterJdbcTemplate.query(query, parameters, new RowMapper<RegistrationFileDTO>() {
+			@Override
+			public RegistrationFileDTO mapRow(ResultSet row, int count) throws SQLException {
+				return ReimbRegistrationMapper.getReimbursementRegistrationFileDTO(row);
+			}
+		});
+	}
 
 	public List<ReimbursementRegistrationDTO> getRegistrationListViewData(String query ,Map<String,Object> inputMap) throws DAOException {
 		NamedParameterJdbcTemplate  namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
@@ -102,6 +116,28 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		}
 		return simpleJdbcCallResult;
 	}
+	
+	public boolean deleteRegistrationDocument(String id, String docType, String docName, String path) throws DAOException {
+        boolean isDeleted = false;
+        try {
+        NamedParameterJdbcTemplate  namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+	    parameters.addValue("DocTypeId", docType);
+	    parameters.addValue("id", id);
+	    parameters.addValue("DocName", docName);
+	    parameters.addValue("DocPath", path);
+
+	    int affectedRows = namedParameterJdbcTemplate.update(REIMBURSEMENT_QUERIES_DELETE_TDS_LEVEL_D, parameters);
+	    
+        if(affectedRows>0) {
+        	isDeleted = true;
+        }
+        }catch(Exception e) {
+			writeLog(CLASS_NAME, "Exception occured while executing deleteRegistrationDocument", ERROR, e);
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+        return isDeleted;
+    }
 
 	public ReimbursementRegistrationDTO insertReimbursementRegistrationDetails(String compId,ReimbursementRegistrationDTO reimbursementRegistrationDTO) throws DAOException {
 		boolean isSaved = false;
@@ -287,7 +323,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 					RegistrationFileDTO fileDTO = fileDTOs.get(i);
 					java.sql.Date uploadedDate = new java.sql.Date(new Date().getTime());
 					ps.setLong(1, reimbursementRegistrationDTO.getId());
-					ps.setString(2, fileDTO.getDocTypeDesc());
+					ps.setString(2, fileDTO.getDocTypeId());
 					ps.setString(3, fileDTO.getDescription());
 					ps.setString(4, "Y");
 					ps.setDate(5, uploadedDate);
@@ -300,6 +336,10 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 					ps.setString(12, compId);
 					ps.setLong(13, 0);
 					ps.setString(14, "I");
+					ps.setString(15, fileDTO.getDocTypeDesc());
+					ps.setString(16, fileDTO.getDocContentType());
+					ps.setString(17, fileDTO.getDocPath());
+
 				}
 
 				@Override

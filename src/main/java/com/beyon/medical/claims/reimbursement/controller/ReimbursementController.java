@@ -84,4 +84,30 @@ public class ReimbursementController{
 		} 
 		return _registrationDTO;
 	}	
+	
+	
+	@GetMapping("/getReimbursementRegistrationDocument/{pathName}")
+	public  @ResponseBody byte[] getReimbursementRegistrationDocument(@PathVariable String pathName) throws MedicalClaimsException {
+		byte[] docByte = null;
+		try {
+			docByte = reimbursementClaimsService.getDocumentDetails(pathName);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return docByte;
+	}
+	
+	@PostMapping("/deleteRegistrationFile")
+	public  boolean getReimbursementRegistrationDocument(@RequestParam("sgsid") String id,
+																	   @RequestParam("docType") String docType,
+																	   @RequestParam("docName") String docName,
+																	   @RequestParam("path") String path ) throws MedicalClaimsException {
+		boolean response = false;
+		try {
+			response = reimbursementClaimsService.deleteRegistrationDocument(id, docType, docName, path);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return response;
+	}
 }

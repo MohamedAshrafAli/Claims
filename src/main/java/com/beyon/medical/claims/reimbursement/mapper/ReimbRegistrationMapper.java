@@ -3,6 +3,7 @@ package com.beyon.medical.claims.reimbursement.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.beyon.medical.claims.reimbursement.dto.RegistrationFileDTO;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementRegistrationDTO;
 import com.beyon.medical.claims.utils.DateUtil;
 
@@ -177,5 +178,18 @@ public class ReimbRegistrationMapper {
 		registrationDTO.setCardReceivedDate(DateUtil.convertSQlDateToLocalDate(row.getDate("CardReceivedDate")));
 		return registrationDTO;
 	}
-
+	
+	public static RegistrationFileDTO getReimbursementRegistrationFileDTO(ResultSet row) throws SQLException
+	{
+		RegistrationFileDTO registrationFileDTO = new RegistrationFileDTO();
+		registrationFileDTO.setDescription(row.getString("Description"));
+		registrationFileDTO.setDocContentType(row.getString("DocContentType"));
+		registrationFileDTO.setDocName(row.getString("DocName"));
+		registrationFileDTO.setDocPath(row.getString("DocPath"));
+		registrationFileDTO.setDocTypeDesc(row.getString("DocTypeDesc"));
+		registrationFileDTO.setDocTypeId(row.getString("DocTypeId"));
+		registrationFileDTO.setUploadedBy(row.getString("UploadedBy"));
+		registrationFileDTO.setUploadedDate(DateUtil.convertSQlDateToLocalDate(row.getDate("UploadedDate")));
+		return registrationFileDTO;
+	}
 }
