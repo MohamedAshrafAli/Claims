@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -38,6 +39,7 @@ public class ReimbursementController{
 	private ReimbursementClaimsService reimbursementClaimsService;
 	
 	@PostMapping("/getReimbursementRegistrationDetails")
+	@Transactional(propagation = Propagation.SUPPORTS, isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public  @ResponseBody List<ReimbursementRegistrationDTO> getReimbursementRegistrationDetails(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
 		List<ReimbursementRegistrationDTO> registrationDTOs = null;
 		try {
@@ -49,6 +51,7 @@ public class ReimbursementController{
 	}
 	
 	@GetMapping("/getReimbursementRegistrationDetails/{id}")
+	@Transactional(propagation = Propagation.SUPPORTS, isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public ReimbursementRegistrationDTO getReimbursementRegistrationDetailsById(@PathVariable String id) throws MedicalClaimsException {
 		ReimbursementRegistrationDTO registrationDTO = null;
 		try {
@@ -60,6 +63,7 @@ public class ReimbursementController{
 	}
 	
 	@PostMapping("/getReimbursementRegistrationDetailsForPolicyAndMemberNo")
+	@Transactional(propagation = Propagation.SUPPORTS, isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public  @ResponseBody List<ReimbursementRegistrationDTO> getReimbursementRegistrationDetailsForPolicyAndMemberNo(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
 		List<ReimbursementRegistrationDTO> registrationDTOs = null;
 		try {
@@ -71,7 +75,7 @@ public class ReimbursementController{
 	}
 	
 	@PostMapping("/saveRegistrationDetails/{compId}")
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false, rollbackFor = Exception.class)
 	public  @ResponseBody ReimbursementRegistrationDTO saveRegistrationDetails(@PathVariable String compId, @RequestBody ReimbursementRegistrationDTO registrationDTO) throws MedicalClaimsException {
 		ReimbursementRegistrationDTO _registrationDTO = null;
 		try {
@@ -98,7 +102,8 @@ public class ReimbursementController{
 	}
 	
 	@PostMapping("/deleteRegistrationFile")
-	public  boolean getReimbursementRegistrationDocument(@RequestParam("sgsid") String id,
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false, rollbackFor = Exception.class)
+	public  boolean deleteRegistrationFile(@RequestParam("sgsid") String id,
 																	   @RequestParam("docType") String docType,
 																	   @RequestParam("docName") String docName,
 																	   @RequestParam("path") String path ) throws MedicalClaimsException {

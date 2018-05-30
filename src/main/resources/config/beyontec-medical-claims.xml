@@ -23,7 +23,7 @@
 
 	<context:annotation-config />
 	<mvc:annotation-driven />
-	<tx:annotation-driven transaction-manager="txManager002" />
+	<tx:annotation-driven transaction-manager="txManagergm" />
 	<cache:annotation-driven cache-manager="cacheManager"
 		mode="proxy" proxy-target-class="true" />
 
