@@ -56,15 +56,4 @@
             }
            
         )
-        .filter('customeDate', function () {
-            return function (item) {
-                var date;
-                if (item) {
-                    date = item[2]+'/'+item[1]+'/'+item[0];
-                }
-                return date
-            };
-          })
-       
-        
 })()

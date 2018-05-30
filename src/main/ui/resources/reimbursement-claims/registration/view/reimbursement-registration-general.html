@@ -148,7 +148,6 @@
                         </div>
                     </div>
                 </div>
-            </form>
             <div class="fldsWrap clearfix">
                 <div class="fieldsCol fieldsFilledCol">
                     <label class="top_4">Reported By</label>
@@ -168,19 +167,21 @@
                         </span>
                     </div>
                 </div>
-                <div class="fldsWrap clearfix b0 row" ng-show="paymentWay == '01'">
+                <div class="fldsWrap clearfix b0 row" ng-if="paymentWay == '01'">
                     <div class="col-sm-4">
                         <div layout-gt-sm="row">
                             <div class="pb-1 iban-box">
                                 <md-input-container flex-gt-sm class="iban-input">
                                     <label>IBAN Number</label>
-                                    <input type="text" ng-model="regDetail.paymentRefNum" />
+                                    <input type="text"  name="paymentRefNum" ng-model="regDetail.paymentRefNum" required/>
+                                    <div ng-if="localValidation && !form.paymentRefNum.$modelValue" class="error">Please Enter The IBAN Number</div>
                                 </md-input-container>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </form>
             <div class="fldsWrap clearfix docFont p-2">
                 <h6>Documents</h6>
                 <div class="row pt-2">
