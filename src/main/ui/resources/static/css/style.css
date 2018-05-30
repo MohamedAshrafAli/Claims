@@ -1913,3 +1913,12 @@ a {
 md-autocomplete md-autocomplete-wrap md-progress-linear.md-inline{
     bottom: 0px !important;
 }
+
+md-input-container md-select.md-default-theme .md-select-value span:first-child:after, md-input-container md-select .md-select-value span:first-child:after {
+    color: rgb(221,44,0) !important;
+}
+
+.error {
+    color: rgb(221,44,0);
+    font-size: 12px;
+}
