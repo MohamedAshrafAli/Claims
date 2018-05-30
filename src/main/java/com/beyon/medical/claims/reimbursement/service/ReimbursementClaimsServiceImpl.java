@@ -23,6 +23,9 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.beyon.framework.util.FoundationUtils;
 import com.beyon.medical.claims.constants.ClaimConstants;
@@ -44,6 +47,7 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 	private GeneralServiceFacade generalServiceFacade;
 
 	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public List<ReimbursementRegistrationDTO> getReimbursementRegistrationDetails(ObjectNode paramMap) throws DAOException {
 		List<ReimbursementRegistrationDTO> reimbursementRegDetails = null;
 		try {
@@ -57,7 +61,7 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 		}
 		return reimbursementRegDetails;
 	}
-	
+	@Transactional(propagation = Propagation.SUPPORTS, isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public ReimbursementRegistrationDTO getReimbursementRegistrationDetailsById(String id) throws DAOException {
 		List<ReimbursementRegistrationDTO> reimbursementRegDetails = null;
 		ReimbursementRegistrationDTO registrationDTO = null;
@@ -98,6 +102,7 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 	}
 	
 	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public List<ReimbursementRegistrationDTO> getRegistrationDetailsForPolicyAndMemberNo(ObjectNode paramMap) throws DAOException {
 		List<ReimbursementRegistrationDTO> reimbursementRegDetails = null;
 		try {
@@ -113,6 +118,7 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 	}
 	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false, rollbackFor = Exception.class)
 	public ReimbursementRegistrationDTO saveRegistrationDetails(String compId,ReimbursementRegistrationDTO registrationDTO) throws DAOException {
 		ReimbursementRegistrationDTO _registrationDTO = null;
 		try {
@@ -130,6 +136,7 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 	}
 	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false, rollbackFor = Exception.class)
 	public 	boolean deleteRegistrationDocument(String id, String docType, String docName, String path ) throws DAOException {
 		boolean isDeleted = false;
 		try {
@@ -142,6 +149,7 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 	}
 	
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false, rollbackFor = Exception.class)
 	public void uploadAndSaveDocuments(String compId,ReimbursementRegistrationDTO registrationDTO) throws DAOException {
 		try {
 			for (RegistrationFileDTO  registrationFileDTO : registrationDTO.getRegistrationFileDTOs()) {
@@ -155,6 +163,7 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 	}
 	
 	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public byte[] getDocumentDetails(String path) throws MedicalClaimsException {
 		byte[] docBytes = null;
 		try {
