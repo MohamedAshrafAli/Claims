@@ -1,11 +1,10 @@
 package com.beyon.medical.claims.reimbursement.dao;
 
-import static com.beyon.framework.util.AppLogger.DEBUG;
 import static com.beyon.framework.util.AppLogger.ERROR;
 import static com.beyon.framework.util.AppLogger.writeLog;
 import static com.beyon.framework.util.Constants.INTERNAL_ERROR_OCCURED;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_COB_DETAIL;
-import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_PROVIDER_DETAILS;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_USER_DIVISION;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.CLAIMANT_IS_THE_CUSTOMER;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.CLAIM_MOD_TYPE;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.CLAIM_REPORTED_BY_INSURED;
@@ -17,7 +16,6 @@ import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesCon
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_INSERT_SEQUENCE_NAME;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_INSERT_TDS_LEVEL_D;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_MFNOL;
-
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -158,6 +156,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 						reimbursementRegistrationDTO.getRequestAmtBC(),
 						reimbursementRegistrationDTO.getPaymentRefNum(), 
 						reimbursementRegistrationDTO.getPrevRequest(),
+						reimbursementRegistrationDTO.getPaymentWay(),
 						reimbursementRegistrationDTO.getId()});
 
 		return true;
@@ -176,6 +175,9 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		//Classofbusiness for policynumber
 		String cobId = getClassOfBusinessForPolicy(GENERAL_QUERIES_GET_COB_DETAIL, reimbursementRegistrationDTO.getPolicyNumber(), compId);
 		reimbursementRegistrationDTO.setCobId(cobId);
+		
+		String userDivId = getUserDivisionForCompany(GENERAL_QUERIES_GET_USER_DIVISION, reimbursementRegistrationDTO.getCreatedBy(), compId);
+		reimbursementRegistrationDTO.setUserDivision(userDivId);		
 		
 		//TODO:Use the boolean correctly.
 		insertCTDSLEVELFNOL(compId, reimbursementRegistrationDTO,jdbcTemplate);

@@ -49,8 +49,9 @@ public class BaseClaimsDAOImpl {
 				@Override
 				public void processRow(ResultSet rs) throws SQLException {
 					ObjectNode objectNode = FoundationUtils.createObjectNode();
-					objectNode.put("BaseCurrency", rs.getString(1));
-					objectNode.put("ExchangeRate", rs.getBigDecimal(2));
+					objectNode.put("BaseCurrency", rs.getString("BaseCurrency"));
+					objectNode.put("ExchangeCurrency", rs.getString("ExchangeCurrency"));
+					objectNode.put("ExchangeRate", rs.getBigDecimal("ExchangeRate"));
 					jsonArray.add(objectNode);
 				}
 			});
