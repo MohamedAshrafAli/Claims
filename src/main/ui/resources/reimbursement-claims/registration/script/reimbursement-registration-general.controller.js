@@ -15,9 +15,8 @@
         $scope.fileInfos = [];
         $scope.documents = [];
         $scope.docTypes = [];
-        $scope.memberNumbers=[];
-        $scope.memberNumberSearchText="";
         $scope.hasMandatory = true;
+        $scope.isEdit = (claim.id != null);
         UIDefinationService.getEncounterTypes({'compId' : '0021'}, function(resp) {
             $scope.encounterTypes = resp.rowData;
         });  
@@ -45,9 +44,9 @@
                 var pathName =  value.docPath+'/'+ value.docName;
                 ReimbursementRegistrationService.getReimbursementRegistrationDocument({'pathName' : pathName}, function(resp) {
                     var base64String = arrayBufferToBase64(resp.data);
-                    //var base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(resp.data)));
                     value.base64String = "data:" +  value.docContentType + ";base64," + base64String;
                     value.ext = getFileExtension(value.docContentType);
+                    value.id = Math.random();
                     files.push( value);
                     if($scope.regDetail.registrationFileDTOs.length-1 == key) {
                         $scope.documents = $scope.fileInfos = files;
@@ -207,13 +206,23 @@
                 modalInstance.result.then(function(result) {
                     $scope.regDetail = ReimbursementRegistrationFactory.constructClaim(result)
                     $('.modal-backdrop').remove();
-                    $scope.setDcoumentType($scope.regDetail.reportedBy);
+                    $scope.setReportedBy($scope.regDetail.reportedBy);
                     $scope.setPaymentWay($scope.regDetail.paymentWay);
                 }, function() {});
             }                
         }
 
         $scope.deleteFile = function(index, id) {
+            if($scope.regDetail.id) {
+                ReimbursementRegistrationService.deleteRegistrationFile({
+                    "sgsid": $scope.regDetail.id,
+                    "docType" : $scope.documents[index].docTypeId,
+                    "docName" : $scope.documents[index].docName,
+                    "path" : $scope.documents[index].docPath
+                }, {}, function(resp) {
+                    console.log(resp)  
+                })
+            }
             for(var f = 0; f<$scope.fileInfos.length; f++) {
                 if($scope.fileInfos[f].id != id) continue;
                 $scope.fileInfos.splice(f, 1);
