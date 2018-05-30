@@ -12,7 +12,7 @@
         $scope.reverse = true;
         var autoCompleteMapping = {
             cardNumber : 'CLMR_TPA_CARD',
-            memberNumber : 'CLMR_MEMBER_ID',
+            memberName : 'CLMR_MEMBER_ID',
             emiratesId : 'CLMR_UID_ID',
             policyNumber : 'CLF_ULM_NO',
             voucherNumber : 'CLMF_VOUCH_NO'
@@ -21,6 +21,8 @@
         $scope.filterValues = function(searchValue) {
             if (searchValue) {
                 var searchparam = ReimbursementRegistrationFactory.constructSearchObj(autoCompleteMapping, searchValue);
+                searchparam.memberNumber = searchparam.memberName;
+                delete searchparam.memberName;
                 searchparam.compId = "0021"                
                 getRegisteredClaimsList(searchparam);
             } else {
