@@ -40,9 +40,13 @@ public final class ReimbursementQueriesConstants implements Serializable{
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_FNOL = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelfnol");
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MFNOL = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelmfnol");
 
+	public static final String REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_MFNOL = reimbursementResourceBundle.getString("reimbursement.queries.update.ctdslevelmfnol");
+
 	public static final String REIMBURSEMENT_QUERIES_INSERT_TDS_LEVEL_D = reimbursementResourceBundle.getString("reimbursement.queries.insert.tdsleveld");
 	public static final String REIMBURSEMENT_QUERIES_DETAILS_TDS_LEVEL_D = reimbursementResourceBundle.getString("reimbursement.queries.details.tdsleveld");
 	public static final String REIMBURSEMENT_QUERIES_DELETE_TDS_LEVEL_D = reimbursementResourceBundle.getString("reimbursement.queries.delete.tdsleveld");
+
+	public static final String REIMBURSEMENT_QUERIES_UPDATE_TDS_LEVEL_D = reimbursementResourceBundle.getString("reimbursement.queries.update.tdsleveld");
 
 	
 	public static final String CLAIMANT_IS_THE_CUSTOMER = "Y";
