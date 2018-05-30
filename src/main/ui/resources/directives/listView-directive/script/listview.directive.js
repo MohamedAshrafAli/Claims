@@ -47,6 +47,7 @@
 
                         function init() {
                             scope.allRecords = angular.copy(scope.records);
+                            console.log('-----------------',scope.filteredRecords);
                         }
 
                         init();
@@ -54,5 +55,17 @@
                     }
                 }
             }
-        );
+           
+        )
+        .filter('customeDate', function () {
+            return function (item) {
+                var date;
+                if (item) {
+                    date = item[2]+'/'+item[1]+'/'+item[0];
+                }
+                return date
+            };
+          })
+       
+        
 })()
