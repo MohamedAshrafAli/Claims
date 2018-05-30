@@ -37,6 +37,17 @@
                         data : data 
                     }
                 }
+            },
+            'deleteRegistrationFile' : {
+                method: 'POST',
+                url: resourceUrl + '/deleteRegistrationFile',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                params: {
+                    sgsid : '',
+                    docType : '',
+                    docName : '',
+                    path : ''
+                }
             }
         })
     }
