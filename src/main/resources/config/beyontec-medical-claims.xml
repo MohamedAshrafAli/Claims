@@ -47,7 +47,7 @@
 		<property name="maxActive" value="${beyon.database.activeConn}" />
 		<property name="maxIdle" value="${beyon.database.maxIdle}" />
 		<property name="minIdle" value="${beyon.database.minIdle}" />
-		<property name="defaultAutoCommit" value="false" />
+		<property name="defaultAutoCommit" value="true" />
 		<property name="testOnBorrow" value="${beyon.database.testOnBorrow}" />
 		<property name="validationQuery" value="${beyon.gm.database.validation.query}" />
 	</bean>
