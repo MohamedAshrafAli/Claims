@@ -13,7 +13,7 @@
                 <span ng-if="!header.redirectable && header.fieldName != 'assigned'">
                     <span ng-if="header.type == 'id'">#</span>
                     <span ng-if="!header.type">{{record[header.fieldName]}}</span>
-                    <span ng-if="header.type == 'date'">{{record[header.fieldName] | date: 'mediumDate'}}</span>
+                    <span ng-if="header.type == 'date'">{{record[header.fieldName] | customeDate}}</span>
                 </span>
                 <span ng-if="header.redirectable">
                     <a href="javascript:void(0);" ng-click="navigateTo(record);">{{record[header.fieldName]}}</a>
