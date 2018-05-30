@@ -20,6 +20,7 @@ public class RegistrationBaseDTO {
 	private String providerId;
 	private String baseCurrency;
 	private String reportedBy;
+	private String reportedMethodDesc;
 	private String reportedByDesc;
 	private String reportedById;
 	private String riskId;
@@ -493,6 +494,12 @@ public class RegistrationBaseDTO {
 	}
 	public void setReportedByInsured(String reportedByInsured) {
 		this.reportedByInsured = reportedByInsured;
+	}
+	public String getReportedMethodDesc() {
+		return reportedMethodDesc;
+	}
+	public void setReportedMethodDesc(String reportedMethodDesc) {
+		this.reportedMethodDesc = reportedMethodDesc;
 	}
 	
 }
