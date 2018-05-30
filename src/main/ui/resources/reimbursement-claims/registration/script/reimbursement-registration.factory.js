@@ -22,11 +22,11 @@
                 "reqType" : null,
                 "reqReceivedDate" : null,
                 "prevRequest" : null,
-                "reportedBy" : "post",
                 "voucherNumber" : null,
                 "ibanNum" : null,
                 "emiratesId":null,
-                "paymentWay" : '01'
+                "paymentWay" : '01',
+                "status" : "CC"
             };
         }
 
@@ -68,10 +68,12 @@
             return search;
         }
 
-        this.constructClaim = function(claim) {
+        this.constructClaim = function(claim, sourceType) {
             claim.reqReceivedDate = null;
             claim.serviceFmDate = null;
             claim.requestAmt = null;
+            claim.status = "CC";
+            claim.sourceType = sourceType;
             return claim;
         }
 
@@ -82,6 +84,14 @@
                 { label: 'Voucher Number', type: 'autoSearch', name: 'voucherNumber', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos', autoCompleteInfo : {methodName: 'getVoucherNumbers', displayName: 'CLMF_VOUCH_NO'}},
                 { label: 'Previous Request Number', type: 'text', name: 'requestNumber', iconClass:'searchAutoIcon', width:'90%'}
             ];
+        }
+
+        this.constructUidMap = function(data, itemKey, itemValue) {
+            var uidMap = {};
+            angular.forEach(data, function(item, key) {
+                uidMap[item[itemKey]] = item[itemValue];
+            })
+            return uidMap
         }
 
         return this;

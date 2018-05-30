@@ -33,6 +33,10 @@
                 'getDocumentTypes' : {
                     method: 'POST',
                     url: resourceUrl + '/getDocumentTypes'
+                },
+                'getStatusTypes' : {
+                    method: 'POST',
+                    url: resourceUrl + '/getStatusTypes'
                 }
             })    
         }

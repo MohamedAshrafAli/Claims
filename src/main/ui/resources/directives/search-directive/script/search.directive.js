@@ -65,7 +65,8 @@
                           searchObj["memberNumber"] = field == 'memberNumber' ? searchText+"%" : ($scope.search.memberNumber ? $scope.search.memberNumber.ULME_MEMBER_ID : "%"),
                           searchObj["voucherNumber"] =field == 'voucherNumber' ? searchText+"%" : ($scope.search.voucherNumber ? $scope.search.voucherNumber.CLMF_VOUCH_NO : "%"),
                           searchObj["cardNumber"] = "%",
-                          searchObj["emiratesId"] = "%"
+                          searchObj["emiratesId"] = "%",
+                          searchObj["memberName"] = "%"
                         }
                         return searchObj;
                     }

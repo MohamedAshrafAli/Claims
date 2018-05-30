@@ -48,7 +48,7 @@
                     <td>{{claim.policyNumber}}</td>
                     <td>{{claim.memberNumber}}</td>
                     <td>{{claim.memberName}}</td>
-                    <td>{{claim.reqReceivedDate | date:'mediumDate'}}</td>
+                    <td>{{claim.policyFromDate | date:'mediumDate'}}</td>
                     <td class="text-right"><button type="button" class="btn btn-outline-primary btn-sm" ng-click="continue(claim)">Continue</button></td>
                 </tr>
                 <tr ng-repeat="claim in filteredRecords" ng-if="!registerNew">

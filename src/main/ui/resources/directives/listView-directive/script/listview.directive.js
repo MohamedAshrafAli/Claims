@@ -47,7 +47,6 @@
 
                         function init() {
                             scope.allRecords = angular.copy(scope.records);
-                            console.log('-----------------',scope.filteredRecords);
                         }
 
                         init();

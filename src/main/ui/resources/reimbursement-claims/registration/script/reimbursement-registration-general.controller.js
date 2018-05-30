@@ -27,6 +27,7 @@
 
         UIDefinationService.getReportByTypes({'compId' : '0021'}, function(resp) {
             $scope.reportByTypes = resp.rowData;
+            $scope.reportByMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
         });
 
         UIDefinationService.getPaymentTypes({'compId' : '0021'}, function(resp) {
@@ -35,27 +36,31 @@
 
         UIDefinationService.getDocumentTypes({'compId' : '0021'}, function(resp) {
             $scope.documentTypes = resp.rowData;
-            getDocumentMap();
+            $scope.documentMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
         })
+        UIDefinationService.getSourceTypes({'compId' : '0021'}, function(resp) {
+            $scope.sourceTypes = resp.rowData;
+            $scope.sourceMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "value", "id");
+        });
 
         if($scope.regDetail.id && $scope.regDetail.registrationFileDTOs.length) {
-            var files = []
+            var promises = [];
             angular.forEach($scope.regDetail.registrationFileDTOs, function(value, key) {
                 var pathName =  value.docPath+'/'+ value.docName;
-                ReimbursementRegistrationService.getReimbursementRegistrationDocument({'pathName' : pathName}, function(resp) {
-                    var base64String = arrayBufferToBase64(resp.data);
-                    value.base64String = "data:" +  value.docContentType + ";base64," + base64String;
-                    value.ext = getFileExtension(value.docContentType);
-                    value.id = Math.random();
-                    files.push( value);
-                    if($scope.regDetail.registrationFileDTOs.length-1 == key) {
-                        $scope.documents = $scope.fileInfos = files;
-                        $scope.uploaded = true;
-                        $scope.noOfSlides = 5;
-                        $scope.showUpload = false;
-                    }
-                })
+                value.ext = getFileExtension(value.docContentType);
+                value.id = Math.random();
+                value.savedDoc = true;
+                promises.push(ReimbursementRegistrationService.getReimbursementRegistrationDocument({'pathName' : pathName}).$promise);                
             })
+            $q.all(promises).then((files) => {
+                angular.forEach(files, function(value, key){
+                    var base64String = arrayBufferToBase64(value.data);
+                    $scope.regDetail.registrationFileDTOs[key].base64String = "data:" +  $scope.regDetail.registrationFileDTOs[key].docContentType + ";base64," + base64String;
+                })
+                $scope.toggleInfo();
+                $scope.fileInfos = $scope.documents = $scope.regDetail.registrationFileDTOs;
+                $scope.uploaded = true;                
+            });
         }
 
         function arrayBufferToBase64(buffer) {
@@ -68,16 +73,15 @@
             return window.btoa(binary);
         }
 
-        console.log($scope.documents);
-
-        $scope.setReportedBy = function(documentType) {
-            $scope.regDetail['reportedBy'] = documentType;
+        $scope.setReportedBy = function(reportedType) {
+            $scope.regDetail['reportedBy'] = reportedType;
+            $scope.regDetail['reportedByDesc'] = $scope.reportByMap[reportedType];
         }
 
         $scope.setPaymentWay = function(paymentType) {
             $scope.regDetail['paymentWay'] = paymentType;
             $scope.paymentWay = paymentType;
-            $scope.regDetail['ibanNum'] = paymentType != 'cheque' ? $scope.regDetail['ibanNum'] : null;
+            $scope.regDetail['paymentRefNum'] = paymentType == '01' ? $scope.regDetail['paymentRefNum'] : null;
         }
 
         $scope.saveRegistrationDetails = function() {
@@ -128,9 +132,8 @@
             fileObj.docTypeId = $scope.hasMandatory ? doc.id :  $scope.upload.type;
             fileObj.docTypeDesc = $scope.documentMap[fileObj.docTypeId];
             fileObj.description = $scope.upload ? $scope.upload.description : '';
-            
-
             fileObj.base64String = base64String;
+            fileObj.isNew = true;
             if($scope.hasMandatory) fileObj.uploadedId = $scope.uploadedId;
             return fileObj;
         }
@@ -168,7 +171,7 @@
 
         $scope.searchClaims = function (data) {
             if ((data.memberNumber == null) && (data.policyNumber == null) && (data.voucherNumber == null) && (data.previousRequestNumber == null)) {
-                swal("Please Enter Search Input")
+                swal("", "Please Enter any Search Inputs", "warning");
             }
             else {
             
@@ -214,7 +217,7 @@
                 });
     
                 modalInstance.result.then(function(result) {
-                    $scope.regDetail = ReimbursementRegistrationFactory.constructClaim(result)
+                    $scope.regDetail = ReimbursementRegistrationFactory.constructClaim(result, $scope.sourceMap['Reimbursement'])
                     $('.modal-backdrop').remove();
                     $scope.setReportedBy($scope.regDetail.reportedBy);
                     $scope.setPaymentWay($scope.regDetail.paymentWay);
@@ -223,7 +226,7 @@
         }
 
         $scope.deleteFile = function(index, id) {
-            if($scope.regDetail.id) {
+            if($scope.regDetail.id && $scope.documents[index].savedDoc) {
                 ReimbursementRegistrationService.deleteRegistrationFile({
                     "sgsid": $scope.regDetail.id,
                     "docType" : $scope.documents[index].docTypeId,
@@ -239,21 +242,6 @@
                 break;
             }
             $scope.documents.splice(index, 1);  
-        }
-
-        $scope.uploadIbanFiles = function(file) {
-            if(file != null) {
-                var reader  = new FileReader();
-                $scope.ibanFile = {'isUploading' : true};
-                reader.onload = function(event) {
-                    $scope.$apply(function() {
-                        $scope.ibanFile.url = event.target.result;
-                        $scope.ibanFile.name = file.name;
-                        $scope.ibanFile.isUploading = false;
-                    });    
-                }
-                reader.readAsDataURL(file);
-            }            
         }
 
         $scope.openDocumentModal = function(index, uploadedId) {
@@ -315,13 +303,13 @@
         $scope.filterDocuments = function() {
             var documents = [];
             if($scope.docTypes.length) {
-                    $scope.docTypes.forEach(function(type) {
-                        var filteredFiles =  $scope.fileInfos.filter(function(item) {
-                            return (item.docTypeId == type);
-                        })
-                        documents = documents.concat(filteredFiles);
+                $scope.docTypes.forEach(function(type) {
+                    var filteredFiles =  $scope.fileInfos.filter(function(item) {
+                        return (item.docTypeId == type);
                     })
-                    $scope.documents = documents;
+                    documents = documents.concat(filteredFiles);
+                })
+                $scope.documents = documents;
             } else {
                 $scope.documents = angular.copy($scope.fileInfos);
             }
@@ -336,13 +324,6 @@
         $scope.clearDocFilter = function() {
             $scope.docTypes = [];
             $scope.documents = angular.copy($scope.fileInfos);
-        }
-
-        function getDocumentMap() {
-            $scope.documentMap = {};
-            angular.forEach($scope.documentTypes,function(item, key) {
-                $scope.documentMap[item.id] = item.value;
-            })
         }
 
         init();
