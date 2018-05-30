@@ -86,8 +86,8 @@ public class ReimbursementController{
 	}	
 	
 	
-	@GetMapping("/getReimbursementRegistrationDocument/{pathName}")
-	public  @ResponseBody byte[] getReimbursementRegistrationDocument(@PathVariable String pathName) throws MedicalClaimsException {
+	@GetMapping("/getReimbursementRegistrationDocument")
+	public  @ResponseBody byte[] getReimbursementRegistrationDocument(@RequestParam("pathName") String pathName) throws MedicalClaimsException {
 		byte[] docByte = null;
 		try {
 			docByte = reimbursementClaimsService.getDocumentDetails(pathName);

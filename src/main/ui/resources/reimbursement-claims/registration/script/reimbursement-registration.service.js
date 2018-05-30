@@ -27,6 +27,16 @@
             'getReimbursementRegistrationDetailsById' : {
                 method: 'GET',
                 url: resourceUrl + '/getReimbursementRegistrationDetails/:id'
+            },
+            'getReimbursementRegistrationDocument' : {
+                method: 'GET',
+                url: resourceUrl + '/getReimbursementRegistrationDocument?pathName=:pathName',
+                responseType: 'arraybuffer',
+                transformResponse: function(data, headersGetter) { 
+                    return { 
+                        data : data 
+                    }
+                }
             }
         })
     }
