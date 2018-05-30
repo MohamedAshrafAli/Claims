@@ -13,134 +13,142 @@
         </div>
 
         <div class="resultBox mb-4" ng-class="{'mt-3' : isNew}">
-            <div class="fldsWrap clearfix">
-                <div layout-gt-sm="row">
-                    <div class="col-sm-12">
-                        <md-input-container flex-gt-sm>
-                            <label>Voucher Number</label>
-                            <input type="text" ng-model="regDetail.voucherNumber" />
-                        </md-input-container>
+            <form name="form">
+                <div class="fldsWrap clearfix">
+                    <div layout-gt-sm="row">
+                        <div class="col-sm-12">
+                            <md-input-container flex-gt-sm>
+                                <label>Voucher Number</label>
+                                <input type="text" ng-model="regDetail.voucherNumber" />
+                            </md-input-container>
+                        </div>
+                    </div>
+                </div>   
+                <div class="fldsWrap clearfix">
+                    <div layout-gt-sm="row">
+                        <div class="col-sm-6">
+                            <md-input-container flex-gt-sm>
+                                <label>Policy Number</label>
+                                <input type="text" ng-model="regDetail.policyNumber"/>
+                            </md-input-container>
+                        </div>
+                        <div class="col-sm-6 colborder">
+                            <md-input-container flex-gt-sm>
+                                <label>Member Number</label>
+                                <input type="text"  ng-model="regDetail.memberNumber" />
+                            </md-input-container>
+                        </div>
                     </div>
                 </div>
-            </div>   
-            <div class="fldsWrap clearfix">
-                <div layout-gt-sm="row">
-                    <div class="col-sm-6">
-                        <md-input-container flex-gt-sm>
-                            <label>Policy Number</label>
-                            <input type="text" ng-model="regDetail.policyNumber" />
-                        </md-input-container>
-                    </div>
-                    <div class="col-sm-6 colborder">
-                        <md-input-container flex-gt-sm>
-                            <label>Member Number</label>
-                            <input type="text" ng-model="regDetail.memberNumber" />
-                        </md-input-container>
-                    </div>
-                </div>
-            </div>
-            <div class="fldsWrap clearfix">
-                <div layout-gt-sm="row">
-                    <div class="col-sm-6">
-                        <md-input-container flex-gt-sm>
-                            <label>Member Name</label>
-                            <input type="text" ng-model="regDetail.memberName" />
-                        </md-input-container>
-                    </div>
-                    <div class="col-sm-6 colborder">
-                        <md-input-container flex-gt-sm>
-                            <label>Emirates ID</label>
-                            <input type="text" ng-model="regDetail.uidId" />
-                        </md-input-container>
+                <div class="fldsWrap clearfix">
+                    <div layout-gt-sm="row">
+                        <div class="col-sm-6">
+                            <md-input-container flex-gt-sm>
+                                <label>Member Name</label>
+                                <input type="text"  ng-model="regDetail.memberName" />
+                            </md-input-container>
+                        </div>
+                        <div class="col-sm-6 colborder">
+                            <md-input-container flex-gt-sm>
+                                <label>Emirates ID</label>
+                                <input type="text" ng-model="regDetail.uidId" />
+                            </md-input-container>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="fldsWrap clearfix">
-                <div layout-gt-sm="row">
-                    <div class="col-sm-6">
-                        <md-input-container flex-gt-sm>
-                            <label>Mobile Number 1</label>
-                            <input type="text" ng-model="regDetail.mobileNum1" />
-                        </md-input-container>
-                    </div>
-                    <div class="col-sm-6 colborder">
-                        <md-input-container flex-gt-sm>
-                            <label>Email ID 1</label>
-                            <input type="email" ng-model="regDetail.email1" />
-                        </md-input-container>
-                    </div>
-                </div>
-            </div>
-            <div class="fldsWrap clearfix">
-                <div layout-gt-sm="row">
-                    <div class="col-sm-6">
-                        <md-input-container flex-gt-sm>
-                            <label>Mobile Number 2</label>
-                            <input type="text" ng-model="regDetail.mobileNum2" />
-                        </md-input-container>
-                    </div>
-                    <div class="col-sm-6 colborder">
-                        <md-input-container flex-gt-sm>
-                            <label>Email ID 2</label>
-                            <input type="email" ng-model="regDetail.email2" />
-                        </md-input-container>
+                <div class="fldsWrap clearfix">
+                    <div layout-gt-sm="row">
+                        <div class="col-sm-6">
+                            <md-input-container flex-gt-sm>
+                                <label>Mobile Number 1</label>
+                                <input type="text" ng-model="regDetail.mobileNum1" />
+                            </md-input-container>
+                        </div>
+                        <div class="col-sm-6 colborder">
+                            <md-input-container flex-gt-sm>
+                                <label>Email ID 1</label>
+                                <input  type="email"   ng-model="regDetail.email1" />
+                            </md-input-container>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="fldsWrap clearfix">
-                <div layout-gt-sm="row">
-                    <div class="col-sm-6">
-                        <md-input-container flex-gt-sm>
-                            <label>Previous Request</label>
-                            <input type="text" ng-model="regDetail.prevRequest" />
-                        </md-input-container>
-                    </div>
-                    <div class="col-sm-6 colborder">
-                        <md-input-container flex-gt-sm>
-                            <label>Requested Amount</label>
-                            <input type="number" ng-model="regDetail.requestAmt" />
-                        </md-input-container>
-                    </div>
-                </div>
-            </div>
-            <div class="fldsWrap clearfix">
-                <div layout-gt-sm="row">
-                    <div class="col-sm-6">
-                        <md-input-container flex-gt-sm>
-                            <label class="focuslabel">Encounter Type</label>
-                            <md-select name="EncounterType" ng-model="regDetail.encType">
-                                <md-option value="{{option.id}}" ng-repeat="option in encounterTypes">{{option.value}}</md-option>
-                            </md-select>
-                        </md-input-container>
-                    </div>
-                    <div class="col-sm-6 colborder">
-                        <md-input-container flex-gt-sm>
-                            <label>Request Type</label>
-                            <md-select name="EncounterType" ng-model="regDetail.reqType">
-                                <md-option ng-repeat="option in requestTypes" value="{{option.id}}">{{option.value}}</md-option>
-                            </md-select>
-                        </md-input-container>
+                <div class="fldsWrap clearfix">
+                    <div layout-gt-sm="row">
+                        <div class="col-sm-6">
+                            <md-input-container flex-gt-sm>
+                                <label>Mobile Number 2</label>
+                                <input type="text"  ng-model="regDetail.mobileNum2" />
+                            </md-input-container>
+                        </div>
+                        <div class="col-sm-6 colborder">
+                            <md-input-container flex-gt-sm>
+                                <label>Email ID 2</label>
+                                <input type="email" ng-model="regDetail.email2" />
+                            </md-input-container>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="fldsWrap clearfix">
-                <div layout-gt-sm="row">
-                    <div class="col-sm-6">
-                        <md-input-container>
-                            <label>Request Received Date</label>
-                            <md-datepicker ng-keyup="clearDatepickerKeyupValue($event);" ng-model="regDetail.reqReceivedDate" md-hide-icons="triangle"
-                                md-open-on-focus></md-datepicker>
-                        </md-input-container>
-                    </div>
-                    <div class="col-sm-6 colborder">
-                        <md-input-container>
-                            <label>Service From Date</label>
-                            <md-datepicker ng-keyup="clearDatepickerKeyupValue($event);" ng-model="regDetail.serviceFmDate" md-hide-icons="triangle"
-                                md-open-on-focus></md-datepicker>
-                        </md-input-container>
+                <div class="fldsWrap clearfix">
+                    <div layout-gt-sm="row">
+                        <div class="col-sm-6">
+                            <md-input-container flex-gt-sm>
+                                <label>Previous Request</label>
+                                <input type="text" ng-model="regDetail.prevRequest" />
+                            </md-input-container>
+                        </div>
+                        <div class="col-sm-6 colborder">
+                            <md-input-container flex-gt-sm>
+                                <label>Requested Amount</label>
+                                <input type="number" name="requestAmt" ng-model="regDetail.requestAmt" required/>
+                                <div ng-if="localValidation && !form.requestAmt.$modelValue" class="error">Please Enter The Requested Amount</div>
+                            </md-input-container>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div class="fldsWrap clearfix">
+                    <div layout-gt-sm="row">
+                        <div class="col-sm-6">
+                            <md-input-container flex-gt-sm>
+                                <label class="focuslabel">Encounter Type</label>
+                                <md-select md-input-name="encType" ng-model="regDetail.encType" required >
+                                    <md-option value="{{option.id}}" ng-repeat="option in encounterTypes">{{option.value}}</md-option>
+                                </md-select>
+                                <div ng-if="localValidation && !regDetail.encType" class="error">Please Enter The Encounter Type</div>
+                                
+                            </md-input-container>
+                        </div>
+                        <div class="col-sm-6 colborder">
+                            <md-input-container flex-gt-sm>
+                                <label>Request Type</label>
+                                <md-select md-input-name="EncounterType" ng-model="regDetail.reqType" required>
+                                    <md-option ng-repeat="option in requestTypes" value="{{option.id}}">{{option.value}}</md-option>
+                                </md-select>
+                                <div ng-if="localValidation && !regDetail.reqType" class="error">Please Enter The Encounter Type</div>
+                            </md-input-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="fldsWrap clearfix">
+                    <div layout-gt-sm="row">
+                        <div class="col-sm-6">
+                            <md-input-container>
+                                <label>Request Received Date</label>
+                                <md-datepicker ng-keyup="clearDatepickerKeyupValue($event);" md-input-name="reqDate" ng-model="regDetail.reqReceivedDate" md-hide-icons="triangle"
+                                    md-open-on-focus required ></md-datepicker>
+                                    <div ng-if="localValidation && !regDetail.reqReceivedDate" class="error">Please Enter The Encounter Type</div>
+                            </md-input-container>
+                        </div>
+                        <div class="col-sm-6 colborder">
+                            <md-input-container>
+                                <label>Service From Date</label>
+                                <md-datepicker ng-keyup="clearDatepickerKeyupValue($event);" md-input-name="fromDate" ng-model="regDetail.serviceFmDate" md-hide-icons="triangle"
+                                    md-open-on-focus required ></md-datepicker>
+                                    <div ng-if="localValidation && !regDetail.serviceFmDate" class="error">Please Enter The Encounter Type</div>
+                            </md-input-container>
+                        </div>
+                    </div>
+                </div>
+            </form>
             <div class="fldsWrap clearfix">
                 <div class="fieldsCol fieldsFilledCol">
                     <label class="top_4">Reported By</label>

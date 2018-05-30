@@ -82,6 +82,11 @@
         }
 
         $scope.saveRegistrationDetails = function() {
+            if($scope.form.$invalid){
+                $scope.localValidation = true;
+                return;
+            }
+            $scope.localValidation = false;
             $scope.regDetail['registrationFileDTOs'] = $scope.documents;
             ReimbursementRegistrationService.saveRegistrationDetails($scope.regDetail, function(resp) {
                 $state.go('reimbursement-registration', {}, {reload: true});
@@ -160,9 +165,14 @@
             $scope.isPreview = true;
             $scope.showUpload = true;
         }
+        
 
-        $scope.searchClaims = function(data) {
-            if(data != null) {
+        $scope.searchClaims = function (data) {
+            if ((data.memberNumber == null) && (data.policyNumber == null) && (data.voucherNumber == null) && (data.previousRequestNumber == null)) {
+                swal("Please Enter Search Input")
+            }
+            else {
+            
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: 'resources/reimbursement-claims/registration/view/claim-search-modal.html',
