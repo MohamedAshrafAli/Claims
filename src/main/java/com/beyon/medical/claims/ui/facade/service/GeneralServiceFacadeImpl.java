@@ -7,6 +7,8 @@ import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_MEMBER_NUMBERS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_POLICY_NUMBERS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_VOUCHER_NUMBERS;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_CLAIM_NUMBERS;
+
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_LISTS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_IDS_COLUMN_MEMBER_NUMBERS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_IDS_COLUMN_POLICY_NUMBERS;
@@ -104,6 +106,22 @@ public class GeneralServiceFacadeImpl implements GeneralServiceFacade {
 		}
 		return voucherNumberList;
 	}
+	
+	@Override
+	public ObjectNode getClaimNumberList(ObjectNode paramMap) throws DAOException {
+		ObjectNode voucherNumberList = null;
+		try {
+			Map<Integer, String> outputMap = new HashMap<>();
+			outputMap.put(1, GENERAL_QUERIES_GET_CTDS_COLUMN_CLAIM_NUMBERS);
+			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
+			voucherNumberList =  generalClaimsDao.getSearchDataList(GENERAL_QUERIES_GET_CTDS_LISTS, inputMap, outputMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return voucherNumberList;
+	}
+	
 	
 	@Override
 	public ObjectNode getMemberNameList(ObjectNode paramMap) throws DAOException {

@@ -2,7 +2,7 @@ package com.beyon.medical.claims.general.dto;
 
 import java.time.LocalDate;
 
-public class RegistrationBaseDTO {
+public class ClaimBaseDTO {
 	private String customerId;
 	private String description;
 	private String status;
@@ -23,6 +23,8 @@ public class RegistrationBaseDTO {
 	private String reportedMethodDesc;
 	private String reportedByDesc;
 	private String reportedById;
+	
+	
 	private String riskId;
 	private String riskCOB;
 	private String riskType;
@@ -51,6 +53,8 @@ public class RegistrationBaseDTO {
 	private String riskFlexDesc8;
 	private String riskFlexDesc9;
 	private String riskFlexDesc10;
+	
+	
 	private String memberNumber;
 	private String memberName;
 	private String memberType;

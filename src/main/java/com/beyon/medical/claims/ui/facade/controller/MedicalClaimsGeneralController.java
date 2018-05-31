@@ -67,6 +67,17 @@ public class MedicalClaimsGeneralController{
 		return voucherNumbers;
 	}
 	
+	@PostMapping("/getClaimNumbers")
+	public  @ResponseBody ObjectNode getClaimNumbers(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode voucherNumbers = null;
+		try {
+			voucherNumbers = uiServiceFacade.getVoucherNumberList(inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return voucherNumbers;
+	}
+	
 	@PostMapping("/getMemberNameList")
 	public  @ResponseBody ObjectNode getMemberNameList(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
 		ObjectNode memberNames = null;

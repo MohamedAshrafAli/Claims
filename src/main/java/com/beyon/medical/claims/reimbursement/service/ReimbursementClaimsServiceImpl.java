@@ -1,13 +1,8 @@
 package com.beyon.medical.claims.reimbursement.service;
 
 import static com.beyon.framework.util.Constants.INTERNAL_ERROR_OCCURED;
-import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS;
-import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_ID;
-import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_MEM_NO_CRITERIA;
-import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_POLICY_CRITERIA;
-import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_CTDS_DETAILS_VOUCHER_CRITERIA;
-import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_DETAILS;
-import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_DETAILS_TDS_LEVEL_D;
+import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.*;
+import static com.beyon.medical.claims.constants.ClaimConstants.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,8 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.bind.DatatypeConverter;
-
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -33,7 +27,9 @@ import com.beyon.medical.claims.exception.DAOException;
 import com.beyon.medical.claims.exception.MedicalClaimsException;
 import com.beyon.medical.claims.reimbursement.dao.ReimbursementClaimsDAOImpl;
 import com.beyon.medical.claims.reimbursement.dto.RegistrationFileDTO;
+import com.beyon.medical.claims.reimbursement.dto.ReimbursementAssignmentDTO;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementRegistrationDTO;
+import com.beyon.medical.claims.reimbursement.mapper.ReimbAssignmentMapper;
 import com.beyon.medical.claims.ui.facade.service.GeneralServiceFacade;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -61,6 +57,23 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 		}
 		return reimbursementRegDetails;
 	}
+	
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, isolation = Isolation.READ_COMMITTED, readOnly = true)
+	public List<ReimbursementAssignmentDTO> getReimbursementAssignmentDetails(ObjectNode paramMap) throws DAOException {
+		List<ReimbursementAssignmentDTO> reimbursementAssignmentDetails = null;
+		try {
+			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
+			String strQuery = REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_DETAILS;
+			strQuery = getConstructedQuerywithCriterionForAssignment(strQuery, inputMap);
+			reimbursementAssignmentDetails =  reimbursementClaimsDAO.getAssignmentListViewData(strQuery, inputMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return reimbursementAssignmentDetails;
+	}
+	
 	@Transactional(propagation = Propagation.SUPPORTS, isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public ReimbursementRegistrationDTO getReimbursementRegistrationDetailsById(String id) throws DAOException {
 		List<ReimbursementRegistrationDTO> reimbursementRegDetails = null;
@@ -101,6 +114,32 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 		return strQuery;
 	}
 	
+	
+	private String getConstructedQuerywithCriterionForAssignment(String strQuery,Map<String,Object> inputMap) {
+		if(strQuery.contains("<CRITERIA>")) {
+			Iterator<String> mapIter = inputMap.keySet().iterator();
+			StringBuilder builder = new StringBuilder("");
+			while (mapIter.hasNext()) {
+				String key = (String) mapIter.next();
+				if(key.equalsIgnoreCase("claimNumber") && StringUtils.isNotBlank((String)inputMap.get(key))) {
+					builder.append(REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_CLAIMNUMBER_DETAILS + " ");
+				} else if(key.equalsIgnoreCase("memberNumber")  && StringUtils.isNotBlank((String)inputMap.get(key))) {
+					builder.append(REIMBURSEMENT_QUERIES_CTDS_DETAILS_MEM_NO_CRITERIA+ " ");
+				}
+			}
+			if(StringUtils.isNotBlank("reqReceivedFrom") && StringUtils.isNotBlank((String)inputMap.get("reqReceivedTo"))) {
+				builder.append(REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_REQ_RECEIVED_BETWEEN_DETAILS+ " ");
+			}  else if(StringUtils.isNotBlank("reqReceivedFrom")) {
+				builder.append(REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_REQ_RECEIVED_FROM_DETAILS+ " ");
+			}  else if(StringUtils.isNotBlank("reqReceivedTo")) {
+				builder.append(REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_REQ_RECEIVED_TO_DETAILS+ " ");
+			}  
+
+			strQuery = strQuery.replaceAll("<CRITERIA>", builder.toString());
+		}
+		return strQuery;
+	}
+	
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public List<ReimbursementRegistrationDTO> getRegistrationDetailsForPolicyAndMemberNo(ObjectNode paramMap) throws DAOException {
@@ -135,6 +174,32 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 		return _registrationDTO;
 	}
 	
+	
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false, rollbackFor = Exception.class)
+	public List<ReimbursementAssignmentDTO> saveAssignmentDetails(String compId,List<ReimbursementAssignmentDTO> assignmentDTOs) throws DAOException {
+		List<ReimbursementAssignmentDTO> _assignmentDTOs = null;
+		try {
+			for (ReimbursementAssignmentDTO reimbursementAssignmentDTO : assignmentDTOs) {
+				Map<String, Object> refNoMap = reimbursementClaimsDAO.getClaimsRefNo("C", reimbursementAssignmentDTO.getId(), reimbursementAssignmentDTO.getProductId());
+				String claimRefNo = (String)refNoMap.get("P_DOC_NO");
+				reimbursementAssignmentDTO.setClaimNumber(claimRefNo);
+				ObjectNode objectNode = FoundationUtils.createObjectNode();
+				objectNode.put("policyNumber", reimbursementAssignmentDTO.getPolicyNumber());
+				objectNode.put("compId", compId);
+				objectNode.put("memberNumber", reimbursementAssignmentDTO.getMemberNumber());
+				ObjectNode outputMap = getMemberDetailsForPolicyAndMemberNo(objectNode);
+				ReimbAssignmentMapper.getReimbursmentDTOWithMemberDetails(outputMap, reimbursementAssignmentDTO);
+
+			}
+			_assignmentDTOs =  reimbursementClaimsDAO.insertReimbursementAssignmentDetails(compId, assignmentDTOs);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return _assignmentDTOs;
+	}
+	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false, rollbackFor = Exception.class)
 	public 	boolean deleteRegistrationDocument(String id, String docType, String docName, String path ) throws DAOException {
@@ -167,12 +232,27 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 	public byte[] getDocumentDetails(String path) throws MedicalClaimsException {
 		byte[] docBytes = null;
 		try {
-			docBytes = Files.readAllBytes(new File(ClaimConstants.CLAIM_REIMBURSEMENT_REGISTRATION_FILE_SERVER + File.separator + path).toPath());
+			docBytes = Files.readAllBytes(new File(CLAIM_REIMBURSEMENT_REGISTRATION_FILE_SERVER + File.separator + path).toPath());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new MedicalClaimsException(e);
 		}
 		return docBytes;
+	}
+	
+	@Override
+	@Transactional(propagation = Propagation.SUPPORTS, isolation = Isolation.READ_COMMITTED, readOnly = true)
+	public ObjectNode getMemberDetailsForPolicyAndMemberNo(ObjectNode paramMap) throws DAOException {
+		ObjectNode outputMap = null;
+		try {
+			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
+			String strQuery = REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_MEMBER_DETAILS;
+			outputMap =  reimbursementClaimsDAO.getAssignmentnListData(strQuery, inputMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return outputMap;
 	}
 	
 	private void transferFilesToFileServer(ReimbursementRegistrationDTO registrationDTO,RegistrationFileDTO  registrationFileDTO) throws DAOException {

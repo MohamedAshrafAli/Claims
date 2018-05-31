@@ -52,9 +52,20 @@ public final class ReimbursementQueriesConstants implements Serializable{
 	public static final String CLAIMANT_IS_THE_CUSTOMER = "Y";
 	public static final String CLAIM_REPORTED_BY_INSURED = "01";
 	public static final String CLAIM_MOD_TYPE = "GM";
+	
+	
+	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.ctds.assignment.details");
 
-	
-	
+	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_CLAIMNUMBER_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.ctds.details.assignment.claimnumber.criteria");
+	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_REQ_RECEIVED_FROM_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.ctds.details.assignment.reqreceivedfrom.criteria");
+	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_REQ_RECEIVED_TO_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.ctds.details.assignment.reqreceivedto.criteria");
+	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_REQ_RECEIVED_BETWEEN_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.ctds.details.assignment.reqreceivedfromto.criteria");
+	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_C = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelc");
+	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_MEMBER_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.ctds.assignment.member.details");
+	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_CP = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelcp");
+
+	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_CP_SEQUENCE_NAME = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelcp.sequence.name");
+
 	
 	
 	
