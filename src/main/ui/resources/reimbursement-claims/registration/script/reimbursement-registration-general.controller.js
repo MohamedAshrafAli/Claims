@@ -19,7 +19,7 @@
         $scope.isEdit = (claim.id != null);
         UIDefinationService.getEncounterTypes({'compId' : '0021'}, function(resp) {
             $scope.encounterTypes = resp.rowData;
-        });  
+        });
         
         UIDefinationService.getRequestTypes({'compId' : '0021'}, function(resp) {
             $scope.requestTypes = resp.rowData;
@@ -326,7 +326,7 @@
         function init() {
             $scope.regDetail.paymentWay ? $scope.setPaymentWay($scope.regDetail.paymentWay) : '';
             $scope.regDetail.source ? $scope.setDcoumentType($scope.regDetail.source) : '';
-            $scope.fieldsObject =  ReimbursementRegistrationFactory.getreimbursementGeneral();
+            $scope.fieldsObject =  ReimbursementRegistrationFactory.getRegistrationGeneralSearchFields();
         }
 
         $scope.clearDocFilter = function() {

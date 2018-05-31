@@ -30,22 +30,6 @@
             };
         }
 
-        this.registerClaim = function(data) {
-            console.log("data :: ", data);
-        }
-        
-        this.searchClaims = function(params) {
-            return this.getClaimRegistrationList(params);
-        }
-
-        this.setClaim = function(claim) {
-            this.claimObj = claim;
-        }
-
-        this.getClaim = function(claim) {
-            return this.claimObj;
-        }
-
         this.getSearchFields = function() {
             return [
                 { label: 'Card Number', type: 'autoSearch', name: 'cardNumber', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos', autoCompleteInfo : {methodName: 'getMedicalCardNumberList', displayName: 'CLMR_TPA_CARD'}},
@@ -55,6 +39,16 @@
                 { label: 'Policy Number', type: 'autoSearch', name: 'policyNumber', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos',  autoCompleteInfo : {methodName: 'getClaimsPolicyNumberList', displayName: 'CLF_ULM_NO'}}
             ];
         }
+
+        this.getRegistrationGeneralSearchFields = function() {
+            return [
+                { label: 'Member Number', type: 'autoSearch', name: 'memberNumber', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos', autoCompleteInfo : {methodName: 'getMemberNumberList', displayName: 'ULME_MEMBER_ID'}},
+                { label: 'Policy Number', type: 'autoSearch', name: 'policyNumber', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos', autoCompleteInfo : {methodName: 'getPolicyNumberList', displayName: 'ILM_NO'}},
+                { label: 'Voucher Number', type: 'autoSearch', name: 'voucherNumber', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos', autoCompleteInfo : {methodName: 'getVoucherNumbers', displayName: 'CLMF_VOUCH_NO'}},
+                { label: 'Previous Request Number', type: 'text', name: 'requestNumber', iconClass:'searchAutoIcon', width:'90%'}
+            ];
+        }
+        
         this.constructSearchObj = function(autoCompleteMapping, searchValue) {
             var search = {};
             angular.forEach(searchValue, function(value,key){
@@ -75,16 +69,7 @@
             claim.status = "CC";
             claim.sourceType = sourceType;
             return claim;
-        }
-
-        this.getreimbursementGeneral = function() {
-            return [
-                { label: 'Member Number', type: 'autoSearch', name: 'memberNumber', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos', autoCompleteInfo : {methodName: 'getMemberNumberList', displayName: 'ULME_MEMBER_ID'}},
-                { label: 'Policy Number', type: 'autoSearch', name: 'policyNumber', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos', autoCompleteInfo : {methodName: 'getPolicyNumberList', displayName: 'ILM_NO'}},
-                { label: 'Voucher Number', type: 'autoSearch', name: 'voucherNumber', autoCompleteClass:'autoSearch', iconClass:'searchAutoIcon', width:'90%', class: 'searchCol-relative-pos', autoCompleteInfo : {methodName: 'getVoucherNumbers', displayName: 'CLMF_VOUCH_NO'}},
-                { label: 'Previous Request Number', type: 'text', name: 'requestNumber', iconClass:'searchAutoIcon', width:'90%'}
-            ];
-        }
+        }        
 
         this.constructUidMap = function(data, itemKey, itemValue) {
             var uidMap = {};
