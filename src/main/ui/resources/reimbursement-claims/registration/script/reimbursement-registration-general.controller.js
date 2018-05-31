@@ -91,6 +91,16 @@
             }
             $scope.localValidation = false;
             $scope.regDetail['registrationFileDTOs'] = $scope.documents;
+            var params = { policyNumber: $scope.regDetail.policyNumber, compId : "0021" };
+            AutocompleteService.getCurrencyDetailsForPolicyNo(params, function(response) {
+                var currencyInfo = response.rowData[0];
+                $scope.regDetail.baseCurrency = currencyInfo.BaseCurrency;
+                $scope.regDetail.requestAmtBC = $scope.regDetail.requestAmt * currencyInfo.ExchangeRate;
+                saveRegistration();
+            });
+        }
+
+        function saveRegistration() {
             ReimbursementRegistrationService.saveRegistrationDetails($scope.regDetail, function(resp) {
                 $state.go('reimbursement-registration', {}, {reload: true});
             });
@@ -172,9 +182,7 @@
         $scope.searchClaims = function (data) {
             if ((data.memberNumber == null) && (data.policyNumber == null) && (data.voucherNumber == null) && (data.previousRequestNumber == null)) {
                 swal("", "Please Enter any Search Inputs", "warning");
-            }
-            else {
-            
+            } else {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: 'resources/reimbursement-claims/registration/view/claim-search-modal.html',

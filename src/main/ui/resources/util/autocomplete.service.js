@@ -38,6 +38,10 @@
                 'getVoucherNumbers': {
                     method: 'POST',
                     url: urlRoutePrefix + resourceUrl + '/getVoucherNumbers'
+                },
+                'getCurrencyDetailsForPolicyNo': {
+                    method: 'POST',
+                    url: urlRoutePrefix + resourceUrl + '/getCurrencyDetailsForPolicyNo'
                 }
             })
         }
