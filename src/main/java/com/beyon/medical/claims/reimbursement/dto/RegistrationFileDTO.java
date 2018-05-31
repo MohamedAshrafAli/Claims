@@ -12,6 +12,7 @@ public class RegistrationFileDTO {
 	private String description;
 	private String docContentType;
 	private String docPath;
+	private Boolean isNew;
 
 	public String getDocContentType() {
 		return docContentType;
@@ -67,5 +68,11 @@ public class RegistrationFileDTO {
 	}
 	public void setDocPath(String docPath) {
 		this.docPath = docPath;
+	}
+	public Boolean getIsNew() {
+		return isNew;
+	}
+	public void setIsNew(Boolean isNew) {
+		this.isNew = isNew;
 	}	
 }

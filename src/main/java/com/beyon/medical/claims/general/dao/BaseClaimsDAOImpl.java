@@ -73,7 +73,9 @@ public class BaseClaimsDAOImpl {
 					return rs.getString("DivisionId");
 				}
 			});
-			userDivision = userDivisionList.get(0);
+			if(userDivisionList != null && !userDivisionList.isEmpty()) {
+				userDivision = userDivisionList.get(0);
+			}
 		} catch (Exception e) {
 			writeLog(CLASS_NAME, "Exception occured while executing getUserDivisionForCompany", ERROR, e);
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);

@@ -17,12 +17,11 @@ public class ReimbRegistrationMapper {
 		registrationDTO.setUidId(row.getString("EmiratesId"));
 		registrationDTO.setEncType(row.getString("EncounterType"));
 		registrationDTO.setPaymentRefNum(row.getString("PaymentRefNo"));
-		registrationDTO.setPaymentWay(row.getString("PaymentGatewayRef"));
 		registrationDTO.setMemberName(row.getString("MemberName"));
 		registrationDTO.setMemberNumber(row.getString("MemberNumber"));
 		registrationDTO.setMobileNum1(row.getString("MobileNumber1"));
 		registrationDTO.setMobileNum2(row.getString("MobileNumber2"));
-		registrationDTO.setPaymentWay(row.getString("PaymentRefNo"));
+		registrationDTO.setPaymentWay(row.getString("PaymentWay"));
 		registrationDTO.setPolicyNumber(row.getString("Policynumber"));
 		registrationDTO.setPrevRequest(row.getString("PrevReqNo"));
 		registrationDTO.setReqReceivedDate(DateUtil.convertSQlDateToLocalDate(row.getDate("RequestReceivedDate")));
@@ -148,7 +147,6 @@ public class ReimbRegistrationMapper {
 		registrationDTO.setEncType(row.getString("EncounterType"));
 		registrationDTO.setPaymentRefNum(row.getString("PaymentGatewayRef"));
 		registrationDTO.setPaymentWay(row.getString("PaymentWay"));
-		registrationDTO.setPaymentWay(row.getString("PaymentGatewayRef"));
 		registrationDTO.setPrevRequest(row.getString("PrevReqId"));
 		registrationDTO.setReqReceivedDate(DateUtil.convertSQlDateToLocalDate(row.getDate("RequestReceivedDate")));
 		registrationDTO.setReqType(row.getString("RequestType"));

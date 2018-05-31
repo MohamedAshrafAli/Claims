@@ -296,3 +296,18 @@ angular
         }
     }
 })();
+
+(function() {
+    'use strict';
+    angular
+        .module('claims')
+        .filter('customeDate', function () {
+            return function (item) {
+                var date;
+                if (item) {
+                    date = item[1]+'/'+item[2]+'/'+item[0];
+                }
+                return date
+            };
+        })
+})();
