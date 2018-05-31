@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.beyon.medical.claims.exception.MedicalClaimsException;
 import com.beyon.medical.claims.reimbursement.dto.RegistrationFileDTO;
+import com.beyon.medical.claims.reimbursement.dto.ReimbursementAssignmentDTO;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementRegistrationDTO;
 import com.beyon.medical.claims.reimbursement.service.ReimbursementClaimsService;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -47,6 +48,17 @@ public class ReimbursementController{
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
 		return registrationDTOs;
+	}
+	
+	@PostMapping("/getReimbursementAssignmentDetails")
+	public  @ResponseBody List<ReimbursementAssignmentDTO> getReimbursementAssignmentDetails(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		List<ReimbursementAssignmentDTO> assignmentDTOs = null;
+		try {
+			assignmentDTOs = reimbursementClaimsService.getReimbursementAssignmentDetails(inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return assignmentDTOs;
 	}
 	
 	@GetMapping("/getReimbursementRegistrationDetails/{id}")
@@ -83,6 +95,17 @@ public class ReimbursementController{
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
 		return _registrationDTO;
+	}	
+	
+	@PostMapping("/saveAssignmentDetails/{compId}")
+	public  @ResponseBody List<ReimbursementAssignmentDTO> saveAssignmentDetails(@PathVariable String compId, @RequestBody List<ReimbursementAssignmentDTO> assignmentDTOs) throws MedicalClaimsException {
+		List<ReimbursementAssignmentDTO> _assignmentDTOs = null;
+		try {
+			_assignmentDTOs = reimbursementClaimsService.saveAssignmentDetails(compId,assignmentDTOs);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return _assignmentDTOs;
 	}	
 	
 	

@@ -7,7 +7,7 @@ import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_USER_DIVISION;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.CLAIMANT_IS_THE_CUSTOMER;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.CLAIM_MOD_TYPE;
-import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.CLAIM_REPORTED_BY_INSURED;
+import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.*;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_DELETE_TDS_LEVEL_D;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_FNOL;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MFNOL;
@@ -28,6 +28,7 @@ import java.util.Map;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -36,11 +37,16 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import com.beyon.framework.dao.DAOFactory;
+import com.beyon.framework.util.FoundationUtils;
 import com.beyon.medical.claims.exception.DAOException;
 import com.beyon.medical.claims.general.dao.BaseClaimsDAOImpl;
 import com.beyon.medical.claims.reimbursement.dto.RegistrationFileDTO;
+import com.beyon.medical.claims.reimbursement.dto.ReimbursementAssignmentDTO;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementRegistrationDTO;
+import com.beyon.medical.claims.reimbursement.mapper.ReimbAssignmentMapper;
 import com.beyon.medical.claims.reimbursement.mapper.ReimbRegistrationMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Repository("reimbursementClaimsDAOImpl")
 @Scope(value="prototype")
@@ -83,6 +89,18 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 			}
 		});
 	}
+	
+	public List<ReimbursementAssignmentDTO> getAssignmentListViewData(String query ,Map<String,Object> inputMap) throws DAOException {
+		NamedParameterJdbcTemplate  namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValues(inputMap);
+		return namedParameterJdbcTemplate.query(query, parameters, new RowMapper<ReimbursementAssignmentDTO>() {
+			@Override
+			public ReimbursementAssignmentDTO mapRow(ResultSet row, int count) throws SQLException {
+				return ReimbAssignmentMapper.getViewReimbursementAssignmentDTO(row);
+			}
+		});
+	}
 
 	public List<ReimbursementRegistrationDTO> getRegistrationListData(String query ,Map<String,Object> inputMap) throws DAOException {
 		NamedParameterJdbcTemplate  namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
@@ -95,6 +113,42 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 			}
 		});
 	}
+	
+	public ObjectNode getAssignmentnListData(String strQuery,Map<String,Object> inputMap) throws DAOException {
+		ObjectNode objectNode = FoundationUtils.createObjectNode();
+		try {
+			NamedParameterJdbcTemplate namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
+			namedParameterJdbcTemplate.query(strQuery, inputMap , new RowCallbackHandler() {
+				@Override
+				public void processRow(ResultSet rs) throws SQLException {
+					objectNode.put("FirstName", rs.getString("FirstName"));
+					objectNode.put("MiddleName", rs.getString("MiddleName"));
+					objectNode.put("LastName", rs.getString("LastName"));
+					objectNode.put("Address1", rs.getString("Address1"));
+					objectNode.put("Address2", rs.getString("Address2"));
+					objectNode.put("Address3", rs.getString("Address3"));
+					objectNode.put("Address4", rs.getString("Address4"));
+					objectNode.put("Pincode", rs.getString("Pincode"));
+					objectNode.put("City", rs.getString("City"));
+					objectNode.put("State", rs.getString("State"));
+					objectNode.put("Country", rs.getString("Country"));
+					objectNode.put("PhoneNumber", rs.getString("PhoneNumber"));
+					objectNode.put("MobileNumber", rs.getString("MobileNumber"));
+					objectNode.put("EmailId", rs.getString("EmailId"));
+					objectNode.put("MemberName", rs.getString("MemberName"));
+					objectNode.put("Gender", rs.getString("Gender"));
+					objectNode.put("Relation", rs.getString("Relation"));
+					objectNode.put("Nationality", rs.getString("Nationality"));
+				}
+				
+			});
+		} catch (Exception ex) {
+			writeLog(CLASS_NAME, "Exception occured while executing getDataList", ERROR, ex);
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return objectNode;
+	}
+	
 
 	public Map<String, Object> getClaimsRefNo(String docType,Long sequenceNumber,String productId) throws DAOException {
 		Map<String, Object> simpleJdbcCallResult = null;
@@ -311,7 +365,6 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		if (reimbursementRegistrationDTO.getCardReceivedDate() != null) {
 			cardReceivedDate = java.sql.Date.valueOf(reimbursementRegistrationDTO.getCardReceivedDate());
 		}
-
 		jdbcTemplate.update(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MR,
 				new Object[] { reimbursementRegistrationDTO.getId(), 
 						reimbursementRegistrationDTO.getRiskId(), 
@@ -364,9 +417,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 					ps.setString(15, fileDTO.getDocTypeDesc());
 					ps.setString(16, fileDTO.getDocPath());
 					ps.setString(17, fileDTO.getDocContentType());
-
 				}
-
 				@Override
 				public int getBatchSize() {
 					return fileDTOs.size();
@@ -377,6 +428,120 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 			e.printStackTrace();
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
 		}
+	}
+	
+	private boolean insertCTDSLEVELC(String compId,List<ReimbursementAssignmentDTO> reimbursementAssignmentDTOs,JdbcTemplate jdbcTemplate) throws DAOException {
+		try {
+			jdbcTemplate.batchUpdate(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_C, new BatchPreparedStatementSetter() {
+				@Override
+				public void setValues(PreparedStatement ps, int i) throws SQLException {
+					ReimbursementAssignmentDTO reimbursementAssignmentDTO = reimbursementAssignmentDTOs.get(i);
+					java.sql.Date claimIntimationDate = null;
+					java.sql.Date claimLossDate = null;
+					java.sql.Date createdDate = null;
+					if (reimbursementAssignmentDTO.getReqReceivedDate() != null) {
+						claimIntimationDate = java.sql.Date.valueOf(reimbursementAssignmentDTO.getReqReceivedDate());
+					}
+					if (reimbursementAssignmentDTO.getServiceFmDate() != null) {
+						claimLossDate = java.sql.Date.valueOf(reimbursementAssignmentDTO.getServiceFmDate());
+					}
+					createdDate = new java.sql.Date(new Date().getTime());
+					ps.setLong(1, reimbursementAssignmentDTO.getId());
+					ps.setString(2, reimbursementAssignmentDTO.getClaimNumber());
+					ps.setString(3, reimbursementAssignmentDTO.getClaimRefNo());
+					ps.setDate(4, claimIntimationDate);
+					ps.setDate(5, claimLossDate);
+					ps.setString(6, reimbursementAssignmentDTO.getDescription());
+					ps.setString(7, reimbursementAssignmentDTO.getPolicyNumber());
+					ps.setString(8, reimbursementAssignmentDTO.getStatus());
+					ps.setString(9, reimbursementAssignmentDTO.getCustomerId());
+					ps.setString(10, reimbursementAssignmentDTO.getProductId());
+					ps.setString(11, reimbursementAssignmentDTO.getCreatedBy());
+					ps.setDate(12, createdDate);
+					ps.setString(13, compId);
+					ps.setString(14, reimbursementAssignmentDTO.getDivisionId());
+					ps.setString(15, reimbursementAssignmentDTO.getDeptId());
+
+				}
+				@Override
+				public int getBatchSize() {
+					return reimbursementAssignmentDTOs.size();
+				}
+			});
+		} catch (Exception e) {
+			writeLog(CLASS_NAME, "Exception occured while executing insertTDSLEVELD", ERROR, e);
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return true;
+	}
+	
+	private boolean insertCTDSLEVELCP(String compId,List<ReimbursementAssignmentDTO> reimbursementAssignmentDTOs,JdbcTemplate jdbcTemplate) throws DAOException {
+		try {
+			jdbcTemplate.batchUpdate(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_C, new BatchPreparedStatementSetter() {
+				@Override
+				public void setValues(PreparedStatement ps, int i) throws SQLException {
+					ReimbursementAssignmentDTO reimbursementAssignmentDTO = reimbursementAssignmentDTOs.get(i);
+					Long clcpId = getSequenceNo(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_CP_SEQUENCE_NAME);
+					reimbursementAssignmentDTO.setAssignmentId(clcpId);
+					java.sql.Date claimIntimationDate = null;
+					java.sql.Date claimLossDate = null;
+					java.sql.Date createdDate = null;
+					if (reimbursementAssignmentDTO.getReqReceivedDate() != null) {
+						claimIntimationDate = java.sql.Date.valueOf(reimbursementAssignmentDTO.getReqReceivedDate());
+					}
+					if (reimbursementAssignmentDTO.getServiceFmDate() != null) {
+						claimLossDate = java.sql.Date.valueOf(reimbursementAssignmentDTO.getServiceFmDate());
+					}
+					createdDate = new java.sql.Date(new Date().getTime());
+					ps.setLong(1, reimbursementAssignmentDTO.getId());
+					ps.setString(2, reimbursementAssignmentDTO.getFirstName());
+					ps.setString(3, reimbursementAssignmentDTO.getMiddleName());
+					ps.setString(4, reimbursementAssignmentDTO.getLastName());
+					ps.setString(5, reimbursementAssignmentDTO.getAddress1());
+					ps.setString(6, reimbursementAssignmentDTO.getAddress2());
+					ps.setString(7, reimbursementAssignmentDTO.getAddress3());
+					ps.setString(8, reimbursementAssignmentDTO.getAddress4());
+					ps.setString(9, reimbursementAssignmentDTO.getPincode());
+					ps.setString(10, reimbursementAssignmentDTO.getState());
+					ps.setString(11, reimbursementAssignmentDTO.getCity());
+					ps.setString(12, reimbursementAssignmentDTO.getCountry());
+					ps.setString(13, reimbursementAssignmentDTO.getPrimaryPhoneNo());
+					ps.setString(14, reimbursementAssignmentDTO.getMobileNum1());
+					ps.setString(15, reimbursementAssignmentDTO.getAssignmentId()+"");
+					ps.setString(16,null);
+					ps.setString(17, reimbursementAssignmentDTO.getEmail1());
+					ps.setString(18, reimbursementAssignmentDTO.getMemberName());
+					ps.setString(19, null);
+					ps.setString(20, reimbursementAssignmentDTO.getGender());
+					ps.setDate(21, createdDate);
+					ps.setString(22, "I");
+					ps.setString(23, reimbursementAssignmentDTO.getCreatedBy());
+					ps.setString(24, reimbursementAssignmentDTO.getRelationWithPrimary());
+					ps.setString(25, reimbursementAssignmentDTO.getNationalId());
+
+
+				}
+				@Override
+				public int getBatchSize() {
+					return reimbursementAssignmentDTOs.size();
+				}
+			});
+		} catch (Exception e) {
+			writeLog(CLASS_NAME, "Exception occured while executing insertTDSLEVELD", ERROR, e);
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return true;
+	}
+	
+	public List<ReimbursementAssignmentDTO> insertReimbursementAssignmentDetails(String compId,List<ReimbursementAssignmentDTO> reimbursementAssignmentDTOs) throws DAOException {
+		boolean isSaved = false;
+		JdbcTemplate jdbcTemplate = DAOFactory.getJdbcTemplate("gm");
+		
+		insertCTDSLEVELC(compId, reimbursementAssignmentDTOs, jdbcTemplate);
+		insertCTDSLEVELCP(compId, reimbursementAssignmentDTOs, jdbcTemplate);
+		return reimbursementAssignmentDTOs;
 	}
 
 }

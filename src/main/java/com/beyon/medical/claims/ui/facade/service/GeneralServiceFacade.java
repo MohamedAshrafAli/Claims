@@ -28,6 +28,9 @@ public interface GeneralServiceFacade{
 	String getUserDivisionForCompany(String userId,String compId) throws DAOException;
 
 	String getClassOfBusinessForPolicy(String compId,String policyNumber) throws DAOException;
-
 	
+	ObjectNode getClaimNumberList(ObjectNode paramMap) throws DAOException;
+
+	ObjectNode getUserList(ObjectNode paramMap) throws DAOException;
+
 }

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.beyon.medical.claims.exception.DAOException;
 import com.beyon.medical.claims.exception.MedicalClaimsException;
+import com.beyon.medical.claims.reimbursement.dto.ReimbursementAssignmentDTO;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementRegistrationDTO;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -25,5 +26,11 @@ public interface ReimbursementClaimsService {
 	
 	boolean deleteRegistrationDocument(String id, String docType, String docName, String path ) throws DAOException;
 
+	List<ReimbursementAssignmentDTO> getReimbursementAssignmentDetails(ObjectNode inputMap) throws DAOException;
+	
+	public ObjectNode getMemberDetailsForPolicyAndMemberNo(ObjectNode paramMap) throws DAOException ;
 
+	List<ReimbursementAssignmentDTO> saveAssignmentDetails(String compId, List<ReimbursementAssignmentDTO> assignmentDTOs)
+			throws DAOException;
+	
 }
