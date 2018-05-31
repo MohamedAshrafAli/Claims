@@ -5,8 +5,8 @@
         .module('claims')
         .service('ReimbursementRegistrationService', ReimbursementRegistrationService)
     
-    ReimbursementRegistrationService.$inject = ['$resource', 'urlRoutePrefix', 'ReimbursementRegistrationFactory'];
-    function ReimbursementRegistrationService($resource, urlRoutePrefix, ReimbursementRegistrationFactory) {
+    ReimbursementRegistrationService.$inject = ['$resource', 'urlRoutePrefix'];
+    function ReimbursementRegistrationService($resource, urlRoutePrefix) {
         var resourceUrl = urlRoutePrefix + '/api/medical/claims/reimbursement';
         var compId = "0021";
         return $resource(resourceUrl, {}, {

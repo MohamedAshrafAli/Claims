@@ -42,6 +42,10 @@
                 'getCurrencyDetailsForPolicyNo': {
                     method: 'POST',
                     url: urlRoutePrefix + resourceUrl + '/getCurrencyDetailsForPolicyNo'
+                },
+                'getUserList': {
+                    method: 'POST',
+                    url: urlRoutePrefix + resourceUrl + '/getUserList'
                 }
             })
         }

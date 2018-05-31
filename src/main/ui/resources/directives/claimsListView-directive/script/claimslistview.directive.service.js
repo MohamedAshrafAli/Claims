@@ -17,5 +17,12 @@
                     {'label': 'Assigned', 'tab' : 'Assigned', 'state': 'Assigned'}
                 ];
             }
+
+            this.getReimbursementTabsToDisplay = function() {
+                return [
+                    {'label': 'New Request', 'tab' : 'newRequest', 'state': 'CC'},
+                    {'label': 'Assigned', 'tab' : 'Assigned', 'state': 'Assigned'}
+                ];
+            }
         }
 })();
