@@ -123,6 +123,17 @@ public class MedicalClaimsGeneralController{
 		return currencyDetails;
 	}
 	
+	@PostMapping("/getUserList")
+	public @ResponseBody ObjectNode getUserList(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode userList = null;
+		try {
+			userList = uiServiceFacade.getUserList(inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return userList;
+	}
+	
 	@GetMapping("/getUserDivisionForCompany")
 	public String getUserDivisionForCompany(@RequestParam String userId,@RequestParam String compId) throws MedicalClaimsException {
 		String userDivision = null;

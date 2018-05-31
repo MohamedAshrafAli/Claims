@@ -58,5 +58,8 @@ public final class GeneralQueriesConstants implements Serializable{
 	public static final String GENERAL_QUERIES_UID_PAYMENT_TYPE = claimsResourceBundle.getString("medical.claim.general.queries.uid.paymenttype");
 	public static final String GENERAL_QUERIES_UID_DOCUMENT_TYPE = claimsResourceBundle.getString("medical.claim.general.queries.uid.documenttype");
 	public static final String GENERAL_QUERIES_UID_SOURCE_TYPE = claimsResourceBundle.getString("medical.claim.general.queries.uid.sourcetype");
+	
+	public static final String GENERAL_QUERIES_USER_LIST = claimsResourceBundle.getString("medical.claim.general.queries.user.lists");
+
 
 }

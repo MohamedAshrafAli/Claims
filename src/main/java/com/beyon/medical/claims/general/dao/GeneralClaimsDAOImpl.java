@@ -106,7 +106,28 @@ public class GeneralClaimsDAOImpl extends BaseClaimsDAOImpl {
 	}
 	
 	
-	
+	public ObjectNode getUserList(String strQuery,ObjectNode inputNode) throws DAOException {
+		ObjectNode objectNode = FoundationUtils.createObjectNode();
+		try {
+			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(inputNode, Map.class);
+			NamedParameterJdbcTemplate namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
+			ArrayNode jsonArray = FoundationUtils.createArrayNode();
+			namedParameterJdbcTemplate.query(strQuery, inputMap , new RowCallbackHandler() {
+				@Override
+				public void processRow(ResultSet rs) throws SQLException {
+					ObjectNode objectNode = FoundationUtils.createObjectNode();
+					objectNode.put("UserId", rs.getString("UserId"));
+					objectNode.put("UserName", rs.getString("UserName"));
+					jsonArray.add(objectNode);
+				}
+			});
+			objectNode.putArray("rowData").addAll(jsonArray);
+		} catch (Exception ex) {
+			writeLog(CLASS_NAME, "Exception occured while executing getDataList", ERROR, ex);
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return objectNode;
+	}
 	
 
 }

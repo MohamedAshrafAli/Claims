@@ -1,7 +1,7 @@
 package com.beyon.medical.claims.ui.facade.service;
 
 import static com.beyon.framework.util.Constants.INTERNAL_ERROR_OCCURED;
-import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_CARD_NUMBERS;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.*;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_EMIRATES_IDS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_MEMBER_NAMES;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_MEMBER_NUMBERS;
@@ -201,5 +201,18 @@ public class GeneralServiceFacadeImpl implements GeneralServiceFacade {
 		}
 		return baseCurrency;
 	}
+	
+	@Override
+	public ObjectNode getUserList(ObjectNode paramMap) throws DAOException {
+		ObjectNode userList = null;
+		try {
+			userList =  generalClaimsDao.getUserList(GENERAL_QUERIES_USER_LIST, paramMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return userList;
+	}
+	
 	
 }
