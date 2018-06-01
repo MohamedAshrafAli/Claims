@@ -14,6 +14,7 @@
 
         <div class="resultBox mb-4" ng-class="{'mt-3' : isNew}">
             <form name="form">
+             <fieldset ng-disabled="isDisabled">
                 <div class="fldsWrap clearfix">
                     <div layout-gt-sm="row">
                         <div class="col-sm-12">
@@ -23,19 +24,20 @@
                             </md-input-container>
                         </div>
                     </div>
-                </div>   
+                </div> 
+             
                 <div class="fldsWrap clearfix">
                     <div layout-gt-sm="row">
                         <div class="col-sm-6">
                             <md-input-container flex-gt-sm>
                                 <label>Policy Number</label>
-                                <input type="text" ng-model="regDetail.policyNumber" ng-disabled="true"/>
+                                <input type="text" ng-model="regDetail.policyNumber" />
                             </md-input-container>
                         </div>
                         <div class="col-sm-6 colborder">
                             <md-input-container flex-gt-sm>
                                 <label>Member Number</label>
-                                <input type="text"  ng-model="regDetail.memberNumber" ng-disabled="true"/>
+                                <input type="text"  ng-model="regDetail.memberNumber" />
                             </md-input-container>
                         </div>
                     </div>
@@ -51,27 +53,29 @@
                         <div class="col-sm-6 colborder">
                             <md-input-container flex-gt-sm>
                                 <label>Emirates ID</label>
-                                <input type="text" ng-model="regDetail.uidId" ng-disabled="true"/>
+                                <input type="text" ng-model="regDetail.uidId" />
                             </md-input-container>
                         </div>
                     </div>
                 </div>
+             
                 <div class="fldsWrap clearfix">
                     <div layout-gt-sm="row">
                         <div class="col-sm-6">
                             <md-input-container flex-gt-sm>
                                 <label>Mobile Number 1</label>
-                                <input type="text" ng-model="regDetail.mobileNum1" ng-disabled="true"/>
+                                <input type="text" ng-model="regDetail.mobileNum1" />
                             </md-input-container>
                         </div>
                         <div class="col-sm-6 colborder">
                             <md-input-container flex-gt-sm>
                                 <label>Email ID 1</label>
-                                <input  type="email"   ng-model="regDetail.email1" ng-disabled="true"/>
+                                <input  type="email"   ng-model="regDetail.email1" />
                             </md-input-container>
                         </div>
                     </div>
                 </div>
+           
                 <div class="fldsWrap clearfix">
                     <div layout-gt-sm="row">
                         <div class="col-sm-6">
@@ -88,6 +92,7 @@
                         </div>
                     </div>
                 </div>
+           
                 <div class="fldsWrap clearfix">
                     <div layout-gt-sm="row">
                         <div class="col-sm-6">
@@ -110,7 +115,7 @@
                         <div class="col-sm-6">
                             <md-input-container flex-gt-sm>
                                 <label class="focuslabel">Encounter Type</label>
-                                <md-select md-input-name="encType" ng-model="regDetail.encType" required >
+                                <md-select md-input-name="encType" ng-model="regDetail.encType" required  ng-disabled="isDisabled" >
                                     <md-option value="{{option.id}}" ng-repeat="option in encounterTypes">{{option.value}}</md-option>
                                 </md-select>
                                 <div ng-if="localValidation && !regDetail.encType" class="error">Please Enter The Encounter Type</div>
@@ -120,7 +125,7 @@
                         <div class="col-sm-6 colborder">
                             <md-input-container flex-gt-sm>
                                 <label>Request Type</label>
-                                <md-select md-input-name="EncounterType" ng-model="regDetail.reqType" required>
+                                <md-select md-input-name="EncounterType" ng-model="regDetail.reqType" required  ng-disabled="isDisabled">
                                     <md-option ng-repeat="option in requestTypes" value="{{option.id}}">{{option.value}}</md-option>
                                 </md-select>
                                 <div ng-if="localValidation && !regDetail.reqType" class="error">Please Enter The Encounter Type</div>
@@ -181,7 +186,9 @@
                     </div>
                 </div>
             </div>
-        </form>
+        <!-- </fieldset> -->
+      </form>
+      <fieldset ng-disabled="isDisabled">
             <div class="fldsWrap clearfix docFont p-2">
                 <h6>Documents</h6>
                 <div class="row pt-2">
@@ -258,8 +265,9 @@
             <div class="fldsWrap pr-3 pb-2 pt-2 clearfix">
                 <button type="button" class="btn btn-primary float-right" ng-click="saveRegistrationDetails()">Submit</button>
             </div>
+        </fieldset>
         </div>
-
+    
     </div>
     <div class="rightContainer col-sm-5" ng-if="showUpload" style="height: 95vh; margin-right: -10px;">
         <a href="javascript:;" class="infoToggleBtn" ng-click="toggleInfo();" style="margin-left:17px;position: absolute;top:0">

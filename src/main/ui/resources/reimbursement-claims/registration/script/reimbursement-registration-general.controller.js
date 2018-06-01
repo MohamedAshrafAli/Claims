@@ -17,6 +17,11 @@
         $scope.docTypes = [];
         $scope.hasMandatory = true;
         $scope.isEdit = (claim.id != null);
+        if($scope.regDetail.status=="A"){
+            $scope.isDisabled = true;
+        }else{
+            $scope.isDisabled = false;
+        }
         UIDefinationService.getEncounterTypes({'compId' : '0021'}, function(resp) {
             $scope.encounterTypes = resp.rowData;
             $scope.encounterTypeMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
