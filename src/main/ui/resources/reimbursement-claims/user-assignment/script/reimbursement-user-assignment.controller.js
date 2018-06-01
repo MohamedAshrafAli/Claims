@@ -23,6 +23,8 @@
             if (searchValue) {
                 var searchparam = ReimbursementRegistrationFactory.constructSearchObj(autoCompleteMapping, searchValue);
                 searchparam.compId = "0021";
+                searchparam.reqReceivedFrom = searchparam.reqReceivedFrom ? $filter('date')(new Date(searchparam.reqReceivedFrom), 'yyyy-MM-dd') : null;
+                searchparam.reqReceivedTo = searchparam.reqReceivedTo ? $filter('date')(new Date(searchparam.reqReceivedTo), 'yyyy-MM-dd') : null;
                 getClaimList(searchparam);
             } else {
                 getClaimList({compId : "0021"});
