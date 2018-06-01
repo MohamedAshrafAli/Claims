@@ -19,6 +19,7 @@
         $scope.isEdit = (claim.id != null);
         UIDefinationService.getEncounterTypes({'compId' : '0021'}, function(resp) {
             $scope.encounterTypes = resp.rowData;
+            $scope.encounterTypeMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
         });
         
         UIDefinationService.getRequestTypes({'compId' : '0021'}, function(resp) {
@@ -189,12 +190,13 @@
                     size: 'lg',
                     backdrop: 'static',
                     keyboard :false,
-                    controller: function ($scope, $uibModalInstance) {
+                    controller: function ($scope, $uibModalInstance, encounterTypeMap) {
                         var searchInfo = angular.copy(data);
                         var autoCompleteMapping = {
                             memberNumber : 'ULME_MEMBER_ID',
                             policyNumber : 'ILM_NO'
                         }
+                        $scope.encounterTypeMap = encounterTypeMap;
                         $scope.searchObj = ReimbursementRegistrationFactory.constructSearchObj(autoCompleteMapping, searchInfo);
                         $scope.searchObj.compId = "0021"                
                         ReimbursementRegistrationService.getReimbursementRegistrationDetails($scope.searchObj, function(resp) {
@@ -220,6 +222,11 @@
                             } else {
                                 $uibModalInstance.close(claim);
                             }                                                   
+                        }
+                    },
+                    resolve : {
+                        encounterTypeMap : function() {
+                            return $scope.encounterTypeMap;
                         }
                     }
                 });
