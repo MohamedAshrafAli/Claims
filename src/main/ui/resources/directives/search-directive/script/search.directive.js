@@ -67,6 +67,14 @@
                           searchObj["emiratesId"] = "%",
                           searchObj["memberName"] = "%"
                         }
+                        if($scope.moduleName == 'reimb-user-assignment') {
+                            searchObj["policyNumber"] = "%",
+                            searchObj["memberNumber"] = field == 'memberNumber' ? searchText+"%" : ($scope.search.memberNumber ? $scope.search.memberNumber.ULME_MEMBER_ID : "%"),
+                            searchObj["voucherNumber"] = "%",
+                            searchObj["cardNumber"] = "%",
+                            searchObj["emiratesId"] = "%",
+                            searchObj["memberName"] = "%"
+                        }
                         return searchObj;
                     }
 

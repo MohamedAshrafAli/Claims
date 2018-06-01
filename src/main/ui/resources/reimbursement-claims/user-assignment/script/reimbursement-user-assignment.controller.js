@@ -4,9 +4,9 @@
         .module('claims')
         .controller('ReimbursementUserAssignmentController', ReimbursementUserAssignmentController)
 
-    ReimbursementUserAssignmentController.$inject = ['$scope', '$rootScope', 'ReimbursementUserAssignmentService', '$filter', '$state', '$stateParams', 'ngNotify', 'ListViewService', 'ClaimsListViewService', 'ReimbursementUserAssignmentFactory', 'AutocompleteService'];
+    ReimbursementUserAssignmentController.$inject = ['$scope', '$rootScope', 'ReimbursementUserAssignmentService', '$filter', '$state', '$stateParams', 'ngNotify', 'ListViewService', 'ClaimsListViewService', 'ReimbursementUserAssignmentFactory', 'AutocompleteService', 'ReimbursementRegistrationFactory'];
 
-    function ReimbursementUserAssignmentController($scope, $rootScope, ReimbursementUserAssignmentService, $filter, $state, $stateParams, ngNotify, ListViewService, ClaimsListViewService, ReimbursementUserAssignmentFactory, AutocompleteService) {
+    function ReimbursementUserAssignmentController($scope, $rootScope, ReimbursementUserAssignmentService, $filter, $state, $stateParams, ngNotify, ListViewService, ClaimsListViewService, ReimbursementUserAssignmentFactory, AutocompleteService, ReimbursementRegistrationFactory) {
         $scope.model = "reimbursementUserAssignment";
         $scope.selectall = false;
         $scope.selectedUserToAssign;
@@ -16,23 +16,17 @@
         $scope.filteredClaims = [];
         $scope.searchBy = {};
 
-        $scope.search = function() {
-            if (($scope.climeNo == "" || $scope.climeNo == null) && ($scope.memberNumber == "" || $scope.memberNumber == null) && ($scope.voucherNumber == "" || $scope.voucherNumber == null)) {
-                $scope.claimList = $scope.claim;
-            } else {
-                $scope.claimList = $filter('filter')($scope.claim, { climeNo: $scope.climeNo, memberNo: $scope.memberNumber,voucherNo: $scope.voucherNumber});
-            }
+        var autoCompleteMapping = {
+            memberNumber : 'ULME_MEMBER_ID',
         }
-
-        $scope.clear = function() {
-            $scope.climeNo = '';
-            $scope.memberNumber = '';
-            $scope.voucherNumber = '';
-            $scope.approvedBy = undefined;
-            $scope.assignedUser = undefined;
-            $scope.requestedFromDate = undefined;
-            $scope.requestedToDate = undefined;
-            $scope.claimList = $scope.claim;
+        $scope.filterValues = function(searchValue) {
+            if (searchValue) {
+                var searchparam = ReimbursementRegistrationFactory.constructSearchObj(autoCompleteMapping, searchValue);
+                searchparam.compId = "0021";
+                getClaimList(searchparam);
+            } else {
+                getClaimList({compId : "0021"});
+            }
         }
 
         $scope.assignedToSelectedUser = function() {
@@ -69,18 +63,7 @@
        
         $scope.navigateTo = function() {
             $state.go('reimbursement-processing');
-        }
-
-        $scope.filterValues = function(searchValue) {
-            if (searchValue) {
-                $scope.searchBy = {
-                    memberNo: searchValue.memberNo,
-                    claimNo: searchValue.cliamNumber
-                };
-            } else {
-                $scope.searchBy = {};
-            }
-        }
+        }        
 
         function init() {
             getClaimList({compId: "0021"});
@@ -94,7 +77,8 @@
         function getClaimList(searchParams) {
             ReimbursementUserAssignmentService.getReimbursementAssignmentDetails(searchParams, function(resp) {
                 $scope.recordTotal = resp.length;
-                $scope.claimList = resp;                
+                $scope.claimList = resp;
+                $scope.rerenderView = !$scope.rerenderView;
             })
         }
 
