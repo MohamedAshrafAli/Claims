@@ -48,9 +48,9 @@
 
                     function constructSearchparams(field, searchText) {
                         var searchObj = {}
-                        if($scope.moduleName == 'registration') {
+                        searchObj["compId"] = "0021";
+                        if($scope.moduleName == 'reimb-registration') {
                             $scope.search.memberNumber =  $scope.search.memberName;
-                            searchObj["compId"] = "0021",
                             searchObj["policyNumber"] = field == 'policyNumber' ? searchText+"%" : ($scope.search.policyNumber ? $scope.search.policyNumber.CLF_ULM_NO  : "%"),
                             searchObj["memberNumber"] = $scope.search.memberName ? $scope.search.memberName.CLMR_MEMBER_ID : "%",
                             searchObj["memberName"] = field == 'memberName' ? searchText+"%" : $scope.search.memberNumber ? $scope.search.memberNumber.CLMR_MEMBER_NAME : "%",
@@ -59,14 +59,21 @@
                             searchObj["emiratesId"] = field == 'emiratesId' ? searchText+"%" : ($scope.search.emiratesId ? $scope.search.emiratesId.CLMR_UID_ID : "%")
                         }
 
-                        if($scope.moduleName == 'registration-general') {
-                          searchObj["compId"] = "0021",
+                        if($scope.moduleName == 'reimb-registration-general') {
                           searchObj["policyNumber"] = field == 'policyNumber' ? searchText+"%" : ($scope.search.policyNumber ? $scope.search.policyNumber.ILM_NO  : "%"),
                           searchObj["memberNumber"] = field == 'memberNumber' ? searchText+"%" : ($scope.search.memberNumber ? $scope.search.memberNumber.ULME_MEMBER_ID : "%"),
                           searchObj["voucherNumber"] =field == 'voucherNumber' ? searchText+"%" : ($scope.search.voucherNumber ? $scope.search.voucherNumber.CLMF_VOUCH_NO : "%"),
                           searchObj["cardNumber"] = "%",
                           searchObj["emiratesId"] = "%",
                           searchObj["memberName"] = "%"
+                        }
+                        if($scope.moduleName == 'reimb-user-assignment') {
+                            searchObj["policyNumber"] = "%",
+                            searchObj["memberNumber"] = field == 'memberNumber' ? searchText+"%" : ($scope.search.memberNumber ? $scope.search.memberNumber.ULME_MEMBER_ID : "%"),
+                            searchObj["voucherNumber"] = "%",
+                            searchObj["cardNumber"] = "%",
+                            searchObj["emiratesId"] = "%",
+                            searchObj["memberName"] = "%"
                         }
                         return searchObj;
                     }

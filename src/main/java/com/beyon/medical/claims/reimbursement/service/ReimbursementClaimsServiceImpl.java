@@ -129,9 +129,10 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 			}
 			if(StringUtils.isNotBlank("reqReceivedFrom") && StringUtils.isNotBlank((String)inputMap.get("reqReceivedTo"))) {
 				builder.append(REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_REQ_RECEIVED_BETWEEN_DETAILS+ " ");
-			}  else if(StringUtils.isNotBlank("reqReceivedFrom")) {
+			}  
+			else if(StringUtils.isNotBlank("reqReceivedFrom") && StringUtils.isNotBlank((String)inputMap.get("reqReceivedFrom"))) {
 				builder.append(REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_REQ_RECEIVED_FROM_DETAILS+ " ");
-			}  else if(StringUtils.isNotBlank("reqReceivedTo")) {
+			}  else if(StringUtils.isNotBlank("reqReceivedTo") && StringUtils.isNotBlank((String)inputMap.get("reqReceivedTo"))) {
 				builder.append(REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_REQ_RECEIVED_TO_DETAILS+ " ");
 			}  
 

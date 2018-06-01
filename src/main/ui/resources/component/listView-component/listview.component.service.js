@@ -57,8 +57,8 @@
 
             this.getUserAssignmentListViewHeader = function() {
                 return [
-                    {'label': 'User Id', 'fieldName' : 'userId', 'type': 'id'},
-                    {'label': 'Name', 'fieldName' : 'name'},
+                    {'label': 'User Id', 'fieldName' : 'UserId'},
+                    {'label': 'Name', 'fieldName' : 'UserName'},
                     {'label': 'Assigned', 'fieldName' : 'assigned', 'class' : 'text-center'},
                     {'label': 'Pending', 'fieldName' : 'pending', 'class' : 'text-center'},
                     {'label': '', 'fieldName' : 'isSelected', 'isCheckBox' : true}

@@ -15,7 +15,7 @@
             <md-datepicker class="icon" ng-keyup="clearDatepickerKeyupValue($event)" ng-model="search[x.name]" md-hide-icons="triangle"
                 md-open-on-focus></md-datepicker>
         </md-input-container>
-        <md-icon ng-class="x.iconClass" ng-if="x.type == 'autoSearch'">
+        <md-icon ng-class="x.iconClass" ng-if="x.type == 'autoSearch'" aria-label="{{x.label}}">
             <i class='oi align-middle' data-glyph='magnifying-glass'></i>
         </md-icon>
         <md-autocomplete flex-gt-sm ng-class="x.autoCompleteClass" ng-if="x.type == 'autoSearch'"

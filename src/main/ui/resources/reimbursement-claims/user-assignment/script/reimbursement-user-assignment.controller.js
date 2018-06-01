@@ -4,10 +4,9 @@
         .module('claims')
         .controller('ReimbursementUserAssignmentController', ReimbursementUserAssignmentController)
 
-    ReimbursementUserAssignmentController.$inject = ['$scope', '$rootScope', 'ReimbursementUserAssignmentService', '$filter', '$state', '$stateParams', 'ngNotify', 'ListViewService', 'ClaimsListViewService'];
+    ReimbursementUserAssignmentController.$inject = ['$scope', '$rootScope', 'ReimbursementUserAssignmentService', '$filter', '$state', '$stateParams', 'ngNotify', 'ListViewService', 'ClaimsListViewService', 'ReimbursementUserAssignmentFactory', 'AutocompleteService', 'ReimbursementRegistrationFactory'];
 
-    function ReimbursementUserAssignmentController($scope, $rootScope, ReimbursementUserAssignmentService, $filter, $state, $stateParams, ngNotify, ListViewService, ClaimsListViewService) {
-        // $scope.selectedClaim = $stateParams.param;
+    function ReimbursementUserAssignmentController($scope, $rootScope, ReimbursementUserAssignmentService, $filter, $state, $stateParams, ngNotify, ListViewService, ClaimsListViewService, ReimbursementUserAssignmentFactory, AutocompleteService, ReimbursementRegistrationFactory) {
         $scope.model = "reimbursementUserAssignment";
         $scope.selectall = false;
         $scope.selectedUserToAssign;
@@ -17,46 +16,39 @@
         $scope.filteredClaims = [];
         $scope.searchBy = {};
 
-        $scope.search = function() {
-            if (($scope.climeNo == "" || $scope.climeNo == null) && ($scope.memberNumber == "" || $scope.memberNumber == null) && ($scope.voucherNumber == "" || $scope.voucherNumber == null)) {
-                $scope.claimList = $scope.claim;
+        var autoCompleteMapping = {
+            memberNumber : 'ULME_MEMBER_ID',
+        }
+        $scope.filterValues = function(searchValue) {
+            if (searchValue) {
+                var searchparam = ReimbursementRegistrationFactory.constructSearchObj(autoCompleteMapping, searchValue);
+                searchparam.compId = "0021";
+                getClaimList(searchparam);
             } else {
-                $scope.claimList = $filter('filter')($scope.claim, { climeNo: $scope.climeNo, memberNo: $scope.memberNumber,voucherNo: $scope.voucherNumber});
+                getClaimList({compId : "0021"});
             }
         }
 
-        $scope.clear = function() {
-            $scope.climeNo = '';
-            $scope.memberNumber = '';
-            $scope.voucherNumber = '';
-            $scope.approvedBy = undefined;
-            $scope.assignedUser = undefined;
-            $scope.requestedFromDate = undefined;
-            $scope.requestedToDate = undefined;
-            $scope.claimList = $scope.claim;
-        }
-
-        $scope.querySearch = function(query) {
-            return query ? $scope.users.filter(createFilterFor(query)) : $scope.users;
-        }
-        
         $scope.assignedToSelectedUser = function() {
             if ($scope.selectedUserToAssign != null && $scope.claimsToAssign != null && $scope.claimsToAssign.length > 0) {
                 if ($scope.selectedUserToAssign.assigned < 15) {
-                    angular.forEach($scope.claimsToAssign, function(claim, claimIndex) {
-                        for(var key in $scope.claimList) {
-                            var actualClaim = $scope.claimList[key];
-                            if (claim['id'] == actualClaim['id']) {
-                                $scope.claimList[key]['status'] = 'Assigned';
-                                $scope.claimList[key]['selected'] = false;
-                                break;
+                    ReimbursementUserAssignmentService.saveAssignmentDetails($scope.claimsToAssign, function(resp) {
+                        console.log("resp ::", resp);
+                        angular.forEach($scope.claimsToAssign, function(claim, claimIndex) {
+                            for(var key in $scope.claimList) {
+                                var actualClaim = $scope.claimList[key];
+                                if (claim['id'] == actualClaim['id']) {
+                                    $scope.claimList[key]['status'] = 'Assigned';
+                                    $scope.claimList[key]['selected'] = false;
+                                    break;
+                                }
                             }
-                        }
+                        })
+                        $scope.rerenderView = !$scope.rerenderView;
+                        $scope.selectedUserToAssign.assigned += ($scope.claimsToAssign.length);
+                        $scope.claimsToAssign = [];
+                        ngNotify.set('Request Assigned Succesfully.', 'success');
                     })
-                    $scope.rerenderView = !$scope.rerenderView;
-                    $scope.selectedUserToAssign.assigned += ($scope.claimsToAssign.length);
-                    $scope.claimsToAssign = [];
-                    ngNotify.set('Request Assigned Succesfully.', 'success');                
                 } else {
                     swal("", "User has Request Assigned more than 15", "warning");
                 }
@@ -71,38 +63,36 @@
        
         $scope.navigateTo = function() {
             $state.go('reimbursement-processing');
-        }
-
-        $scope.filterValues = function(searchValue) {
-            if (searchValue) {
-                $scope.searchBy = {
-                    memberNo: searchValue.memberNo,
-                    claimNo: searchValue.cliamNumber
-                };
-            } else {
-                $scope.searchBy = {};
-            }
-        }
-
-        function createFilterFor(query) {
-            var lowercaseQuery = angular.lowercase(query);
-            return function filterFn(state) {
-                return (((angular.lowercase(state.name).indexOf(lowercaseQuery) != 0) && angular.lowercase(state.name).indexOf(lowercaseQuery) != -1) || (angular.lowercase(state.name).indexOf(lowercaseQuery) === 0));
-            };
-        }
+        }        
 
         function init() {
-            $scope.claim = ReimbursementUserAssignmentService.getClaimsForUserAssignment();
-            $scope.users = $scope.userNamesObject = ReimbursementUserAssignmentService.getUsers();
-            $scope.claimList = $scope.claim;
+            getClaimList({compId: "0021"});
+            getUsersList();
             $scope.userAssignmentHeader = ListViewService.getUserAssignmentListViewHeader();
-            $scope.userssearch = $scope.users;
-            $scope.recordTotal = $scope.claim.length;
             $scope.result = $scope.users;
-            $scope.tabsToDisplay = ClaimsListViewService.getTabsToDisplay();
-            $scope.fieldsObject =  ReimbursementUserAssignmentService.getSearchFields();
+            $scope.tabsToDisplay = ClaimsListViewService.getReimbursementTabsToDisplay();
+            $scope.fieldsObject =  ReimbursementUserAssignmentFactory.getSearchFields();
         }
 
+        function getClaimList(searchParams) {
+            ReimbursementUserAssignmentService.getReimbursementAssignmentDetails(searchParams, function(resp) {
+                $scope.recordTotal = resp.length;
+                $scope.claimList = resp;
+                $scope.rerenderView = !$scope.rerenderView;
+            })
+        }
+
+        function getUsersList() {
+            var params = {
+                compId : "0021",
+                userName : "%"
+            }
+            AutocompleteService.getUserList(params, function(resp) {
+                $scope.users = resp.rowData;
+                $scope.userssearch = $scope.users;
+            })
+        }
+        
         init();
     }    
 })();

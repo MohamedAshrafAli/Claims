@@ -19,7 +19,8 @@
         $scope.isEdit = (claim.id != null);
         UIDefinationService.getEncounterTypes({'compId' : '0021'}, function(resp) {
             $scope.encounterTypes = resp.rowData;
-        });  
+            $scope.encounterTypeMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
+        });
         
         UIDefinationService.getRequestTypes({'compId' : '0021'}, function(resp) {
             $scope.requestTypes = resp.rowData;
@@ -91,6 +92,16 @@
             }
             $scope.localValidation = false;
             $scope.regDetail['registrationFileDTOs'] = $scope.documents;
+            var params = { policyNumber: $scope.regDetail.policyNumber, compId : "0021" };
+            AutocompleteService.getCurrencyDetailsForPolicyNo(params, function(response) {
+                var currencyInfo = response.rowData[0];
+                $scope.regDetail.baseCurrency = currencyInfo.BaseCurrency;
+                $scope.regDetail.requestAmtBC = $scope.regDetail.requestAmt * currencyInfo.ExchangeRate;
+                saveRegistration();
+            });
+        }
+
+        function saveRegistration() {
             ReimbursementRegistrationService.saveRegistrationDetails($scope.regDetail, function(resp) {
                 $state.go('reimbursement-registration', {}, {reload: true});
             });
@@ -172,21 +183,20 @@
         $scope.searchClaims = function (data) {
             if ((data.memberNumber == null) && (data.policyNumber == null) && (data.voucherNumber == null) && (data.previousRequestNumber == null)) {
                 swal("", "Please Enter any Search Inputs", "warning");
-            }
-            else {
-            
+            } else {
                 var modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: 'resources/reimbursement-claims/registration/view/claim-search-modal.html',
                     size: 'lg',
                     backdrop: 'static',
                     keyboard :false,
-                    controller: function ($scope, $uibModalInstance) {
+                    controller: function ($scope, $uibModalInstance, encounterTypeMap) {
                         var searchInfo = angular.copy(data);
                         var autoCompleteMapping = {
                             memberNumber : 'ULME_MEMBER_ID',
                             policyNumber : 'ILM_NO'
                         }
+                        $scope.encounterTypeMap = encounterTypeMap;
                         $scope.searchObj = ReimbursementRegistrationFactory.constructSearchObj(autoCompleteMapping, searchInfo);
                         $scope.searchObj.compId = "0021"                
                         ReimbursementRegistrationService.getReimbursementRegistrationDetails($scope.searchObj, function(resp) {
@@ -212,6 +222,11 @@
                             } else {
                                 $uibModalInstance.close(claim);
                             }                                                   
+                        }
+                    },
+                    resolve : {
+                        encounterTypeMap : function() {
+                            return $scope.encounterTypeMap;
                         }
                     }
                 });
@@ -318,7 +333,7 @@
         function init() {
             $scope.regDetail.paymentWay ? $scope.setPaymentWay($scope.regDetail.paymentWay) : '';
             $scope.regDetail.source ? $scope.setDcoumentType($scope.regDetail.source) : '';
-            $scope.fieldsObject =  ReimbursementRegistrationFactory.getreimbursementGeneral();
+            $scope.fieldsObject =  ReimbursementRegistrationFactory.getRegistrationGeneralSearchFields();
         }
 
         $scope.clearDocFilter = function() {

@@ -88,6 +88,7 @@
         <script src="<s:url value="resources/reimbursement-claims/registration/script/reimbursement-registration.factory.js"/>"></script>
         <script src="<s:url value="resources/reimbursement-claims/user-assignment/script/reimbursement-user-assignment.controller.js"/>"></script>
         <script src="<s:url value="resources/reimbursement-claims/user-assignment/script/reimbursement-user-assignment.service.js"/>"></script>
+        <script src="<s:url value="resources/reimbursement-claims/user-assignment/script/reimbursement-user-assignment.factory.js"/>"></script>
         <script src="<s:url value="resources/reimbursement-claims/processing/script/reimbursement-processing.controller.js"/>"></script>
         <script src="<s:url value="resources/reimbursement-claims/processing/script/reimbursement-processing.service.js"/>"></script>
         <script src="<s:url value="resources/reimbursement-claims/finalization/script/reimbursement-finalization.controller.js"/>"></script>

@@ -478,7 +478,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 	
 	private boolean insertCTDSLEVELCP(String compId,List<ReimbursementAssignmentDTO> reimbursementAssignmentDTOs,JdbcTemplate jdbcTemplate) throws DAOException {
 		try {
-			jdbcTemplate.batchUpdate(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_C, new BatchPreparedStatementSetter() {
+			jdbcTemplate.batchUpdate(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_CP, new BatchPreparedStatementSetter() {
 				@Override
 				public void setValues(PreparedStatement ps, int i) throws SQLException {
 					ReimbursementAssignmentDTO reimbursementAssignmentDTO = reimbursementAssignmentDTOs.get(i);

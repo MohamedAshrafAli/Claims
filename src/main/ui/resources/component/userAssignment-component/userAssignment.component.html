@@ -1,9 +1,17 @@
 <h3 class="pt-3">Assign to user</h3>
 <div class="row" style="padding:0 15px;">
     <span style="width:5%;padding: 7px 0;"><i class="oi align-middle" data-glyph="magnifying-glass"></i></span>
-    <md-autocomplete style="width:92%" md-selected-item="selectedItem" md-search-text="userSearchText" md-selected-item-change="$ctrl.filterByUser(userSearchText)" md-items="item in $ctrl.querySearch(userSearchText)" md-item-text="item.name" placeholder="UserName">
+    <md-autocomplete style="width:92%" 
+        md-selected-item="$ctrl.selectedItem" 
+        md-search-text="userSearchText" 
+        md-selected-item-change="$ctrl.filterByUser($ctrl.selectedItem)" 
+        md-items="item in $ctrl.getAutoCompleteList(userSearchText);" 
+        md-item-text="item.UserName" 
+        placeholder="UserName"
+        md-no-cache="true"
+        md-delay="500">
         <md-item-template>
-            <span md-highlight-text="userSearchText">{{item.name}}</span>
+            <span md-highlight-text="userSearchText">{{item.UserName}}</span>
         </md-item-template>
         <md-not-found>
             No Result Found

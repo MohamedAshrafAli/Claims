@@ -3,7 +3,7 @@
 
     angular
         .module("claims")
-            .directive("claimsListView", function($rootScope, $filter) {
+            .directive("claimsListView", function($rootScope, $filter, UIDefinationService, ReimbursementRegistrationFactory) {
                 return {
                     restrict: 'E',
                     templateUrl: 'resources/directives/claimsListView-directive/view/claimslistview.directive.html',
@@ -22,9 +22,20 @@
                         scope.sortBy = 'receivedDateDesc';
                         scope.orderByField = 'requestRecievedOn';
                         scope.reverseSort = false;
-                        scope.selectedClaims = [];
                         scope.countByStatus = {};
                         scope.filteredClaims = [];
+
+                        UIDefinationService.getEncounterTypes({'compId' : '0021'}, function(resp) {
+                            scope.encounterTypeMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
+                        });
+
+                        UIDefinationService.getStatusTypes({'compId' : '0021'}, function(resp) {
+                            scope.statusMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
+                        });
+
+                        UIDefinationService.getPaymentTypes({'compId' : '0021'}, function(resp) {
+                            scope.paymentMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
+                        });                       
 
                         function init() {
                             scope.currentTab = scope.tabsToDisplay ? scope.tabsToDisplay[0].tab : 'newRequest';
@@ -68,8 +79,8 @@
                                     scope.claimsRecords = angular.copy($filter('filter')(scope.allClaimRecords, {status: 'Assigned'}));
                                 break;
                                 case 'newRequest':
-                                    scope.filterByStatus = 'New Request';
-                                    scope.claimsRecords = angular.copy($filter('filter')(scope.allClaimRecords, {status: 'New Request'}));
+                                    scope.filterByStatus = 'CC';
+                                    scope.claimsRecords = angular.copy($filter('filter')(scope.allClaimRecords, {status: 'CC'}));
                                 break;
                                 default:
                                     console.log('no tabs available...');
