@@ -182,7 +182,7 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 		List<ReimbursementAssignmentDTO> _assignmentDTOs = null;
 		try {
 			for (ReimbursementAssignmentDTO reimbursementAssignmentDTO : assignmentDTOs) {
-				Map<String, Object> refNoMap = reimbursementClaimsDAO.getClaimsRefNo("C", reimbursementAssignmentDTO.getId(), reimbursementAssignmentDTO.getProductId());
+				Map<String, Object> refNoMap = reimbursementClaimsDAO.getClaimsRefNo("CL", reimbursementAssignmentDTO.getId(), reimbursementAssignmentDTO.getProductId());
 				String claimRefNo = (String)refNoMap.get("P_DOC_NO");
 				reimbursementAssignmentDTO.setClaimNumber(claimRefNo);
 				ObjectNode objectNode = FoundationUtils.createObjectNode();
