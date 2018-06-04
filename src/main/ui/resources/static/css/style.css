@@ -812,6 +812,7 @@ md-input-container md-select label,
     text-align: left;
     vertical-align: middle;
     max-width: 920px;
+    width : 100%;
 }
 
 ._md-datepicker-floating-label>md-datepicker .md-datepicker-button {
@@ -1922,3 +1923,16 @@ md-input-container md-select.md-default-theme .md-select-value span:first-child:
     color: rgb(221,44,0);
     font-size: 12px;
 }
+.newreg{
+    font: 12px/20px "open_sansregular";
+}
+#newRegClaims .row{
+    margin-right: -1px;
+    margin-left: -1px;
+}
+.bt{
+    border-bottom: 1px solid #dee2e6; 
+    font-weight: bold;
+    white-space: nowrap;
+    padding:6px;
+} 
