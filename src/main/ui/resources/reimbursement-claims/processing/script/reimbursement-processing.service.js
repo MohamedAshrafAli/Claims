@@ -133,5 +133,11 @@
                 }
             ];
         }
+
+        this.getSearchFields = function() {
+            return {
+                methodName: 'getEmiratesId', displayName: 'CLMR_UID_ID'
+            };
+        }
     }
 })();

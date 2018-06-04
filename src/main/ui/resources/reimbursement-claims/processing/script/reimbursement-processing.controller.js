@@ -5,10 +5,11 @@
         .module('claims')
             .controller('ReimbursmentProcessingController', ReimbursmentProcessingController);
 
-        ReimbursmentProcessingController.$inject = ['$scope', '$rootScope', 'ReimbursementProcessingService', 'ngNotify', '$timeout'];
+        ReimbursmentProcessingController.$inject = ['$scope', '$rootScope', 'ReimbursementProcessingService', 'ngNotify', '$timeout', 'AutocompleteService','UIDefinationService'];
 
-        function ReimbursmentProcessingController($scope, $rootScope, ReimbursementProcessingService, ngNotify, $timeout) {
-
+        function ReimbursmentProcessingController($scope, $rootScope, ReimbursementProcessingService, ngNotify, $timeout, AutocompleteService, UIDefinationService) {
+            
+            $scope.search = {};
             $scope.treatmentCodes = [];
             $scope.rejectionCode = [];
             $scope.createNew = true;
@@ -27,6 +28,9 @@
                 $scope.claimReqList = ReimbursementProcessingService.getClaimsRequest();
                 $scope.treatmentCodes = ReimbursementProcessingService.getCodes('T');
                 $scope.rejectionCodes = ReimbursementProcessingService.getCodes('R');
+
+                $scope.autoCompleteInfo = ReimbursementProcessingService.getSearchFields();
+
                 initGrid();
                 $scope.selectedClaim = {'claimNo' : 80010201, 'requestNo' : 10010201-1, 'status' : 'Approved', 'policyNo' : 80010201, 'memberNo' : 10010201-1};
 
@@ -83,22 +87,6 @@
                 })
             }
 
-            $scope.querySearch = function(query, codeType) {
-                if (codeType == 'R') {
-                    return query ? $scope.rejectionCodes.filter(createFilterFor(query)) : $scope.rejectionCodes;
-                } else {
-                    return query ? $scope.treatmentCodes.filter(createFilterFor(query)) : $scope.treatmentCodes;
-                }
-            }
-
-            function createFilterFor(query) {
-                var lowercaseQuery = angular.lowercase(query);
-    
-                return function filterFn(state) {
-                    return (((angular.lowercase(state.name).indexOf(lowercaseQuery) != 0) && angular.lowercase(state.name).indexOf(lowercaseQuery) != -1) || (angular.lowercase(state.name).indexOf(lowercaseQuery) === 0));
-                };
-    
-            }
 
             function initGrid() {
                 $scope.gridOptions = {
@@ -268,6 +256,39 @@
                 $scope.totalRejectedAmount = totalRejectedAmount;
                 $scope.totalPenaltyAmount = totalPenaltyAmount;
                 $scope.totalDeductionAmount = totalDeductionAmount;
+            }
+
+            $scope.getAutoCompleteList = function (searchText, field, autoCompleteInfo) {
+                var searchParams = constructSearchparams(field, searchText);
+                return AutocompleteService[autoCompleteInfo.methodName](searchParams).$promise.then(function(resp) {
+                    return resp.rowData;
+                })
+            }
+
+            function constructSearchparams(field, searchText) {
+                var searchObj = {}
+                if($scope.moduleName == 'reimbursement') {
+                    $scope.search.memberNumber =  $scope.search.memberName;
+                        searchObj["compId"] = "0021",
+                        searchObj["policyNumber"] = field == 'policyNumber' ? searchText+"%" : ($scope.search.policyNumber ? $scope.search.policyNumber.CLF_ULM_NO  : "%"),
+                        searchObj["memberNumber"] = $scope.search.memberName ? $scope.search.memberName.CLMR_MEMBER_ID : "%",
+                        searchObj["memberName"] = field == 'memberName' ? searchText+"%" : $scope.search.memberNumber ? $scope.search.memberNumber.CLMR_MEMBER_NAME : "%",
+                        searchObj["voucherNumber"] = field == 'voucherNumber' ? searchText+"%" : ($scope.search.voucherNumber ? $scope.search.voucherNumber.CLMF_VOUCH_NO : "%"),
+                        searchObj["cardNumber"] = field == 'cardNumber' ? searchText+"%" : ($scope.search.cardNumber ? $scope.search.cardNumber.CLMR_TPA_CARD : "%"),
+                        searchObj["emiratesId"] = field == 'emiratesId' ? searchText+"%" : ($scope.search.emiratesId ? $scope.search.emiratesId.CLMR_UID_ID : "%")
+                }
+                return searchObj;
+            }
+
+            $scope.querySearch = function (query, label) {
+                return query ? $scope.autoSearch.filter(createFilterFor(query, label)) : $scope.autoSearch;
+            }
+
+            function createFilterFor(query, label) {
+                var lowercaseQuery = angular.lowercase(query);
+                return function filterFn(state) {
+                    return (((angular.lowercase(state[label]).indexOf(lowercaseQuery) != 0) && angular.lowercase(state[label]).indexOf(lowercaseQuery) != -1) || (angular.lowercase(state[label]).indexOf(lowercaseQuery) === 0));
+                };
             }
 
             $scope.toggleInfo = function() {

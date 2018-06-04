@@ -362,15 +362,15 @@
                             <div layout-gt-sm="row" class="col-sm-12 pb-1">
                                 <div class="masterCodes float-left" style="border: 1px solid #b3b3b3;margin: 0 3px 0 0;width: 50% !important;">
                                     <md-autocomplete
-                                        md-selected-item="claim.treatmentCodeOrSubBenefit"
+                                        md-selected-item='search[x.name]' 
                                         md-search-text="searchText"
-                                        md-items="item in querySearch(searchText, 'T')"
+                                        md-items="item in getAutoCompleteList(searchText,'emiratesId',autoCompleteInfo)"
                                         md-item-text="item.name"
                                         md-floating-label="Treatment Code/Sub Benefit"
                                         md-clear-button="true"
                                         style="height: 55px;">
                                         <md-item-template>
-                                            <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.name}}</span>
+                                            <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.name}} </span>
                                         </md-item-template>
                                         <md-not-found>
                                             No Result Found
