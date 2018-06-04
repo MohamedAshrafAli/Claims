@@ -5,9 +5,10 @@
         .module('claims')
         .controller('ReimbursementRegistrationGeneralController', ReimbursementRegistrationGeneralController)
     
-    ReimbursementRegistrationGeneralController.$inject = ['$scope', '$rootScope', 'ReimbursementRegistrationService', '$state', '$uibModal', '$timeout', 'ngNotify', '$stateParams', 'claim', 'isNew', 'AutocompleteService', '$q', 'ReimbursementRegistrationFactory', 'UIDefinationService'];
+    ReimbursementRegistrationGeneralController.$inject = ['$scope', '$rootScope', 'ReimbursementRegistrationService', '$state', '$uibModal', '$timeout', 'ngNotify', '$stateParams', 'claim', 'isNew', 'AutocompleteService', '$q', 'ReimbursementRegistrationFactory', 'UIDefinationService', 'SpinnerService'];
 
-    function ReimbursementRegistrationGeneralController($scope, $rootScope, ReimbursementRegistrationService, $state, $uibModal, $timeout, ngNotify, $stateParams, claim, isNew, AutocompleteService, $q, ReimbursementRegistrationFactory, UIDefinationService) {
+    function ReimbursementRegistrationGeneralController($scope, $rootScope, ReimbursementRegistrationService, $state, $uibModal, $timeout, ngNotify, $stateParams, claim, isNew, AutocompleteService, $q, ReimbursementRegistrationFactory, UIDefinationService, SpinnerService) {
+        SpinnerService.stop();
         $scope.regDetail = claim;
         $scope.previewIndex = 0;
         $scope.isNew = isNew;
@@ -98,6 +99,7 @@
             $scope.localValidation = false;
             $scope.regDetail['registrationFileDTOs'] = $scope.documents;
             var params = { policyNumber: $scope.regDetail.policyNumber, compId : "0021" };
+            SpinnerService.start();
             AutocompleteService.getCurrencyDetailsForPolicyNo(params, function(response) {
                 var currencyInfo = response.rowData[0];
                 $scope.regDetail.baseCurrency = currencyInfo.BaseCurrency;
@@ -108,6 +110,7 @@
 
         function saveRegistration() {
             ReimbursementRegistrationService.saveRegistrationDetails($scope.regDetail, function(resp) {
+                SpinnerService.stop();
                 $state.go('reimbursement-registration', {}, {reload: true});
             });
         }
@@ -186,7 +189,9 @@
         
 
         $scope.searchClaims = function (data) {
-            if ((data.memberNumber == null) && (data.policyNumber == null) && (data.voucherNumber == null) && (data.previousRequestNumber == null)) {
+            if(data == null) {
+                return;
+            } else if ((data.memberNumber == null) && (data.policyNumber == null) && (data.voucherNumber == null) && (data.previousRequestNumber == null)) {
                 swal("", "Please Enter any Search Inputs", "warning");
             } else {
                 var modalInstance = $uibModal.open({
@@ -203,8 +208,10 @@
                         }
                         $scope.encounterTypeMap = encounterTypeMap;
                         $scope.searchObj = ReimbursementRegistrationFactory.constructSearchObj(autoCompleteMapping, searchInfo);
-                        $scope.searchObj.compId = "0021"                
+                        $scope.searchObj.compId = "0021"
+                        SpinnerService.start();
                         ReimbursementRegistrationService.getReimbursementRegistrationDetails($scope.searchObj, function(resp) {
+                            SpinnerService.stop();
                             $scope.searchedList = resp;
                         })
                         $scope.cancelModal = function() {
@@ -214,14 +221,18 @@
     
                         $scope.newClaim = function() {
                             $scope.registerNew = true;
+                            SpinnerService.start();
                             ReimbursementRegistrationService.getReimbursementRegistrationDetailsForPolicyAndMemberNo($scope.searchObj, function(resp) {
+                                SpinnerService.stop();
                                 $scope.searchedList = resp;
                             });
                         }
     
                         $scope.continue = function(claim) {
                             if(claim.id != null) {
+                                SpinnerService.start();
                                 ReimbursementRegistrationService.getReimbursementRegistrationDetailsById({'id' : claim.id}, function(resp) {
+                                    SpinnerService.stop();
                                     $uibModalInstance.close(resp);
                                 })
                             } else {

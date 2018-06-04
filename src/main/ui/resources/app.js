@@ -66,7 +66,8 @@ angular
                 templateUrl: "resources/reimbursement-claims/registration/view/reimbursement-registration-general.html",
                 controller: 'ReimbursementRegistrationGeneralController',
                 resolve : {
-                    claim : function(ReimbursementRegistrationService, $stateParams) {
+                    claim : function(ReimbursementRegistrationService, $stateParams, SpinnerService) {
+                        SpinnerService.start();
                         return ReimbursementRegistrationService.getReimbursementRegistrationDetailsById({'id' : $stateParams.id}).$promise
                     },
                     isNew : function() {
@@ -240,6 +241,7 @@ angular
     
     function translationConfig($translateProvider) {
         $translateProvider.preferredLanguage('en-US');
+        $translateProvider.useSanitizeValueStrategy('escape')
         $translateProvider.useLoader('$translatePartialLoader', {
             urlTemplate: 'resources/i18n/{lang}/{part}.json'
         });

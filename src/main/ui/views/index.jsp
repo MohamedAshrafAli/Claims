@@ -54,6 +54,10 @@
         <script src="<s:url value="resources/static/bower_components/angular-resource/angular-resource.min.js"/>"></script>
 
         <script src="<s:url value="resources/app.js"/>"></script>
+        <!--util service -->
+        <script src="<s:url value="resources/util/autocomplete.service.js"/>"></script>
+        <script src="<s:url value="resources/util/ui-defination.service.js"/>"></script>
+        <script src="<s:url value="resources/util/spinner.service.js"/>"></script>
         <!-- Components -->
         <script src="<s:url value="resources/component/listView-component/listview.component.js"/>"></script>
         <script src="<s:url value="resources/component/listView-component/listview.component.service.js"/>"></script>
@@ -61,8 +65,6 @@
         <!-- Directives -->
         <script src="<s:url value="resources/directives/grid-directive/script/grid-wrapper.directive.js"/>"></script>
         <script src="<s:url value="resources/util/pagination/pagination.directive.js"/>"></script>
-        <script src="<s:url value="resources/util/autocomplete.service.js"/>"></script>
-        <script src="<s:url value="resources/util/ui-defination.service.js"/>"></script>
         <script src="<s:url value="resources/directives/claimsListView-directive/script/claimslistview.directive.js"/>"></script>
         <script src="<s:url value="resources/directives/claimsListView-directive/script/claimslistview.directive.service.js"/>"></script>
         <script src="<s:url value="resources/directives/finalization-directive/script/finalizationlistview.directive.js"/>"></script>

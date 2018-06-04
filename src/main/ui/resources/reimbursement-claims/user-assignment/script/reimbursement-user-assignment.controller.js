@@ -4,9 +4,9 @@
         .module('claims')
         .controller('ReimbursementUserAssignmentController', ReimbursementUserAssignmentController)
 
-    ReimbursementUserAssignmentController.$inject = ['$scope', '$rootScope', 'ReimbursementUserAssignmentService', '$filter', '$state', '$stateParams', 'ngNotify', 'ListViewService', 'ClaimsListViewService', 'ReimbursementUserAssignmentFactory', 'AutocompleteService', 'ReimbursementRegistrationFactory'];
+    ReimbursementUserAssignmentController.$inject = ['$scope', '$rootScope', 'ReimbursementUserAssignmentService', '$filter', '$state', '$stateParams', 'ngNotify', 'ListViewService', 'ClaimsListViewService', 'ReimbursementUserAssignmentFactory', 'AutocompleteService', 'ReimbursementRegistrationFactory', 'SpinnerService'];
 
-    function ReimbursementUserAssignmentController($scope, $rootScope, ReimbursementUserAssignmentService, $filter, $state, $stateParams, ngNotify, ListViewService, ClaimsListViewService, ReimbursementUserAssignmentFactory, AutocompleteService, ReimbursementRegistrationFactory) {
+    function ReimbursementUserAssignmentController($scope, $rootScope, ReimbursementUserAssignmentService, $filter, $state, $stateParams, ngNotify, ListViewService, ClaimsListViewService, ReimbursementUserAssignmentFactory, AutocompleteService, ReimbursementRegistrationFactory, SpinnerService) {
         $scope.model = "reimbursementUserAssignment";
         $scope.selectall = false;
         $scope.selectedUserToAssign;
@@ -23,8 +23,8 @@
             if (searchValue) {
                 var searchparam = ReimbursementRegistrationFactory.constructSearchObj(autoCompleteMapping, searchValue);
                 searchparam.compId = "0021";
-                searchparam.reqReceivedFrom = searchparam.reqReceivedFrom ? $filter('date')(new Date(searchparam.reqReceivedFrom), 'yyyy-MM-dd') : null;
-                searchparam.reqReceivedTo = searchparam.reqReceivedTo ? $filter('date')(new Date(searchparam.reqReceivedTo), 'yyyy-MM-dd') : null;
+                searchparam.reqReceivedFrom = searchparam.reqReceivedFrom ? $filter('date')(new Date(searchparam.reqReceivedFrom), 'yyyy-MM-dd') : undefined;
+                searchparam.reqReceivedTo = searchparam.reqReceivedTo ? $filter('date')(new Date(searchparam.reqReceivedTo), 'yyyy-MM-dd') : undefined;
                 getClaimList(searchparam);
             } else {
                 getClaimList({compId : "0021"});
@@ -77,7 +77,9 @@
         }
 
         function getClaimList(searchParams) {
+            SpinnerService.start();
             ReimbursementUserAssignmentService.getReimbursementAssignmentDetails(searchParams, function(resp) {
+                SpinnerService.stop();
                 $scope.recordTotal = resp.length;
                 $scope.claimList = resp;
                 $scope.rerenderView = !$scope.rerenderView;

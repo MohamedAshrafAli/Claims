@@ -5,9 +5,9 @@
         .module('claims')
         .controller('ReimbursementRegistrationController', ReimbursementRegistrationController)
 
-    ReimbursementRegistrationController.$inject = ['$scope', '$rootScope', 'ReimbursementRegistrationService', 'ngNotify', '$filter', '$state', 'ListViewService', 'ReimbursementRegistrationFactory'];
+    ReimbursementRegistrationController.$inject = ['$scope', '$rootScope', 'ReimbursementRegistrationService', 'ngNotify', '$filter', '$state', 'ListViewService', 'ReimbursementRegistrationFactory', 'SpinnerService'];
 
-    function ReimbursementRegistrationController($scope, $rootScope, ReimbursementRegistrationService, ngNotify, $filter, $state, ListViewService, ReimbursementRegistrationFactory) {
+    function ReimbursementRegistrationController($scope, $rootScope, ReimbursementRegistrationService, ngNotify, $filter, $state, ListViewService, ReimbursementRegistrationFactory, SpinnerService) {
 
         $scope.reverse = true;
         var autoCompleteMapping = {
@@ -32,8 +32,10 @@
         }
 
         function getRegisteredClaimsList(searchParams) {
+            SpinnerService.start();
             ReimbursementRegistrationService.getReimbursementRegistrationDetails(searchParams, function(resp) {
                 $scope.registeredClaims = resp;
+                SpinnerService.stop();
             })
         }
       
