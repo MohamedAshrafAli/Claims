@@ -33,7 +33,8 @@
 
         $scope.assignedToSelectedUser = function() {
             if ($scope.selectedUserToAssign != null && $scope.claimsToAssign != null && $scope.claimsToAssign.length > 0) {
-                if ($scope.selectedUserToAssign.assigned < 15) {
+                if (true) {
+                    SpinnerService.start();
                     ReimbursementUserAssignmentService.saveAssignmentDetails($scope.claimsToAssign, function(resp) {
                         console.log("resp ::", resp);
                         angular.forEach($scope.claimsToAssign, function(claim, claimIndex) {
@@ -49,6 +50,7 @@
                         $scope.rerenderView = !$scope.rerenderView;
                         $scope.selectedUserToAssign.assigned += ($scope.claimsToAssign.length);
                         $scope.claimsToAssign = [];
+                        SpinnerService.stop();
                         ngNotify.set('Request Assigned Succesfully.', 'success');
                     })
                 } else {

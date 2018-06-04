@@ -26,7 +26,8 @@
                 "ibanNum" : null,
                 "emiratesId":null,
                 "paymentWay" : '01',
-                "status" : "CC"
+                "status" : "CC",
+                "createdBy" : "admin"
             };
         }
 
@@ -68,6 +69,7 @@
             claim.requestAmt = null;
             claim.status = "CC";
             claim.sourceType = sourceType;
+            claim.createdBy = "admin";
             return claim;
         }        
 

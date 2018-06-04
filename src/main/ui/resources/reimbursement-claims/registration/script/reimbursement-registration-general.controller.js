@@ -282,7 +282,6 @@
                 animation: true,
                 backdrop: 'static',
                 templateUrl: 'resources/reimbursement-claims/registration/view/upload-modal.html',
-                size: 'lg',
                 keyboard :false,
                 scope: $scope
             });
