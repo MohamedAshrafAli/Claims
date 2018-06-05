@@ -812,7 +812,6 @@ md-input-container md-select label,
     text-align: left;
     vertical-align: middle;
     max-width: 920px;
-    width : 100%;
 }
 
 ._md-datepicker-floating-label>md-datepicker .md-datepicker-button {
@@ -1941,7 +1940,6 @@ md-select[disabled] .md-select-value,
 .bt{
     border-bottom: 1px solid #dee2e6; 
     font-weight: bold;
-    white-space: nowrap;
     padding:6px;
 }
 .middle-loading-box .div.center-block .glyphicon{
@@ -1964,4 +1962,9 @@ md-select[disabled] .md-select-value,
     left: 50%;
     margin-top:-16px;
     margin-left:-16px
+}
+@media (min-width: 992px) {
+    .modal-lg {
+        width:1000px;
+    }
 } 

@@ -40,6 +40,7 @@
         <script src="<s:url value="resources/static/bower_components/ng-file-upload/ng-file-upload.min.js"/>"></script>
         <script src="<s:url value="resources/static/bower_components/angular-thumbnails/dist/angular-thumbnails.js"/>"></script>
         <script src="<s:url value="resources/static/bower_components/pdfjs-dist/build/pdf.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/pdfjs-dist/build/pdf.worker.js"/>"></script>
         <script src="<s:url value="resources/static/bower_components/angular-ui-carousel/dist/ui-carousel.js"/>"></script>
         <script src="<s:url value="resources/static/bower_components/angular-ui-grid/ui-grid.js"/>"></script>
         <script src="<s:url value="resources/static/bower_components/angular-animate/angular-animate.min.js"/>"></script>
