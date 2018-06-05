@@ -128,7 +128,7 @@
                                 <md-select md-input-name="EncounterType" ng-model="regDetail.reqType" required  ng-disabled="isDisabled">
                                     <md-option ng-repeat="option in requestTypes" value="{{option.id}}">{{option.value}}</md-option>
                                 </md-select>
-                                <div ng-if="localValidation && !regDetail.reqType" class="error">Please Enter The Encounter Type</div>
+                                <div ng-if="localValidation && !regDetail.reqType" class="error">Please Enter The Request Type</div>
                             </md-input-container>
                         </div>
                     </div>
@@ -140,7 +140,7 @@
                                 <label>Request Received Date</label>
                                 <md-datepicker ng-keyup="clearDatepickerKeyupValue($event);" md-input-name="reqDate" ng-model="regDetail.reqReceivedDate" md-hide-icons="triangle"
                                     md-open-on-focus required ></md-datepicker>
-                                    <div ng-if="localValidation && !regDetail.reqReceivedDate" class="error">Please Enter The Encounter Type</div>
+                                    <div ng-if="localValidation && !regDetail.reqReceivedDate" class="error">Please Enter TheRequest Received Date</div>
                             </md-input-container>
                         </div>
                         <div class="col-sm-6 colborder">
@@ -148,18 +148,20 @@
                                 <label>Service From Date</label>
                                 <md-datepicker ng-keyup="clearDatepickerKeyupValue($event);" md-input-name="fromDate" ng-model="regDetail.serviceFmDate" md-hide-icons="triangle"
                                     md-open-on-focus required ></md-datepicker>
-                                    <div ng-if="localValidation && !regDetail.serviceFmDate" class="error">Please Enter The Encounter Type</div>
+                                    <div ng-if="localValidation && !regDetail.serviceFmDate" class="error">Please Enter The Service From Date</div>
                             </md-input-container>
                         </div>
                     </div>
                 </div>
+
             <div class="fldsWrap clearfix">
                 <div class="fieldsCol fieldsFilledCol">
                     <label class="top_4">Reported By</label>
-                    <div class="buttonGroups">
-                        <span  ng-repeat="option in reportByTypes">
+                    <div class="buttonGroups" >
+                        <span  ng-repeat="option in reportByTypes" required>
                             <button type="button" class="btn btn-outline-primary btn-sm" ng-class="{'btnSelect' : regDetail.reportedBy == option.id}" ng-click="setReportedBy(option.id)">{{option.value}}</button>
                         </span>
+                        <div ng-if="localValidation && !regDetail.reportedBy" class="error">Please Select The Reported By</div>
                     </div>
                 </div>
             </div>

@@ -135,9 +135,14 @@
         }
 
         this.getSearchFields = function() {
-            return {
-                methodName: 'getEmiratesId', displayName: 'CLMR_UID_ID'
-            };
+            return [
+                {methodName: 'getTreatmentCode', displayName: 'CLMR_UID_ID'},
+                {methodName: 'getRejectionCode', displayName: 'CLMR_UID_ID'},
+                {methodName: 'getPrimaryDiagnosis', displayName: 'CLMR_UID_ID'},
+                {methodName: 'getSecondaryDiagnosis', displayName: 'CLMR_UID_ID'},
+                {methodName: 'getProviderCode', displayName: 'CLMR_UID_ID'},
+                {methodName: 'geteventCountry', displayName: 'CLMR_UID_ID'}
+            ];
         }
     }
 })();

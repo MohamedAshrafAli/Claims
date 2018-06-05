@@ -1736,6 +1736,11 @@ footer {
     top :150px !important;
 }
 
+.md-virtual-repeat-container.md-autocomplete-suggestions-container {
+    z-index: 1000;
+}
+
+
 .text-truncate{
     max-width: 100%;
     overflow: hidden;

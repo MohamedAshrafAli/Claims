@@ -258,9 +258,9 @@
                 $scope.totalDeductionAmount = totalDeductionAmount;
             }
 
-            $scope.getAutoCompleteList = function (searchText, field, autoCompleteInfo) {
+            $scope.getAutoCompleteList = function (searchText, field, methodName) {
                 var searchParams = constructSearchparams(field, searchText);
-                return AutocompleteService[autoCompleteInfo.methodName](searchParams).$promise.then(function(resp) {
+                return AutocompleteService[methodName](searchParams).$promise.then(function(resp) {
                     return resp.rowData;
                 })
             }
@@ -270,11 +270,11 @@
                 if($scope.moduleName == 'reimbursement') {
                     $scope.search.memberNumber =  $scope.search.memberName;
                         searchObj["compId"] = "0021",
-                        searchObj["policyNumber"] = field == 'policyNumber' ? searchText+"%" : ($scope.search.policyNumber ? $scope.search.policyNumber.CLF_ULM_NO  : "%"),
-                        searchObj["memberNumber"] = $scope.search.memberName ? $scope.search.memberName.CLMR_MEMBER_ID : "%",
-                        searchObj["memberName"] = field == 'memberName' ? searchText+"%" : $scope.search.memberNumber ? $scope.search.memberNumber.CLMR_MEMBER_NAME : "%",
-                        searchObj["voucherNumber"] = field == 'voucherNumber' ? searchText+"%" : ($scope.search.voucherNumber ? $scope.search.voucherNumber.CLMF_VOUCH_NO : "%"),
-                        searchObj["cardNumber"] = field == 'cardNumber' ? searchText+"%" : ($scope.search.cardNumber ? $scope.search.cardNumber.CLMR_TPA_CARD : "%"),
+                        searchObj["policyNumber"] = "%"
+                        searchObj["memberNumber"] = "%",
+                        searchObj["memberName"] = "%",
+                        searchObj["voucherNumber"] = "%",
+                        searchObj["cardNumber"] = "%",
                         searchObj["emiratesId"] = field == 'emiratesId' ? searchText+"%" : ($scope.search.emiratesId ? $scope.search.emiratesId.CLMR_UID_ID : "%")
                 }
                 return searchObj;

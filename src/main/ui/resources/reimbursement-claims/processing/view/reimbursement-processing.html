@@ -20,11 +20,26 @@
                                     </div>
                                 </uib-accordion-heading> 
                                 <div class="accordion-input">
-                                    <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.primaryDiag.$invalid}">    
+                                    <div>
+                                        <!-- <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.primaryDiag.$invalid}">    
                                             <label>Primary Diagnosis</label>
                                             <input name="primaryDiag" type="text" ng-model="providerDetails.primaryDiagnosis" ng-value="'501.02'" required />
-                                        </md-input-container>
+                                        </md-input-container> -->
+                                        <md-autocomplete
+                                            md-selected-item="claim.treatmentCode"
+                                            md-search-text="primaryDiagnosis"
+                                            md-items="item in getAutoCompleteList(primaryDiagnosis,'emiratesId','getPrimaryDiagnosis')"
+                                            md-item-text="item['CLMR_UID_ID']"
+                                            md-floating-label="Primary Diagnosis"
+                                            md-clear-button="true"
+                                            style="height: 55px;">
+                                            <md-item-template>
+                                                <span md-highlight-text="primaryDiagnosis" md-highlight-flags="^i">{{item['CLMR_UID_ID']}} </span>
+                                            </md-item-template>
+                                            <md-not-found>
+                                                No Result Found
+                                            </md-not-found>
+                                        </md-autocomplete>
                                     </div>
                                     <div class="fldsWrap clearfix">
                                         <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.primaryDiagDisc.$invalid}">
@@ -32,11 +47,28 @@
                                             <input name="primaryDiagDisc" type="text" ng-model="providerDetails.primaryDiagDisc" ng-value="'Surgery'" required />
                                         </md-input-container>
                                     </div>
-                                    <div class="fldsWrap clearfix">
+                                    <!-- <div class="fldsWrap clearfix">
                                         <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.secDiag.$invalid}">    
                                             <label>Secondary Diagnosis (ICD)</label>
                                             <input name="secDiag" type="text" ng-model="providerDetails.secDiagnosis" ng-value="'301.2,508.2'" required />
                                         </md-input-container>
+                                    </div> -->
+                                    <div>
+                                        <md-autocomplete
+                                            md-selected-item="claim.secondaryDiagnosis"
+                                            md-search-text="secondaryDigText"
+                                            md-items="item in getAutoCompleteList(secondaryDigText,'emiratesId','getSecondaryDiagnosis')"
+                                            md-item-text="item['CLMR_UID_ID']"
+                                            md-floating-label="Secondary Diagnosis (ICD)"
+                                            md-clear-button="true"
+                                            style="height: 55px;">
+                                            <md-item-template>
+                                                <span md-highlight-text="secondaryDigText" md-highlight-flags="^i">{{item['CLMR_UID_ID']}} </span>
+                                            </md-item-template>
+                                            <md-not-found>
+                                                No Result Found
+                                            </md-not-found>
+                                        </md-autocomplete>
                                     </div>
                                     <div class="fldsWrap clearfix">
                                         <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.secDiagDesc.$invalid}">    
@@ -50,11 +82,28 @@
                                             <input name="providerName" type="text" ng-model="providerDetails.providerName" ng-value="'Alnoor Hospital'" required />
                                         </md-input-container>
                                     </div>
-                                    <div class="fldsWrap clearfix">
+                                    <!-- <div class="fldsWrap clearfix">
                                         <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.providerCode.$invalid}">    
                                             <label>Provider Code</label>
                                             <input name="providerCode" type="text" ng-model="providerDetails.providerCode" ng-value="'4341'" required />
                                         </md-input-container>
+                                    </div> -->
+                                    <div>
+                                        <md-autocomplete
+                                            md-selected-item="claim.providerCode"
+                                            md-search-text="providerCode"
+                                            md-items="item in getAutoCompleteList(providerCode,'emiratesId','getProviderCode')"
+                                            md-item-text="item['CLMR_UID_ID']"
+                                            md-floating-label="providerCode"
+                                            md-clear-button="true"
+                                            style="height: 55px;">
+                                            <md-item-template>
+                                                <span md-highlight-text="providerCode" md-highlight-flags="^i">{{item['CLMR_UID_ID']}} </span>
+                                            </md-item-template>
+                                            <md-not-found>
+                                                No Result Found
+                                            </md-not-found>
+                                        </md-autocomplete>
                                     </div>
                                     <div class="fldsWrap clearfix">
                                         <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.providerLicense.$invalid}">    
@@ -104,11 +153,28 @@
                                     </div>
                                 </uib-accordion-heading>
                                 <div class="accordion-input">
-                                    <div class="fldsWrap clearfix">
+                                    <!-- <div class="fldsWrap clearfix">
                                         <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.eventCountry.$invalid}">    
                                             <label>Event Country</label>
                                             <input name="eventCountry" type="text" ng-model="claimDetails.country" required />
                                         </md-input-container>
+                                    </div> -->
+                                    <div>
+                                        <md-autocomplete
+                                            md-selected-item="claim.eventCountry"
+                                            md-search-text="eventCountry"
+                                            md-items="item in getAutoCompleteList(eventCountry,'emiratesId','geteventCountry')"
+                                            md-item-text="item['CLMR_UID_ID']"
+                                            md-floating-label="Event Country"
+                                            md-clear-button="true"
+                                            style="height: 55px;">
+                                            <md-item-template>
+                                                <span md-highlight-text="eventCountry" md-highlight-flags="^i">{{item['CLMR_UID_ID']}} </span>
+                                            </md-item-template>
+                                            <md-not-found>
+                                                No Result Found
+                                            </md-not-found>
+                                        </md-autocomplete>
                                     </div>
                                 </div>
                             </div>
@@ -362,15 +428,15 @@
                             <div layout-gt-sm="row" class="col-sm-12 pb-1">
                                 <div class="masterCodes float-left" style="border: 1px solid #b3b3b3;margin: 0 3px 0 0;width: 50% !important;">
                                     <md-autocomplete
-                                        md-selected-item='search[x.name]' 
+                                        md-selected-item="claim.treatmentCode"
                                         md-search-text="searchText"
-                                        md-items="item in getAutoCompleteList(searchText,'emiratesId',autoCompleteInfo)"
-                                        md-item-text="item.name"
+                                        md-items="item in getAutoCompleteList(searchText,'emiratesId','getTreatmentCode')"
+                                        md-item-text="item['CLMR_UID_ID']"
                                         md-floating-label="Treatment Code/Sub Benefit"
                                         md-clear-button="true"
                                         style="height: 55px;">
                                         <md-item-template>
-                                            <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.name}} </span>
+                                            <span md-highlight-text="searchText" md-highlight-flags="^i">{{item['CLMR_UID_ID']}} </span>
                                         </md-item-template>
                                         <md-not-found>
                                             No Result Found
@@ -411,13 +477,13 @@
                                     <md-autocomplete
                                         md-selected-item="claim.rejectionCode"
                                         md-search-text="rejectionText"
-                                        md-items="item in querySearch(rejectionText, 'R')"
-                                        md-item-text="item.name"
+                                        md-items="item in getAutoCompleteList(rejectionText,'emiratesId','getRejectionCode')"
+                                        md-item-text="item['CLMR_UID_ID']"
                                         md-floating-label="Rejection Code"
                                         md-clear-button="true"
                                         style="height: 55px;">
                                         <md-item-template>
-                                            <span md-highlight-text="rejectionText" md-highlight-flags="^i">{{item.name}}</span>
+                                            <span md-highlight-text="rejectionText" md-highlight-flags="^i">{{item['CLMR_UID_ID']}}</span>
                                         </md-item-template>
                                         <md-not-found>
                                             No Result Found
