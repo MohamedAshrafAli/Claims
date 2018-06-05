@@ -39,7 +39,10 @@ public final class GeneralQueriesConstants implements Serializable{
 	public static final String GENERAL_QUERIES_GET_USER_DIVISION = claimsResourceBundle.getString("medical.claim.general.queries.user.division");
 
 	public static final String GENERAL_QUERIES_GET_COB_DETAIL = claimsResourceBundle.getString("medical.claim.general.queries.cob.detail");
+	
+	public static final String GENERAL_QUERIES_GET_UNIVERSAL_CURRENCIES = claimsResourceBundle.getString("medical.claim.general.queries.universal.currencies");
 
+	
 	
 	public static final String GENERAL_QUERIES_GET_CTDS_LISTS	 = claimsResourceBundle.getString("medical.claim.general.queries.ctds.lists");
 	public static final String GENERAL_QUERIES_GET_CTDS_COLUMN_CARD_NUMBERS	 = claimsResourceBundle.getString("medical.claim.general.queries.ctds.column.cardnumbers");

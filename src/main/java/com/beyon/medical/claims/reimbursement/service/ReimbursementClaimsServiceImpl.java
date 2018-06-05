@@ -28,6 +28,7 @@ import com.beyon.medical.claims.exception.MedicalClaimsException;
 import com.beyon.medical.claims.reimbursement.dao.ReimbursementClaimsDAOImpl;
 import com.beyon.medical.claims.reimbursement.dto.RegistrationFileDTO;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementAssignmentDTO;
+import com.beyon.medical.claims.reimbursement.dto.ReimbursementProcessingDTO;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementRegistrationDTO;
 import com.beyon.medical.claims.reimbursement.mapper.ReimbAssignmentMapper;
 import com.beyon.medical.claims.ui.facade.service.GeneralServiceFacade;
@@ -280,6 +281,38 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 	        	ex.printStackTrace();
 	            throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
 	        }
+	}
+	
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false, rollbackFor = Exception.class)
+	public ReimbursementProcessingDTO saveProcessingDetails(String compId,ReimbursementProcessingDTO reimbursementProcessingDTO) throws DAOException {
+		ReimbursementProcessingDTO _reimbursementProcessingDTO = null;
+		try {
+			_reimbursementProcessingDTO =  reimbursementClaimsDAO.insertReimbursementProcessingDetails(compId, reimbursementProcessingDTO);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return _reimbursementProcessingDTO;
+	}
+	
+	@Transactional(propagation = Propagation.SUPPORTS, isolation = Isolation.READ_COMMITTED, readOnly = true)
+	public ReimbursementProcessingDTO getReimbursementProcessingDetailsById(String id) throws DAOException {
+		List<ReimbursementProcessingDTO> processingDTOs = null;
+		ReimbursementProcessingDTO reimbursementProcessingDTO = null;
+		try {
+			String strQuery = REIMBURSEMENT_QUERIES_PROCESSING_DETAILS;
+			Map<String,Object> inputMap = new HashMap<>();
+			inputMap.put("id", id);
+			processingDTOs =  reimbursementClaimsDAO.getProcessingDetailsById(strQuery, inputMap);
+			if(processingDTOs != null && !processingDTOs.isEmpty()) {
+				reimbursementProcessingDTO = processingDTOs.get(0);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return reimbursementProcessingDTO;
 	}
 
 }

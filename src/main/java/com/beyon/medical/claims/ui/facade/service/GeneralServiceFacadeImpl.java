@@ -1,21 +1,24 @@
 package com.beyon.medical.claims.ui.facade.service;
 
 import static com.beyon.framework.util.Constants.INTERNAL_ERROR_OCCURED;
-import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.*;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_DIAGNOSIS_CODE_DETAILS;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_COB_DETAIL;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_CARD_NUMBERS;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_CLAIM_NUMBERS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_EMIRATES_IDS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_MEMBER_NAMES;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_MEMBER_NUMBERS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_POLICY_NUMBERS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_VOUCHER_NUMBERS;
-import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_CLAIM_NUMBERS;
-
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_LISTS;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CURRENCY_DETAILS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_IDS_COLUMN_MEMBER_NUMBERS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_IDS_COLUMN_POLICY_NUMBERS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_MEMBER_NUMBERS;
-import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CURRENCY_DETAILS;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_UNIVERSAL_CURRENCIES;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_USER_DIVISION;
-import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_COB_DETAIL;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_SERVICE_CODE_DETAILS;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_USER_LIST;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,11 +57,11 @@ public class GeneralServiceFacadeImpl implements GeneralServiceFacade {
 	}
 	
 	@Override
-	public ObjectNode getCurrencyDetailsForPolicyNo(ObjectNode paramMap) throws DAOException {
+	public ObjectNode getCurrencyDetails(ObjectNode paramMap,boolean isUniversal) throws DAOException {
 		ObjectNode baseCurrency = null;
 		try {
 			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
-			baseCurrency =  generalClaimsDao.getCurrencyDetailsForPolicyNo(GENERAL_QUERIES_GET_CURRENCY_DETAILS,inputMap);
+			baseCurrency =  generalClaimsDao.getCurrencyDetails(isUniversal ? GENERAL_QUERIES_GET_UNIVERSAL_CURRENCIES : GENERAL_QUERIES_GET_CURRENCY_DETAILS,inputMap);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
