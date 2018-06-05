@@ -166,4 +166,15 @@ public class MedicalClaimsGeneralController{
 		} 
 		return userList;
 	}
+	
+	@PostMapping("/getRejectionCodeDetails")
+	public @ResponseBody ObjectNode getRejectionCodeDetails(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode userList = null;
+		try {
+			userList = uiServiceFacade.getRejectionCodeDetails(inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return userList;
+	}
 }
