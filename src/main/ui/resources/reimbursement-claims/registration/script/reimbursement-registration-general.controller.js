@@ -105,14 +105,18 @@
                 $scope.regDetail.baseCurrency = currencyInfo.BaseCurrency;
                 $scope.regDetail.requestAmtBC = $scope.regDetail.requestAmt * currencyInfo.ExchangeRate;
                 saveRegistration();
-            });
+            }, onSaveError);
         }
 
         function saveRegistration() {
             ReimbursementRegistrationService.saveRegistrationDetails($scope.regDetail, function(resp) {
                 SpinnerService.stop();
                 $state.go('reimbursement-registration', {}, {reload: true});
-            });
+            },onSaveError);
+        }
+
+        function onSaveError() {
+            SpinnerService.stop();
         }
 
         $scope.uploadFiles = function(files, doc) {
@@ -213,19 +217,27 @@
                         ReimbursementRegistrationService.getReimbursementRegistrationDetails($scope.searchObj, function(resp) {
                             SpinnerService.stop();
                             $scope.searchedList = resp;
-                        })
+                        }, onError)
                         $scope.cancelModal = function() {
                             $uibModalInstance.dismiss();
                             $('.modal-backdrop').remove();
                         }
     
                         $scope.newClaim = function() {
+                            if (data.memberNumber == null || data.policyNumber == null) {
+                                swal("", "Please Enter both Member Number & Policy Number", "warning");
+                                return;
+                            }
                             $scope.registerNew = true;
                             SpinnerService.start();
                             ReimbursementRegistrationService.getReimbursementRegistrationDetailsForPolicyAndMemberNo($scope.searchObj, function(resp) {
                                 SpinnerService.stop();
                                 $scope.searchedList = resp;
-                            });
+                            }, onError);
+                        }
+
+                        function onError() {
+                            SpinnerService.stop();
                         }
     
                         $scope.continue = function(claim) {
@@ -234,7 +246,7 @@
                                 ReimbursementRegistrationService.getReimbursementRegistrationDetailsById({'id' : claim.id}, function(resp) {
                                     SpinnerService.stop();
                                     $uibModalInstance.close(resp);
-                                })
+                                }, onError)
                             } else {
                                 $uibModalInstance.close(claim);
                             }                                                   

@@ -32,7 +32,7 @@
                 method: 'GET',
                 url: resourceUrl + '/getReimbursementRegistrationDocument?pathName=:pathName',
                 responseType: 'arraybuffer',
-                transformResponse: function(data, headersGetter) { 
+                transformResponse: function(data) { 
                     return { 
                         data : data 
                     }

@@ -36,7 +36,11 @@
             ReimbursementRegistrationService.getReimbursementRegistrationDetails(searchParams, function(resp) {
                 $scope.registeredClaims = resp;
                 SpinnerService.stop();
-            })
+            }, onError)
+        }
+
+        function onError() {
+            SpinnerService.stop();
         }
       
         function init() {

@@ -36,7 +36,6 @@
                 if (true) {
                     SpinnerService.start();
                     ReimbursementUserAssignmentService.saveAssignmentDetails($scope.claimsToAssign, function(resp) {
-                        console.log("resp ::", resp);
                         angular.forEach($scope.claimsToAssign, function(claim, claimIndex) {
                             for(var key in $scope.claimList) {
                                 var actualClaim = $scope.claimList[key];
@@ -52,7 +51,7 @@
                         $scope.claimsToAssign = [];
                         SpinnerService.stop();
                         ngNotify.set('Request Assigned Succesfully.', 'success');
-                    })
+                    }, onError)
                 } else {
                     swal("", "User has Request Assigned more than 15", "warning");
                 }
@@ -63,8 +62,8 @@
             } else if ($scope.selectedUserToAssign == null) {
                 swal("", "Please select user to assign.", "warning");
             }
-        }
-       
+        }        
+
         $scope.navigateTo = function() {
             $state.go('reimbursement-processing');
         }        
@@ -85,7 +84,7 @@
                 $scope.recordTotal = resp.length;
                 $scope.claimList = resp;
                 $scope.rerenderView = !$scope.rerenderView;
-            })
+            }, onError)
         }
 
         function getUsersList() {
@@ -97,6 +96,10 @@
                 $scope.users = resp.rowData;
                 $scope.userssearch = $scope.users;
             })
+        }
+
+        function onError() {
+            SpinnerService.stop();
         }
         
         init();
