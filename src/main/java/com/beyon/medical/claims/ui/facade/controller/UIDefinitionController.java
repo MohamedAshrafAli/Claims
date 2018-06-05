@@ -1,6 +1,6 @@
 package com.beyon.medical.claims.ui.facade.controller;
 
-import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_UID_DOCUMENT_TYPE;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.*;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_UID_ENCOUNTER_TYPE;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_UID_PAYMENT_TYPE;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_UID_REPORT_BY_TYPE;
@@ -104,4 +104,72 @@ public class UIDefinitionController{
 		} 
 		return statusTypes;
 	}
+	
+	@PostMapping("/getClaimsStatusReason")
+	public @ResponseBody ObjectNode getClaimsStatusReason(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode statusTypes = null;
+		try {
+			statusTypes = uiServiceFacade.getUIDefinitionList(GENERAL_QUERIES_UID_CLAIMS_STATUS_REASON_TYPE ,inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return statusTypes;
+	}
+	
+	@PostMapping("/getClaimLossType")
+	public @ResponseBody ObjectNode getClaimLossType(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode claimLossTypes = null;
+		try {
+			claimLossTypes = uiServiceFacade.getUIDefinitionList(GENERAL_QUERIES_UID_LOSS_TYPE ,inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return claimLossTypes;
+	}
+	
+	@PostMapping("/getClaimantESTType")
+	public @ResponseBody ObjectNode getClaimantESTType(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode claimantESTTypes = null;
+		try {
+			claimantESTTypes = uiServiceFacade.getUIDefinitionList(GENERAL_QUERIES_UID_EST_TYPE ,inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return claimantESTTypes;
+	}
+	
+	@PostMapping("/getDiagnosisType")
+	public @ResponseBody ObjectNode getDiagnosisType(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode diagnosisTypes = null;
+		try {
+			diagnosisTypes = uiServiceFacade.getUIDefinitionList(GENERAL_QUERIES_UID_DIAG_TYPE ,inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return diagnosisTypes;
+	}
+	
+	@PostMapping("/getClaimType")
+	public @ResponseBody ObjectNode getClaimType(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode claimTypes = null;
+		try {
+			claimTypes = uiServiceFacade.getUIDefinitionList(GENERAL_QUERIES_UID_CLAIM_TYPE ,inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return claimTypes;
+	}
+	
+	@PostMapping("/getClaimCondition")
+	public @ResponseBody ObjectNode getClaimCondition(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode claimConditions = null;
+		try {
+			claimConditions = uiServiceFacade.getUIDefinitionList(GENERAL_QUERIES_UID_CLAIM_CONDITION ,inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return claimConditions;
+	}
+	
+	
 }

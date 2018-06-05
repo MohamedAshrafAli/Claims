@@ -206,7 +206,11 @@ public class GeneralServiceFacadeImpl implements GeneralServiceFacade {
 	public ObjectNode getUserList(ObjectNode paramMap) throws DAOException {
 		ObjectNode userList = null;
 		try {
-			userList =  generalClaimsDao.getUserList(GENERAL_QUERIES_USER_LIST, paramMap);
+			Map<Integer, String> outputMap = new HashMap<>();
+			outputMap.put(1, "UserId");
+			outputMap.put(2, "UserName");
+			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
+			userList =  generalClaimsDao.getSearchDataList(GENERAL_QUERIES_USER_LIST, inputMap, outputMap);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
@@ -214,5 +218,55 @@ public class GeneralServiceFacadeImpl implements GeneralServiceFacade {
 		return userList;
 	}
 	
+	@Override
+	public ObjectNode getServiceCodeDetails(ObjectNode paramMap) throws DAOException {
+		ObjectNode userList = null;
+		try {
+			Map<Integer, String> outputMap = new HashMap<>();
+			outputMap.put(1, "ServiceCode");
+			outputMap.put(2, "ServiceName");
+			outputMap.put(3, "ServiceTypeId");
+			outputMap.put(4, "BenefitId");
+			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
+			userList =  generalClaimsDao.getSearchDataList(GENERAL_QUERIES_SERVICE_CODE_DETAILS, inputMap, outputMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return userList;
+	}
+	
+	@Override
+	public ObjectNode getDiagnosisCodeDetails(ObjectNode paramMap) throws DAOException {
+		ObjectNode userList = null;
+		try {
+			Map<Integer, String> outputMap = new HashMap<>();
+			outputMap.put(1, "DiagnosisCode");
+			outputMap.put(2, "DiagnosisName");
+			outputMap.put(3, "DiagnosisType");
+			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
+			userList =  generalClaimsDao.getSearchDataList(GENERAL_QUERIES_DIAGNOSIS_CODE_DETAILS, inputMap, outputMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return userList;
+	}
+	
+	@Override
+	public ObjectNode getRejectionCodeDetails(ObjectNode paramMap) throws DAOException {
+		ObjectNode userList = null;
+		try {
+			Map<Integer, String> outputMap = new HashMap<>();
+			outputMap.put(1, "RejectionCode");
+			outputMap.put(2, "RejectionDesc");
+			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
+			userList =  generalClaimsDao.getSearchDataList(GENERAL_QUERIES_DIAGNOSIS_CODE_DETAILS, inputMap, outputMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return userList;
+	}
 	
 }

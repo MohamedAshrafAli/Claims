@@ -32,5 +32,11 @@ public interface GeneralServiceFacade{
 	ObjectNode getClaimNumberList(ObjectNode paramMap) throws DAOException;
 
 	ObjectNode getUserList(ObjectNode paramMap) throws DAOException;
+	
+	ObjectNode getServiceCodeDetails(ObjectNode paramMap) throws DAOException;
+
+	ObjectNode getDiagnosisCodeDetails(ObjectNode paramMap) throws DAOException;
+	
+	ObjectNode getRejectionCodeDetails(ObjectNode paramMap) throws DAOException;
 
 }
