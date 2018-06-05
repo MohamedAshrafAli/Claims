@@ -16,7 +16,6 @@ public class ReimbursementDTO extends ClaimBaseDTO {
 	private BigDecimal requestAmt;
 	private String paymentWay;
 	private String paymentRefNum;
-
 	public String getVoucherNumber() {
 		return voucherNumber;
 	}
@@ -77,5 +76,5 @@ public class ReimbursementDTO extends ClaimBaseDTO {
 	}
 	public void setPaymentRefNum(String paymentRefNum) {
 		this.paymentRefNum = paymentRefNum;
-	}
+	}	
 }
