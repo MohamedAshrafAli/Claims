@@ -23,7 +23,7 @@ public interface GeneralServiceFacade{
 	
 	ObjectNode getEmiratesId(ObjectNode paramMap) throws DAOException;
 	
-	ObjectNode getCurrencyDetailsForPolicyNo(ObjectNode paramMap) throws DAOException;
+	ObjectNode getCurrencyDetails(ObjectNode paramMap,boolean isUniversal) throws DAOException;
 	
 	String getUserDivisionForCompany(String userId,String compId) throws DAOException;
 

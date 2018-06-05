@@ -40,10 +40,14 @@ import com.beyon.framework.dao.DAOFactory;
 import com.beyon.framework.util.FoundationUtils;
 import com.beyon.medical.claims.exception.DAOException;
 import com.beyon.medical.claims.general.dao.BaseClaimsDAOImpl;
+import com.beyon.medical.claims.general.dto.DiagnosisDTO;
 import com.beyon.medical.claims.reimbursement.dto.RegistrationFileDTO;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementAssignmentDTO;
+import com.beyon.medical.claims.reimbursement.dto.ReimbursementProcessingDTO;
+import com.beyon.medical.claims.reimbursement.dto.ReimbursementProcessingServiceDTO;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementRegistrationDTO;
 import com.beyon.medical.claims.reimbursement.mapper.ReimbAssignmentMapper;
+import com.beyon.medical.claims.reimbursement.mapper.ReimbProcessingMapper;
 import com.beyon.medical.claims.reimbursement.mapper.ReimbRegistrationMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -65,7 +69,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 			}
 		});
 	}
-	
+
 	public List<RegistrationFileDTO> getRegistrationFileDetailsById(String query ,Map<String,Object> inputMap) throws DAOException {
 		NamedParameterJdbcTemplate  namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
@@ -89,7 +93,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 			}
 		});
 	}
-	
+
 	public List<ReimbursementAssignmentDTO> getAssignmentListViewData(String query ,Map<String,Object> inputMap) throws DAOException {
 		NamedParameterJdbcTemplate  namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
@@ -113,7 +117,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 			}
 		});
 	}
-	
+
 	public ObjectNode getAssignmentnListData(String strQuery,Map<String,Object> inputMap) throws DAOException {
 		ObjectNode objectNode = FoundationUtils.createObjectNode();
 		try {
@@ -140,7 +144,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 					objectNode.put("Relation", rs.getString("Relation"));
 					objectNode.put("Nationality", rs.getString("Nationality"));
 				}
-				
+
 			});
 		} catch (Exception ex) {
 			writeLog(CLASS_NAME, "Exception occured while executing getDataList", ERROR, ex);
@@ -148,7 +152,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		}
 		return objectNode;
 	}
-	
+
 
 	public Map<String, Object> getClaimsRefNo(String docType,Long sequenceNumber,String productId) throws DAOException {
 		Map<String, Object> simpleJdbcCallResult = null;
@@ -170,28 +174,28 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		}
 		return simpleJdbcCallResult;
 	}
-	
-	public boolean deleteRegistrationDocument(String id, String docType, String docName, String path) throws DAOException {
-        boolean isDeleted = false;
-        try {
-        NamedParameterJdbcTemplate  namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
-        MapSqlParameterSource parameters = new MapSqlParameterSource();
-	    parameters.addValue("DocTypeId", docType);
-	    parameters.addValue("id", id);
-	    parameters.addValue("DocName", docName);
-	    parameters.addValue("DocPath", path);
 
-	    int affectedRows = namedParameterJdbcTemplate.update(REIMBURSEMENT_QUERIES_DELETE_TDS_LEVEL_D, parameters);
-	    
-        if(affectedRows>0) {
-        	isDeleted = true;
-        }
-        }catch(Exception e) {
+	public boolean deleteRegistrationDocument(String id, String docType, String docName, String path) throws DAOException {
+		boolean isDeleted = false;
+		try {
+			NamedParameterJdbcTemplate  namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
+			MapSqlParameterSource parameters = new MapSqlParameterSource();
+			parameters.addValue("DocTypeId", docType);
+			parameters.addValue("id", id);
+			parameters.addValue("DocName", docName);
+			parameters.addValue("DocPath", path);
+
+			int affectedRows = namedParameterJdbcTemplate.update(REIMBURSEMENT_QUERIES_DELETE_TDS_LEVEL_D, parameters);
+
+			if(affectedRows>0) {
+				isDeleted = true;
+			}
+		}catch(Exception e) {
 			writeLog(CLASS_NAME, "Exception occured while executing deleteRegistrationDocument", ERROR, e);
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
 		}
-        return isDeleted;
-    }
+		return isDeleted;
+	}
 
 	public ReimbursementRegistrationDTO updateReimbursementRegistrationDetails(String compId,ReimbursementRegistrationDTO reimbursementRegistrationDTO) throws DAOException {
 		boolean isSaved = false;
@@ -199,7 +203,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		isSaved = updateCTDSLEVELMFNOL(compId, reimbursementRegistrationDTO, jdbcTemplate);
 		return reimbursementRegistrationDTO;
 	}
-	
+
 	private boolean updateCTDSLEVELMFNOL(String compId,ReimbursementRegistrationDTO reimbursementRegistrationDTO,JdbcTemplate jdbcTemplate) throws DAOException {
 		jdbcTemplate.update(REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_MFNOL,
 				new Object[] { 
@@ -215,7 +219,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 
 		return true;
 	}
-	
+
 	public ReimbursementRegistrationDTO insertReimbursementRegistrationDetails(String compId,ReimbursementRegistrationDTO reimbursementRegistrationDTO) throws DAOException {
 		boolean isSaved = false;
 		JdbcTemplate jdbcTemplate = DAOFactory.getJdbcTemplate("gm");
@@ -229,10 +233,10 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		//Classofbusiness for policynumber
 		String cobId = getClassOfBusinessForPolicy(GENERAL_QUERIES_GET_COB_DETAIL, reimbursementRegistrationDTO.getPolicyNumber(), compId);
 		reimbursementRegistrationDTO.setCobId(cobId);
-		
+
 		String userDivId = getUserDivisionForCompany(GENERAL_QUERIES_GET_USER_DIVISION, reimbursementRegistrationDTO.getCreatedBy(), compId);
 		reimbursementRegistrationDTO.setUserDivision(userDivId);		
-		
+
 		//TODO:Use the boolean correctly.
 		insertCTDSLEVELFNOL(compId, reimbursementRegistrationDTO,jdbcTemplate);
 		insertCTDSLEVELMFNOL(compId, reimbursementRegistrationDTO, jdbcTemplate);
@@ -429,7 +433,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
 		}
 	}
-	
+
 	private boolean insertCTDSLEVELC(String compId,List<ReimbursementAssignmentDTO> reimbursementAssignmentDTOs,JdbcTemplate jdbcTemplate) throws DAOException {
 		try {
 			jdbcTemplate.batchUpdate(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_C, new BatchPreparedStatementSetter() {
@@ -475,7 +479,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		}
 		return true;
 	}
-	
+
 	private boolean insertCTDSLEVELCP(String compId,List<ReimbursementAssignmentDTO> reimbursementAssignmentDTOs,JdbcTemplate jdbcTemplate) throws DAOException {
 		try {
 			jdbcTemplate.batchUpdate(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_CP, new BatchPreparedStatementSetter() {
@@ -534,14 +538,150 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		}
 		return true;
 	}
-	
+
 	public List<ReimbursementAssignmentDTO> insertReimbursementAssignmentDetails(String compId,List<ReimbursementAssignmentDTO> reimbursementAssignmentDTOs) throws DAOException {
 		boolean isSaved = false;
 		JdbcTemplate jdbcTemplate = DAOFactory.getJdbcTemplate("gm");
-		
+
 		insertCTDSLEVELC(compId, reimbursementAssignmentDTOs, jdbcTemplate);
 		insertCTDSLEVELCP(compId, reimbursementAssignmentDTOs, jdbcTemplate);
 		return reimbursementAssignmentDTOs;
+	}
+
+	private boolean insertCTDSLEVELMSRVC(String compId,ReimbursementProcessingDTO reimbursementProcessingDTO,JdbcTemplate jdbcTemplate) throws DAOException {
+		try {
+			List<ReimbursementProcessingServiceDTO> reimbursementProcessingServiceDTOs  = reimbursementProcessingDTO.getProcessingServiceDTOs();
+			jdbcTemplate.batchUpdate(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MSRVC, new BatchPreparedStatementSetter() {
+				@Override
+				public void setValues(PreparedStatement ps, int i) throws SQLException {
+					ReimbursementProcessingServiceDTO processingServiceDTO = reimbursementProcessingServiceDTOs.get(i);
+					Long clcpId = getSequenceNo(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MSRVC_SEQUENCE_NAME);
+					processingServiceDTO.setReimbursementProcessId(clcpId);
+					java.sql.Date treatmentFromDate = null;
+					java.sql.Date treatmentToDate = null;
+					java.sql.Date statusDate = null;
+					java.sql.Date approvedDate = null;
+					java.sql.Date updatedDate = null;
+					java.sql.Date createdDate = null;
+					if (processingServiceDTO.getTreatmentFromDate() != null) {
+						treatmentFromDate = java.sql.Date.valueOf(processingServiceDTO.getTreatmentFromDate());
+					}
+					if (processingServiceDTO.getTreatmentToDate() != null) {
+						treatmentToDate = java.sql.Date.valueOf(processingServiceDTO.getTreatmentToDate());
+					}
+					if (processingServiceDTO.getStatusDate() != null) {
+						statusDate = java.sql.Date.valueOf(processingServiceDTO.getStatusDate());
+					}
+					if (processingServiceDTO.getApprovedDate() != null) {
+						approvedDate = java.sql.Date.valueOf(processingServiceDTO.getApprovedDate());
+					}
+					updatedDate = new java.sql.Date(new Date().getTime());
+					createdDate = new java.sql.Date(new Date().getTime());
+					ps.setLong(1, processingServiceDTO.getReimbursementProcessId());
+					ps.setLong(2, reimbursementProcessingDTO.getId());
+					ps.setLong(3, 0);
+					ps.setDate(4, treatmentFromDate);
+					ps.setDate(5, treatmentToDate);
+					ps.setLong(6, processingServiceDTO.getNoOfTreamentDays());
+					ps.setString(7, processingServiceDTO.getServiceType());
+					ps.setString(8, processingServiceDTO.getServiceId());
+					ps.setString(9, processingServiceDTO.getBenefitId());
+					ps.setString(10, processingServiceDTO.getSubBenefitId());
+					ps.setString(11, processingServiceDTO.getCurrencyId());
+					ps.setBigDecimal(12, processingServiceDTO.getRequestedAmount());
+					ps.setBigDecimal(13, processingServiceDTO.getRequestedAmountBC());
+					ps.setBigDecimal(14, null);
+					ps.setBigDecimal(15, null);
+					ps.setBigDecimal(16, processingServiceDTO.getManualDeductionAmount());
+					ps.setBigDecimal(17, processingServiceDTO.getManualDeductionAmountBC());
+					ps.setBigDecimal(18, processingServiceDTO.getPenaltyAmount());
+					ps.setBigDecimal(19, processingServiceDTO.getPenaltyAmountBC());
+					ps.setBigDecimal(20, processingServiceDTO.getSuggestedAmout());
+					ps.setBigDecimal(21, processingServiceDTO.getSuggestedAmoutBC());
+					ps.setBigDecimal(22, processingServiceDTO.getApprovedAmount());
+					ps.setBigDecimal(23, processingServiceDTO.getApprovedAmountBC());
+					ps.setString(24, processingServiceDTO.getInternalRejectionCode());
+					ps.setBigDecimal(25, processingServiceDTO.getRejectedAmount());
+					ps.setBigDecimal(26, processingServiceDTO.getRejectedAmountBC());
+					ps.setString(27, processingServiceDTO.getClaimStatus());
+					ps.setDate(28, statusDate);
+					ps.setString(29, processingServiceDTO.getInternalRemarks());
+					ps.setString(30, processingServiceDTO.getExternalRemarks());
+					ps.setString(31, processingServiceDTO.getLossType());
+					ps.setString(32, processingServiceDTO.getEstType());
+					ps.setString(33, "");
+					ps.setString(34, "");
+					ps.setString(35, "");
+					ps.setString(36, processingServiceDTO.getCreatedBy());
+					ps.setDate(37, createdDate);
+					ps.setString(38, processingServiceDTO.getUpdatedBy());
+					ps.setDate(39, updatedDate);
+					ps.setString(40, processingServiceDTO.getApprovedBy());
+					ps.setDate(41, approvedDate);
+					ps.setString(42, processingServiceDTO.getCurrencyType());
+				}
+				@Override
+				public int getBatchSize() {
+					return reimbursementProcessingServiceDTOs.size();
+				}
+			});
+		} catch (Exception e) {
+			writeLog(CLASS_NAME, "Exception occured while executing insertCTDSLEVELMSRVC", ERROR, e);
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return true;
+	}
+
+	private boolean insertCTDSLEVELMC(String compId,ReimbursementProcessingDTO reimbursementProcessingDTO,JdbcTemplate jdbcTemplate) throws DAOException {
+
+		jdbcTemplate.update(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MC,
+				new Object[] { reimbursementProcessingDTO.getId(), 
+						reimbursementProcessingDTO.getClaimNumber(), 
+						reimbursementProcessingDTO.getRequestNumber(), 
+						reimbursementProcessingDTO.getClaimType(),
+						reimbursementProcessingDTO.getEventCountry(), 
+						reimbursementProcessingDTO.getClaimCondition(),
+						reimbursementProcessingDTO.getClaimStatusReason()
+		});
+
+		return true;
+	}
+
+	private boolean insertCTDSLEVELMDIAG(String compId,Long sgsId,DiagnosisDTO diagnosisDTO, JdbcTemplate jdbcTemplate) throws DAOException {
+		java.sql.Date updatedDate = new java.sql.Date(new Date().getTime());
+		java.sql.Date createdDate = new java.sql.Date(new Date().getTime());
+		jdbcTemplate.update(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MDIAG,
+				new Object[] { sgsId, 
+						diagnosisDTO.getDiagId(), 
+						diagnosisDTO.getDiagType(), 
+						diagnosisDTO.getCreatedBy(),
+						createdDate, 
+						diagnosisDTO.getUpdatedBy(),
+						updatedDate
+		});
+		return true;
+	}
+	
+	public ReimbursementProcessingDTO insertReimbursementProcessingDetails(String compId,ReimbursementProcessingDTO processingDTO) throws DAOException {
+		JdbcTemplate jdbcTemplate = DAOFactory.getJdbcTemplate("gm");
+		insertCTDSLEVELMSRVC(compId, processingDTO, jdbcTemplate);
+		insertCTDSLEVELMC(compId, processingDTO, jdbcTemplate);
+		insertCTDSLEVELMDIAG(compId, processingDTO.getId(), processingDTO.getPrimaryDiagnosis(), jdbcTemplate);
+		insertCTDSLEVELMDIAG(compId, processingDTO.getId(), processingDTO.getSecondaryDiagnosis(), jdbcTemplate);
+		return processingDTO;
+	}
+	
+	public List<ReimbursementProcessingDTO> getProcessingDetailsById(String query ,Map<String,Object> inputMap) throws DAOException {
+		NamedParameterJdbcTemplate  namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValues(inputMap);
+		return namedParameterJdbcTemplate.query(query, parameters, new RowMapper<ReimbursementProcessingDTO>() {
+			@Override
+			public ReimbursementProcessingDTO mapRow(ResultSet row, int count) throws SQLException {
+				return ReimbProcessingMapper.getReimbursementProcessingDTO(row);
+			}
+		});
 	}
 
 }

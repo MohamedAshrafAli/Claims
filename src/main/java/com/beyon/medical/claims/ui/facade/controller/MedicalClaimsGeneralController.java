@@ -116,7 +116,7 @@ public class MedicalClaimsGeneralController{
 	public @ResponseBody ObjectNode getCurrencyDetailsForPolicyNo(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
 		ObjectNode currencyDetails = null;
 		try {
-			currencyDetails = uiServiceFacade.getCurrencyDetailsForPolicyNo(inputMap);
+			currencyDetails = uiServiceFacade.getCurrencyDetails(inputMap,false);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
@@ -176,5 +176,16 @@ public class MedicalClaimsGeneralController{
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
 		return userList;
+	}
+	
+	@PostMapping("/getUniversalCurrencyDetails")
+	public @ResponseBody ObjectNode getUniversalCurrencyDetails(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode currencyDetails = null;
+		try {
+			currencyDetails = uiServiceFacade.getCurrencyDetails(inputMap,true);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return currencyDetails;
 	}
 }
