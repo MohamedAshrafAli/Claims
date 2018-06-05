@@ -58,8 +58,20 @@ public final class GeneralQueriesConstants implements Serializable{
 	public static final String GENERAL_QUERIES_UID_PAYMENT_TYPE = claimsResourceBundle.getString("medical.claim.general.queries.uid.paymenttype");
 	public static final String GENERAL_QUERIES_UID_DOCUMENT_TYPE = claimsResourceBundle.getString("medical.claim.general.queries.uid.documenttype");
 	public static final String GENERAL_QUERIES_UID_SOURCE_TYPE = claimsResourceBundle.getString("medical.claim.general.queries.uid.sourcetype");
+	public static final String GENERAL_QUERIES_UID_CLAIMS_STATUS_REASON_TYPE = claimsResourceBundle.getString("medical.claim.general.queries.uid.claimstatusreason");
+	public static final String GENERAL_QUERIES_UID_EST_TYPE = claimsResourceBundle.getString("medical.claim.general.queries.uid.esttype");
+	public static final String GENERAL_QUERIES_UID_LOSS_TYPE = claimsResourceBundle.getString("medical.claim.general.queries.uid.losstype");
+	public static final String GENERAL_QUERIES_UID_DIAG_TYPE = claimsResourceBundle.getString("medical.claim.general.queries.uid.diagtype");
+	public static final String GENERAL_QUERIES_UID_CLAIM_TYPE = claimsResourceBundle.getString("medical.claim.general.queries.uid.claimtype");
+	public static final String GENERAL_QUERIES_UID_CLAIM_CONDITION = claimsResourceBundle.getString("medical.claim.general.queries.uid.claimcondition");
+
 	
+
 	public static final String GENERAL_QUERIES_USER_LIST = claimsResourceBundle.getString("medical.claim.general.queries.user.lists");
+	public static final String GENERAL_QUERIES_SERVICE_CODE_DETAILS = claimsResourceBundle.getString("medical.claim.general.queries.service.code.details");
+	public static final String GENERAL_QUERIES_DIAGNOSIS_CODE_DETAILS = claimsResourceBundle.getString("medical.claim.general.queries.diagnosis.code.details");
+	public static final String GENERAL_QUERIES_REJECTION_CODE_DETAILS = claimsResourceBundle.getString("medical.claim.general.queries.rejection.code.details");
+
 
 
 }

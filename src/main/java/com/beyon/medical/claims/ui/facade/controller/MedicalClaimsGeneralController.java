@@ -144,4 +144,26 @@ public class MedicalClaimsGeneralController{
 		} 
 		return userDivision;
 	}
+	
+	@PostMapping("/getServiceCodeDetails")
+	public @ResponseBody ObjectNode getServiceCodeDetails(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode userList = null;
+		try {
+			userList = uiServiceFacade.getServiceCodeDetails(inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return userList;
+	}
+	
+	@PostMapping("/getDiagnosisCodeDetails")
+	public @ResponseBody ObjectNode getDiagnosisCodeDetails(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode userList = null;
+		try {
+			userList = uiServiceFacade.getDiagnosisCodeDetails(inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return userList;
+	}
 }
