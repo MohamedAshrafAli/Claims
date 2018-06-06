@@ -43,7 +43,13 @@
 
         UIDefinationService.getDocumentTypes({'compId' : '0021'}, function(resp) {
             $scope.documentTypes = resp.rowData;
-            $scope.documentMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
+            //$scope.documentMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
+            $scope.documentTypes.forEach(function(item){
+                item.boolean = true;
+                return item;
+            })
+            $scope.documentMap = ReimbursementRegistrationFactory.constructUidMap($scope.documentTypes, "id", "value");
+            console.log('DOCUMENT',$scope.documentTypes);
         })
         UIDefinationService.getSourceTypes({'compId' : '0021'}, function(resp) {
             $scope.sourceTypes = resp.rowData;
@@ -93,6 +99,13 @@
 
         $scope.saveRegistrationDetails = function() {
             if($scope.form.$invalid){
+                if($scope.fileInfos == undefined || $scope.fileInfos.length == 0){
+                    $scope.documentsUpload();
+                   
+                }else{
+                    documentsTypes();
+                }
+                
                 $scope.localValidation = true;
                 return;
             }
@@ -122,6 +135,7 @@
         $scope.uploadFiles = function(files, doc) {
             $scope.files = files;
             $scope.fileInfos = ($scope.fileInfos && $scope.fileInfos.length) ? $scope.fileInfos :[];
+            console.log('FILEINFO',$scope.fileInfos);
             $scope.uploadedId = $scope.hasMandatory ? Math.random() : null;
             var files = [];
             angular.forEach($scope.files, function(value, key) {
@@ -133,6 +147,7 @@
                     var file = constructFileObj(value, event, doc);
                     files.push(file);
                     $scope.fileInfos.push(file);
+                    doc.boolean = false;
                     $scope.$apply(function() {
                         $timeout(function() {
                             value.progress = 100;
@@ -142,6 +157,9 @@
                 };
                 reader.readAsDataURL(value);
             });
+            if($scope.fileInfos && $scope.fileInfos.length){
+                doc.boolean = false;
+            }
         }
 
         function constructFileObj(file, event, doc) {
@@ -366,6 +384,29 @@
         $scope.clearDocFilter = function() {
             $scope.docTypes = [];
             $scope.documents = angular.copy($scope.fileInfos);
+        }
+       function documentsTypes() {
+            var documents = [];
+            var validation = false;
+                $scope.documentTypes.forEach(function(type) {
+                    type.boolean = true;
+                    var boolean = false;
+                    var filteredFiles =  $scope.fileInfos.filter(function(item) {
+                        if (item.docTypeId == type.id){
+                            if(!boolean){
+                                boolean = true;
+                                type.boolean =false;
+                            }
+                            return;
+                        }
+                    })
+                    if(type.boolean && !validation ){
+                        validation = true;
+                    }
+                })
+                if(validation){
+                    $scope.documentsUpload();
+                }
         }
 
         init();
