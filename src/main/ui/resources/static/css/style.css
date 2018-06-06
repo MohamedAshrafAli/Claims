@@ -1972,4 +1972,14 @@ md-select[disabled] .md-select-value,
     .modal-lg {
         width:1000px;
     }
+}
+.md-select-menu-container {
+    z-index: 10001;
 } 
+.ft{
+    font-size:14px;
+}   
+.colr{
+    font-size:12px;
+    color: #6492a3 !important
+}

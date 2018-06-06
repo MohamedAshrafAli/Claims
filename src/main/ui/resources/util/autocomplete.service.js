@@ -47,28 +47,20 @@
                     method: 'POST',
                     url: urlRoutePrefix + resourceUrl + '/getUserList'
                 },
-                //Reimbursement-Processing (Treatment Code)
-                'getTreatmentCode': {
+                'getTreatmentCodes': {
                     method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getEmiratesId'
+                    url: urlRoutePrefix + resourceUrl + '/getServiceCodeDetails'
                 },
-                //Reimbursement-Processing (Rejection Code)
-                'getRejectionCode': {
+                'getRejectionCodes': {
                     method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getEmiratesId'
+                    url: urlRoutePrefix + resourceUrl + '/getRejectionCodeDetails'
                 },
-                //Reimbursement-Processing (Treatment Code/ sub Benefit)
-                'getTreatmentSubBenefit': {
+                'getDiagnosisCodes': {
                     method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getEmiratesId'
-                },
-                //Reimbursement-Processing (secondary Diagnosis)
-                'getSecondaryDiagnosis': {
-                    method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getEmiratesId'
+                    url: urlRoutePrefix + resourceUrl + '/getDiagnosisCodeDetails'
                 },
                 //Reimbursement-Processing (providerCode)
-                'getProviderCode': {
+                'getProviderCodes': {
                     method: 'POST',
                     url: urlRoutePrefix + resourceUrl + '/getEmiratesId'
                 },
@@ -77,10 +69,9 @@
                     method: 'POST',
                     url: urlRoutePrefix + resourceUrl + '/getEmiratesId'
                 },
-                //Reimbursement-Processing (primaryDiagnosis)
-                'getPrimaryDiagnosis': {
+                'getUniversalCurrencyDetails': {
                     method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getEmiratesId'
+                    url: urlRoutePrefix + resourceUrl + '/getUniversalCurrencyDetails'
                 }
             })
         }

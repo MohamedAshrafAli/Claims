@@ -18,52 +18,42 @@
                                             </button>
                                         </h5>
                                     </div>
-                                </uib-accordion-heading> 
+                                </uib-accordion-heading>
                                 <div class="accordion-input">
-                                    <div>
-                                        <!-- <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.primaryDiag.$invalid}">    
-                                            <label>Primary Diagnosis</label>
-                                            <input name="primaryDiag" type="text" ng-model="providerDetails.primaryDiagnosis" ng-value="'501.02'" required />
-                                        </md-input-container> -->
+                                    <div class="clearfix">
                                         <md-autocomplete
-                                            md-selected-item="claim.treatmentCode"
-                                            md-search-text="primaryDiagnosis"
-                                            md-items="item in getAutoCompleteList(primaryDiagnosis,'emiratesId','getPrimaryDiagnosis')"
-                                            md-item-text="item['CLMR_UID_ID']"
+                                            ng-disabled="!claim.treatmentFromDate"
+                                            md-selected-item="claim.primaryDiagnosis"
+                                            md-search-text="primaryDiagsearchText"
+                                            md-items="item in getDiagnosisCodes(primaryDiagsearchText, 'diagnosisCode')"
+                                            md-item-text="item.displayName"
                                             md-floating-label="Primary Diagnosis"
                                             md-clear-button="true"
+                                            md-no-cache="true"
+                                            md-delay="500"
                                             style="height: 55px;">
                                             <md-item-template>
-                                                <span md-highlight-text="primaryDiagnosis" md-highlight-flags="^i">{{item['CLMR_UID_ID']}} </span>
+                                                <span md-highlight-text="primaryDiagsearchText">{{item.displayName}} </span>
                                             </md-item-template>
                                             <md-not-found>
                                                 No Result Found
                                             </md-not-found>
                                         </md-autocomplete>
                                     </div>
-                                    <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.primaryDiagDisc.$invalid}">
-                                            <label>Primary Diagnosis Disc</label>
-                                            <input name="primaryDiagDisc" type="text" ng-model="providerDetails.primaryDiagDisc" ng-value="'Surgery'" required />
-                                        </md-input-container>
-                                    </div>
-                                    <!-- <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.secDiag.$invalid}">    
-                                            <label>Secondary Diagnosis (ICD)</label>
-                                            <input name="secDiag" type="text" ng-model="providerDetails.secDiagnosis" ng-value="'301.2,508.2'" required />
-                                        </md-input-container>
-                                    </div> -->
-                                    <div>
+                                    <div class="clearfix">
                                         <md-autocomplete
+                                            ng-disabled="!claim.treatmentFromDate"
                                             md-selected-item="claim.secondaryDiagnosis"
-                                            md-search-text="secondaryDigText"
-                                            md-items="item in getAutoCompleteList(secondaryDigText,'emiratesId','getSecondaryDiagnosis')"
-                                            md-item-text="item['CLMR_UID_ID']"
+                                            md-search-text="secDiagsearchText"
+                                            md-items="item in getDiagnosisCodes(secDiagsearchText, 'diagnosisCode')"
+                                            md-item-text="item.displayName"
                                             md-floating-label="Secondary Diagnosis (ICD)"
                                             md-clear-button="true"
+                                            md-no-cache="true"
+                                            md-delay="500"
                                             style="height: 55px;">
                                             <md-item-template>
-                                                <span md-highlight-text="secondaryDigText" md-highlight-flags="^i">{{item['CLMR_UID_ID']}} </span>
+                                                <span md-highlight-text="secDiagsearchText">{{item.displayName}} </span>
                                             </md-item-template>
                                             <md-not-found>
                                                 No Result Found
@@ -71,76 +61,64 @@
                                         </md-autocomplete>
                                     </div>
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.secDiagDesc.$invalid}">    
-                                            <label>Secondary Diagnosis Description</label>
-                                            <input name="secDiagDesc" type="text" ng-model="providerDetails.secDiagnosisDesc" required />
-                                        </md-input-container>
-                                    </div>
-                                    <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.providerName.$invalid}">    
-                                            <label>Provider Name</label>
-                                            <input name="providerName" type="text" ng-model="providerDetails.providerName" ng-value="'Alnoor Hospital'" required />
-                                        </md-input-container>
-                                    </div>
-                                    <!-- <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.providerCode.$invalid}">    
+                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.providerCode.$invalid}">
                                             <label>Provider Code</label>
-                                            <input name="providerCode" type="text" ng-model="providerDetails.providerCode" ng-value="'4341'" required />
-                                        </md-input-container>
-                                    </div> -->
-                                    <div>
-                                        <md-autocomplete
-                                            md-selected-item="claim.providerCode"
-                                            md-search-text="providerCode"
-                                            md-items="item in getAutoCompleteList(providerCode,'emiratesId','getProviderCode')"
-                                            md-item-text="item['CLMR_UID_ID']"
-                                            md-floating-label="providerCode"
-                                            md-clear-button="true"
-                                            style="height: 55px;">
-                                            <md-item-template>
-                                                <span md-highlight-text="providerCode" md-highlight-flags="^i">{{item['CLMR_UID_ID']}} </span>
-                                            </md-item-template>
-                                            <md-not-found>
-                                                No Result Found
-                                            </md-not-found>
-                                        </md-autocomplete>
-                                    </div>
-                                    <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.providerLicense.$invalid}">    
-                                            <label>Provider License</label>
-                                            <input name="providerLicense" type="text" ng-model="providerDetails.providerLicense" ng-value="'MF28291'" required />
-                                        </md-input-container>
-                                    </div>
-                                    <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.voucherNum.$invalid}">    
-                                            <label>Voucher Number</label>
-                                            <input name="voucherNum" type="text" ng-model="providerDetails.voucherNumber" required />
-                                        </md-input-container>
-                                    </div>
-                                    <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm  ng-class="{'md-input-invalid' : submitted && processingForm.encTyp.$invalid}">
-                                            <label>Encounter Type </label>
-                                            <input name="encTyp" type="text" ng-model="providerDetails.encounterType" required />
+                                            <input name="providerCode" type="text" ng-model="selectedClaim.providerCode" ng-value="'4341'" required />
                                         </md-input-container>
                                     </div>
                                     <div class="fldsWrap clearfix">
                                         <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.claimTyp.$invalid}">    
                                             <label>Claim Type</label>
-                                            <input name="claimTyp" type="text" ng-model="providerDetails.claimType" required />
+                                            <md-select md-input-name="claimTyp" name="claimTyp" ng-model="selectedClaim.claimType" required>
+                                                <md-option value="{{option.id}}" ng-repeat="option in claimTypes">{{option.value}}</md-option>
+                                            </md-select>
                                         </md-input-container>
+                                    </div>
+                                    <div class="fldsWrap clearfix">
+                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && reimbursementForm.eventCountry.$invalid}">
+                                            <label>Event Country</label>
+                                            <input name="eventCountry" type="text" ng-model="claimDetails.country" required />
+                                        </md-input-container>
+                                    </div>
+                                    <div class="fldsWrap clearfix">
+                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && reimbursementForm.claimCondition.$invalid}">
+                                            <label>Claim Condition</label>
+                                            <input name="claimCondition" type="text" ng-model="selectedClaim.claimCondition" ng-value="'Special Case/Ex-Gratia'" required/>
+                                        </md-input-container>
+                                        <!-- <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.claimCondition.$invalid}">
+                                            <label>Claim Condition</label>
+                                            <md-select md-input-name="claimCondition" name="claimCondition" ng-model="selectedClaim.claimCondition" required>
+                                                <md-option value="{{option.id}}" ng-repeat="option in claimConditions">{{option.value}}</md-option>
+                                            </md-select>
+                                        </md-input-container> -->
                                     </div>
                                     <div ng-show="showProviderMore">
                                         <div class="fldsWrap clearfix">
-                                            <md-input-container flex-gt-sm>    
-                                                <label>Provider Network</label>
-                                                <input type="text" ng-model="providerDetails.providerNetwork" ng-value="'P,S,G'" ng-disabled="true">
-                                            </md-input-container>
+                                            <label class="colr">Primary Diagnosis Disc</label>
+                                            <P class="ft">{{claim.primaryDiagnosis.DiagnosisName}}</P>
+                                        </div>
+                                        <div class="fldsWrap clearfix">
+                                            <label class="colr">Secondary Diagnosis Description</label>
+                                            <P class="ft">{{claim.secondaryDiagnosis.DiagnosisName}}</P>
+                                        </div>
+                                        <div class="fldsWrap clearfix">
+                                            <label class="colr">Provider Name</label>
+                                            <p class="ft">{{selectedClaim.providerName}}</p>
+                                        </div>
+                                        <div class="fldsWrap clearfix">
+                                            <label class="colr">Provider License</label>
+                                            <p class="ft">{{selectedClaim.providerLicense}}</p>
+                                        </div>
+                                        <div class="fldsWrap clearfix">
+                                            <label class="colr">Provider Network</label>
+                                            <p class="ft">{{selectedClaim.providerNetwork}}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <a href="javascript:;" class="btn-link moreBtn" ng-show="!showProviderMore" ng-click="showProviderMore=!showProviderMore">More...</a>
                                 <a href="javascript:;" class="btn-link moreBtn" ng-show="showProviderMore" ng-click="showProviderMore=!showProviderMore">Few...</a>
-                            </div>
+                            </div> 
+                                
                             <div uib-accordion-group class="panel-default" is-open="accordionToggle.isClaimDetailOpen">
                                 <uib-accordion-heading>
                                     <div class="p-1">
@@ -153,29 +131,14 @@
                                     </div>
                                 </uib-accordion-heading>
                                 <div class="accordion-input">
-                                    <!-- <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.eventCountry.$invalid}">    
-                                            <label>Event Country</label>
-                                            <input name="eventCountry" type="text" ng-model="claimDetails.country" required />
-                                        </md-input-container>
-                                    </div> -->
-                                    <div>
-                                        <md-autocomplete
-                                            md-selected-item="claim.eventCountry"
-                                            md-search-text="eventCountry"
-                                            md-items="item in getAutoCompleteList(eventCountry,'emiratesId','geteventCountry')"
-                                            md-item-text="item['CLMR_UID_ID']"
-                                            md-floating-label="Event Country"
-                                            md-clear-button="true"
-                                            style="height: 55px;">
-                                            <md-item-template>
-                                                <span md-highlight-text="eventCountry" md-highlight-flags="^i">{{item['CLMR_UID_ID']}} </span>
-                                            </md-item-template>
-                                            <md-not-found>
-                                                No Result Found
-                                            </md-not-found>
-                                        </md-autocomplete>
+                                    <div class="fldsWrap clearfix">
+                                        <label class="colr">Voucher Number</label>
+                                        <p class="ft">{{selectedClaim.voucherNumber}}</p>
                                     </div>
+                                    <div class="fldsWrap clearfix">
+                                        <label class="colr">Encounter Type </label>
+                                        <p class="ft"> {{encounterTypeMap[selectedClaim.encType]}}</p>
+                                    </div>                                    
                                 </div>
                             </div>
                             <div uib-accordion-group class="panel-default" is-open="accordionToggle.isPolicyDetailOpen">
@@ -191,41 +154,25 @@
                                 </uib-accordion-heading>
                                 <div class="accordion-input">
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.claimCondition.$invalid}">
-                                            <label>Claim Condition</label>
-                                            <input name="claimCondition" type="text" ng-model="policyDetails.claimCondition" ng-value="'Special Case/Ex-Gratia'" required/>
-                                        </md-input-container>
+                                        <label class="colr">Policy No/Renewal No</label>
+                                        <p class="ft">{{selectedClaim.policyNumber}}</p>
+                                    </div>
+                                    <div class="fldsWrap clearfix">
+                                        <label class="colr">Policy Name</label>
+                                        <p class="ft">{{selectedClaim.policyName}}</p>
                                     </div>
                                     <div ng-show="showPolicyMore">
                                         <div class="fldsWrap clearfix">
-                                            <md-input-container flex-gt-sm>    
-                                                <label>Policy No/Renewal No</label>
-                                                <input type="text" ng-model="policyDetails.policyNumber" ng-value="'515621'" ng-disabled="true">
-                                            </md-input-container>
+                                            <label class="colr">Policy Start</label>
+                                            <p class="ft"> {{selectedClaim.policyFromDate | customeDate}}</p>
                                         </div>
                                         <div class="fldsWrap clearfix">
-                                            <md-input-container flex-gt-sm>    
-                                                <label>Policy Name</label>
-                                                <input type="text" ng-model="policyDetails.policyName" ng-value="'Medic Policy'" ng-disabled="true">
-                                            </md-input-container>
-                                        </div>
-                                        <div class="fldsWrap clearfix"> 
-                                            <md-input-container flex-gt-sm>    
-                                                <label>Policy Start</label>
-                                                <md-datepicker  ng-keyup="clearDatepickerKeyupValue($event);" ng-model="policyDetails.policyStart" md-hide-icons="triangle" md-open-on-focus ng-disabled="true"></md-datepicker>
-                                            </md-input-container>
+                                            <label class="colr">Policy End</label>
+                                            <p class="ft"> {{selectedClaim.policyToDate | customeDate}}</p>
                                         </div>
                                         <div class="fldsWrap clearfix">
-                                            <md-input-container flex-gt-sm>    
-                                                <label>Policy End</label>
-                                                <md-datepicker ng-keyup="clearDatepickerKeyupValue($event);" ng-model="policyDetails.policyEnd" md-hide-icons="triangle" md-open-on-focus ng-disabled="true"></md-datepicker>
-                                            </md-input-container>
-                                        </div>
-                                        <div class="fldsWrap clearfix">
-                                            <md-input-container flex-gt-sm>    
-                                                <label>Claim Paid To</label>
-                                                <input type="text" ng-model="policyDetails.claimPaidTo" ng-value="'Principle Member/Customer'"  ng-disabled="true">
-                                            </md-input-container>
+                                            <label class="colr">Claim Paid To</label>
+                                            <p class="ft">{{selectedClaim.claimPaidTo}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -245,65 +192,45 @@
                                 </uib-accordion-heading>
                                 <div class="accordion-input">
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.memberName.$invalid}">
-                                            <label>Member Name</label>
-                                            <input  name="memberName" type="text" ng-model="memberDetails.memberName" ng-value="'Khalifa'" ng-disabled="true" required />
-                                        </md-input-container>
+                                        <label class="colr">Member Name</label>
+                                        <p class="ft">{{selectedClaim.memberName}}</p>
                                     </div>
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.memberNum.$invalid}">    
-                                            <label>Member No</label>
-                                            <input name="memberNum" type="text" ng-model="memberDetails.memberNo" ng-value="'500001-1-A'" ng-disabled="true" required />
-                                        </md-input-container>
+                                        <label class="colr">Member No</label>
+                                        <p class="ft">{{selectedClaim.memberNumber}}</p>
                                     </div>
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.category.$invalid}">    
-                                            <label>Category</label>
-                                            <input name="category" type="text" ng-model="memberDetails.category" ng-value="'B'" ng-disabled="true" required />
-                                        </md-input-container>
+                                        <label class="colr">Category</label>
+                                        <p class="ft">{{selectedClaim.memberCategory}}</p>
                                     </div>
                                     <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm ng-class="{'md-input-invalid' : submitted && processingForm.gender.$invalid}">    
-                                            <label>Gender</label>
-                                            <input name="gender" type="text" ng-model="memberDetails.gender" ng-value="'Male'" ng-disabled="true" required />
-                                        </md-input-container>
+                                        <label class="colr">Gender</label>
+                                        <p class="ft">{{selectedClaim.gender}}</p>
                                     </div>
                                     <div ng-show="showMemberMore">
                                         <div class="fldsWrap clearfix">
-                                            <md-input-container flex-gt-sm>    
-                                                <label>Age</label>
-                                                <input type="number" ng-model="memberDetails.age" ng-value="'52'" ng-disabled="true">
-                                            </md-input-container>
+                                            <label class="colr">Age</label>
+                                            <p class="ft">{{selectedClaim.age}}</p>
                                         </div>
                                         <div class="fldsWrap clearfix">
-                                            <md-input-container flex-gt-sm>    
-                                                <label>Member Network</label>
-                                                <input type="text" ng-model="memberDetails.memberNetwork" ng-value="'P'" ng-disabled="true">
-                                            </md-input-container>
+                                            <label class="colr">Member Network</label>
+                                            <P class="ft">{{selectedClaim.memberNetwork}}</P>
                                         </div>
                                         <div class="fldsWrap clearfix">
-                                            <md-input-container flex-gt-sm>    
-                                                <label>Member Terminated Date</label>
-                                                <md-datepicker ng-keyup="clearDatepickerKeyupValue($event);" ng-model="memberDetails.memberTerminatedDate" md-hide-icons="triangle" md-open-on-focus ng-disabled="true"></md-datepicker>
-                                            </md-input-container>
+                                            <label class="colr">Member Start Date</label>
+                                            <p>{{selectedClaim.memberStartDate | customeDate}}</p>
                                         </div>
                                         <div class="fldsWrap clearfix">
-                                            <md-input-container flex-gt-sm>    
-                                                <label>Member Start Date</label>
-                                                <md-datepicker ng-keyup="clearDatepickerKeyupValue($event);" ng-model="memberDetails.memberStartDate" md-hide-icons="triangle" md-open-on-focus ng-disabled="true"></md-datepicker>
-                                            </md-input-container>
+                                            <label class="colr">Member Terminated Date</label>
+                                            <p>{{selectedClaim.memberTerminatedDate | customeDate}}</p>
                                         </div>
                                         <div class="fldsWrap clearfix">
-                                            <md-input-container flex-gt-sm>    
-                                                <label>Card Received Date</label>
-                                                <md-datepicker ng-keyup="clearDatepickerKeyupValue($event);" ng-model="memberDetails.cardRecievedDate" md-hide-icons="triangle" md-open-on-focus ng-disabled="true"></md-datepicker>
-                                            </md-input-container>
+                                            <label class="colr">Card Received Date</label>
+                                            <p> {{selectedClaim.cardRecievedDate | customeDate}}</p>
                                         </div>
                                         <div class="fldsWrap clearfix">
-                                            <md-input-container flex-gt-sm>    
-                                                <label>Dependency/Relation</label>
-                                                <input type="text" ng-model="memberDetails.dependencyOrRelation" ng-value="'Principle Member'" ng-disabled="true">
-                                            </md-input-container>
+                                            <label class="colr">Dependency/Relation</label>
+                                            <p class="ft">{{selectedClaim.relationWithPrimary}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -321,11 +248,11 @@
                         <div class="row">
                             <li>
                                 <span>Claim Number</span>
-                                <strong>{{selectedClaim.claimNo}}</strong>
+                                <strong>{{selectedClaim.claimNumber}}</strong>
                             </li>
                             <li>
                                 <span>Request Number</span>
-                                <strong>{{selectedClaim.requestNo}}</strong>
+                                <strong>{{selectedClaim.requestNumber}}</strong>
                             </li>
                             <li>
                                 <span>Status</span>
@@ -333,14 +260,14 @@
                             </li>
                             <li>
                                 <span>Policy Number</span>
-                                <strong>{{selectedClaim.policyNo}}</strong>
+                                <strong>{{selectedClaim.policyNumber}}</strong>
                             </li>
                             <li>
                                 <span>Member Number</span>
-                                <strong>{{selectedClaim.memberNo}}</strong>
+                                <strong>{{selectedClaim.memberNumber}}</strong>
                             </li>
                         </div>
-                        <div class="row processing-carousel">
+                        <!-- <div class="row processing-carousel">
                             <ui-carousel slides="claimReqList" class="" slides-to-show="1" slides-to-scroll="1" initial-slide="0" style="width:100%;margin:0px">
                                 <carousel-item  class="eclaim-item">
                                     <ul>
@@ -368,16 +295,14 @@
                                     <a href="javascript:;" class="requstListRightArrow"><span class="oi" data-glyph="chevron-right"></span></a>
                                 </carousel-next>
                             </ui-carousel>
-                        </div>
+                        </div> -->
                     </div>                    
                     <div class="medicalCardInfoBox medicalCardInfoBoxShow" id="medicalCardInfoBox">
                         <h3>Medical card info</h3>
-                        <!-- <ul> -->
                             <li style="list-style: none;">
                                 <span style="width: auto !important;padding-left: 6px;"> Insured Name:</span>
                                 <span>Naseeha</span>
                             </li> 
-                        <!-- </ul> -->
                         <ul>
                             <li>
                                 <span>Age:</span>
@@ -395,10 +320,6 @@
                                 <span>Member N/W:</span>
                                 <span>AEM</span>
                             </li> 
-                        <!-- <li>
-                        <span>Policy Name:</span>
-                        <span>HTS-Medic Policy HTS-Medic Policy HTS-Medic Policy</span>
-                        </li>  -->
                             <li>
                                 <span>Inpatient: </span>
                                 <span>Nil</span>
@@ -426,64 +347,70 @@
                     <div class="claimRequestDetails">
                         <div class="claimRequestDetInner mb-3 clearfix">
                             <div layout-gt-sm="row" class="col-sm-12 pb-1">
+                                <div class="float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 35% !important;">
+                                    <md-input-container flex-gt-sm style="margin-top: 18px;">    
+                                        <label>Service From</label>
+                                        <md-datepicker ng-keyup="clearDatepickerKeyupValue($event);" ng-model="claim.treatmentFromDate" md-hide-icons="triangle" md-open-on-focus></md-datepicker>
+                                    </md-input-container>
+                                </div>
+                                <div class="float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 35% !important;">
+                                    <md-input-container flex-gt-sm style="margin-top: 18px;">    
+                                        <label>Service To</label>
+                                        <md-datepicker ng-keyup="clearDatepickerKeyupValue($event);" ng-model="claim.treatmentToDate" md-hide-icons="triangle" md-open-on-focus></md-datepicker>
+                                    </md-input-container>
+                                </div>
+                                <div class="float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 20% !important;">
+                                    <md-input-container flex-gt-sm style="margin-top: 18px;">    
+                                        <label>Days</label>
+                                        <input type="number" ng-model="claim.noOfTreamentDays" ng-change="constructServiceTo()" autocomplete="off">
+                                    </md-input-container>
+                                </div>
                                 <div class="masterCodes float-left" style="border: 1px solid #b3b3b3;margin: 0 3px 0 0;width: 50% !important;">
                                     <md-autocomplete
+                                        ng-disabled="!claim.treatmentFromDate"
                                         md-selected-item="claim.treatmentCode"
                                         md-search-text="searchText"
-                                        md-items="item in getAutoCompleteList(searchText,'emiratesId','getTreatmentCode')"
-                                        md-item-text="item['CLMR_UID_ID']"
+                                        md-items="item in getTreatmentCodes(searchText, 'serviceCode')"
+                                        md-item-text="item.displayName"
                                         md-floating-label="Treatment Code/Sub Benefit"
                                         md-clear-button="true"
+                                        md-no-cache="true"
+                                        md-delay="500"
                                         style="height: 55px;">
                                         <md-item-template>
-                                            <span md-highlight-text="searchText" md-highlight-flags="^i">{{item['CLMR_UID_ID']}} </span>
+                                            <span md-highlight-text="searchText">{{item.displayName}} </span>
                                         </md-item-template>
                                         <md-not-found>
                                             No Result Found
                                         </md-not-found>
                                     </md-autocomplete>
                                 </div>
-                                <div class="float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 35% !important;">
-                                    <md-input-container flex-gt-sm style="margin-top: 18px;">    
-                                        <label>Service From</label>
-                                        <md-datepicker ng-keyup="clearDatepickerKeyupValue($event);" ng-model="claim.serviceFrom" md-hide-icons="triangle" md-open-on-focus></md-datepicker>
-                                    </md-input-container>
-                                </div>
-                                <div class="float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 35% !important;">
-                                    <md-input-container flex-gt-sm style="margin-top: 18px;">    
-                                        <label>Service To</label>
-                                        <md-datepicker ng-keyup="clearDatepickerKeyupValue($event);" ng-model="claim.serviceTo" md-hide-icons="triangle" md-open-on-focus></md-datepicker>
-                                    </md-input-container>
-                                </div>
-                                <div class="float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 20% !important;">
-                                    <md-input-container flex-gt-sm style="margin-top: 18px;">    
-                                        <label>Days</label>
-                                        <input type="number" ng-model="claim.days">
-                                    </md-input-container>
-                                </div>
                                 <div class="float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 30% !important;">
                                     <md-input-container flex-gt-sm style="margin-top: 18px;">    
                                         <label>Requested Amount</label>
-                                        <input type="number" ng-model="claim.requestAmount">
+                                        <input type="number" ng-model="claim.requestedAmount" autocomplete="off">
                                     </md-input-container>
                                 </div>
                                 <div class="cfloat-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 30% !important;">
                                     <md-input-container flex-gt-sm style="margin-top: 18px;">    
                                         <label>Manual Deduction</label>
-                                        <input type="number" ng-model="claim.manualDeduction">
+                                        <input type="number" ng-model="claim.manualDeductionAmount" autocomplete="off">
                                     </md-input-container>
                                 </div>
                                 <div class="masterCodes float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 40% !important;">
                                     <md-autocomplete
+                                        ng-disabled="!claim.treatmentFromDate"
                                         md-selected-item="claim.rejectionCode"
                                         md-search-text="rejectionText"
-                                        md-items="item in getAutoCompleteList(rejectionText,'emiratesId','getRejectionCode')"
-                                        md-item-text="item['CLMR_UID_ID']"
+                                        md-items="item in getRejectionCodes(rejectionText, 'rejectionCode')"
+                                        md-item-text="item.displayName"
                                         md-floating-label="Rejection Code"
                                         md-clear-button="true"
+                                        md-no-cache="true"
+                                        md-delay="500"
                                         style="height: 55px;">
                                         <md-item-template>
-                                            <span md-highlight-text="rejectionText" md-highlight-flags="^i">{{item['CLMR_UID_ID']}}</span>
+                                            <span md-highlight-text="rejectionText">{{item.displayName}} </span>
                                         </md-item-template>
                                         <md-not-found>
                                             No Result Found
@@ -496,7 +423,7 @@
                                     <div class="col-sm-2 float-left">
                                         <md-input-container flex-gt-sm style="margin-top: 18px;">   
                                             <label>Policy Ded Amount</label>
-                                            <input type="number" ng-model="claim.policyDedAmount" ng-init="claim.policyDedAmount=0" ng-disabled="true">
+                                            <input type="number" ng-model="claim.policyDeductibleAmount" ng-init="claim.policyDedAmount=0" ng-disabled="true" autocomplete="off">
                                         </md-input-container>
                                     </div>
                                     <div class="col-sm-2 float-left">
@@ -508,7 +435,7 @@
                                     <div class="col-sm-2 float-left">
                                         <md-input-container flex-gt-sm style="margin-top: 18px;">
                                             <label>Suggessted Amt</label>
-                                            <input type="number" ng-model="claim.suggesstedAmount" ng-init="claim.suggesstedAmount=0" ng-disabled="true">
+                                            <input type="number" ng-model="claim.suggestedAmout" ng-init="claim.suggesstedAmount=0" ng-disabled="true">
                                         </md-input-container>
                                     </div>
                                     <div class="col-sm-2 float-left">
@@ -526,7 +453,7 @@
                                     <div class="col-sm-2 float-left" style="width: auto !important;">
                                         <md-input-container flex-gt-sm style="margin-top: 18px;">
                                             <label>Status</label>
-                                            <input type="text" ng-model="claim.status" maxlength="18" ng-init="claim.status='Pending'" ng-disabled="true">
+                                            <input type="text" ng-model="claim.claimStatus" maxlength="18" ng-init="claim.status='Pending'" ng-disabled="true">
                                         </md-input-container>
                                     </div>
                                 </div>    
@@ -570,7 +497,8 @@
                         </div>    
                     </div>
                 </div>                
-                <grid-wrapper ui-Grid-Options="gridOptions" inline-Edit="isInlineEdit" module="moduleName" on-Grid-Action="gridAction(info)"></grid-wrapper>
+                <grid-wrapper ui-Grid-Options="gridOptions" inline-Edit="isInlineEdit" module="moduleName" on-Grid-Action="gridAction(info)" 
+                curency-list="curencyList" curency-list="curencyList" exchange-ratemap="exchangeRateMap" base-currency="selectedClaim.baseCurrency"></grid-wrapper>
             </div>
         </div>
         <footer class="clearfix">
@@ -579,7 +507,7 @@
             <ul class="float-right clearfix mt-1">
                 <li class="float-left">
                     <span>Base Currency</span>
-                    <strong>AED</strong>
+                    <strong>{{selectedClaim.baseCurrency}}</strong>
                 </li>
                 <li class="float-left">
                     <span>Total deduction</span>
