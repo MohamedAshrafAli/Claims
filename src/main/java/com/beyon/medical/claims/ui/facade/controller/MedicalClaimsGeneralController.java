@@ -1,8 +1,13 @@
 package com.beyon.medical.claims.ui.facade.controller;
 
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_UID_CLAIM_CONDITION;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -188,4 +193,16 @@ public class MedicalClaimsGeneralController{
 		} 
 		return currencyDetails;
 	}
+	
+	@GetMapping("/getCountryIds/{compId}")
+	public List<String> getCountryIds(@PathVariable String compId) throws MedicalClaimsException {
+		List<String> countryIds = null;
+		try {
+			countryIds = uiServiceFacade.getCountryIds(compId);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return countryIds;
+	}
+	
 }

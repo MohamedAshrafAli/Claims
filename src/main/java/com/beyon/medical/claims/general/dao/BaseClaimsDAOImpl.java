@@ -161,6 +161,26 @@ public class BaseClaimsDAOImpl {
 
 		return true;
 	}
+	
+	
+	public List<String> getCountryIds(String strQuery, String compId) throws DAOException {
+		List<String> countryIds = new ArrayList<String>();
+		try {
+			NamedParameterJdbcTemplate namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
+			Map<String, Object> inputMap = new HashMap<>();
+			inputMap.put("compId",compId);
+			namedParameterJdbcTemplate.query(strQuery, inputMap , new RowCallbackHandler() {
+				@Override
+				public void processRow(ResultSet rs) throws SQLException {
+					countryIds.add(rs.getString("CountryId"));
+				}
+			});
+		} catch (Exception ex) {
+			writeLog(CLASS_NAME, "Exception occured while executing getCountryIds", ERROR, ex);
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return countryIds;
+	}
 
 
 }

@@ -21,6 +21,7 @@ import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_USER_LIST;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -270,6 +271,18 @@ public class GeneralServiceFacadeImpl implements GeneralServiceFacade {
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
 		}
 		return userList;
+	}
+	
+	@Override
+	public List<String> getCountryIds(String compId) throws DAOException {
+		List<String> countryIds = null;
+		try {
+			countryIds =  generalClaimsDao.getCountryIds(GENERAL_QUERIES_GET_COB_DETAIL,compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return countryIds;
 	}
 	
 }
