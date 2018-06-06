@@ -672,7 +672,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		return processingDTO;
 	}
 	
-	public List<ReimbursementProcessingDTO> getProcessingDetailsById(String query ,Map<String,Object> inputMap) throws DAOException {
+	public List<ReimbursementProcessingDTO> getProcessingDetails(String query ,Map<String,Object> inputMap) throws DAOException {
 		NamedParameterJdbcTemplate  namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
 		parameters.addValues(inputMap);

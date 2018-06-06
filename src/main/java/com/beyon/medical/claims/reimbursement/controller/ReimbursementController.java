@@ -134,14 +134,26 @@ public class ReimbursementController{
 		return _reimbursementProcessingDTO;
 	}
 	
-	@GetMapping("/getReimbursementProcessingDetailsById/{id}")
-	public ReimbursementProcessingDTO getReimbursementProcessingDetailsById(@PathVariable String id) throws MedicalClaimsException {
+	@PostMapping("/getReimbursementProcessingDetails")
+	public @ResponseBody ReimbursementProcessingDTO getReimbursementProcessingDetails(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
 		ReimbursementProcessingDTO reimbursementProcessingDTO = null;
 		try {
-			reimbursementProcessingDTO = reimbursementClaimsService.getReimbursementProcessingDetailsById( id);
+			reimbursementProcessingDTO = reimbursementClaimsService.getReimbursementProcessingDetailsById( inputMap);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
 		return reimbursementProcessingDTO;
 	}
+	
+	@PostMapping("/getReimbursementInitProcessingDetails")
+	public @ResponseBody ReimbursementProcessingDTO getReimbursementInitProcessingDetails(@RequestBody ReimbursementAssignmentDTO reimbursementAssignmentDTO) throws MedicalClaimsException {
+		ReimbursementProcessingDTO reimbursementProcessingDTO = null;
+		try {
+			reimbursementProcessingDTO = reimbursementClaimsService.getReimbursementInitProcessingDetails(reimbursementAssignmentDTO);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return reimbursementProcessingDTO;
+	}
+	
 }
