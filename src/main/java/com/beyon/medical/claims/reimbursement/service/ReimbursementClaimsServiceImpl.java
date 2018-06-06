@@ -355,7 +355,7 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 		try {
 			BeanUtils.copyProperties(reimbursementAssignmentDTO, reimbursementProcessingDTO, "assignmentId","primaryDiagnosis", 
 					"secondaryDiagnosis","processingServiceDTOs", "eventCountry","claimCondition",
-					"requestNumber","claimType","claimStatusReason");
+					"requestNumber","claimType","claimStatusReason","assignedUserDetailsDTO");
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
