@@ -30,8 +30,11 @@
                 <tr ng-repeat="claim in filteredClaims | filter : filterByStatus | orderBy: orderByField: reverseSort" ng-if="modelDir =='reimbursementUserAssignment'">
                     <td>
                         <div class="text-nowrap">
-                            <span class="d-inline-block pr-2"><strong>Claim Ref No: </strong>
-                                <a class="currencyTypeCustom" href="javascript:void(0);"ng-click="redirectTo(navigateTo);">#{{claim.claimRefNo}}</a>
+                            <span class="d-inline-block pr-2" ng-show="claim.status != 'Assigned'"><strong>Claim Ref No: </strong>
+                                <a class="currencyTypeCustom">#{{claim.claimRefNo}}</a>
+                            </span>
+                            <span class="d-inline-block pr-2" ng-show="claim.status == 'Assigned'"><strong>Claim No: </strong>
+                                <a class="currencyTypeCustom" href="javascript:void(0);"ng-click="redirectTo(navigateTo, claim);">#{{claim.claimNumber}}</a>
                             </span>
                             <span class="d-inline-block pr-2">
                                 <strong>Member No: {{claim.memberNumber}}</strong>

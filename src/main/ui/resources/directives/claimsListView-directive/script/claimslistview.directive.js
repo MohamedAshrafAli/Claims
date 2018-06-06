@@ -3,7 +3,7 @@
 
     angular
         .module("claims")
-            .directive("claimsListView", function($rootScope, $filter, UIDefinationService, ReimbursementRegistrationFactory) {
+            .directive("claimsListView", function($rootScope, $filter, UIDefinationService, ReimbursementRegistrationFactory, ReimbursementUserAssignmentService, ClaimsListViewService) {
                 return {
                     restrict: 'E',
                     templateUrl: 'resources/directives/claimsListView-directive/view/claimslistview.directive.html',
@@ -117,8 +117,12 @@
                             scope.reverseSort = (scope.sortBy == 'receivedDateDesc') ? false : true;
                         }
 
-                        scope.redirectTo = function(stateName) {
-                            $rootScope.navigateTo(stateName);
+                        scope.redirectTo = function(stateName, data) {
+                            ReimbursementUserAssignmentService.getReimbursementInitProcessingDetails(data, function(resp) {
+                                ClaimsListViewService.setClaim(data);
+                                $rootScope.navigateTo(stateName);
+                            });
+                            
                         }
 
                         scope.$watch('rerenderView', (newValue, oldValue, scope) => {
