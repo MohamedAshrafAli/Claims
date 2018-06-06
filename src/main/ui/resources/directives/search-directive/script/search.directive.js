@@ -36,10 +36,7 @@
                     };
 
                     $scope.getAutoCompleteList = function (searchText, field, info) {
-                        if(!searchText || searchText.length < 3) {
-                            $scope[field] = [];
-                            return[];
-                        }
+                        if(!searchText || searchText.length < 3) return [];
                         var searchParams = constructSearchparams(field, searchText);
                         return AutocompleteService[info.methodName](searchParams).$promise.then(function(resp) {
                             return resp.rowData;

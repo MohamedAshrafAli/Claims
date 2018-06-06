@@ -3,7 +3,7 @@
 
     angular
         .module('claims')
-        .directive('gridWrapper', function() {
+        .directive('gridWrapper', function(ReimbursementRegistrationFactory) {
             return {
                 restict: 'AEC',
                 templateUrl: 'resources/directives/grid-directive/view/gridwrapper.directive.html',
@@ -11,10 +11,13 @@
                     uiGridOptions :'=',
                     inlineEdit : '=',
                     module : '=',
-                    onGridAction: '&'
+                    onGridAction: '&',
+                    curencyList : '=',
+                    exchangeRatemap : '=',
+                    baseCurrency : '='
                 },
                 link: function(scope, elem, attrs, ngModel) {
-                    scope.currencyType = '1';
+                    scope.currencyType = scope.baseCurrency;
                     scope.noRecordsAvailable = scope.uiGridOptions['data'].length == 0;
                     scope.currencyFields = scope.uiGridOptions.columnDefs.filter(function(value) {
                         if(value.convertCurrency) {
@@ -62,9 +65,10 @@
                     }
 
                     scope.convertCurrency = function() {
+                        var exchangeRate = scope.exchangeRatemap[scope.currencyType];
                         angular.forEach(scope.gridOptions.data, function(value, key) {
                             scope.currencyFields.forEach(function(item) {
-                                value[item] = value[item] ? (value[item] * parseInt(scope.currencyType)) : null;
+                                value[item] = value[item] ? (value[item] * parseFloat(exchangeRate)) : null;
                             });
                         });
                         var info = {action : 'convertCurrency'}

@@ -40,6 +40,7 @@
                             for(var key in $scope.claimList) {
                                 var actualClaim = $scope.claimList[key];
                                 if (claim['id'] == actualClaim['id']) {
+                                    $scope.claimList[key] = resp[claimIndex];
                                     $scope.claimList[key]['status'] = 'Assigned';
                                     $scope.claimList[key]['selected'] = false;
                                     break;
