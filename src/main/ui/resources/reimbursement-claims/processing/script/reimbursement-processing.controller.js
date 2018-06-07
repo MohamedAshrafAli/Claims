@@ -47,6 +47,9 @@
                 $scope.curencyList = resp.rowData;
                 $scope.exchangeRateMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "ExchangeCurrency", "ExchangeRate");
             });
+            // UIDefinationService.getClaimantESTType({'compId' : '0021'}, function(resp) {
+            //     $scope.statusReasonMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
+            // });
             function init() {
                 $scope.isInlineEdit = false;
                 $scope.moduleName = 'reimbursement';
@@ -138,8 +141,9 @@
                     'diagId' : $scope.selectedClaim.secondaryDiag.DiagnosisCode,
                     'diagType' : 'Secondary'
                 }
+                $scope.claim.currencyId = $scope.selectedClaim.baseCurrency;
                 $scope.claim.statusDate = new Date();
-                $scope.claim.claimStatusReason = $scope.statusReasonMap[$scope.claim.status];
+                $scope.claim.claimStatusReason = $scope.statusReasonMap[$scope.claim.claimStatus];
                 $scope.claim.internalRejectionCode = $scope.claim.rejectionCode ? $scope.claim.rejectionCode.RejectionCode : undefined;
                 $scope.claim.serviceType = $scope.claim.treatmentCode.ServiceTypeId;
                 $scope.claim.serviceId = $scope.claim.treatmentCode.ServiceCode;

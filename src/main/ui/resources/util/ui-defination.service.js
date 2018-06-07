@@ -49,6 +49,10 @@
                 'getClaimsStatusReason' : {
                     method: 'POST',
                     url: resourceUrl + '/getClaimsStatusReason'
+                },
+                'getClaimantESTType' : {
+                    method: 'POST',
+                    url: resourceUrl + '/getClaimantESTType'
                 }
             })    
         }
