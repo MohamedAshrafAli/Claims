@@ -71,7 +71,6 @@ public final class ReimbursementQueriesConstants implements Serializable{
 
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_SL_SEQUENCE_NAME = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelsl.sequence.name");
 
-	
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MDIAG = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelmdiag");
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MSRVC = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelmsrvc");
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MSRVC_SEQUENCE_NAME = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelmsrvc.sequence.name");	
