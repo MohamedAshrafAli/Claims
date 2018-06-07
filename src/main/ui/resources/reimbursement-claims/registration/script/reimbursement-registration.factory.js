@@ -77,6 +77,7 @@
             var uidMap = {};
             angular.forEach(data, function(item, key) {
                 uidMap[item[itemKey]] = item[itemValue];
+                uidMap['boolean'] = item.boolean;
             })
             return uidMap
         }

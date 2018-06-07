@@ -333,16 +333,18 @@
                 <div uib-accordion-group class="panel-default" is-open="isOpen" ng-init="isOpen = (doc.isRequired && !doc.files)" ng-repeat="doc in documentTypes | orderBy:'isRequired' : true"
                     ngf-drop="uploadFiles($files, doc)" ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true">
                     <uib-accordion-heading>
-                        <div class="acc-header">
+                        <div class="acc-header" required>
                             {{doc.value}}
+                            <div ng-if="localValidation && doc.boolean==true" class="error">Please Insert The Documnet</div>
                             <!-- ({{!doc.files ? 0 : doc.files.length}}) -->
                             <span style="color:red;" ng-show="doc.isRequired">*</span>
                             <span class="oi expanded" data-glyph="chevron-bottom"></span>
                             <span class="oi collapsed" data-glyph="chevron-top"></span>
                         </div>
+                        
 
                     </uib-accordion-heading>
-                    <div ngf-select ng-model="files" class="drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
+                    <div ngf-select ng-model="fileitems" class="drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
                         ngf-change="uploadFiles($files, doc)">
                         <span class="oi align-middle mr-1" data-glyph="cloud-upload" style="color:#00aeef"></span>
                         Drop Files or click to upload
