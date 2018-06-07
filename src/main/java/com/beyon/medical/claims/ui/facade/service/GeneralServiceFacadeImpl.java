@@ -1,6 +1,7 @@
 package com.beyon.medical.claims.ui.facade.service;
 
 import static com.beyon.framework.util.Constants.INTERNAL_ERROR_OCCURED;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_ASSIGNMENT_USER_STATUS_COUNT;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_DIAGNOSIS_CODE_DETAILS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_COB_DETAIL;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_CARD_NUMBERS;
@@ -284,6 +285,22 @@ public class GeneralServiceFacadeImpl implements GeneralServiceFacade {
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
 		}
 		return countryIds;
+	}
+	
+	@Override
+	public ObjectNode getStatusCountByUser(ObjectNode paramMap) throws DAOException {
+		ObjectNode userList = null;
+		try {
+			Map<Integer, String> outputMap = new HashMap<>();
+			outputMap.put(1, "Total");
+			outputMap.put(2, "Status");
+			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
+			userList =  generalClaimsDao.getSearchDataList(GENERAL_QUERIES_ASSIGNMENT_USER_STATUS_COUNT, inputMap, outputMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return userList;
 	}
 	
 }
