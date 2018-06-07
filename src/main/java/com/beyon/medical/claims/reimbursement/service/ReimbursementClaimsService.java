@@ -37,6 +37,9 @@ public interface ReimbursementClaimsService {
 	ReimbursementProcessingDTO saveProcessingDetails(String compId, ReimbursementProcessingDTO processingDTO)
 			throws DAOException;
 	
+	ReimbursementProcessingDTO updateProcessingDetails(String compId,
+			ReimbursementProcessingDTO reimbursementProcessingDTO) throws DAOException;
+	
 	ReimbursementProcessingDTO getReimbursementProcessingDetailsById(ObjectNode inputMap) throws DAOException;
 
 	ReimbursementProcessingDTO getReimbursementInitProcessingDetails(ReimbursementAssignmentDTO reimbursementAssignmentDTO) throws DAOException;

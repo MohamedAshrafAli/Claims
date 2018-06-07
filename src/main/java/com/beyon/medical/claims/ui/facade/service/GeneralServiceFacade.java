@@ -40,6 +40,7 @@ public interface GeneralServiceFacade{
 	ObjectNode getRejectionCodeDetails(ObjectNode paramMap) throws DAOException;
 	
 	List<String> getCountryIds(String compId) throws DAOException;
-
+	
+	ObjectNode getStatusCountByUser(ObjectNode paramMap) throws DAOException;
 
 }

@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -309,10 +310,26 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 		}
 		return _reimbursementProcessingDTO;
 	}
+	
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false, rollbackFor = Exception.class)
+	public ReimbursementProcessingDTO updateProcessingDetails(String compId,
+			ReimbursementProcessingDTO reimbursementProcessingDTO) throws DAOException {
+		ReimbursementProcessingDTO _reimbursementProcessingDTO = null;
+		try {
+			_reimbursementProcessingDTO = reimbursementClaimsDAO.updateReimbursementProcessingDetails(compId,
+					reimbursementProcessingDTO);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return _reimbursementProcessingDTO;
+	}
 
 	@Transactional(propagation = Propagation.SUPPORTS, isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public ReimbursementProcessingDTO getReimbursementProcessingDetailsById(ObjectNode paramMap) throws DAOException {
 		List<ReimbursementProcessingDTO> processingDTOs = null;
+		List<ReimbursementProcessingServiceDTO> processingServiceDTOs = new ArrayList<>();
 		ReimbursementProcessingDTO reimbursementProcessingDTO = null;
 		try {
 			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
@@ -322,6 +339,8 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 			processingDTOs = reimbursementClaimsDAO.getProcessingDetails(strQuery, inputMap);
 			if (processingDTOs != null && !processingDTOs.isEmpty()) {
 				reimbursementProcessingDTO = processingDTOs.get(0);
+				processingDTOs.forEach(processingDTO -> processingServiceDTOs.addAll(processingDTO.getProcessingServiceDTOs()));
+				reimbursementProcessingDTO.setProcessingServiceDTOs(processingServiceDTOs);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

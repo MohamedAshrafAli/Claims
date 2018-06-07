@@ -78,6 +78,7 @@ public final class GeneralQueriesConstants implements Serializable{
 	public static final String GENERAL_QUERIES_DIAGNOSIS_CODE_DETAILS = claimsResourceBundle.getString("medical.claim.general.queries.diagnosis.code.details");
 	public static final String GENERAL_QUERIES_REJECTION_CODE_DETAILS = claimsResourceBundle.getString("medical.claim.general.queries.rejection.code.details");
 
+	public static final String GENERAL_QUERIES_ASSIGNMENT_USER_STATUS_COUNT = claimsResourceBundle.getString("reimbursement.queries.assignment.user.status.count");
 
 
 }

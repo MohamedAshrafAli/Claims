@@ -205,4 +205,15 @@ public class MedicalClaimsGeneralController{
 		return countryIds;
 	}
 	
+	@GetMapping("/getStatusCountByUser")
+	public   @ResponseBody ObjectNode getStatusCountByUser(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode statusCountByUser = null;
+		try {
+			statusCountByUser = uiServiceFacade.getStatusCountByUser(inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return statusCountByUser;
+	}
+	
 }
