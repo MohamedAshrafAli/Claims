@@ -3,7 +3,7 @@
 
     angular
         .module("claims")
-            .directive("claimsListView", function($rootScope, $filter, UIDefinationService, ReimbursementRegistrationFactory, ReimbursementUserAssignmentService, ClaimsListViewService) {
+            .directive("claimsListView", function($rootScope, $filter, UIDefinationService, ReimbursementRegistrationFactory, ReimbursementProcessingService, ClaimsListViewService) {
                 return {
                     restrict: 'E',
                     templateUrl: 'resources/directives/claimsListView-directive/view/claimslistview.directive.html',
@@ -118,11 +118,8 @@
                         }
 
                         scope.redirectTo = function(stateName, data) {
-                            ReimbursementUserAssignmentService.getReimbursementInitProcessingDetails(data, function(resp) {
-                                ClaimsListViewService.setClaim(data);
-                                $rootScope.navigateTo(stateName);
-                            });
-                            
+                            ClaimsListViewService.setClaim(data);
+                            $rootScope.navigateTo(stateName);
                         }
 
                         scope.$watch('rerenderView', (newValue, oldValue, scope) => {

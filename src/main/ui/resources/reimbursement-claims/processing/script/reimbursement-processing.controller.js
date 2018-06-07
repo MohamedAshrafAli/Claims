@@ -5,10 +5,11 @@
         .module('claims')
             .controller('ReimbursmentProcessingController', ReimbursmentProcessingController);
 
-        ReimbursmentProcessingController.$inject = ['$scope', '$rootScope', 'ReimbursementProcessingService', 'ngNotify', '$timeout', 'AutocompleteService','UIDefinationService', '$filter', 'ClaimsListViewService', 'ReimbursementRegistrationFactory', 'ReimbursementProcessingFactory', 'SpinnerService'];
+        ReimbursmentProcessingController.$inject = ['$scope', '$rootScope', 'ReimbursementProcessingService', 'ngNotify', '$timeout', 'AutocompleteService','UIDefinationService', '$filter', 'reimbursementClaimInfo', 'ReimbursementRegistrationFactory', 'ReimbursementProcessingFactory', 'SpinnerService'];
 
-        function ReimbursmentProcessingController($scope, $rootScope, ReimbursementProcessingService, ngNotify, $timeout, AutocompleteService, UIDefinationService, $filter, ClaimsListViewService, ReimbursementRegistrationFactory, ReimbursementProcessingFactory, SpinnerService) {
-            $scope.selectedClaim = ClaimsListViewService.getClaim();
+        function ReimbursmentProcessingController($scope, $rootScope, ReimbursementProcessingService, ngNotify, $timeout, AutocompleteService, UIDefinationService, $filter, reimbursementClaimInfo, ReimbursementRegistrationFactory, ReimbursementProcessingFactory, SpinnerService) {
+            SpinnerService.stop();
+            $scope.selectedClaim = reimbursementClaimInfo;            
             $scope.selectedClaim.requestNumber = 1;
             $scope.search = {};
             $scope.treatmentCodes = [];

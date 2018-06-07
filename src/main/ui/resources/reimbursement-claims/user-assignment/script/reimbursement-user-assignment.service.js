@@ -19,11 +19,7 @@
                 method: 'POST',
                 url: resourceUrl + '/saveAssignmentDetails/'+ compId,
                 isArray : true
-            },
-            'getReimbursementInitProcessingDetails' : {
-                method: 'POST',
-                url: resourceUrl + '/getReimbursementInitProcessingDetails',
-            }
+            }            
         })            
     }
 })();
