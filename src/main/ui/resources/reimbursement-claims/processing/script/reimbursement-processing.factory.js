@@ -18,10 +18,10 @@
                 "rejectionCode" : "",
                 "policyDeductibleAmount" : "",
                 "penaltyAmount" : "",
-                "suggestedAmout" : 1000,
-                "approvedAmount" : 2000,
-                "rejectedAmount" : 3000,
-                "claimStatus" : "",
+                "suggestedAmout" : 0,
+                "approvedAmount" : 0,
+                "rejectedAmount" : 0,
+                "claimStatus" : "WIP",
                 "internalRemarks" : "",
                 "externalRemarks" : "",
                 "isChecked" : false,
@@ -48,6 +48,12 @@
                 }                
             });
             return data;
+        }
+
+        this.addDays = function(date, days) {
+            var addedDate = angular.copy(new Date(date));
+            addedDate.setDate(date.getDate() + days);
+            return addedDate;
         }
     }
 })();

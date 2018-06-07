@@ -45,6 +45,10 @@
                 'getClaimCondition' : {
                     method: 'POST',
                     url: resourceUrl + '/getClaimCondition'
+                },
+                'getClaimsStatusReason' : {
+                    method: 'POST',
+                    url: resourceUrl + '/getClaimsStatusReason'
                 }
             })    
         }

@@ -14,6 +14,7 @@
             $scope.treatmentCodes = [];
             $scope.rejectionCode = [];
             $scope.createNew = true;
+            $scope.isBaseCurrency = false;
             var currencyFieldsMap = {
                 "requestedAmountBC" : "requestedAmount",
                 "policyDeductibleAmountBC" : "policyDeductibleAmount",
@@ -21,7 +22,7 @@
                 "penaltyAmountBC" : "penaltyAmount",
                 "suggestedAmoutBC" : "suggestedAmout",
                 "approvedAmountBC" : "approvedAmount",
-                "rejectedAmount" : "rejectedAmountBC"
+                "rejectedAmountBC" : "rejectedAmount"
             }
             $scope.accordionToggle = {
                 isProviderDetailOpen : true,
@@ -38,6 +39,9 @@
             UIDefinationService.getEncounterTypes({'compId' : '0021'}, function(resp) {
                 $scope.encounterTypeMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
             });
+            UIDefinationService.getClaimsStatusReason({'compId' : '0021'}, function(resp) {
+                $scope.statusReasonMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
+            });
             AutocompleteService.getUniversalCurrencyDetails({'compId' : '0021'}, function(resp) {
                 $scope.curencyList = resp.rowData;
                 $scope.exchangeRateMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "ExchangeCurrency", "ExchangeRate");
@@ -52,6 +56,7 @@
             }
 
             $scope.createNewClaim = function() {
+                $scope.localValidation = false;
                 $scope.createNew = true;
                 $scope.claim = ReimbursementProcessingFactory.createNewReimbursmentObject();
             }
@@ -72,29 +77,10 @@
             function initGrid() {
                 $scope.gridOptions = {
                     data : [],
-                    columnDefs: [
-                        {name:'action', displayName:'', headerCellTemplate:'headerCheckboxTemplate.html', cellTemplate:'staticTemplate.html',width:40, pinnedLeft:true, enableColumnMenu: false},
-                        {name:'treatmentCodeOrSubBenefit.name', displayName:'Treatment Code/SubBenefit',width:200},
-                        {name:'serviceFrom', displayName:'Service From', cellTemplate:'dateTemplate.html',width:120},
-                        {name:'serviceTo', displayName:'Service To', cellTemplate:'dateTemplate.html',width:110},
-                        {name:'days', displayName:'Days', width:90},
-                        {name:'requestedAmount', displayName:'Request Amount', width:140, convertCurrency:true},
-                        {name:'policyDeductibleAmount', displayName:'Policy Ded Amount',width:150, convertCurrency:true},
-                        {name:'manualDeductionAmount', displayName:'Manual Deduction', width:140, convertCurrency:true},
-                        {name:'penaltyAmount', displayName:'Penalty Amount', width:145, convertCurrency:true},
-                        {name:'suggestedAmout', displayName:'Suggessted Amount', width:150, convertCurrency:true},
-                        {name:'approvedAmount', displayName:'Approved Amount', width:165, convertCurrency:true},
-                        {name:'rejectedAmount', displayName:'Rejected Amount', width:145, convertCurrency:true},
-                        {name:'rejectionCode.name', displayName:'Rejection Code',width:140},
-                        {name:'rejectionDesc', displayName:'Rejection Description',width:210},
-                        {name:'status', displayName:'Status', width:155},
-                        {name:'internalRemarks', displayName:'Internal Remarks', cellTemplate:'descriptionTemplate.html', width:210},
-                        {name:'externalRemarks', displayName:'External Remarks', cellTemplate:'descriptionTemplate.html', width:210},
-                        {name:'Settings', displayName:'Settings', cellTemplate:'settingsTemplate.html',width:75, pinnedRight:true, enableColumnMenu: false}
-                    ],
                     enableSorting: false,
                     enableVerticalScrollbars : 'Never'
                 }
+                constructGridColumnDef();
             }
 
             $scope.deleteRow = function(index) {
@@ -120,26 +106,18 @@
             }
             
             $scope.saveRecord = function(saveType) {
-                console.log($scope.claim.primaryDiagnosis);
-                $scope.selectedClaim.primaryDiagnosis = {
-                    'diagId' : $scope.claim.primaryDiagnosis.DiagnosisCode,
-                    'diagType' : 'Primary'
+                $scope.localValidation = false;
+                if($scope.reimbursementForm.$invalid) {
+                    $scope.localValidation = true;
+                    return;
                 }
-                $scope.selectedClaim.secondaryDiagnosis = {
-                    'diagId' : $scope.claim.secondaryDiagnosis.DiagnosisCode,
-                    'diagType' : 'Secondary'
-                }
-                $scope.claim.internalRejectionCode = $scope.claim.rejectionCode.RejectionCode;
-                $scope.claim.serviceType = $scope.claim.treatmentCode.ServiceTypeId;
-                $scope.claim.serviceId = $scope.claim.treatmentCode.ServiceCode;
-                $scope.claim.benefitId = $scope.claim.treatmentCode.BenefitId;
-                $scope.claim.subBenefitId = $scope.claim.treatmentCode.SubBenefitId;
-                $scope.claim = ReimbursementProcessingFactory.constructClaimBaseCurrencyFields(currencyFieldsMap, $scope.exchangeRateMap[$scope.selectedClaim.baseCurrency], $scope.claim);
+                mapClaimDTO();
                 $scope.selectedClaim['processingServiceDTOs'] = [$scope.claim];
                 SpinnerService.start();
                 ReimbursementProcessingService.saveProcessingDetails($scope.selectedClaim, function(resp) {
                     processClaim($scope.claim);
                     SpinnerService.stop();
+                    $scope.claim = ReimbursementProcessingService.createNewReimbursmentObject();
                     $scope.createNew = saveType == 'SaveAndNew';
                     ngNotify.set('Saved Succesfully.', 'success');
                 }, onSaveError)
@@ -148,7 +126,30 @@
                 function onSaveError() {
                     SpinnerService.stop();
                 }
-        }
+            }
+
+            function mapClaimDTO() {
+                $scope.selectedClaim.primaryDiagnosis = {
+                    'diagId' : $scope.selectedClaim.primaryDiag.DiagnosisCode,
+                    'diagType' : 'Primary'
+                }
+                $scope.selectedClaim.secondaryDiagnosis = {
+                    'diagId' : $scope.selectedClaim.secondaryDiag.DiagnosisCode,
+                    'diagType' : 'Secondary'
+                }
+                $scope.claim.statusDate = new Date();
+                $scope.claim.claimStatusReason = $scope.statusReasonMap[$scope.claim.status];
+                $scope.claim.internalRejectionCode = $scope.claim.rejectionCode ? $scope.claim.rejectionCode.RejectionCode : undefined;
+                $scope.claim.serviceType = $scope.claim.treatmentCode.ServiceTypeId;
+                $scope.claim.serviceId = $scope.claim.treatmentCode.ServiceCode;
+                $scope.claim.benefitId = $scope.claim.treatmentCode.BenefitId;
+                $scope.claim.subBenefitId = $scope.claim.treatmentCode.SubBenefitId;
+                $scope.claim.currencyType = $scope.selectedCurrency && ($scope.selectedCurrency != $scope.selectedClaim.baseCurrency) ? 'F' : 'L';
+                $scope.claim.rejectedAmount = $scope.claim.claimStatus == 'A' ?  ($scope.claim.requestedAmount - $scope.claim.suggestedAmout) : 0;
+                $scope.claim.approvedAmount = $scope.claim.claimStatus == 'A' ?  $scope.claim.suggestedAmout : 0;
+                var exchangeRate = $scope.selectedCurrency ? $scope.exchangeRateMap[$scope.selectedCurrency] : $scope.exchangeRateMap[$scope.selectedClaim.baseCurrency];
+                $scope.claim = ReimbursementProcessingFactory.constructClaimBaseCurrencyFields(currencyFieldsMap, exchangeRate, $scope.claim);
+            }
 
             $scope.editClaim = function(entity) {
                 $scope.claim = angular.copy(entity);
@@ -159,10 +160,6 @@
             $scope.onCancel = function() {
                 $scope.createNew = false;
             }
-
-            /*$scope.toggleJson = function(selectedClaim) {
-                $scope.gridOptions.data = ReimbursementProcessingFactory.getRequestDataForCalim(selectedClaim.reqNum);
-            }*/
 
             function processClaim(claim) {
                 $scope.gridOptions['data'] = $scope.gridOptions['data'].map(record =>  {
@@ -250,11 +247,20 @@
                 var totalRejectedAmount = 0;
                 var totalPenaltyAmount = 0;
                 var totalDeductionAmount = 0;
+                var currencyFieldsMap = {
+                    "requestedAmountBC" : "requestedAmount",
+                    "policyDeductibleAmountBC" : "policyDeductibleAmount",
+                    "manualDeductionAmountBC" : "manualDeductionAmount",
+                    "penaltyAmountBC" : "penaltyAmount",
+                    "suggestedAmoutBC" : "suggestedAmout",
+                    "approvedAmountBC" : "approvedAmount",
+                    "rejectedAmount" : "rejectedAmountBC"
+                }
                 angular.forEach(result, function(claim, key) {
-                    totalApprovedAmount += claim.approvedAmount;
-                    totalRejectedAmount += claim.rejectedAmount;
-                    totalPenaltyAmount += claim.penaltyAmount;
-                    totalDeductionAmount += claim.manualDeduction;
+                    totalApprovedAmount += ($scope.isBaseCurrency ? claim.approvedAmountBC : claim.approvedAmount);
+                    totalRejectedAmount += ($scope.isBaseCurrency ? claim.rejectedAmountBC : claim.rejectedAmount);
+                    totalPenaltyAmount += ($scope.isBaseCurrency ? claim.penaltyAmountBC : claim.penaltyAmount);
+                    totalDeductionAmount += ($scope.isBaseCurrency ? claim.manualDeductionAmountBC : claim.manualDeductionAmount);
                 })
                 $scope.totalApprovedAmount = totalApprovedAmount;
                 $scope.totalRejectedAmount = totalRejectedAmount;
@@ -363,23 +369,63 @@
                         $scope.rejectClaim(info.data);
                         break;
                     case "convertCurrency":
+                        $scope.selectedCurrency = info.selectedCurrency;
+                        break;
+                    case "localBaseCurrenyToggled":
+                        $scope.isBaseCurrency =  info.isBaseCurreny;
+                        constructGridColumnDef();
                         renderTotals($scope.gridOptions.data);
-                        break;    
+                        break;
                 }
             }
 
+            function constructGridColumnDef() {
+                var path = 'resources/directives/grid-directive/view/';
+                $scope.gridOptions.columnDefs = [
+                    {name:'action', displayName:'', headerCellTemplate: (path + 'headerCheckboxTemplate.html'), cellTemplate: path + 'staticTemplate.html',width:40, pinnedLeft:true, enableColumnMenu: false},
+                    {name:'treatmentCode.displayName', displayName:'Treatment Code/SubBenefit',width:200},
+                    {name:'treatmentFromDate', displayName:'Service From', cellTemplate: path + 'dateTemplate.html',width:120},
+                    {name:'treatmentToDate', displayName:'Service To', cellTemplate: path + 'dateTemplate.html',width:110},
+                    {name:'noOfTreamentDays', displayName:'Days', width:90},
+                    {name:($scope.isBaseCurrency ? 'requestedAmountBC' : 'requestedAmount'), displayName:'Request Amount', width:140},
+                    {name:($scope.isBaseCurrency ? 'policyDeductibleAmountBC' : 'policyDeductibleAmount'), displayName:'Policy Ded Amount',width:150},
+                    {name:($scope.isBaseCurrency ? 'manualDeductionAmountBC' : 'manualDeductionAmount'), displayName:'Manual Deduction', width:140},
+                    {name:($scope.isBaseCurrency ? 'penaltyAmountBC' : 'penaltyAmount'), displayName:'Penalty Amount', width:145},
+                    {name:($scope.isBaseCurrency ? 'suggestedAmoutBC' : 'suggestedAmout'), displayName:'Suggessted Amount', width:150},
+                    {name:($scope.isBaseCurrency ? 'approvedAmountBC' : 'approvedAmount'), displayName:'Approved Amount', width:165},
+                    {name:($scope.isBaseCurrency ? 'rejectedAmountBC' : 'rejectedAmount'), displayName:'Rejected Amount', width:145},
+                    {name:'rejectionCode.RejectionCode', displayName:'Rejection Code',width:140},
+                    {name:'rejectionCode.RejectionDesc', displayName:'Rejection Description',width:210},
+                    {name:'claimStatus', displayName:'Status', width:155},
+                    {name:'internalRemarks', displayName:'Internal Remarks', cellTemplate: path + 'descriptionTemplate.html', width:210},
+                    {name:'externalRemarks', displayName:'External Remarks', cellTemplate: path + 'descriptionTemplate.html', width:210},
+                    {name:'Settings', displayName:'Settings', cellTemplate: path + 'settingsTemplate.html',width:75, pinnedRight:true, enableColumnMenu: false}
+                ];    
+            }
+
             $scope.constructServiceTo = function() {
-                if($scope.claim.days != null){
-                    var serviceFrom = angular.copy(new Date($scope.claim.treatmentFromDate));
-                    serviceFrom.setDate(serviceFrom.getDate() + $scope.claim.noOfTreamentDays);
-                    $scope.claim.serviceTo = serviceFrom;
+                if($scope.claim.noOfTreamentDays != null){
+                    $scope.claim.treatmentToDate = ReimbursementProcessingFactory.addDays($scope.claim.treatmentFromDate, $scope.claim.noOfTreamentDays);
                 }
             }
 
             $scope.calculateDays = function() {
-                $scope.claim.days= Math.abs($scope.claim.treatmentFromDate - $scope.claim.treatmentToDate); 
-                
+                if($scope.claim.treatmentFromDate && $scope.claim.treatmentToDate) {
+                    var timeDiff = Math.abs($scope.claim.treatmentToDate.getTime() - $scope.claim.treatmentFromDate.getTime());
+                    $scope.claim.noOfTreamentDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+                }
             }
+
+            $scope.calculateSuggestedAmount = function() {
+                if($scope.claim.requestedAmount) {
+                    $scope.claim.suggestedAmout = ($scope.claim.requestedAmount - ($scope.claim.policyDeductibleAmount || 0) - 
+                                                  ($scope.claim.manualDeductionAmount || 0) - ($scope.claim.penaltyAmount || 0))
+                }                
+            }
+
+            // function calculatePenaltyAmount() {
+            //     ReimbursementProcessingFactory.addDays($scope.claim.treatmentFromDate, $scope.claim.noOfTreamentDays);
+            // }
             init();
         }
 })()
