@@ -15,7 +15,7 @@
         <div class="currencyType d-inline-block"><span style="color: white;">Currency: </span>
             <span class="fldsWrap clearfix">
                 <md-input-container flex-gt-sm style="width:auto !important; background:white; margin:0px;">    
-                    <md-select ng-model="currencyType" ng-change="convertCurrency();" ng-disabled="gridOptions.data.length > 1">
+                    <md-select ng-model="currencyType" ng-change="convertCurrency();" ng-disabled="gridOptions.data.length > 0">
                         <md-option value="{{option.ExchangeCurrency}}" ng-repeat="option in curencyList">{{option.ExchangeCurrency}}</md-option>
                     </md-select>
                 </md-input-container>
@@ -39,7 +39,9 @@
                 </table>
             </md-tooltip>
         </span>
-        <button type="button" class="btn btn-outline-primary btn-sm ml-3" ng-click="isLocalCurrency = !isLocalCurrency">{{ isLocalCurrency ? 'Convert To LocalCurrency' : 'Convert To BaseCurrency'}}</button>
+        <button type="button" class="btn btn-outline-primary btn-sm ml-3" ng-disabled="(currencyType == baseCurrency && gridOptions.data.length > 0)" ng-click="toggleLocalAndBaseCurrency();">
+            {{ isLocalCurrency ? 'Convert To LocalCurrency' : 'Convert To BaseCurrency'}}
+        </button>
         <a href="javascript:;" class="tablColmArrow float-right mt-2 mb-2 mr-3 ml-2" ng-click="gridAction('new', null, null);">
             <span class="oi" data-glyph="plus"></span>
         </a>

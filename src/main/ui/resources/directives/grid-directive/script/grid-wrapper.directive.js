@@ -13,26 +13,13 @@
                     module : '=',
                     onGridAction: '&',
                     curencyList : '=',
-                    exchangeRatemap : '=',
                     baseCurrency : '='
                 },
                 link: function(scope, elem, attrs, ngModel) {
                     scope.currencyType = scope.baseCurrency;
                     scope.noRecordsAvailable = scope.uiGridOptions['data'].length == 0;
-                    scope.currencyFields = scope.uiGridOptions.columnDefs.filter(function(value) {
-                        if(value.convertCurrency) {
-                            return value;
-                        }
-                    }).map(function(item) {
-                        return item.name;
-                    });
                     var path = 'resources/directives/grid-directive/view/';
                     scope.gridOptions = scope.uiGridOptions;
-                    angular.forEach(scope.gridOptions.columnDefs, function(value, key) {
-                        if(value.hasOwnProperty("cellTemplate")) value.cellTemplate = path + value.cellTemplate;
-                        if(value.hasOwnProperty("headerCellTemplate")) value.headerCellTemplate = path + value.headerCellTemplate;
-                    });
-
                     scope.noRecordsAvailable = scope.gridOptions['data'].length == 0;
 
                     scope.gridOptions.onRegisterApi = function(gridApi) {
@@ -65,13 +52,7 @@
                     }
 
                     scope.convertCurrency = function() {
-                        var exchangeRate = scope.exchangeRatemap[scope.currencyType];
-                        angular.forEach(scope.gridOptions.data, function(value, key) {
-                            scope.currencyFields.forEach(function(item) {
-                                value[item] = value[item] ? (value[item] * parseFloat(exchangeRate)) : null;
-                            });
-                        });
-                        var info = {action : 'convertCurrency'}
+                        var info = {action : 'convertCurrency', selectedCurrency : scope.currencyType}
                         scope.onGridAction({info})
                     }
 
@@ -103,6 +84,12 @@
                     scope.$watch('gridOptions.data.length', function(newValue, oldValue) {
                         if(newValue != null) scope.noRecordsAvailable = (newValue == 0);
                     })
+
+                    scope.toggleLocalAndBaseCurrency = function() {
+                        scope.isLocalCurrency = !scope.isLocalCurrency;
+                        var info = {action : 'localBaseCurrenyToggled', isBaseCurreny : scope.isLocalCurrency};
+                        scope.onGridAction({info});
+                    }
                 }
             }    
         });
