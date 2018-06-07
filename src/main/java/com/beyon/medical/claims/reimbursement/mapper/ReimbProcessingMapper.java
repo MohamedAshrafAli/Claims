@@ -16,21 +16,17 @@ public class ReimbProcessingMapper {
 			throws SQLException {
 		ReimbursementProcessingDTO processingDTO = new ReimbursementProcessingDTO();
 		List<ReimbursementProcessingServiceDTO> reimbursementProcessingServiceDTOs = new ArrayList<>();
-		while(row.next()) {			
-			if (row.getRow() == 1) {
-				processingDTO.setClaimNumber(row.getString("Claimnumber"));
-				processingDTO.setRequestNumber(row.getLong("Requestnumber"));		
-				processingDTO.setClaimType(row.getString("Claimtype"));
-				processingDTO.setEventCountry(row.getString("Eventcountry"));
-				processingDTO.setClaimCondition(row.getString("Claimcondition"));
-				processingDTO.setClaimStatusReason(row.getString("Claimstatusreason"));				
-				if (row.getString("Diagtype") != null) {
-					setDiagnosisDTO(row, processingDTO);
-				}
-			}
-			reimbursementProcessingServiceDTOs.add(ReimbursementProcessingServiceMapper.getReimbursementProcessingServiceDTO(row));			
+		processingDTO.setClaimNumber(row.getString("Claimnumber"));
+		processingDTO.setRequestNumber(row.getLong("Requestnumber"));		
+		processingDTO.setClaimType(row.getString("Claimtype"));
+		processingDTO.setEventCountry(row.getString("Eventcountry"));
+		processingDTO.setClaimCondition(row.getString("Claimcondition"));
+		processingDTO.setClaimStatusReason(row.getString("Claimstatusreason"));				
+		if (row.getString("Diagtype") != null) {
+			setDiagnosisDTO(row, processingDTO);
 		}		
-		processingDTO.setProcessingServiceDTOs(reimbursementProcessingServiceDTOs);
+		reimbursementProcessingServiceDTOs.add(ReimbursementProcessingServiceMapper.getReimbursementProcessingServiceDTO(row));			
+		processingDTO.setProcessingServiceDTOs(reimbursementProcessingServiceDTOs);		
 		
 		return processingDTO;
 	}

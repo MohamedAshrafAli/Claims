@@ -72,25 +72,18 @@ public final class ReimbursementQueriesConstants implements Serializable{
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_SL_SEQUENCE_NAME = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelsl.sequence.name");
 
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MDIAG = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelmdiag");
+	public static final String REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_MDIAG = reimbursementResourceBundle.getString("reimbursement.queries.update.ctdslevelmdiag");
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MSRVC = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelmsrvc");
+	public static final String REIMBURSEMENT_QUERIES_INSERT_CHDS_LEVEL_MSRVC = reimbursementResourceBundle.getString("reimbursement.queries.insert.chdslevelmsrvc");
+	public static final String REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_MSRVC = reimbursementResourceBundle.getString("reimbursement.queries.update.ctdslevelmsrvc");
+	public static final String REIMBURSEMENT_QUERIES_DETAILS_CTDS_LEVEL_MSRVC_VERSION = reimbursementResourceBundle.getString("reimbursement.queries.details.ctdslevelmsrvc.version");
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MSRVC_SEQUENCE_NAME = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelmsrvc.sequence.name");	
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MC = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelmc");
+	public static final String REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_MC = reimbursementResourceBundle.getString("reimbursement.queries.update.ctdslevelmc");
 	public static final String REIMBURSEMENT_QUERIES_PROCESSING_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.processing.details");
 	public static final String REIMBURSEMENT_QUERIES_PROCESSING_DETAILS_ID_CRITERIA = reimbursementResourceBundle.getString("reimbursement.queries.processing.details.id.criteria");
 	public static final String REIMBURSEMENT_QUERIES_PROCESSING_DETAILS_CLAIMNUMBER_CRITERIA = reimbursementResourceBundle.getString("reimbursement.queries.processing.details.claimnumber.criteria");
 	public static final String REIMBURSEMENT_QUERIES_PROCESSING_DETAILS_REQUESTNUMBER_CRITERIA = reimbursementResourceBundle.getString("reimbursement.queries.processing.details.requestnumber.criteria");
-
-	
-	
-	
-	
-	
-	
-	
-
-	 
-
-	
 	
 	
 }
