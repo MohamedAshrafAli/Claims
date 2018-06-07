@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -550,15 +551,88 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		return reimbursementAssignmentDTOs;
 	}
 
-	private boolean insertCTDSLEVELMSRVC(String compId,ReimbursementProcessingDTO reimbursementProcessingDTO,JdbcTemplate jdbcTemplate) throws DAOException {
+	private ReimbursementProcessingDTO insertCTDSLEVELMSRVC(String compId,ReimbursementProcessingDTO reimbursementProcessingDTO,JdbcTemplate jdbcTemplate) throws DAOException {
+		List<ReimbursementProcessingServiceDTO> reimbursementProcessingServiceResultDTOs  = new ArrayList<>();
 		try {
-			List<ReimbursementProcessingServiceDTO> reimbursementProcessingServiceDTOs  = reimbursementProcessingDTO.getProcessingServiceDTOs();
+			List<ReimbursementProcessingServiceDTO> reimbursementProcessingServiceDTOs  = reimbursementProcessingDTO.getProcessingServiceDTOs();			
 			jdbcTemplate.batchUpdate(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MSRVC, new BatchPreparedStatementSetter() {
 				@Override
 				public void setValues(PreparedStatement ps, int i) throws SQLException {
 					ReimbursementProcessingServiceDTO processingServiceDTO = reimbursementProcessingServiceDTOs.get(i);
 					Long clcpId = getSequenceNo(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MSRVC_SEQUENCE_NAME);
 					processingServiceDTO.setReimbursementProcessId(clcpId);
+					java.sql.Date treatmentFromDate = toSQLDate(processingServiceDTO.getTreatmentFromDate());
+					java.sql.Date treatmentToDate = toSQLDate(processingServiceDTO.getTreatmentToDate());
+					java.sql.Date statusDate = toSQLDate(processingServiceDTO.getStatusDate());
+					java.sql.Date approvedDate = toSQLDate(processingServiceDTO.getApprovedDate());
+					java.sql.Date updatedDate = new java.sql.Date(new Date().getTime());
+					java.sql.Date createdDate = new java.sql.Date(new Date().getTime());
+					
+					ps.setLong(1, processingServiceDTO.getReimbursementProcessId());
+					ps.setLong(2, reimbursementProcessingDTO.getId());
+					ps.setLong(3, 0);
+					ps.setDate(4, treatmentFromDate);
+					ps.setDate(5, treatmentToDate);
+					ps.setLong(6, processingServiceDTO.getNoOfTreamentDays());
+					ps.setString(7, processingServiceDTO.getServiceType());
+					ps.setString(8, processingServiceDTO.getServiceId());
+					ps.setString(9, processingServiceDTO.getBenefitId());
+					ps.setString(10, processingServiceDTO.getSubBenefitId());
+					ps.setString(11, processingServiceDTO.getCurrencyId());
+					ps.setBigDecimal(12, processingServiceDTO.getRequestedAmount());
+					ps.setBigDecimal(13, processingServiceDTO.getRequestedAmountBC());
+					ps.setBigDecimal(14, null);
+					ps.setBigDecimal(15, null);
+					ps.setBigDecimal(16, processingServiceDTO.getManualDeductionAmount());
+					ps.setBigDecimal(17, processingServiceDTO.getManualDeductionAmountBC());
+					ps.setBigDecimal(18, processingServiceDTO.getPenaltyAmount());
+					ps.setBigDecimal(19, processingServiceDTO.getPenaltyAmountBC());
+					ps.setBigDecimal(20, processingServiceDTO.getSuggestedAmout());
+					ps.setBigDecimal(21, processingServiceDTO.getSuggestedAmoutBC());
+					ps.setBigDecimal(22, processingServiceDTO.getApprovedAmount());
+					ps.setBigDecimal(23, processingServiceDTO.getApprovedAmountBC());
+					ps.setString(24, processingServiceDTO.getInternalRejectionCode());
+					ps.setBigDecimal(25, processingServiceDTO.getRejectedAmount());
+					ps.setBigDecimal(26, processingServiceDTO.getRejectedAmountBC());
+					ps.setString(27, processingServiceDTO.getClaimStatus());
+					ps.setDate(28, statusDate);
+					ps.setString(29, processingServiceDTO.getInternalRemarks());
+					ps.setString(30, processingServiceDTO.getExternalRemarks());
+					ps.setString(31, processingServiceDTO.getLossType());
+					ps.setString(32, processingServiceDTO.getEstType());
+					ps.setString(33, "");
+					ps.setString(34, "");
+					ps.setString(35, "");
+					ps.setString(36, processingServiceDTO.getCreatedBy());
+					ps.setDate(37, createdDate);
+					ps.setString(38, processingServiceDTO.getUpdatedBy());
+					ps.setDate(39, updatedDate);
+					ps.setString(40, processingServiceDTO.getApprovedBy());
+					ps.setDate(41, approvedDate);
+					ps.setString(42, processingServiceDTO.getCurrencyType());
+					reimbursementProcessingServiceResultDTOs.add(processingServiceDTO);
+				}
+				@Override
+				public int getBatchSize() {
+					return reimbursementProcessingServiceDTOs.size();
+				}
+			});
+		} catch (Exception e) {
+			writeLog(CLASS_NAME, "Exception occured while executing insertCTDSLEVELMSRVC", ERROR, e);
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		reimbursementProcessingDTO.setProcessingServiceDTOs(reimbursementProcessingServiceResultDTOs);
+		return reimbursementProcessingDTO;
+	}
+	
+	private boolean insertCHDSLEVELMSRVC(String compId,ReimbursementProcessingDTO reimbursementProcessingDTO,JdbcTemplate jdbcTemplate) throws DAOException {
+		try {
+			List<ReimbursementProcessingServiceDTO> reimbursementProcessingServiceDTOs  = reimbursementProcessingDTO.getProcessingServiceDTOs();
+			jdbcTemplate.batchUpdate(REIMBURSEMENT_QUERIES_INSERT_CHDS_LEVEL_MSRVC, new BatchPreparedStatementSetter() {
+				@Override
+				public void setValues(PreparedStatement ps, int i) throws SQLException {
+					ReimbursementProcessingServiceDTO processingServiceDTO = reimbursementProcessingServiceDTOs.get(i);					
 					java.sql.Date treatmentFromDate = toSQLDate(processingServiceDTO.getTreatmentFromDate());
 					java.sql.Date treatmentToDate = toSQLDate(processingServiceDTO.getTreatmentToDate());
 					java.sql.Date statusDate = toSQLDate(processingServiceDTO.getStatusDate());
@@ -620,7 +694,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
 		}
 		return true;
-	}
+	}	
 
 	private boolean insertCTDSLEVELMC(String compId,ReimbursementProcessingDTO reimbursementProcessingDTO,JdbcTemplate jdbcTemplate) throws DAOException {
 
@@ -635,7 +709,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		});
 
 		return true;
-	}
+	}	
 
 	private boolean insertCTDSLEVELMDIAG(String compId,Long sgsId,DiagnosisDTO diagnosisDTO, JdbcTemplate jdbcTemplate) throws DAOException {
 		java.sql.Date updatedDate = new java.sql.Date(new Date().getTime());
@@ -652,12 +726,125 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		return true;
 	}
 	
+	private ReimbursementProcessingDTO updateCTDSLEVELMSRVC(String compId, ReimbursementProcessingDTO reimbursementProcessingDTO, JdbcTemplate jdbcTemplate) throws DAOException {
+		List<ReimbursementProcessingServiceDTO> reimbursementProcessingServiceResultDTOs  = new ArrayList<>();
+		try {
+			List<ReimbursementProcessingServiceDTO> reimbursementProcessingServiceDTOs  = reimbursementProcessingDTO.getProcessingServiceDTOs();			
+			jdbcTemplate.batchUpdate(REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_MSRVC, new BatchPreparedStatementSetter() {
+				@Override
+				public void setValues(PreparedStatement ps, int i) throws SQLException {
+					ReimbursementProcessingServiceDTO processingServiceDTO = reimbursementProcessingServiceDTOs.get(i);
+					Long version = getLatestVersion(processingServiceDTO.getReimbursementProcessId(), jdbcTemplate);
+					processingServiceDTO.setClaimsSequenceNo(version+1);
+					java.sql.Date treatmentFromDate = toSQLDate(processingServiceDTO.getTreatmentFromDate());
+					java.sql.Date treatmentToDate = toSQLDate(processingServiceDTO.getTreatmentToDate());
+					java.sql.Date statusDate = toSQLDate(processingServiceDTO.getStatusDate());
+					java.sql.Date approvedDate = toSQLDate(processingServiceDTO.getApprovedDate());
+					java.sql.Date updatedDate = new java.sql.Date(new Date().getTime());					
+					
+					ps.setLong(1, reimbursementProcessingDTO.getId());					
+					ps.setLong(2, processingServiceDTO.getClaimsSequenceNo());
+					ps.setDate(3, treatmentFromDate);
+					ps.setDate(4, treatmentToDate);
+					ps.setLong(5, processingServiceDTO.getNoOfTreamentDays());
+					ps.setString(6, processingServiceDTO.getServiceType());
+					ps.setString(7, processingServiceDTO.getServiceId());
+					ps.setString(8, processingServiceDTO.getBenefitId());
+					ps.setString(9, processingServiceDTO.getSubBenefitId());
+					ps.setString(10, processingServiceDTO.getCurrencyId());
+					ps.setBigDecimal(11, processingServiceDTO.getRequestedAmount());
+					ps.setBigDecimal(12, processingServiceDTO.getRequestedAmountBC());
+					ps.setBigDecimal(13, null);
+					ps.setBigDecimal(14, null);
+					ps.setBigDecimal(15, processingServiceDTO.getManualDeductionAmount());
+					ps.setBigDecimal(16, processingServiceDTO.getManualDeductionAmountBC());
+					ps.setBigDecimal(17, processingServiceDTO.getPenaltyAmount());
+					ps.setBigDecimal(18, processingServiceDTO.getPenaltyAmountBC());
+					ps.setBigDecimal(19, processingServiceDTO.getSuggestedAmout());
+					ps.setBigDecimal(20, processingServiceDTO.getSuggestedAmoutBC());
+					ps.setBigDecimal(21, processingServiceDTO.getApprovedAmount());
+					ps.setBigDecimal(22, processingServiceDTO.getApprovedAmountBC());
+					ps.setString(23, processingServiceDTO.getInternalRejectionCode());
+					ps.setBigDecimal(24, processingServiceDTO.getRejectedAmount());
+					ps.setBigDecimal(25, processingServiceDTO.getRejectedAmountBC());
+					ps.setString(26, processingServiceDTO.getClaimStatus());
+					ps.setDate(27, statusDate);
+					ps.setString(28, processingServiceDTO.getInternalRemarks());
+					ps.setString(39, processingServiceDTO.getExternalRemarks());
+					ps.setString(30, processingServiceDTO.getLossType());
+					ps.setString(31, processingServiceDTO.getEstType());
+					ps.setString(32, "");
+					ps.setString(33, "");
+					ps.setString(34, "");
+					ps.setString(35, processingServiceDTO.getCreatedBy());					
+					ps.setString(36, processingServiceDTO.getUpdatedBy());
+					ps.setDate(37, updatedDate);
+					ps.setString(38, processingServiceDTO.getApprovedBy());
+					ps.setDate(39, approvedDate);
+					ps.setString(40, processingServiceDTO.getCurrencyType());
+					ps.setLong(41, processingServiceDTO.getReimbursementProcessId());
+					reimbursementProcessingServiceResultDTOs.add(processingServiceDTO);
+				}
+				@Override
+				public int getBatchSize() {
+					return reimbursementProcessingServiceDTOs.size();
+				}
+			});
+		} catch (Exception e) {
+			writeLog(CLASS_NAME, "Exception occured while executing insertCTDSLEVELMSRVC", ERROR, e);
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		reimbursementProcessingDTO.setProcessingServiceDTOs(reimbursementProcessingServiceResultDTOs);
+		return reimbursementProcessingDTO;
+	}
+	
+	private boolean updateCTDSLEVELMC(String compId,ReimbursementProcessingDTO reimbursementProcessingDTO,JdbcTemplate jdbcTemplate) throws DAOException {
+
+		jdbcTemplate.update(REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_MC,
+				new Object[] {  
+						reimbursementProcessingDTO.getClaimNumber(), 
+						reimbursementProcessingDTO.getRequestNumber(), 
+						reimbursementProcessingDTO.getClaimType(),
+						reimbursementProcessingDTO.getEventCountry(), 
+						reimbursementProcessingDTO.getClaimCondition(),
+						reimbursementProcessingDTO.getClaimStatusReason(),
+						reimbursementProcessingDTO.getId()
+		});
+
+		return true;
+	}
+	
+	private boolean updateCTDSLEVELMDIAG(String compId,Long sgsId,DiagnosisDTO diagnosisDTO, JdbcTemplate jdbcTemplate) throws DAOException {
+		java.sql.Date updatedDate = new java.sql.Date(new Date().getTime());		
+		jdbcTemplate.update(REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_MDIAG,
+				new Object[] {  
+						diagnosisDTO.getDiagId(), 
+						diagnosisDTO.getDiagType(),						
+						diagnosisDTO.getUpdatedBy(),
+						updatedDate,
+						sgsId
+		});
+		return true;
+	}
+	
 	public ReimbursementProcessingDTO insertReimbursementProcessingDetails(String compId,ReimbursementProcessingDTO processingDTO) throws DAOException {
 		JdbcTemplate jdbcTemplate = DAOFactory.getJdbcTemplate("gm");
-		insertCTDSLEVELMSRVC(compId, processingDTO, jdbcTemplate);
+		ReimbursementProcessingDTO reimbursementProcessingDTO = insertCTDSLEVELMSRVC(compId, processingDTO, jdbcTemplate);
+		insertCHDSLEVELMSRVC(compId, reimbursementProcessingDTO, jdbcTemplate);
 		insertCTDSLEVELMC(compId, processingDTO, jdbcTemplate);
 		insertCTDSLEVELMDIAG(compId, processingDTO.getId(), processingDTO.getPrimaryDiagnosis(), jdbcTemplate);
 		insertCTDSLEVELMDIAG(compId, processingDTO.getId(), processingDTO.getSecondaryDiagnosis(), jdbcTemplate);
+		return processingDTO;
+	}
+	
+	public ReimbursementProcessingDTO updateReimbursementProcessingDetails(String compId,ReimbursementProcessingDTO processingDTO) throws DAOException {
+		JdbcTemplate jdbcTemplate = DAOFactory.getJdbcTemplate("gm");
+		ReimbursementProcessingDTO result = updateCTDSLEVELMSRVC(compId, processingDTO, jdbcTemplate);
+		insertCHDSLEVELMSRVC(compId, result, jdbcTemplate);
+		updateCTDSLEVELMC(compId, processingDTO, jdbcTemplate);
+		updateCTDSLEVELMDIAG(compId, processingDTO.getId(), processingDTO.getPrimaryDiagnosis(), jdbcTemplate);
+		updateCTDSLEVELMDIAG(compId, processingDTO.getId(), processingDTO.getSecondaryDiagnosis(), jdbcTemplate);
 		return processingDTO;
 	}
 	
@@ -671,6 +858,11 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 				return ReimbProcessingMapper.getReimbursementProcessingDTO(row);
 			}
 		});
+	}
+	
+	private Long getLatestVersion(Long serviceId, JdbcTemplate jdbcTemplate) {
+		return jdbcTemplate.queryForObject(REIMBURSEMENT_QUERIES_DETAILS_CTDS_LEVEL_MSRVC_VERSION, 
+				new Object[] {serviceId}, Long.class);
 	}
 	
 	private java.sql.Date toSQLDate(LocalDate date) {

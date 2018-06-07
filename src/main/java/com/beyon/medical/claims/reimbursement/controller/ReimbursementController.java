@@ -134,6 +134,17 @@ public class ReimbursementController{
 		return _reimbursementProcessingDTO;
 	}
 	
+	@PostMapping("/updateProcessingDetails/{compId}")
+	public  @ResponseBody ReimbursementProcessingDTO updateProcessingDetails(@PathVariable String compId, @RequestBody ReimbursementProcessingDTO reimbursementProcessingDTO) throws MedicalClaimsException {
+		ReimbursementProcessingDTO _reimbursementProcessingDTO = null;
+		try {
+			_reimbursementProcessingDTO = reimbursementClaimsService.saveProcessingDetails(compId,reimbursementProcessingDTO);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return _reimbursementProcessingDTO;
+	}
+	
 	@PostMapping("/getReimbursementProcessingDetails")
 	public @ResponseBody ReimbursementProcessingDTO getReimbursementProcessingDetails(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
 		ReimbursementProcessingDTO reimbursementProcessingDTO = null;

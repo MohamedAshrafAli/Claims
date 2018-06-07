@@ -311,6 +311,21 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 		}
 		return _reimbursementProcessingDTO;
 	}
+	
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false, rollbackFor = Exception.class)
+	public ReimbursementProcessingDTO updateProcessingDetails(String compId,
+			ReimbursementProcessingDTO reimbursementProcessingDTO) throws DAOException {
+		ReimbursementProcessingDTO _reimbursementProcessingDTO = null;
+		try {
+			_reimbursementProcessingDTO = reimbursementClaimsDAO.updateReimbursementProcessingDetails(compId,
+					reimbursementProcessingDTO);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return _reimbursementProcessingDTO;
+	}
 
 	@Transactional(propagation = Propagation.SUPPORTS, isolation = Isolation.READ_COMMITTED, readOnly = true)
 	public ReimbursementProcessingDTO getReimbursementProcessingDetailsById(ObjectNode paramMap) throws DAOException {
