@@ -20,10 +20,12 @@ import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesCon
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -557,26 +559,13 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 					ReimbursementProcessingServiceDTO processingServiceDTO = reimbursementProcessingServiceDTOs.get(i);
 					Long clcpId = getSequenceNo(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MSRVC_SEQUENCE_NAME);
 					processingServiceDTO.setReimbursementProcessId(clcpId);
-					java.sql.Date treatmentFromDate = null;
-					java.sql.Date treatmentToDate = null;
-					java.sql.Date statusDate = null;
-					java.sql.Date approvedDate = null;
-					java.sql.Date updatedDate = null;
-					java.sql.Date createdDate = null;
-					if (processingServiceDTO.getTreatmentFromDate() != null) {
-						treatmentFromDate = java.sql.Date.valueOf(processingServiceDTO.getTreatmentFromDate());
-					}
-					if (processingServiceDTO.getTreatmentToDate() != null) {
-						treatmentToDate = java.sql.Date.valueOf(processingServiceDTO.getTreatmentToDate());
-					}
-					if (processingServiceDTO.getStatusDate() != null) {
-						statusDate = java.sql.Date.valueOf(processingServiceDTO.getStatusDate());
-					}
-					if (processingServiceDTO.getApprovedDate() != null) {
-						approvedDate = java.sql.Date.valueOf(processingServiceDTO.getApprovedDate());
-					}
-					updatedDate = new java.sql.Date(new Date().getTime());
-					createdDate = new java.sql.Date(new Date().getTime());
+					java.sql.Date treatmentFromDate = toSQLDate(processingServiceDTO.getTreatmentFromDate());
+					java.sql.Date treatmentToDate = toSQLDate(processingServiceDTO.getTreatmentToDate());
+					java.sql.Date statusDate = toSQLDate(processingServiceDTO.getStatusDate());
+					java.sql.Date approvedDate = toSQLDate(processingServiceDTO.getApprovedDate());
+					java.sql.Date updatedDate = new java.sql.Date(new Date().getTime());
+					java.sql.Date createdDate = new java.sql.Date(new Date().getTime());
+					
 					ps.setLong(1, processingServiceDTO.getReimbursementProcessId());
 					ps.setLong(2, reimbursementProcessingDTO.getId());
 					ps.setLong(3, 0);
@@ -683,5 +672,8 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 			}
 		});
 	}
-
+	
+	private java.sql.Date toSQLDate(LocalDate date) {
+		return Optional.ofNullable(date).map(java.sql.Date::valueOf).orElse(null);
+	}
 }
