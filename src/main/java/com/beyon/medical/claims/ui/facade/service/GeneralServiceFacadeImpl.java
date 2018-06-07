@@ -213,6 +213,7 @@ public class GeneralServiceFacadeImpl implements GeneralServiceFacade {
 			Map<Integer, String> outputMap = new HashMap<>();
 			outputMap.put(1, "UserId");
 			outputMap.put(2, "UserName");
+			outputMap.put(3, "UserGroupId");
 			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
 			userList =  generalClaimsDao.getSearchDataList(GENERAL_QUERIES_USER_LIST, inputMap, outputMap);
 		} catch (Exception e) {

@@ -60,11 +60,17 @@ public final class ReimbursementQueriesConstants implements Serializable{
 	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_REQ_RECEIVED_FROM_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.ctds.details.assignment.reqreceivedfrom.criteria");
 	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_REQ_RECEIVED_TO_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.ctds.details.assignment.reqreceivedto.criteria");
 	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_REQ_RECEIVED_BETWEEN_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.ctds.details.assignment.reqreceivedfromto.criteria");
+	
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_C = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelc");
 	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_MEMBER_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.ctds.assignment.member.details");
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_CP = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelcp");
 
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_CP_SEQUENCE_NAME = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelcp.sequence.name");
+	
+	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_SL = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelsl");
+
+	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_SL_SEQUENCE_NAME = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelsl.sequence.name");
+
 	
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MDIAG = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelmdiag");
 	public static final String REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_MDIAG = reimbursementResourceBundle.getString("reimbursement.queries.update.ctdslevelmdiag");

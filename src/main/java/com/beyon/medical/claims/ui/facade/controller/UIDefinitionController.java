@@ -171,5 +171,27 @@ public class UIDefinitionController{
 		return claimConditions;
 	}
 	
+	@PostMapping("/getClaimCurrencyType")
+	public @ResponseBody ObjectNode getClaimCurrencyType(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode claimConditions = null;
+		try {
+			claimConditions = uiServiceFacade.getUIDefinitionList(GENERAL_QUERIES_UID_CLAIM_CURRENCY_TYPE ,inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return claimConditions;
+	}
+	
+	@PostMapping("/getJobStatusTypes")
+	public @ResponseBody ObjectNode getJobStatusTypes(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode claimConditions = null;
+		try {
+			claimConditions = uiServiceFacade.getUIDefinitionList(GENERAL_QUERIES_UID_JOB_STATUS ,inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return claimConditions;
+	}
+	
 	
 }
