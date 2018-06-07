@@ -24,18 +24,10 @@
         <span class="fa fa-info-circle" style="color: #4e5e82;">
             <md-tooltip md-direction="{{info.tipDirection}}">
                 <table>
-                    <tr>
-                        <td><strong>United Arab Emirates(AED):</strong></td>
-                        <td>&nbsp; 1</td>
+                    <tr ng-repeat="option in curencyList">
+                        <td><strong>{{option.ExchangeCurrency}}:</strong></td>
+                        <td>&nbsp; {{option.ExchangeRate}}</td>
                     </tr>
-                    <tr>
-                        <td><strong>United States Dollar(USD):</strong></td>
-                        <td>&nbsp; 2</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Euro(EUR):</strong></td>
-                        <td>&nbsp; 3</td>
-                    </tr>                
                 </table>
             </md-tooltip>
         </span>
