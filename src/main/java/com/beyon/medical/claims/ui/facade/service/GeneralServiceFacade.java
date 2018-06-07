@@ -38,5 +38,8 @@ public interface GeneralServiceFacade{
 	ObjectNode getDiagnosisCodeDetails(ObjectNode paramMap) throws DAOException;
 	
 	ObjectNode getRejectionCodeDetails(ObjectNode paramMap) throws DAOException;
+	
+	List<String> getCountryIds(String compId) throws DAOException;
+
 
 }

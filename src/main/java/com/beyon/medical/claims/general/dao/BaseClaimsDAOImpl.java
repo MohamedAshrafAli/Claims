@@ -4,7 +4,6 @@ import static com.beyon.framework.util.AppLogger.DEBUG;
 import static com.beyon.framework.util.AppLogger.ERROR;
 import static com.beyon.framework.util.AppLogger.writeLog;
 import static com.beyon.framework.util.Constants.INTERNAL_ERROR_OCCURED;
-import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MR;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,7 +20,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import com.beyon.framework.dao.DAOFactory;
 import com.beyon.framework.util.FoundationUtils;
 import com.beyon.medical.claims.exception.DAOException;
-import com.beyon.medical.claims.reimbursement.dto.ReimbursementRegistrationDTO;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -128,38 +126,24 @@ public class BaseClaimsDAOImpl {
 		return cobId;
 	}
 	
-	private boolean insertCTDSLEVELMDIAG(String compId,ReimbursementRegistrationDTO reimbursementRegistrationDTO,JdbcTemplate jdbcTemplate) throws DAOException {
-		java.sql.Date memberDOB = null;
-		java.sql.Date cardReceivedDate = null;
-		if (reimbursementRegistrationDTO.getMemberDOB() != null) {
-			memberDOB = java.sql.Date.valueOf(reimbursementRegistrationDTO.getMemberDOB());
+	
+	public List<String> getCountryIds(String strQuery, String compId) throws DAOException {
+		List<String> countryIds = new ArrayList<String>();
+		try {
+			NamedParameterJdbcTemplate namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
+			Map<String, Object> inputMap = new HashMap<>();
+			inputMap.put("compId",compId);
+			namedParameterJdbcTemplate.query(strQuery, inputMap , new RowCallbackHandler() {
+				@Override
+				public void processRow(ResultSet rs) throws SQLException {
+					countryIds.add(rs.getString("CountryId"));
+				}
+			});
+		} catch (Exception ex) {
+			writeLog(CLASS_NAME, "Exception occured while executing getCountryIds", ERROR, ex);
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
 		}
-		if (reimbursementRegistrationDTO.getCardReceivedDate() != null) {
-			cardReceivedDate = java.sql.Date.valueOf(reimbursementRegistrationDTO.getCardReceivedDate());
-		}
-		jdbcTemplate.update(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MR,
-				new Object[] { reimbursementRegistrationDTO.getId(), 
-						reimbursementRegistrationDTO.getRiskId(), 
-						reimbursementRegistrationDTO.getMemberNumber(), 
-						reimbursementRegistrationDTO.getMemberName(),
-						reimbursementRegistrationDTO.getMemberType(), 
-						reimbursementRegistrationDTO.getMemberCategory(),
-						memberDOB, 
-						reimbursementRegistrationDTO.getIsDependent(), 
-						reimbursementRegistrationDTO.getParentMemberId(),
-						reimbursementRegistrationDTO.getRelationWithPrimary(),
-						reimbursementRegistrationDTO.getNationalId(), 
-						reimbursementRegistrationDTO.getUidId(), 
-						reimbursementRegistrationDTO.getPassportNumber(),
-						reimbursementRegistrationDTO.getCardNumber(), 
-						cardReceivedDate, 
-						reimbursementRegistrationDTO.getMobileNum1(), 
-						reimbursementRegistrationDTO.getEmail1(),
-						reimbursementRegistrationDTO.getMobileNum2(), 
-						reimbursementRegistrationDTO.getEmail2()
-		});
-
-		return true;
+		return countryIds;
 	}
 
 

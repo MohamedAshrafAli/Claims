@@ -22,6 +22,7 @@ import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_REJECTION_CODE_DETAILS;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -213,6 +214,7 @@ public class GeneralServiceFacadeImpl implements GeneralServiceFacade {
 			Map<Integer, String> outputMap = new HashMap<>();
 			outputMap.put(1, "UserId");
 			outputMap.put(2, "UserName");
+			outputMap.put(3, "UserGroupId");
 			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
 			userList =  generalClaimsDao.getSearchDataList(GENERAL_QUERIES_USER_LIST, inputMap, outputMap);
 		} catch (Exception e) {
@@ -272,6 +274,18 @@ public class GeneralServiceFacadeImpl implements GeneralServiceFacade {
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
 		}
 		return userList;
+	}
+	
+	@Override
+	public List<String> getCountryIds(String compId) throws DAOException {
+		List<String> countryIds = null;
+		try {
+			countryIds =  generalClaimsDao.getCountryIds(GENERAL_QUERIES_GET_COB_DETAIL,compId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return countryIds;
 	}
 	
 }
