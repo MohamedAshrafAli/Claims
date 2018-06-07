@@ -34,6 +34,14 @@
         $scope.assignedToSelectedUser = function() {
             if ($scope.selectedUserToAssign != null && $scope.claimsToAssign != null && $scope.claimsToAssign.length > 0) {
                 if (true) {
+                    var userDto = {
+                        userId : $scope.selectedUserToAssign.UserId,
+                        userGroupId : $scope.selectedUserToAssign.UserGroupId
+                    };
+                    angular.forEach($scope.claimsToAssign, function(value, key) {
+                        userDto.slId = value.id;
+                        value.assignedUserDetailsDTO = userDto
+                    }) 
                     SpinnerService.start();
                     ReimbursementUserAssignmentService.saveAssignmentDetails($scope.claimsToAssign, function(resp) {
                         angular.forEach($scope.claimsToAssign, function(claim, claimIndex) {
