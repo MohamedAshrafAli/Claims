@@ -40,6 +40,7 @@
         <script src="<s:url value="resources/static/bower_components/ng-file-upload/ng-file-upload.min.js"/>"></script>
         <script src="<s:url value="resources/static/bower_components/angular-thumbnails/dist/angular-thumbnails.js"/>"></script>
         <script src="<s:url value="resources/static/bower_components/pdfjs-dist/build/pdf.js"/>"></script>
+        <script src="<s:url value="resources/static/bower_components/pdfjs-dist/build/pdf.worker.js"/>"></script>
         <script src="<s:url value="resources/static/bower_components/angular-ui-carousel/dist/ui-carousel.js"/>"></script>
         <script src="<s:url value="resources/static/bower_components/angular-ui-grid/ui-grid.js"/>"></script>
         <script src="<s:url value="resources/static/bower_components/angular-animate/angular-animate.min.js"/>"></script>
@@ -54,6 +55,10 @@
         <script src="<s:url value="resources/static/bower_components/angular-resource/angular-resource.min.js"/>"></script>
 
         <script src="<s:url value="resources/app.js"/>"></script>
+        <!--util service -->
+        <script src="<s:url value="resources/util/autocomplete.service.js"/>"></script>
+        <script src="<s:url value="resources/util/ui-defination.service.js"/>"></script>
+        <script src="<s:url value="resources/util/spinner.service.js"/>"></script>
         <!-- Components -->
         <script src="<s:url value="resources/component/listView-component/listview.component.js"/>"></script>
         <script src="<s:url value="resources/component/listView-component/listview.component.service.js"/>"></script>
@@ -61,8 +66,6 @@
         <!-- Directives -->
         <script src="<s:url value="resources/directives/grid-directive/script/grid-wrapper.directive.js"/>"></script>
         <script src="<s:url value="resources/util/pagination/pagination.directive.js"/>"></script>
-        <script src="<s:url value="resources/util/autocomplete.service.js"/>"></script>
-        <script src="<s:url value="resources/util/ui-defination.service.js"/>"></script>
         <script src="<s:url value="resources/directives/claimsListView-directive/script/claimslistview.directive.js"/>"></script>
         <script src="<s:url value="resources/directives/claimsListView-directive/script/claimslistview.directive.service.js"/>"></script>
         <script src="<s:url value="resources/directives/finalization-directive/script/finalizationlistview.directive.js"/>"></script>
@@ -91,6 +94,7 @@
         <script src="<s:url value="resources/reimbursement-claims/user-assignment/script/reimbursement-user-assignment.factory.js"/>"></script>
         <script src="<s:url value="resources/reimbursement-claims/processing/script/reimbursement-processing.controller.js"/>"></script>
         <script src="<s:url value="resources/reimbursement-claims/processing/script/reimbursement-processing.service.js"/>"></script>
+        <script src="<s:url value="resources/reimbursement-claims/processing/script/reimbursement-processing.factory.js"/>"></script>
         <script src="<s:url value="resources/reimbursement-claims/finalization/script/reimbursement-finalization.controller.js"/>"></script>
         <script src="<s:url value="resources/reimbursement-claims/finalization/script/reimbursement-finalization.service.js"/>"></script>
     

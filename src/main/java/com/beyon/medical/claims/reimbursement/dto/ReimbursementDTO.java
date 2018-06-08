@@ -16,8 +16,6 @@ public class ReimbursementDTO extends ClaimBaseDTO {
 	private BigDecimal requestAmt;
 	private String paymentWay;
 	private String paymentRefNum;
-	private LocalDate serviceFmDate;
-	private BigDecimal requestAmtBC;
 	public String getVoucherNumber() {
 		return voucherNumber;
 	}
@@ -78,18 +76,5 @@ public class ReimbursementDTO extends ClaimBaseDTO {
 	}
 	public void setPaymentRefNum(String paymentRefNum) {
 		this.paymentRefNum = paymentRefNum;
-	}
-	
-	public LocalDate getServiceFmDate() {
-		return serviceFmDate;
-	}
-	public void setServiceFmDate(LocalDate serviceFmDate) {
-		this.serviceFmDate = serviceFmDate;
-	}
-	public BigDecimal getRequestAmtBC() {
-		return requestAmtBC;
-	}
-	public void setRequestAmtBC(BigDecimal requestAmtBC) {
-		this.requestAmtBC = requestAmtBC;
-	}
+	}	
 }

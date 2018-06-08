@@ -19,7 +19,7 @@
                 method: 'POST',
                 url: resourceUrl + '/saveAssignmentDetails/'+ compId,
                 isArray : true
-            }
+            }            
         })            
     }
 })();

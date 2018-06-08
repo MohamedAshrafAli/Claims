@@ -37,6 +37,22 @@
                 'getStatusTypes' : {
                     method: 'POST',
                     url: resourceUrl + '/getStatusTypes'
+                },
+                'getClaimType' : {
+                    method: 'POST',
+                    url: resourceUrl + '/getClaimType'
+                },
+                'getClaimCondition' : {
+                    method: 'POST',
+                    url: resourceUrl + '/getClaimCondition'
+                },
+                'getClaimsStatusReason' : {
+                    method: 'POST',
+                    url: resourceUrl + '/getClaimsStatusReason'
+                },
+                'getClaimantESTType' : {
+                    method: 'POST',
+                    url: resourceUrl + '/getClaimantESTType'
                 }
             })    
         }

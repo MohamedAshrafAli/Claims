@@ -812,7 +812,6 @@ md-input-container md-select label,
     text-align: left;
     vertical-align: middle;
     max-width: 920px;
-    width:200%
 }
 
 ._md-datepicker-floating-label>md-datepicker .md-datepicker-button {
@@ -1210,7 +1209,6 @@ footer li strong {
     width: 330px;
     height: 97%;
     background: #e9ecf4;
-    white-space: nowrap;
     -webkit-transition: all 700ms ease-in;
     -moz-transition: all 700ms ease-in;
     -ms-transition: all 700ms ease-in;
@@ -1444,7 +1442,6 @@ footer li strong {
 .accordion-input md-input-container.md-input-focused label,
 .accordion-input md-input-container md-select label,
 .accordion-input .md-input-focused .md-select-placeholder span {
-    top: -21px !important;
     font: 16px "open_sansregular" !important;
     color: #6492a3 !important;
 }
@@ -1737,6 +1734,11 @@ footer {
     top :150px !important;
 }
 
+.md-virtual-repeat-container.md-autocomplete-suggestions-container {
+    z-index: 1000;
+}
+
+
 .text-truncate{
     max-width: 100%;
     overflow: hidden;
@@ -1934,26 +1936,53 @@ md-select[disabled] .md-select-value,
 .newreg{
     font: 12px/20px "open_sansregular";
 }
-.row{
+#newRegClaims .row{
     margin-right: -1px;
     margin-left: -1px;
 }
 .bt{
     border-bottom: 1px solid #dee2e6; 
     font-weight: bold;
-    white-space: nowrap;
     padding:6px;
-} 
-.newreg{
-    font: 12px/20px "open_sansregular";
 }
-.row{
-    margin-right: -1px;
-    margin-left: -1px;
+.middle-loading-box .div.center-block .glyphicon{
+    margin: 0 auto;
 }
-.bt{
-    border-bottom: 1px solid #dee2e6; 
-    font-weight: bold;
-    white-space: nowrap;
-    padding:6px;
+.middle-loading-box .div.center-block .glyphicon{
+    margin: 0 auto;
+}
+
+.middle-loading-box{
+    border: none;
+    width: 38px;
+    height: 36px;
+    margin: 0 auto;
+    display: block;
+    text-align:center;
+    padding-top:1px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top:-16px;
+    margin-left:-16px
+}
+@media (min-width: 992px) {
+    .modal-lg {
+        width:1000px;
+    }
+}
+.md-select-menu-container {
+    z-index: 10001;
 } 
+.ft{
+    font-size:14px;
+}   
+.colr{
+    font-size:12px;
+    color: #6492a3 !important
+}
+
+.ftsize{
+    font-size: 13px;
+    color: RED;    
+}

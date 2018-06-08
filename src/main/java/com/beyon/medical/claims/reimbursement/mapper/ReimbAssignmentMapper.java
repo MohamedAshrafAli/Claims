@@ -96,6 +96,7 @@ public class ReimbAssignmentMapper {
 		assignmentDTO.setRiskCurrentExchangeRate(row.getString("RiskCurrencyExchangeRate"));
 		assignmentDTO.setRiskCurrencyId(row.getString("CurrencyId"));
 		assignmentDTO.setCardReceivedDate(DateUtil.convertSQlDateToLocalDate(row.getDate("CardReceivedDate")));
+		assignmentDTO.setCreatedBy(row.getString("CreatedBy"));
 		return assignmentDTO;
 	}
 	

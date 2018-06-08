@@ -46,6 +46,32 @@
                 'getUserList': {
                     method: 'POST',
                     url: urlRoutePrefix + resourceUrl + '/getUserList'
+                },
+                'getTreatmentCodes': {
+                    method: 'POST',
+                    url: urlRoutePrefix + resourceUrl + '/getServiceCodeDetails'
+                },
+                'getRejectionCodes': {
+                    method: 'POST',
+                    url: urlRoutePrefix + resourceUrl + '/getRejectionCodeDetails'
+                },
+                'getDiagnosisCodes': {
+                    method: 'POST',
+                    url: urlRoutePrefix + resourceUrl + '/getDiagnosisCodeDetails'
+                },
+                //Reimbursement-Processing (providerCode)
+                'getProviderCodes': {
+                    method: 'POST',
+                    url: urlRoutePrefix + resourceUrl + '/getEmiratesId'
+                },
+                //Reimbursement-Processing (Event Country)
+                'geteventCountry': {
+                    method: 'POST',
+                    url: urlRoutePrefix + resourceUrl + '/getEmiratesId'
+                },
+                'getUniversalCurrencyDetails': {
+                    method: 'POST',
+                    url: urlRoutePrefix + resourceUrl + '/getUniversalCurrencyDetails'
                 }
             })
         }

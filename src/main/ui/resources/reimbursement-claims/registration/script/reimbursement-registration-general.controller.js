@@ -5,9 +5,10 @@
         .module('claims')
         .controller('ReimbursementRegistrationGeneralController', ReimbursementRegistrationGeneralController)
     
-    ReimbursementRegistrationGeneralController.$inject = ['$scope', '$rootScope', 'ReimbursementRegistrationService', '$state', '$uibModal', '$timeout', 'ngNotify', '$stateParams', 'claim', 'isNew', 'AutocompleteService', '$q', 'ReimbursementRegistrationFactory', 'UIDefinationService'];
+    ReimbursementRegistrationGeneralController.$inject = ['$scope', '$rootScope', 'ReimbursementRegistrationService', '$state', '$uibModal', '$timeout', 'ngNotify', '$stateParams', 'claim', 'isNew', 'AutocompleteService', '$q', 'ReimbursementRegistrationFactory', 'UIDefinationService', 'SpinnerService'];
 
-    function ReimbursementRegistrationGeneralController($scope, $rootScope, ReimbursementRegistrationService, $state, $uibModal, $timeout, ngNotify, $stateParams, claim, isNew, AutocompleteService, $q, ReimbursementRegistrationFactory, UIDefinationService) {
+    function ReimbursementRegistrationGeneralController($scope, $rootScope, ReimbursementRegistrationService, $state, $uibModal, $timeout, ngNotify, $stateParams, claim, isNew, AutocompleteService, $q, ReimbursementRegistrationFactory, UIDefinationService, SpinnerService) {
+        SpinnerService.stop();
         $scope.regDetail = claim;
         $scope.previewIndex = 0;
         $scope.isNew = isNew;
@@ -42,7 +43,13 @@
 
         UIDefinationService.getDocumentTypes({'compId' : '0021'}, function(resp) {
             $scope.documentTypes = resp.rowData;
-            $scope.documentMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
+            //$scope.documentMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
+            $scope.documentTypes.forEach(function(item){
+                item.boolean = true;
+                return item;
+            })
+            $scope.documentMap = ReimbursementRegistrationFactory.constructUidMap($scope.documentTypes, "id", "value");
+            console.log('DOCUMENT',$scope.documentTypes);
         })
         UIDefinationService.getSourceTypes({'compId' : '0021'}, function(resp) {
             $scope.sourceTypes = resp.rowData;
@@ -92,29 +99,43 @@
 
         $scope.saveRegistrationDetails = function() {
             if($scope.form.$invalid){
+                if($scope.fileInfos == undefined || $scope.fileInfos.length == 0){
+                    $scope.documentsUpload();
+                   
+                }else{
+                    documentsTypes();
+                }
+                
                 $scope.localValidation = true;
                 return;
             }
             $scope.localValidation = false;
             $scope.regDetail['registrationFileDTOs'] = $scope.documents;
             var params = { policyNumber: $scope.regDetail.policyNumber, compId : "0021" };
+            SpinnerService.start();
             AutocompleteService.getCurrencyDetailsForPolicyNo(params, function(response) {
                 var currencyInfo = response.rowData[0];
                 $scope.regDetail.baseCurrency = currencyInfo.BaseCurrency;
                 $scope.regDetail.requestAmtBC = $scope.regDetail.requestAmt * currencyInfo.ExchangeRate;
                 saveRegistration();
-            });
+            }, onSaveError);
         }
 
         function saveRegistration() {
             ReimbursementRegistrationService.saveRegistrationDetails($scope.regDetail, function(resp) {
+                SpinnerService.stop();
                 $state.go('reimbursement-registration', {}, {reload: true});
-            });
+            },onSaveError);
+        }
+
+        function onSaveError() {
+            SpinnerService.stop();
         }
 
         $scope.uploadFiles = function(files, doc) {
             $scope.files = files;
             $scope.fileInfos = ($scope.fileInfos && $scope.fileInfos.length) ? $scope.fileInfos :[];
+            console.log('FILEINFO',$scope.fileInfos);
             $scope.uploadedId = $scope.hasMandatory ? Math.random() : null;
             var files = [];
             angular.forEach($scope.files, function(value, key) {
@@ -126,6 +147,7 @@
                     var file = constructFileObj(value, event, doc);
                     files.push(file);
                     $scope.fileInfos.push(file);
+                    doc.boolean = false;
                     $scope.$apply(function() {
                         $timeout(function() {
                             value.progress = 100;
@@ -135,6 +157,9 @@
                 };
                 reader.readAsDataURL(value);
             });
+            if($scope.fileInfos && $scope.fileInfos.length){
+                doc.boolean = false;
+            }
         }
 
         function constructFileObj(file, event, doc) {
@@ -186,7 +211,9 @@
         
 
         $scope.searchClaims = function (data) {
-            if ((data.memberNumber == null) && (data.policyNumber == null) && (data.voucherNumber == null) && (data.previousRequestNumber == null)) {
+            if(data == null) {
+                return;
+            } else if ((data.memberNumber == null) && (data.policyNumber == null) && (data.voucherNumber == null) && (data.previousRequestNumber == null)) {
                 swal("", "Please Enter any Search Inputs", "warning");
             } else {
                 var modalInstance = $uibModal.open({
@@ -203,27 +230,41 @@
                         }
                         $scope.encounterTypeMap = encounterTypeMap;
                         $scope.searchObj = ReimbursementRegistrationFactory.constructSearchObj(autoCompleteMapping, searchInfo);
-                        $scope.searchObj.compId = "0021"                
+                        $scope.searchObj.compId = "0021"
+                        SpinnerService.start();
                         ReimbursementRegistrationService.getReimbursementRegistrationDetails($scope.searchObj, function(resp) {
+                            SpinnerService.stop();
                             $scope.searchedList = resp;
-                        })
+                        }, onError)
                         $scope.cancelModal = function() {
                             $uibModalInstance.dismiss();
                             $('.modal-backdrop').remove();
                         }
     
                         $scope.newClaim = function() {
+                            if (data.memberNumber == null || data.policyNumber == null) {
+                                swal("", "Please Enter both Member Number & Policy Number", "warning");
+                                return;
+                            }
                             $scope.registerNew = true;
+                            SpinnerService.start();
                             ReimbursementRegistrationService.getReimbursementRegistrationDetailsForPolicyAndMemberNo($scope.searchObj, function(resp) {
+                                SpinnerService.stop();
                                 $scope.searchedList = resp;
-                            });
+                            }, onError);
+                        }
+
+                        function onError() {
+                            SpinnerService.stop();
                         }
     
                         $scope.continue = function(claim) {
                             if(claim.id != null) {
+                                SpinnerService.start();
                                 ReimbursementRegistrationService.getReimbursementRegistrationDetailsById({'id' : claim.id}, function(resp) {
+                                    SpinnerService.stop();
                                     $uibModalInstance.close(resp);
-                                })
+                                }, onError)
                             } else {
                                 $uibModalInstance.close(claim);
                             }                                                   
@@ -271,7 +312,6 @@
                 animation: true,
                 backdrop: 'static',
                 templateUrl: 'resources/reimbursement-claims/registration/view/upload-modal.html',
-                size: 'lg',
                 keyboard :false,
                 scope: $scope
             });
@@ -344,6 +384,29 @@
         $scope.clearDocFilter = function() {
             $scope.docTypes = [];
             $scope.documents = angular.copy($scope.fileInfos);
+        }
+       function documentsTypes() {
+            var documents = [];
+            var validation = false;
+                $scope.documentTypes.forEach(function(type) {
+                    type.boolean = true;
+                    var boolean = false;
+                    var filteredFiles =  $scope.fileInfos.filter(function(item) {
+                        if (item.docTypeId == type.id){
+                            if(!boolean){
+                                boolean = true;
+                                type.boolean =false;
+                            }
+                            return;
+                        }
+                    })
+                    if(type.boolean && !validation ){
+                        validation = true;
+                    }
+                })
+                if(validation){
+                    $scope.documentsUpload();
+                }
         }
 
         init();

@@ -20,6 +20,7 @@ import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_USER_DIVISION;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_SERVICE_CODE_DETAILS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_USER_LIST;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_REJECTION_CODE_DETAILS;
 
 import java.util.HashMap;
 import java.util.List;
@@ -229,10 +230,11 @@ public class GeneralServiceFacadeImpl implements GeneralServiceFacade {
 		ObjectNode userList = null;
 		try {
 			Map<Integer, String> outputMap = new HashMap<>();
-			outputMap.put(1, "ServiceCode");
-			outputMap.put(2, "ServiceName");
+			outputMap.put(1, "BenefitId");
+			outputMap.put(2, "ServiceCode");
 			outputMap.put(3, "ServiceTypeId");
-			outputMap.put(4, "BenefitId");
+			outputMap.put(4, "ServiceName");
+			outputMap.put(5, "SubBenefitId");			
 			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
 			userList =  generalClaimsDao.getSearchDataList(GENERAL_QUERIES_SERVICE_CODE_DETAILS, inputMap, outputMap);
 		} catch (Exception e) {
@@ -267,7 +269,7 @@ public class GeneralServiceFacadeImpl implements GeneralServiceFacade {
 			outputMap.put(1, "RejectionCode");
 			outputMap.put(2, "RejectionDesc");
 			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
-			userList =  generalClaimsDao.getSearchDataList(GENERAL_QUERIES_DIAGNOSIS_CODE_DETAILS, inputMap, outputMap);
+			userList =  generalClaimsDao.getSearchDataList(GENERAL_QUERIES_REJECTION_CODE_DETAILS, inputMap, outputMap);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);

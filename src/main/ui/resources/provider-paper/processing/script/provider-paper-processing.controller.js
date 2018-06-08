@@ -101,13 +101,14 @@
             }
 
             function initGrid() {
+                var path = 'resources/directives/grid-directive/view/';
                 $scope.gridOptions = {
                     data : [],
                     columnDefs: [
-                        {name:'action', displayName:'', headerCellTemplate:'headerCheckboxTemplate.html', cellTemplate:'staticTemplate.html',width:40, pinnedLeft:true, enableColumnMenu: false},
+                        {name:'action', displayName:'', headerCellTemplate:path+'headerCheckboxTemplate.html', cellTemplate:path+'staticTemplate.html',width:40, pinnedLeft:true, enableColumnMenu: false},
                         {name:'treatmentCodeOrSubBenefit.name', displayName:'Treatment Code/SubBenefit',width:200},
-                        {name:'serviceFrom', displayName:'Service From', cellTemplate:'dateTemplate.html',width:120},
-                        {name:'serviceTo', displayName:'Service To', cellTemplate:'dateTemplate.html',width:110},
+                        {name:'serviceFrom', displayName:'Service From', cellTemplate:path+'dateTemplate.html',width:120},
+                        {name:'serviceTo', displayName:'Service To', cellTemplate:path+'dateTemplate.html',width:110},
                         {name:'days', displayName:'Days', width:90},
                         {name:'requestAmount', displayName:'Request Amount', width:140, convertCurrency:true},
                         {name:'policyDedAmount', displayName:'Policy Ded Amount',width:150, convertCurrency:true},
@@ -121,9 +122,9 @@
                         {name:'clinicianCode', displayName:'Clinician Code',width:140},
                         {name:'clinicianName', displayName:'Clinician Name',width:140},
                         {name:'status', displayName:'Status', width:155},
-                        {name:'internalRemarks', displayName:'Internal Remarks', cellTemplate:'descriptionTemplate.html', width:210},
-                        {name:'externalRemarks', displayName:'External Remarks', cellTemplate:'descriptionTemplate.html', width:210},
-                        {name:'Settings', displayName:'Settings', cellTemplate:'settingsTemplate.html',width:75, pinnedRight:true, enableColumnMenu: false}
+                        {name:'internalRemarks', displayName:'Internal Remarks', cellTemplate:path+'descriptionTemplate.html', width:210},
+                        {name:'externalRemarks', displayName:'External Remarks', cellTemplate:path+'descriptionTemplate.html', width:210},
+                        {name:'Settings', displayName:'Settings', cellTemplate:path+'settingsTemplate.html',width:75, pinnedRight:true, enableColumnMenu: false}
                     ],
                     enableSorting: false,
                     enableVerticalScrollbars : 'Never'

@@ -66,7 +66,8 @@ angular
                 templateUrl: "resources/reimbursement-claims/registration/view/reimbursement-registration-general.html",
                 controller: 'ReimbursementRegistrationGeneralController',
                 resolve : {
-                    claim : function(ReimbursementRegistrationService, $stateParams) {
+                    claim : function(ReimbursementRegistrationService, $stateParams, SpinnerService) {
+                        SpinnerService.start();
                         return ReimbursementRegistrationService.getReimbursementRegistrationDetailsById({'id' : $stateParams.id}).$promise
                     },
                     isNew : function() {
@@ -107,7 +108,12 @@ angular
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('processing');
                         return $translate.refresh();
-                    }]
+                    }],
+                    reimbursementClaimInfo : function(SpinnerService, ClaimsListViewService, ReimbursementProcessingService) {
+                        SpinnerService.start();
+                        var data = ClaimsListViewService.getClaim();
+                        return ReimbursementProcessingService.getReimbursementInitProcessingDetails(data).$promise;
+                    }
                 }
             })
 
@@ -240,6 +246,7 @@ angular
     
     function translationConfig($translateProvider) {
         $translateProvider.preferredLanguage('en-US');
+        $translateProvider.useSanitizeValueStrategy('escape')
         $translateProvider.useLoader('$translatePartialLoader', {
             urlTemplate: 'resources/i18n/{lang}/{part}.json'
         });

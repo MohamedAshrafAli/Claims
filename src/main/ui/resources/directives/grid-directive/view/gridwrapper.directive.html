@@ -15,10 +15,8 @@
         <div class="currencyType d-inline-block"><span style="color: white;">Currency: </span>
             <span class="fldsWrap clearfix">
                 <md-input-container flex-gt-sm style="width:auto !important; background:white; margin:0px;">    
-                    <md-select ng-model="currencyType" ng-change="convertCurrency();">
-                        <md-option value="1">AED</md-option>
-                        <md-option value="2">USD</md-option>
-                        <md-option value="3">EUR</md-option>
+                    <md-select ng-model="currencyType" ng-change="convertCurrency();" ng-disabled="gridOptions.data.length > 0">
+                        <md-option value="{{option.ExchangeCurrency}}" ng-repeat="option in curencyList">{{option.ExchangeCurrency}}</md-option>
                     </md-select>
                 </md-input-container>
             </span> 
@@ -26,22 +24,16 @@
         <span class="fa fa-info-circle" style="color: #4e5e82;">
             <md-tooltip md-direction="{{info.tipDirection}}">
                 <table>
-                    <tr>
-                        <td><strong>United Arab Emirates(AED):</strong></td>
-                        <td>&nbsp; 1</td>
+                    <tr ng-repeat="option in curencyList">
+                        <td><strong>{{option.ExchangeCurrency}}:</strong></td>
+                        <td>&nbsp; {{option.ExchangeRate}}</td>
                     </tr>
-                    <tr>
-                        <td><strong>United States Dollar(USD):</strong></td>
-                        <td>&nbsp; 2</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Euro(EUR):</strong></td>
-                        <td>&nbsp; 3</td>
-                    </tr>                
                 </table>
             </md-tooltip>
         </span>
-        <button type="button" class="btn btn-outline-primary btn-sm ml-3" ng-click="isLocalCurrency = !isLocalCurrency">{{ isLocalCurrency ? 'Convert To LocalCurrency' : 'Convert To BaseCurrency'}}</button>
+        <button type="button" class="btn btn-outline-primary btn-sm ml-3" ng-disabled="(currencyType == baseCurrency && gridOptions.data.length > 0)" ng-click="toggleLocalAndBaseCurrency();">
+            {{ isLocalCurrency ? 'Convert To LocalCurrency' : 'Convert To BaseCurrency'}}
+        </button>
         <a href="javascript:;" class="tablColmArrow float-right mt-2 mb-2 mr-3 ml-2" ng-click="gridAction('new', null, null);">
             <span class="oi" data-glyph="plus"></span>
         </a>

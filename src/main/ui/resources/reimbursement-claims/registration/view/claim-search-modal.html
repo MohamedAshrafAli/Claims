@@ -1,4 +1,4 @@
-<div id="newRegClaims">
+ <div id="newRegClaims">
     <div class="container modal-header">
         <h5 class="modal-title" id="modal-title"> {{ registerNew ? "Existing Member Result" : "Existing Claim Result"}}
             <span style="float:right">
@@ -17,55 +17,104 @@
                     <span>Member Number:</span>
                     <span>#{{searchObj.memberNumber}}</span>
                 </div>
-                <div class="col-sm"  ng-if="!registerNew">
-                    <span>Voucher Number:</span>
+                <div class="col-sm" ng-if="!registerNew">
+                    <span>Voucher Number:</span>    
                     <span>#{{searchObj.voucherNumber}}</span>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal-body" id="modal-body" style="max-height:400px; overflow:auto">
-        <table class="table">
-            <thead>
-                <tr ng-if="registerNew">
-                    <th scope="col">Policy Number</th>
-                    <th scope="col">Member Number</th>
-                    <th scope="col">Member Name</th>
-                    <th scope="col">Policy Effective From date</th>
-                    <th scope="col">&nbsp;</th>
-                </tr>
-                <tr ng-if="!registerNew">
-                    <th scope="col">Member Name</th>
-                    <th scope="col">Mobile Number</th>
-                    <th scope="col">Previous Request</th>
-                    <th scope="col">Encounter Type</th>
-                    <th scope="col">Request received date</th>
-                    <th scope="col">&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="claim in filteredRecords" ng-if="registerNew">
-                    <td>{{claim.policyNumber}}</td>
-                    <td>{{claim.memberNumber}}</td>
-                    <td>{{claim.memberName}}</td>
-                    <td>{{claim.policyFromDate | customeDate}}</td>
-                    <td class="text-right"><button type="button" class="btn btn-outline-primary btn-sm" ng-click="continue(claim)">Continue</button></td>
-                </tr>
-                <tr ng-repeat="claim in filteredRecords" ng-if="!registerNew">
-                    <td>{{claim.memberName}}</td>
-                    <td>{{claim.mobileNum1}}</td>
-                    <td>{{claim.prevRequest}}</td>
-                    <td>{{encounterTypeMap[claim.encType]}}</td>
-                    <td>{{claim.reqReceivedDate | customeDate}}</td>
-                    <td class="text-right"><button type="button" class="btn btn-outline-primary btn-sm" ng-click="continue(claim)">Continue</button></td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="col-sm-12">
-            <pagination records-to-display="6" records="searchedList" total-record-count="records.length" filtered-claims="filteredRecords"></pagination>
+    <div ng-if="searchedList.length == 0" style="padding:40px;text-align:center"><p><font size="3"><b>NO ITEMS FOUND</b></font></p></div>
+    <div class="modal-body row" id="modal-body" style="max-height:400px; overflow:auto">
+        <div class="container-fluid" ng-if="searchedList.length > 0">             
+            <div class="table newreg">
+                <div class="row bt" ng-if="registerNew">
+                    <div class="col-sm-3">
+                        <span>Policy Number</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <span>Member Number</span>
+                    </div>
+                    <div class="col-sm-3">
+                        <span> Member Name </span>
+                    </div>
+                    <div class="col-sm-4 row">
+                        <div class="col-sm-5">
+                            <span>Policy Effective From date </span>
+                        </div>
+                        <div class="col-sm-7"> &nbsp;</div>
+                    </div>
+                </div>
+                <div class="row bt" ng-if="!registerNew">
+                    <div class="col-sm-3">
+                        <span> Member Name</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <span>Mobile Number</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <span> Previous Request </span>
+                    </div>
+                    <div class="col-sm-2">
+                        <span> Encounter Type </span>
+                    </div>
+                    <div class="col-sm-3 row">
+                        <div class="col-sm-7">
+                            <span>Request Received date </span>
+                        </div>
+                        <div class="col-sm-5"> &nbsp;</div>
+                    </div>
+                </div>
+                <div class="row" ng-repeat="claim in filteredRecords" ng-if="registerNew" style="border-bottom: 1px solid #dee2e6; padding:6px;">
+                    <div class="col-sm-3">
+                        <span>{{claim.policyNumber}}</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <span>{{claim.memberNumber}}</span>
+                    </div>
+                    <div class="col-sm-3">
+                        <span>{{claim.memberName}}</span>
+                    </div>  
+                    <div class="col-sm-4 row">
+                        <div class="col-sm-5">
+                            <span>{{claim.policyFromDate | customeDate }}</span>
+                        </div>
+                        <div class="col-sm-7 text-right">
+                            <button type="button" class="btn btn-outline-primary btn-sm" ng-click="continue(claim)">Continue</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-repeat="claim in filteredRecords" ng-if="!registerNew" style="border-bottom: 1px solid #dee2e6; padding:6px;">
+                    <div class="col-sm-3">
+                        <span>{{claim.memberName}}</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <span>{{claim.mobileNum1}}</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <span>{{claim.prevRequest}}</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <span>{{encounterTypeMap[claim.encType]}}</span>
+                    </div>
+                    <div class="col-sm-3 row">
+                        <div class="col-sm-7">
+                            <span>{{claim.reqReceivedDate | customeDate }}</span>
+                        </div>
+                        <div class="col-sm-5 text-right">
+                            <button type="button" class="btn btn-outline-primary btn-sm" ng-click="continue(claim)">Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>            
         </div>
     </div>
     <div class="modal-footer justify-content-center b0 pt-0">
-        <button type="button" class="btn btn-primary" ng-click="newClaim()" ng-if="!registerNew">Register new claim</button>
+        <div class="col-sm-6">
+            <button type="button" class="btn btn-primary" ng-click="newClaim()" ng-if="!registerNew">Register new claim</button>
+        </div>
+        <div class="col-sm-6 float-right pr-0">
+            <pagination records-to-display="6" records="searchedList" total-record-count="searchedList.length" filtered-claims="filteredRecords"></pagination>
+        </div>
     </div>
-</div>
+</div>     

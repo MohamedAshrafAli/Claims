@@ -92,6 +92,20 @@ public class ClaimBaseDTO {
 	private String pincode;
 	private String country;
 	private String primaryPhoneNo;
+	private LocalDate serviceFmDate;
+	public LocalDate getServiceFmDate() {
+		return serviceFmDate;
+	}
+	public void setServiceFmDate(LocalDate serviceFmDate) {
+		this.serviceFmDate = serviceFmDate;
+	}
+	public BigDecimal getRequestAmtBC() {
+		return requestAmtBC;
+	}
+	public void setRequestAmtBC(BigDecimal requestAmtBC) {
+		this.requestAmtBC = requestAmtBC;
+	}
+	private BigDecimal requestAmtBC;
 	public String getCustomerId() {
 		return customerId;
 	}

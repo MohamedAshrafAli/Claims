@@ -6,7 +6,7 @@
         .service('ClaimsListViewService', ClaimsListViewService);
 
         function ClaimsListViewService() {
-
+            this.claim = {};
             this.getTabsToDisplay = function() {
                 return [
                     {'label': 'New Request', 'tab' : 'newRequest', 'state': 'New Request'},
@@ -23,6 +23,14 @@
                     {'label': 'New Request', 'tab' : 'newRequest', 'state': 'CC'},
                     {'label': 'Assigned', 'tab' : 'Assigned', 'state': 'Assigned'}
                 ];
+            }
+
+            this.setClaim = function(data) {
+                this.claim = data;
+            }
+            
+            this.getClaim = function(data) {
+                return this.claim;
             }
         }
 })();
