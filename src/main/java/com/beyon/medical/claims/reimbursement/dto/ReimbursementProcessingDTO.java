@@ -15,7 +15,8 @@ public class ReimbursementProcessingDTO extends ReimbursementDTO {
 	private String claimCondition;
 	private String claimStatusReason;
 	private boolean isChanged;
-	
+	private Long serviceGroupId;
+
 	public List<ReimbursementProcessingServiceDTO> getProcessingServiceDTOs() {
 		return processingServiceDTOs;
 	}
@@ -69,6 +70,12 @@ public class ReimbursementProcessingDTO extends ReimbursementDTO {
 	}
 	public void setChanged(boolean isChanged) {
 		this.isChanged = isChanged;
+	}
+	public Long getServiceGroupId() {
+		return serviceGroupId;
+	}
+	public void setServiceGroupId(Long serviceGroupId) {
+		this.serviceGroupId = serviceGroupId;
 	}
 	
 }
