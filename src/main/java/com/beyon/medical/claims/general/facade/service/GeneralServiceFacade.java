@@ -1,4 +1,4 @@
-package com.beyon.medical.claims.ui.facade.service;
+package com.beyon.medical.claims.general.facade.service;
 
 import java.util.List;
 
