@@ -5,9 +5,9 @@
         .module('claims')
         .controller('ReimbursementRegistrationController', ReimbursementRegistrationController)
 
-    ReimbursementRegistrationController.$inject = ['$scope', '$rootScope', 'ReimbursementRegistrationService', 'ngNotify', '$filter', '$state', 'ListViewService', 'ReimbursementRegistrationFactory', 'SpinnerService'];
+    ReimbursementRegistrationController.$inject = ['$scope', '$rootScope', 'ReimbursementRegistrationService', 'ngNotify', '$filter', '$state', 'ListViewService', 'ReimbursementRegistrationFactory', 'SpinnerService', 'companyId'];
 
-    function ReimbursementRegistrationController($scope, $rootScope, ReimbursementRegistrationService, ngNotify, $filter, $state, ListViewService, ReimbursementRegistrationFactory, SpinnerService) {
+    function ReimbursementRegistrationController($scope, $rootScope, ReimbursementRegistrationService, ngNotify, $filter, $state, ListViewService, ReimbursementRegistrationFactory, SpinnerService, companyId) {
 
         $scope.reverse = true;
         var autoCompleteMapping = {
@@ -23,10 +23,10 @@
                 var searchparam = ReimbursementRegistrationFactory.constructSearchObj(autoCompleteMapping, searchValue);
                 searchparam.memberNumber = searchparam.memberName;
                 delete searchparam.memberName;
-                searchparam.compId = "0021"                
+                searchparam.compId = companyId
                 getRegisteredClaimsList(searchparam);
             } else {
-                getRegisteredClaimsList({compId:"0021"});
+                getRegisteredClaimsList({compId:companyId});
             }
             
         }
@@ -44,7 +44,7 @@
         }
       
         function init() {
-            getRegisteredClaimsList({compId:"0021"});
+            getRegisteredClaimsList({compId:companyId});
             $scope.registrationHeaders = ListViewService.getRegistrationListViewHeader();
             $scope.fieldsObject =  ReimbursementRegistrationFactory.getSearchFields();
         }

@@ -5,10 +5,9 @@
         .module('claims')
         .service('ReimbursementRegistrationService', ReimbursementRegistrationService)
     
-    ReimbursementRegistrationService.$inject = ['$resource', 'urlRoutePrefix'];
-    function ReimbursementRegistrationService($resource, urlRoutePrefix) {
+    ReimbursementRegistrationService.$inject = ['$resource', 'urlRoutePrefix', 'companyId'];
+    function ReimbursementRegistrationService($resource, urlRoutePrefix, companyId) {
         var resourceUrl = urlRoutePrefix + '/api/medical/claims/reimbursement';
-        var compId = "0021";
         return $resource(resourceUrl, {}, {
             'getReimbursementRegistrationDetails' : {
                 method: 'POST',
@@ -22,7 +21,7 @@
             },
             'saveRegistrationDetails' : {
                 method: 'POST',
-                url: resourceUrl + '/saveRegistrationDetails/'+ compId
+                url: resourceUrl + '/saveRegistrationDetails/'+ companyId
             },
             'getReimbursementRegistrationDetailsById' : {
                 method: 'GET',

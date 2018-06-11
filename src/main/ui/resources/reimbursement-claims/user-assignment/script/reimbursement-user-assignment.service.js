@@ -4,11 +4,10 @@
         .module('claims')
         .service('ReimbursementUserAssignmentService', ReimbursementUserAssignmentService)
 
-    ReimbursementUserAssignmentService.$inject = ['$resource', 'urlRoutePrefix'];
+    ReimbursementUserAssignmentService.$inject = ['$resource', 'urlRoutePrefix', 'companyId'];
 
-    function ReimbursementUserAssignmentService($resource, urlRoutePrefix) {
+    function ReimbursementUserAssignmentService($resource, urlRoutePrefix, companyId) {
         var resourceUrl = urlRoutePrefix + '/api/medical/claims/reimbursement';
-        var compId = "0021";
         return $resource(resourceUrl, {}, {
             'getReimbursementAssignmentDetails' : {
                 method: 'POST',
@@ -17,7 +16,7 @@
             },
             'saveAssignmentDetails' : {
                 method: 'POST',
-                url: resourceUrl + '/saveAssignmentDetails/'+ compId,
+                url: resourceUrl + '/saveAssignmentDetails/'+ companyId,
                 isArray : true
             }            
         })            

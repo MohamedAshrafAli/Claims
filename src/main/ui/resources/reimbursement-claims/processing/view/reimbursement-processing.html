@@ -24,17 +24,17 @@
                                         <md-autocomplete
                                             md-input-name="primaryDiagnosis" required
                                             ng-disabled="!claim.treatmentFromDate"
-                                            md-selected-item="selectedClaim.primaryDiag"
+                                            md-selected-item="diagnosis.primaryDiag"
                                             md-search-text="primaryDiagsearchText"
                                             md-items="item in getDiagnosisCodes(primaryDiagsearchText, 'diagnosisCode')"
-                                            md-item-text="item.displayName"
+                                            md-item-text="item.DiagnosisCode"
                                             md-floating-label="Primary Diagnosis"
                                             md-clear-button="true"
                                             md-no-cache="true"
                                             md-delay="500"
                                             style="height: 55px;">
                                             <md-item-template>
-                                                <span md-highlight-text="primaryDiagsearchText">{{item.displayName}} </span>
+                                                <span md-highlight-text="primaryDiagsearchText">{{item.DiagnosisCode}} </span>
                                             </md-item-template>
                                             <md-not-found>
                                                 No Result Found
@@ -43,24 +43,26 @@
                                         </md-autocomplete>
                                     </div>
                                     <div class="fldsWrap clearfix">
-                                        <label class="colr">Primary Diagnosis Disc</label>
-                                        <P class="ft">{{selectedClaim.primaryDiag.DiagnosisName}}</P>
+                                        <md-input-container flex-gt-sm>
+                                            <label>Primary Diagnosis Desc</label>
+                                            <input type="text" ng-model="diagnosis.primaryDiag.DiagnosisName" disabled/>
+                                        </md-input-container>
                                     </div>
                                     <div class="clearfix">
                                         <md-autocomplete
                                             md-input-name="secondaryDiagnosis" required
                                             ng-disabled="!claim.treatmentFromDate"
-                                            md-selected-item="selectedClaim.secondaryDiag"
+                                            md-selected-item="diagnosis.secondaryDiag"
                                             md-search-text="secDiagsearchText"
                                             md-items="item in getDiagnosisCodes(secDiagsearchText, 'diagnosisCode')"
-                                            md-item-text="item.displayName"
+                                            md-item-text="item.DiagnosisCode"
                                             md-floating-label="Secondary Diagnosis (ICD)"
                                             md-clear-button="true"
                                             md-no-cache="true"
                                             md-delay="500"
                                             style="height: 55px;">
                                             <md-item-template>
-                                                <span md-highlight-text="secDiagsearchText">{{item.displayName}} </span>
+                                                <span md-highlight-text="secDiagsearchText">{{item.DiagnosisCode}} </span>
                                             </md-item-template>
                                             <md-not-found>
                                                 No Result Found
@@ -69,8 +71,10 @@
                                         </md-autocomplete>
                                     </div>
                                     <div class="fldsWrap clearfix">
-                                        <label class="colr">Secondary Diagnosis Description</label>
-                                        <P class="ft">{{selectedClaim.secondaryDiag.DiagnosisName}}</P>
+                                        <md-input-container flex-gt-sm>
+                                            <label>Secondary Diagnosis Description</label>
+                                            <input type="text" ng-model="diagnosis.secondaryDiag.DiagnosisName" disabled/>
+                                        </md-input-container>
                                     </div>
                                     <div class="fldsWrap clearfix">
                                         <md-input-container flex-gt-sm>    
@@ -93,7 +97,7 @@
                                     <div class="fldsWrap clearfix">
                                         <md-input-container flex-gt-sm>
                                             <label>Event Country</label>
-                                            <input name="eventCountry" type="text" ng-model="claimDetails.eventCountry" required />
+                                            <input name="eventCountry" type="text" ng-model="selectedClaim.eventCountry" required />
                                             <div class="ftsize" ng-show="localValidation && !reimbursementForm.eventCountry.$modelValue" class="error">Please enter the Event Country</div>
                                         </md-input-container>
                                     </div>
@@ -411,14 +415,14 @@
                                             md-selected-item="claim.rejectionCode"
                                             md-search-text="rejectionText"
                                             md-items="item in getRejectionCodes(rejectionText, 'rejectionCode')"
-                                            md-item-text="item.displayName"
+                                            md-item-text="item.RejectionCode"
                                             md-floating-label="Rejection Code"
                                             md-clear-button="true"
                                             md-no-cache="true"
                                             md-delay="500"
                                             style="height: 55px;">
                                             <md-item-template>
-                                                <span md-highlight-text="rejectionText">{{item.displayName}} </span>
+                                                <span md-highlight-text="rejectionText">{{item.RejectionCode}} </span>
                                             </md-item-template>
                                             <md-not-found>
                                                 No Result Found

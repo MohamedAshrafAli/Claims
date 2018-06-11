@@ -43,6 +43,7 @@ public class ReimbursementProcessingServiceDTO {
 	private String approvedBy;
 	private LocalDate approvedDate;
 	private String currencyType;
+	private boolean isChanged;
 	
 	
 	public Long getReimbursementProcessId() {
@@ -280,6 +281,12 @@ public class ReimbursementProcessingServiceDTO {
 	}
 	public void setCurrencyType(String currencyType) {
 		this.currencyType = currencyType;
+	}
+	public boolean isChanged() {
+		return isChanged;
+	}
+	public void setChanged(boolean isChanged) {
+		this.isChanged = isChanged;
 	}	
 	
 }

@@ -5,9 +5,9 @@
         .module('claims')
         .controller('ReimbursementRegistrationGeneralController', ReimbursementRegistrationGeneralController)
     
-    ReimbursementRegistrationGeneralController.$inject = ['$scope', '$rootScope', 'ReimbursementRegistrationService', '$state', '$uibModal', '$timeout', 'ngNotify', '$stateParams', 'claim', 'isNew', 'AutocompleteService', '$q', 'ReimbursementRegistrationFactory', 'UIDefinationService', 'SpinnerService'];
+    ReimbursementRegistrationGeneralController.$inject = ['$scope', '$rootScope', 'ReimbursementRegistrationService', '$state', '$uibModal', '$timeout', 'ngNotify', '$stateParams', 'claim', 'isNew', 'AutocompleteService', '$q', 'ReimbursementRegistrationFactory', 'UIDefinationService', 'SpinnerService', 'companyId'];
 
-    function ReimbursementRegistrationGeneralController($scope, $rootScope, ReimbursementRegistrationService, $state, $uibModal, $timeout, ngNotify, $stateParams, claim, isNew, AutocompleteService, $q, ReimbursementRegistrationFactory, UIDefinationService, SpinnerService) {
+    function ReimbursementRegistrationGeneralController($scope, $rootScope, ReimbursementRegistrationService, $state, $uibModal, $timeout, ngNotify, $stateParams, claim, isNew, AutocompleteService, $q, ReimbursementRegistrationFactory, UIDefinationService, SpinnerService, companyId) {
         SpinnerService.stop();
         $scope.regDetail = claim;
         $scope.previewIndex = 0;
@@ -23,39 +23,27 @@
         }else{
             $scope.isDisabled = false;
         }
-        UIDefinationService.getEncounterTypes({'compId' : '0021'}, function(resp) {
-            $scope.encounterTypes = resp.rowData;
-            $scope.encounterTypeMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
-        });
-        
-        UIDefinationService.getRequestTypes({'compId' : '0021'}, function(resp) {
-            $scope.requestTypes = resp.rowData;
-        });
 
-        UIDefinationService.getReportByTypes({'compId' : '0021'}, function(resp) {
-            $scope.reportByTypes = resp.rowData;
-            $scope.reportByMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
-        });
-
-        UIDefinationService.getPaymentTypes({'compId' : '0021'}, function(resp) {
-            $scope.paymentTypes = resp.rowData;
-        });
-
-        UIDefinationService.getDocumentTypes({'compId' : '0021'}, function(resp) {
-            $scope.documentTypes = resp.rowData;
-            //$scope.documentMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
-            $scope.documentTypes.forEach(function(item){
-                item.boolean = true;
-                return item;
-            })
+        var uiDefPromises = {};
+        uiDefPromises['encounterTypes'] = UIDefinationService.getEncounterTypes({'compId' : companyId}).$promise;
+        uiDefPromises['requestTypes'] = UIDefinationService.getRequestTypes({'compId' : companyId}).$promise;
+        uiDefPromises['reportByTypes'] = UIDefinationService.getReportByTypes({'compId' : companyId}).$promise;
+        uiDefPromises['paymentTypes'] = UIDefinationService.getPaymentTypes({'compId' : companyId}).$promise;
+        uiDefPromises['documentTypes'] = UIDefinationService.getDocumentTypes({'compId' : companyId}).$promise;
+        uiDefPromises['sourceTypes'] = UIDefinationService.getSourceTypes({'compId' : companyId}).$promise;
+        $q.all(uiDefPromises).then((uidTypes) => {
+            $scope.encounterTypes = uidTypes['encounterTypes'].rowData;
+            $scope.encounterTypeMap = ReimbursementRegistrationFactory.constructUidMap($scope.encounterTypes, "id", "value");
+            $scope.requestTypes = uidTypes['requestTypes'].rowData;
+            $scope.reportByTypes = uidTypes['reportByTypes'].rowData;
+            $scope.reportByMap = ReimbursementRegistrationFactory.constructUidMap($scope.reportByTypes, "id", "value");
+            $scope.paymentTypes = uidTypes['paymentTypes'].rowData;
+            $scope.documentTypes = uidTypes['documentTypes'].rowData;
+            $scope.documentTypes[0]["boolean"] = true;
             $scope.documentMap = ReimbursementRegistrationFactory.constructUidMap($scope.documentTypes, "id", "value");
-            console.log('DOCUMENT',$scope.documentTypes);
-        })
-        UIDefinationService.getSourceTypes({'compId' : '0021'}, function(resp) {
-            $scope.sourceTypes = resp.rowData;
-            $scope.sourceMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "value", "id");
-        });
-
+            $scope.sourceTypes = uidTypes['sourceTypes'].rowData;
+            $scope.sourceMap = ReimbursementRegistrationFactory.constructUidMap($scope.sourceTypes, "value", "id");            
+        });        
         if($scope.regDetail.id && $scope.regDetail.registrationFileDTOs.length) {
             var promises = [];
             angular.forEach($scope.regDetail.registrationFileDTOs, function(value, key) {
@@ -111,7 +99,7 @@
             }
             $scope.localValidation = false;
             $scope.regDetail['registrationFileDTOs'] = $scope.documents;
-            var params = { policyNumber: $scope.regDetail.policyNumber, compId : "0021" };
+            var params = { policyNumber: $scope.regDetail.policyNumber, compId : companyId };
             SpinnerService.start();
             AutocompleteService.getCurrencyDetailsForPolicyNo(params, function(response) {
                 var currencyInfo = response.rowData[0];
@@ -230,7 +218,7 @@
                         }
                         $scope.encounterTypeMap = encounterTypeMap;
                         $scope.searchObj = ReimbursementRegistrationFactory.constructSearchObj(autoCompleteMapping, searchInfo);
-                        $scope.searchObj.compId = "0021"
+                        $scope.searchObj.compId = companyId
                         SpinnerService.start();
                         ReimbursementRegistrationService.getReimbursementRegistrationDetails($scope.searchObj, function(resp) {
                             SpinnerService.stop();

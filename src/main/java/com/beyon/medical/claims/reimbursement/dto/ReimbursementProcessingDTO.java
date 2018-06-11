@@ -14,6 +14,7 @@ public class ReimbursementProcessingDTO extends ReimbursementDTO {
 	private String eventCountry;
 	private String claimCondition;
 	private String claimStatusReason;
+	private boolean isChanged;
 	
 	public List<ReimbursementProcessingServiceDTO> getProcessingServiceDTOs() {
 		return processingServiceDTOs;
@@ -62,6 +63,12 @@ public class ReimbursementProcessingDTO extends ReimbursementDTO {
 	}
 	public void setSecondaryDiagnosis(DiagnosisDTO secondaryDiagnosis) {
 		this.secondaryDiagnosis = secondaryDiagnosis;
+	}
+	public boolean isChanged() {
+		return isChanged;
+	}
+	public void setChanged(boolean isChanged) {
+		this.isChanged = isChanged;
 	}
 	
 }

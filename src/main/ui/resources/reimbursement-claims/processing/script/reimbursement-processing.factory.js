@@ -7,6 +7,8 @@
     
     ReimbursementProcessingFactory.$inject = [];
     function ReimbursementProcessingFactory() {
+        this.processingClaim = null;
+        this.prevDiagnosis = null;
         this.createNewReimbursmentObject = function() {
             return {
                 "treatmentCodeOrSubBenefit" : "",
@@ -28,19 +30,7 @@
                 "id" : new Date().getTime(),
                 "dml": "N"
             };
-        }       
-        this.getClaimsRequest = function() {
-            return [
-                {'reqNum': 987896, 'claimStatus':'rejected', 'statusReason':'Waiting for Finalization', 'rejectedReason':'Waiting for Finalization', 'status' : 'Approved', 'approvedAmount' : 201220},
-                {'reqNum': 187896, 'claimStatus':'rejected', 'statusReason':'Waiting for Approval', 'rejectedReason':'Waiting for Finalization', 'status' : 'Rejected', 'rejectedAmount' : 301320},
-                {'reqNum': 287896, 'claimStatus':'rejected', 'statusReason':'Waiting for Finalization', 'rejectedReason':'Waiting for Finalization', 'status' : 'Approved', 'approvedAmount' : 40140},
-                {'reqNum': 387896, 'claimStatus':'rejected', 'statusReason':'Waiting for Approval', 'rejectedReason':'Waiting for Finalization', 'status' : 'Rejected', 'rejectedAmount' : 50520},
-                {'reqNum': 487896, 'claimStatus':'rejected', 'statusReason':'Waiting for Approval', 'rejectedReason':'Waiting for Finalization', 'status' : 'Approved', 'approvedAmount' : 606620},
-                {'reqNum': 587896, 'claimStatus':'rejected', 'statusReason':'Waiting for Approval', 'rejectedReason':'Waiting for Finalization', 'status' : 'Approved', 'approvedAmount' : 77777},
-                {'reqNum': 687896, 'claimStatus':'rejected', 'statusReason':'Waiting for Approval', 'rejectedReason':'Waiting for Finalization', 'status' : 'Rejected', 'rejectedAmount' : 88888}
-            ];
         }
-
         this.constructClaimBaseCurrencyFields = function(fieldMap, exchangeRate, data) {
             angular.forEach(fieldMap, function(value, key) {
                 if(data[value] != null && !angular.isUndefined(data[value])) {
@@ -49,11 +39,22 @@
             });
             return data;
         }
-
         this.addDays = function(date, days) {
             var addedDate = angular.copy(new Date(date));
             addedDate.setDate(date.getDate() + days);
             return addedDate;
+        }
+        this.setPrevProcessingClaim = function(claimInfo) {
+            this.processingClaim = claimInfo;
+        }
+        this.getPrevProcessingClaim = function(claimInfo) {
+            return this.processingClaim;
+        }
+        this.setPrevDiagnosis = function(diagInfo) {
+            this.prevDiagnosis = diagInfo;
+        }
+        this.getPrevDiagnosis = function() {
+            return this.prevDiagnosis;
         }
     }
 })();
