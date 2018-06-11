@@ -19,8 +19,8 @@
                     btnsWidth : '@',
                     moduleName : '@'
                 },
-                controller: function ($scope, $q, AutocompleteService, $timeout, companyId) {
-
+                controller: function ($scope, $q, AutocompleteService, $timeout, companyId, dateFormat) {
+                    $scope.dateFormat = dateFormat;
                     $scope.autoSearch = $scope.searchAuto;
                     $scope.paymentWay = "";
                     $scope.search = {};

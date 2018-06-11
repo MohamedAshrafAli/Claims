@@ -821,6 +821,7 @@ md-input-container md-select label,
 
 ._md-datepicker-floating-label._md-datepicker-has-calendar-icon>label:not(.md-no-float):not(.md-container-ignore) {
     left: 0px!important;
+    font-size : 16px;
 }
 
 #finilizationCont tr:hover td .finalizeBtn {

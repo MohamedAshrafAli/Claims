@@ -5,9 +5,10 @@
         .module('claims')
             .controller('ReimbursmentProcessingController', ReimbursmentProcessingController);
 
-        ReimbursmentProcessingController.$inject = ['$scope', '$rootScope', 'ReimbursementProcessingService', 'ngNotify', '$timeout', 'AutocompleteService','UIDefinationService', '$filter', 'reimbursementClaimInfo', 'ReimbursementRegistrationFactory', 'ReimbursementProcessingFactory', 'SpinnerService', 'companyId', '$q'];
+        ReimbursmentProcessingController.$inject = ['$scope', '$rootScope', 'ReimbursementProcessingService', 'ngNotify', '$timeout', 'AutocompleteService','UIDefinationService', '$filter', 'reimbursementClaimInfo', 'ReimbursementRegistrationFactory', 'ReimbursementProcessingFactory', 'SpinnerService', 'companyId', '$q', 'dateFormat'];
 
-        function ReimbursmentProcessingController($scope, $rootScope, ReimbursementProcessingService, ngNotify, $timeout, AutocompleteService, UIDefinationService, $filter, reimbursementClaimInfo, ReimbursementRegistrationFactory, ReimbursementProcessingFactory, SpinnerService, companyId, $q) {
+        function ReimbursmentProcessingController($scope, $rootScope, ReimbursementProcessingService, ngNotify, $timeout, AutocompleteService, UIDefinationService, $filter, reimbursementClaimInfo, ReimbursementRegistrationFactory, ReimbursementProcessingFactory, SpinnerService, companyId, $q, dateFormat) {
+            $scope.dateFormat = dateFormat;
             SpinnerService.stop();
             $scope.selectedClaim = reimbursementClaimInfo;
             $scope.selectedClaim.requestNumber = 1;
