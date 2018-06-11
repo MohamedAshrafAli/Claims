@@ -367,13 +367,15 @@
             $scope.regDetail.paymentWay ? $scope.setPaymentWay($scope.regDetail.paymentWay) : '';
             $scope.regDetail.source ? $scope.setDcoumentType($scope.regDetail.source) : '';
             $scope.fieldsObject =  ReimbursementRegistrationFactory.getRegistrationGeneralSearchFields();
+            $scope.regDetail.reqReceivedDate = new Date();
         }
 
         $scope.clearDocFilter = function() {
             $scope.docTypes = [];
             $scope.documents = angular.copy($scope.fileInfos);
         }
-       function documentsTypes() {
+
+        function documentsTypes() {
             var documents = [];
             var validation = false;
                 $scope.documentTypes.forEach(function(type) {

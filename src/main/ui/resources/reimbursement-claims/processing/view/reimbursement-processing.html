@@ -23,6 +23,7 @@
                                     <div class="clearfix">
                                         <md-autocomplete
                                             md-input-name="primaryDiagnosis" required
+                                            md-input-id	="primaryDiagnosis"
                                             ng-disabled="!claim.treatmentFromDate"
                                             md-selected-item="diagnosis.primaryDiag"
                                             md-search-text="primaryDiagsearchText"
@@ -51,6 +52,7 @@
                                     <div class="clearfix">
                                         <md-autocomplete
                                             md-input-name="secondaryDiagnosis" required
+                                            md-input-id	="secondaryDiagnosis"
                                             ng-disabled="!claim.treatmentFromDate"
                                             md-selected-item="diagnosis.secondaryDiag"
                                             md-search-text="secDiagsearchText"
@@ -79,7 +81,7 @@
                                     <div class="fldsWrap clearfix">
                                         <md-input-container flex-gt-sm>    
                                             <label>Claim Type</label>
-                                            <md-select md-input-name="claimType" ng-model="selectedClaim.claimType" required>
+                                            <md-select md-input-id="claimType" md-input-name="claimType" ng-model="selectedClaim.claimType" required>
                                                 <md-option value="{{option.id}}" ng-repeat="option in claimTypes">{{option.value}}</md-option>
                                             </md-select>
                                             <div ng-show="localValidation && !selectedClaim.claimType" class="error">Please enter the claim type</div>
@@ -88,7 +90,7 @@
                                     <div class="fldsWrap clearfix">
                                         <md-input-container flex-gt-sm>
                                             <label>Claim Condition</label>
-                                            <md-select md-input-name="claimCondition" ng-model="selectedClaim.claimCondition" required>
+                                            <md-select md-input-id="claimCondition" md-input-name="claimCondition" ng-model="selectedClaim.claimCondition" required>
                                                 <md-option value="{{option.id}}" ng-repeat="option in claimConditions">{{option.value}}</md-option>
                                             </md-select>
                                             <div ng-show="localValidation && !selectedClaim.claimCondition" class="error">Please enter the Claim Condition</div>
@@ -97,7 +99,7 @@
                                     <div class="fldsWrap clearfix">
                                         <md-input-container flex-gt-sm>
                                             <label>Event Country</label>
-                                            <input name="eventCountry" type="text" ng-model="selectedClaim.eventCountry" required />
+                                            <input id="eventCountry" name="eventCountry" type="text" ng-model="selectedClaim.eventCountry" required />
                                             <div class="ftsize" ng-show="localValidation && !reimbursementForm.eventCountry.$modelValue" class="error">Please enter the Event Country</div>
                                         </md-input-container>
                                     </div>
@@ -356,27 +358,28 @@
                                     <div class="float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 35% !important;">
                                         <md-input-container flex-gt-sm style="margin-top: 18px;">    
                                             <label>Service From</label>
-                                            <md-datepicker required ng-change="calculateDays()" name="treatmentFromDate" ng-keyup="clearDatepickerKeyupValue($event);" ng-model="claim.treatmentFromDate" md-hide-icons="triangle" md-open-on-focus></md-datepicker>
+                                            <md-datepicker required ng-change="calculateDays()"  ng-keyup="clearDatepickerKeyupValue($event);" id="treatmentFromDate" name="treatmentFromDate" ng-model="claim.treatmentFromDate" md-hide-icons="triangle" md-open-on-focus></md-datepicker>
                                             <div class="ftsize" ng-show="localValidation && !reimbursementForm.treatmentFromDate.$modelValue">Please enter the Service From Date</div>
                                         </md-input-container>
                                     </div>
                                     <div class="float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 35% !important;">
                                         <md-input-container flex-gt-sm style="margin-top: 18px;">    
                                             <label>Service To</label>
-                                            <md-datepicker required ng-change="calculateDays()" ng-keyup="clearDatepickerKeyupValue($event);" name="treatmentToDate" ng-model="claim.treatmentToDate" md-hide-icons="triangle" md-open-on-focus></md-datepicker>
+                                            <md-datepicker required ng-change="calculateDays()" ng-keyup="clearDatepickerKeyupValue($event);" id="treatmentToDate" name="treatmentToDate" ng-model="claim.treatmentToDate" md-hide-icons="triangle" md-open-on-focus></md-datepicker>
                                         </md-input-container>
                                         <div class="ftsize" ng-show="localValidation && !reimbursementForm.treatmentToDate.$modelValue">Please enter the Service To Date</div>
                                     </div>
                                     <div class="float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 20% !important;">
                                         <md-input-container flex-gt-sm style="margin-top: 18px;">    
                                             <label>Days</label>
-                                            <input type="number" name="noOfTreamentDays" ng-model="claim.noOfTreamentDays" ng-change="constructServiceTo()" autocomplete="off" required>
+                                            <input type="number"  id="noOfTreamentDays" name="noOfTreamentDays" ng-model="claim.noOfTreamentDays" ng-change="constructServiceTo()" autocomplete="off" required>
                                         </md-input-container>
                                         <div class="ftsize" ng-show="localValidation && !reimbursementForm.noOfTreamentDays.$modelValue">Please enter the days</div>
                                     </div>
                                     <div class="masterCodes float-left" style="border: 1px solid #b3b3b3;margin: 0 3px 0 0;width: 50% !important;">
                                         <md-autocomplete
                                             ng-disabled="!claim.treatmentFromDate"
+                                            md-input-id	="treatmentCode"
                                             md-selected-item="claim.treatmentCode"
                                             md-search-text="searchText"
                                             md-items="item in getTreatmentCodes(searchText, 'serviceCode')"
@@ -399,7 +402,7 @@
                                     <div class="float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 30% !important;">
                                         <md-input-container flex-gt-sm style="margin-top: 18px;">    
                                             <label>Requested Amount</label>
-                                            <input name="requestedAmount" type="number" ng-model="claim.requestedAmount" autocomplete="off" ng-change="calculateSuggestedAmount()" required>
+                                            <input id="requestedAmount01" id="requestedAmount" name="requestedAmount" type="number" ng-model="claim.requestedAmount" autocomplete="off" ng-change="calculateSuggestedAmount()" required>
                                         </md-input-container>
                                         <div class="ftsize" ng-show="localValidation && !reimbursementForm.requestedAmount.$modelValue">Please enter the Requested Amount</div>
                                     </div>
