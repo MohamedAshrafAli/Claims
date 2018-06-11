@@ -4,11 +4,10 @@
         .module('claims')
         .service('ReimbursementProcessingService', ReimbursementProcessingService)
 
-    ReimbursementProcessingService.$inject = ['$resource', 'urlRoutePrefix'];
+    ReimbursementProcessingService.$inject = ['$resource', 'urlRoutePrefix', 'companyId'];
 
-    function ReimbursementProcessingService($resource, urlRoutePrefix) {
+    function ReimbursementProcessingService($resource, urlRoutePrefix, companyId) {
         var resourceUrl = urlRoutePrefix + '/api/medical/claims/reimbursement';
-        var compId = "0021";
         return $resource(resourceUrl, {}, {
             'getReimbursementInitProcessingDetails' : {
                 method: 'POST',
@@ -16,7 +15,7 @@
             },
             'saveProcessingDetails' : {
                 method: 'POST',
-                url: resourceUrl + '/saveProcessingDetails/'+ compId,
+                url: resourceUrl + '/saveProcessingDetails/'+ companyId,
                 isArray : false
             }
         })

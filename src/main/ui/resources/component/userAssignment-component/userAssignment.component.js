@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    function UserAssignmentController($scope, $element, $attrs, $filter, AutocompleteService) {
+    function UserAssignmentController($scope, $element, $attrs, $filter, AutocompleteService, companyId) {
 
         this.storeUser = [];
 
@@ -25,7 +25,7 @@
                 return [];
             }
             var params = {
-                compId : "0021",
+                compId : companyId,
                 userName : userSearchText + "%"
             }
             return AutocompleteService.getUserList(params).$promise.then(function(resp) {

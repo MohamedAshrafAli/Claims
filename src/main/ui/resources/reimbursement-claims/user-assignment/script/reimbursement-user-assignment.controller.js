@@ -4,9 +4,9 @@
         .module('claims')
         .controller('ReimbursementUserAssignmentController', ReimbursementUserAssignmentController)
 
-    ReimbursementUserAssignmentController.$inject = ['$scope', '$rootScope', 'ReimbursementUserAssignmentService', '$filter', '$state', '$stateParams', 'ngNotify', 'ListViewService', 'ClaimsListViewService', 'ReimbursementUserAssignmentFactory', 'AutocompleteService', 'ReimbursementRegistrationFactory', 'SpinnerService'];
+    ReimbursementUserAssignmentController.$inject = ['$scope', '$rootScope', 'ReimbursementUserAssignmentService', '$filter', '$state', '$stateParams', 'ngNotify', 'ListViewService', 'ClaimsListViewService', 'ReimbursementUserAssignmentFactory', 'AutocompleteService', 'ReimbursementRegistrationFactory', 'SpinnerService', 'companyId'];
 
-    function ReimbursementUserAssignmentController($scope, $rootScope, ReimbursementUserAssignmentService, $filter, $state, $stateParams, ngNotify, ListViewService, ClaimsListViewService, ReimbursementUserAssignmentFactory, AutocompleteService, ReimbursementRegistrationFactory, SpinnerService) {
+    function ReimbursementUserAssignmentController($scope, $rootScope, ReimbursementUserAssignmentService, $filter, $state, $stateParams, ngNotify, ListViewService, ClaimsListViewService, ReimbursementUserAssignmentFactory, AutocompleteService, ReimbursementRegistrationFactory, SpinnerService, companyId) {
         $scope.model = "reimbursementUserAssignment";
         $scope.selectall = false;
         $scope.selectedUserToAssign;
@@ -22,12 +22,12 @@
         $scope.filterValues = function(searchValue) {
             if (searchValue) {
                 var searchparam = ReimbursementRegistrationFactory.constructSearchObj(autoCompleteMapping, searchValue);
-                searchparam.compId = "0021";
+                searchparam.compId = companyId;
                 searchparam.reqReceivedFrom = searchparam.reqReceivedFrom ? $filter('date')(new Date(searchparam.reqReceivedFrom), 'yyyy-MM-dd') : undefined;
                 searchparam.reqReceivedTo = searchparam.reqReceivedTo ? $filter('date')(new Date(searchparam.reqReceivedTo), 'yyyy-MM-dd') : undefined;
                 getClaimList(searchparam);
             } else {
-                getClaimList({compId : "0021"});
+                getClaimList({compId : companyId});
             }
         }
 
@@ -78,7 +78,7 @@
         }        
 
         function init() {
-            getClaimList({compId: "0021"});
+            getClaimList({compId: companyId});
             getUsersList();
             $scope.userAssignmentHeader = ListViewService.getUserAssignmentListViewHeader();
             $scope.result = $scope.users;
@@ -98,7 +98,7 @@
 
         function getUsersList() {
             var params = {
-                compId : "0021",
+                compId : companyId,
                 userName : "%"
             }
             AutocompleteService.getUserList(params, function(resp) {

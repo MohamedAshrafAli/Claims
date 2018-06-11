@@ -5,9 +5,9 @@
         .module('claims')
         .controller('ReimbursementRegistrationGeneralController', ReimbursementRegistrationGeneralController)
     
-    ReimbursementRegistrationGeneralController.$inject = ['$scope', '$rootScope', 'ReimbursementRegistrationService', '$state', '$uibModal', '$timeout', 'ngNotify', '$stateParams', 'claim', 'isNew', 'AutocompleteService', '$q', 'ReimbursementRegistrationFactory', 'UIDefinationService', 'SpinnerService'];
+    ReimbursementRegistrationGeneralController.$inject = ['$scope', '$rootScope', 'ReimbursementRegistrationService', '$state', '$uibModal', '$timeout', 'ngNotify', '$stateParams', 'claim', 'isNew', 'AutocompleteService', '$q', 'ReimbursementRegistrationFactory', 'UIDefinationService', 'SpinnerService', 'companyId'];
 
-    function ReimbursementRegistrationGeneralController($scope, $rootScope, ReimbursementRegistrationService, $state, $uibModal, $timeout, ngNotify, $stateParams, claim, isNew, AutocompleteService, $q, ReimbursementRegistrationFactory, UIDefinationService, SpinnerService) {
+    function ReimbursementRegistrationGeneralController($scope, $rootScope, ReimbursementRegistrationService, $state, $uibModal, $timeout, ngNotify, $stateParams, claim, isNew, AutocompleteService, $q, ReimbursementRegistrationFactory, UIDefinationService, SpinnerService, companyId) {
         SpinnerService.stop();
         $scope.regDetail = claim;
         $scope.previewIndex = 0;
@@ -23,25 +23,25 @@
         }else{
             $scope.isDisabled = false;
         }
-        UIDefinationService.getEncounterTypes({'compId' : '0021'}, function(resp) {
+        UIDefinationService.getEncounterTypes({'compId' : companyId}, function(resp) {
             $scope.encounterTypes = resp.rowData;
             $scope.encounterTypeMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
         });
         
-        UIDefinationService.getRequestTypes({'compId' : '0021'}, function(resp) {
+        UIDefinationService.getRequestTypes({'compId' : companyId}, function(resp) {
             $scope.requestTypes = resp.rowData;
         });
 
-        UIDefinationService.getReportByTypes({'compId' : '0021'}, function(resp) {
+        UIDefinationService.getReportByTypes({'compId' : companyId}, function(resp) {
             $scope.reportByTypes = resp.rowData;
             $scope.reportByMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
         });
 
-        UIDefinationService.getPaymentTypes({'compId' : '0021'}, function(resp) {
+        UIDefinationService.getPaymentTypes({'compId' : companyId}, function(resp) {
             $scope.paymentTypes = resp.rowData;
         });
 
-        UIDefinationService.getDocumentTypes({'compId' : '0021'}, function(resp) {
+        UIDefinationService.getDocumentTypes({'compId' : companyId}, function(resp) {
             $scope.documentTypes = resp.rowData;
             //$scope.documentMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
             $scope.documentTypes.forEach(function(item){
@@ -51,7 +51,7 @@
             $scope.documentMap = ReimbursementRegistrationFactory.constructUidMap($scope.documentTypes, "id", "value");
             console.log('DOCUMENT',$scope.documentTypes);
         })
-        UIDefinationService.getSourceTypes({'compId' : '0021'}, function(resp) {
+        UIDefinationService.getSourceTypes({'compId' : companyId}, function(resp) {
             $scope.sourceTypes = resp.rowData;
             $scope.sourceMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "value", "id");
         });
@@ -111,7 +111,7 @@
             }
             $scope.localValidation = false;
             $scope.regDetail['registrationFileDTOs'] = $scope.documents;
-            var params = { policyNumber: $scope.regDetail.policyNumber, compId : "0021" };
+            var params = { policyNumber: $scope.regDetail.policyNumber, compId : companyId };
             SpinnerService.start();
             AutocompleteService.getCurrencyDetailsForPolicyNo(params, function(response) {
                 var currencyInfo = response.rowData[0];
@@ -230,7 +230,7 @@
                         }
                         $scope.encounterTypeMap = encounterTypeMap;
                         $scope.searchObj = ReimbursementRegistrationFactory.constructSearchObj(autoCompleteMapping, searchInfo);
-                        $scope.searchObj.compId = "0021"
+                        $scope.searchObj.compId = companyId
                         SpinnerService.start();
                         ReimbursementRegistrationService.getReimbursementRegistrationDetails($scope.searchObj, function(resp) {
                             SpinnerService.stop();

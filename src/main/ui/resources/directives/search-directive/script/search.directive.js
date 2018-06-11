@@ -19,7 +19,7 @@
                     btnsWidth : '@',
                     moduleName : '@'
                 },
-                controller: function ($scope, $q, AutocompleteService, $timeout) {
+                controller: function ($scope, $q, AutocompleteService, $timeout, companyId) {
 
                     $scope.autoSearch = $scope.searchAuto;
                     $scope.paymentWay = "";
@@ -45,7 +45,7 @@
 
                     function constructSearchparams(field, searchText) {
                         var searchObj = {}
-                        searchObj["compId"] = "0021";
+                        searchObj["compId"] = companyId;
                         if($scope.moduleName == 'reimb-registration') {
                             $scope.search.memberNumber =  $scope.search.memberName;
                             searchObj["policyNumber"] = field == 'policyNumber' ? searchText+"%" : ($scope.search.policyNumber ? $scope.search.policyNumber.CLF_ULM_NO  : "%"),

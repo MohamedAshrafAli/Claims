@@ -3,7 +3,7 @@
 
     angular
         .module("claims")
-            .directive("claimsListView", function($rootScope, $filter, UIDefinationService, ReimbursementRegistrationFactory, ReimbursementProcessingService, ClaimsListViewService) {
+            .directive("claimsListView", function($rootScope, $filter, UIDefinationService, ReimbursementRegistrationFactory, ReimbursementProcessingService, ClaimsListViewService, companyId) {
                 return {
                     restrict: 'E',
                     templateUrl: 'resources/directives/claimsListView-directive/view/claimslistview.directive.html',
@@ -25,15 +25,15 @@
                         scope.countByStatus = {};
                         scope.filteredClaims = [];
 
-                        UIDefinationService.getEncounterTypes({'compId' : '0021'}, function(resp) {
+                        UIDefinationService.getEncounterTypes({'compId' : companyId}, function(resp) {
                             scope.encounterTypeMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
                         });
 
-                        UIDefinationService.getStatusTypes({'compId' : '0021'}, function(resp) {
+                        UIDefinationService.getStatusTypes({'compId' : companyId}, function(resp) {
                             scope.statusMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
                         });
 
-                        UIDefinationService.getPaymentTypes({'compId' : '0021'}, function(resp) {
+                        UIDefinationService.getPaymentTypes({'compId' : companyId}, function(resp) {
                             scope.paymentMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
                         });                       
 

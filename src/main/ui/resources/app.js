@@ -18,7 +18,8 @@ angular
     .config(stateConfig)
     .config(translationConfig)
     .run(appConfig)
-    .constant('urlRoutePrefix',contextPath);
+    .constant('urlRoutePrefix',contextPath)
+    .constant('companyId',"0021");
 
     stateConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
 
