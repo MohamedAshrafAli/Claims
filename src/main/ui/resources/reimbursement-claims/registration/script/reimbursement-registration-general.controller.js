@@ -23,39 +23,27 @@
         }else{
             $scope.isDisabled = false;
         }
-        UIDefinationService.getEncounterTypes({'compId' : companyId}, function(resp) {
-            $scope.encounterTypes = resp.rowData;
-            $scope.encounterTypeMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
-        });
-        
-        UIDefinationService.getRequestTypes({'compId' : companyId}, function(resp) {
-            $scope.requestTypes = resp.rowData;
-        });
 
-        UIDefinationService.getReportByTypes({'compId' : companyId}, function(resp) {
-            $scope.reportByTypes = resp.rowData;
-            $scope.reportByMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
-        });
-
-        UIDefinationService.getPaymentTypes({'compId' : companyId}, function(resp) {
-            $scope.paymentTypes = resp.rowData;
-        });
-
-        UIDefinationService.getDocumentTypes({'compId' : companyId}, function(resp) {
-            $scope.documentTypes = resp.rowData;
-            //$scope.documentMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
-            $scope.documentTypes.forEach(function(item){
-                item.boolean = true;
-                return item;
-            })
+        var uiDefPromises = {};
+        uiDefPromises['encounterTypes'] = UIDefinationService.getEncounterTypes({'compId' : companyId}).$promise;
+        uiDefPromises['requestTypes'] = UIDefinationService.getRequestTypes({'compId' : companyId}).$promise;
+        uiDefPromises['reportByTypes'] = UIDefinationService.getReportByTypes({'compId' : companyId}).$promise;
+        uiDefPromises['paymentTypes'] = UIDefinationService.getPaymentTypes({'compId' : companyId}).$promise;
+        uiDefPromises['documentTypes'] = UIDefinationService.getDocumentTypes({'compId' : companyId}).$promise;
+        uiDefPromises['sourceTypes'] = UIDefinationService.getSourceTypes({'compId' : companyId}).$promise;
+        $q.all(uiDefPromises).then((uidTypes) => {
+            $scope.encounterTypes = uidTypes['encounterTypes'].rowData;
+            $scope.encounterTypeMap = ReimbursementRegistrationFactory.constructUidMap($scope.encounterTypes, "id", "value");
+            $scope.requestTypes = uidTypes['requestTypes'].rowData;
+            $scope.reportByTypes = uidTypes['reportByTypes'].rowData;
+            $scope.reportByMap = ReimbursementRegistrationFactory.constructUidMap($scope.reportByTypes, "id", "value");
+            $scope.paymentTypes = uidTypes['paymentTypes'].rowData;
+            $scope.documentTypes = uidTypes['documentTypes'].rowData;
+            $scope.documentTypes[0]["boolean"] = true;
             $scope.documentMap = ReimbursementRegistrationFactory.constructUidMap($scope.documentTypes, "id", "value");
-            console.log('DOCUMENT',$scope.documentTypes);
-        })
-        UIDefinationService.getSourceTypes({'compId' : companyId}, function(resp) {
-            $scope.sourceTypes = resp.rowData;
-            $scope.sourceMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "value", "id");
-        });
-
+            $scope.sourceTypes = uidTypes['sourceTypes'].rowData;
+            $scope.sourceMap = ReimbursementRegistrationFactory.constructUidMap($scope.sourceTypes, "value", "id");            
+        });        
         if($scope.regDetail.id && $scope.regDetail.registrationFileDTOs.length) {
             var promises = [];
             angular.forEach($scope.regDetail.registrationFileDTOs, function(value, key) {
