@@ -709,6 +709,7 @@ md-input-container.md-block .md-input {
 
 .flex-gt-sm .md-input,
 md-select .md-select-value,
+md-autocomplete .md-input-invalid .md-input,
 .md-datepicker-input-container .md-input {
     border: none !important;
     width: 100% !important;
@@ -1252,6 +1253,7 @@ footer li strong {
     background: #fff;
     -webkit-box-shadow: 0 0 3px 1px #d4d4d4;
     box-shadow: 0 0 3px 1px #d4d4d4;
+    margin-bottom: 4rem;
 }
 
 .eclaimRequestTabl {
@@ -1312,7 +1314,7 @@ footer li strong {
     margin: 3px 5px;
 }
 .eclaimRequestTabl {
-    margin-bottom: 60px;
+    margin-bottom: 0px;
 }
 
 .ui-grid-cell .custCheckboxBtn {
