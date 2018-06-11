@@ -10,6 +10,7 @@ public class DiagnosisDTO {
 	private String updatedBy;
 	private LocalDate createdDate;
 	private LocalDate updatedDate;
+	private boolean isChanged;
 	public Long getSgsId() {
 		return sgsId;
 	}
@@ -51,6 +52,12 @@ public class DiagnosisDTO {
 	}
 	public void setUpdatedDate(LocalDate updatedDate) {
 		this.updatedDate = updatedDate;
+	}
+	public boolean isChanged() {
+		return isChanged;
+	}
+	public void setChanged(boolean isChanged) {
+		this.isChanged = isChanged;
 	}
 	
 }
