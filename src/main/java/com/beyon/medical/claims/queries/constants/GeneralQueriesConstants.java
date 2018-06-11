@@ -70,6 +70,7 @@ public final class GeneralQueriesConstants implements Serializable{
 	public static final String GENERAL_QUERIES_UID_CLAIM_CONDITION = claimsResourceBundle.getString("medical.claim.general.queries.uid.claimcondition");
 	public static final String GENERAL_QUERIES_UID_CLAIM_CURRENCY_TYPE = claimsResourceBundle.getString("medical.claim.general.queries.uid.claim.currency.type");
 	public static final String GENERAL_QUERIES_UID_JOB_STATUS = claimsResourceBundle.getString("medical.claim.general.queries.uid.claim.jobstatus");
+	public static final String GENERAL_QUERIES_GET_UID_DEFINITION_CRITERIA_MODTYPE = claimsResourceBundle.getString("medical.claim.general.queries.uiddefinitiontype.criteria.modtype");
 
 	
 
