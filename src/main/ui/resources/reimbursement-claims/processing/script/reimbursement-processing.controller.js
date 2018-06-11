@@ -47,6 +47,9 @@
                 $scope.curencyList = resp.rowData;
                 $scope.exchangeRateMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "ExchangeCurrency", "ExchangeRate");
             });
+            AutocompleteService.geteventCountry(function(resp) {
+                $scope.eventCountries = resp;
+            })
             function init() {
                 $scope.isInlineEdit = false;
                 $scope.moduleName = 'reimbursement';

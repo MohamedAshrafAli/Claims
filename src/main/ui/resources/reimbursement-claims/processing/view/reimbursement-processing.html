@@ -99,8 +99,10 @@
                                     <div class="fldsWrap clearfix">
                                         <md-input-container flex-gt-sm>
                                             <label>Event Country</label>
-                                            <input id="eventCountry" name="eventCountry" type="text" ng-model="selectedClaim.eventCountry" required />
-                                            <div class="ftsize" ng-show="localValidation && !reimbursementForm.eventCountry.$modelValue" class="error">Please enter the Event Country</div>
+                                            <md-select md-input-id="eventCountry" md-input-name="eventCountry" ng-model="selectedClaim.eventCountry" required>
+                                                <md-option value="{{option}}" ng-repeat="option in eventCountries">{{option}}</md-option>
+                                            </md-select>
+                                            <div class="ftsize" ng-show="localValidation && !selectedClaim.eventCountry" class="error">Please enter the Event Country</div>
                                         </md-input-container>
                                     </div>
                                     <div class="fldsWrap clearfix">
