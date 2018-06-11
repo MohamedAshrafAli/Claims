@@ -767,7 +767,6 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 					ps.setString(18, reimbursementAssignmentDTO.getCreatedBy());
 					ps.setDate(19, createdDate);
 					ps.setString(20, "*");
-					ps.setString(21, "I");
 				}
 				@Override
 				public int getBatchSize() {
@@ -788,7 +787,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		insertCTDSLEVELC(compId, reimbursementAssignmentDTOs, jdbcTemplate);
 		insertCTDSLEVELCP(compId, reimbursementAssignmentDTOs, jdbcTemplate);
 		List<ReimbursementAssignmentDTO> results = insertCTDSLEVELSL(compId, reimbursementAssignmentDTOs, jdbcTemplate);
-		insertCHDSLEVELSL(compId, results, jdbcTemplate);
+		//insertCHDSLEVELSL(compId, results, jdbcTemplate);
 		return reimbursementAssignmentDTOs;
 	}
 	
@@ -798,7 +797,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		updateCTDSLEVELC(compId, reimbursementAssignmentDTOs, jdbcTemplate);
 		updateCTDSLEVELCP(compId, reimbursementAssignmentDTOs, jdbcTemplate);
 		List<ReimbursementAssignmentDTO> results = updateCTDSLEVELSL(compId, reimbursementAssignmentDTOs, jdbcTemplate);
-		insertCHDSLEVELSL(compId, results, jdbcTemplate);
+		//insertCHDSLEVELSL(compId, results, jdbcTemplate);
 		return reimbursementAssignmentDTOs;
 	}
 
