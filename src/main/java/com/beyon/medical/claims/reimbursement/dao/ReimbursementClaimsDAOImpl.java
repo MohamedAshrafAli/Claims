@@ -30,6 +30,10 @@ import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesCon
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_MC;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_MDIAG;
 import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_DETAILS_CTDS_LEVEL_MSRVC_VERSION;
+import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_INSERT_CHDS_LEVEL_SL;
+import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_SL;
+import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_C;
+import static com.beyon.medical.claims.queries.constants.ReimbursementQueriesConstants.REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_CP;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -495,6 +499,42 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		}
 		return true;
 	}
+	
+	private boolean updateCTDSLEVELC(String compId,List<ReimbursementAssignmentDTO> reimbursementAssignmentDTOs,JdbcTemplate jdbcTemplate) throws DAOException {
+		try {
+			jdbcTemplate.batchUpdate(REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_C, new BatchPreparedStatementSetter() {
+				@Override
+				public void setValues(PreparedStatement ps, int i) throws SQLException {
+					ReimbursementAssignmentDTO reimbursementAssignmentDTO = reimbursementAssignmentDTOs.get(i);
+					java.sql.Date claimIntimationDate = toSQLDate(reimbursementAssignmentDTO.getReqReceivedDate());
+					java.sql.Date claimLossDate = toSQLDate(reimbursementAssignmentDTO.getServiceFmDate());			
+					
+					ps.setString(1, reimbursementAssignmentDTO.getClaimNumber());
+					ps.setString(2, reimbursementAssignmentDTO.getClaimRefNo());
+					ps.setDate(3, claimIntimationDate);
+					ps.setDate(4, claimLossDate);
+					ps.setString(5, reimbursementAssignmentDTO.getDescription());
+					ps.setString(6, reimbursementAssignmentDTO.getPolicyNumber());
+					ps.setString(7, reimbursementAssignmentDTO.getStatus());
+					ps.setString(8, reimbursementAssignmentDTO.getCustomerId());
+					ps.setString(9, reimbursementAssignmentDTO.getProductId());										
+					ps.setString(10, compId);
+					ps.setString(11, reimbursementAssignmentDTO.getDivisionId());
+					ps.setString(12, reimbursementAssignmentDTO.getDeptId());					
+					ps.setLong(13, reimbursementAssignmentDTO.getId());
+				}
+				@Override
+				public int getBatchSize() {
+					return reimbursementAssignmentDTOs.size();
+				}
+			});
+		} catch (Exception e) {
+			writeLog(CLASS_NAME, "Exception occured while executing insertTDSLEVELD", ERROR, e);
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return true;
+	}
 
 	private boolean insertCTDSLEVELCP(String compId,List<ReimbursementAssignmentDTO> reimbursementAssignmentDTOs,JdbcTemplate jdbcTemplate) throws DAOException {
 		try {
@@ -555,7 +595,57 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		return true;
 	}
 	
-	private boolean insertCTDSLEVELSL(String compId,List<ReimbursementAssignmentDTO> reimbursementAssignmentDTOs,JdbcTemplate jdbcTemplate) throws DAOException {
+	private boolean updateCTDSLEVELCP(String compId,List<ReimbursementAssignmentDTO> reimbursementAssignmentDTOs,JdbcTemplate jdbcTemplate) throws DAOException {
+		try {
+			jdbcTemplate.batchUpdate(REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_CP, new BatchPreparedStatementSetter() {
+				@Override
+				public void setValues(PreparedStatement ps, int i) throws SQLException {
+					ReimbursementAssignmentDTO reimbursementAssignmentDTO = reimbursementAssignmentDTOs.get(i);					
+					java.sql.Date claimIntimationDate = toSQLDate(reimbursementAssignmentDTO.getReqReceivedDate());
+					java.sql.Date claimLossDate = toSQLDate(reimbursementAssignmentDTO.getServiceFmDate());					
+					
+					ps.setString(1, reimbursementAssignmentDTO.getFirstName());
+					ps.setString(2, reimbursementAssignmentDTO.getMiddleName());
+					ps.setString(3, reimbursementAssignmentDTO.getLastName());
+					ps.setString(4, reimbursementAssignmentDTO.getAddress1());
+					ps.setString(5, reimbursementAssignmentDTO.getAddress2());
+					ps.setString(6, reimbursementAssignmentDTO.getAddress3());
+					ps.setString(7, reimbursementAssignmentDTO.getAddress4());
+					ps.setString(8, reimbursementAssignmentDTO.getPincode());
+					ps.setString(9, reimbursementAssignmentDTO.getState());
+					ps.setString(10, reimbursementAssignmentDTO.getCity());
+					ps.setString(11, reimbursementAssignmentDTO.getCountry());
+					ps.setString(12, reimbursementAssignmentDTO.getPrimaryPhoneNo());
+					ps.setString(13, reimbursementAssignmentDTO.getMobileNum1());
+					ps.setString(14, reimbursementAssignmentDTO.getAssignmentId()+"");
+					ps.setString(15,null);
+					ps.setString(16, reimbursementAssignmentDTO.getEmail1());
+					ps.setString(17, reimbursementAssignmentDTO.getMemberName());
+					ps.setString(18, null);
+					ps.setString(19, reimbursementAssignmentDTO.getGender());					
+					ps.setString(20, "I");					
+					ps.setString(21, reimbursementAssignmentDTO.getRelationWithPrimary());
+					ps.setString(22, reimbursementAssignmentDTO.getNationalId());
+					
+					ps.setLong(23, reimbursementAssignmentDTO.getId());
+
+
+				}
+				@Override
+				public int getBatchSize() {
+					return reimbursementAssignmentDTOs.size();
+				}
+			});
+		} catch (Exception e) {
+			writeLog(CLASS_NAME, "Exception occured while executing insertTDSLEVELD", ERROR, e);
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return true;
+	}
+	
+	private List<ReimbursementAssignmentDTO> insertCTDSLEVELSL(String compId,List<ReimbursementAssignmentDTO> reimbursementAssignmentDTOs,JdbcTemplate jdbcTemplate) throws DAOException {
+		List<ReimbursementAssignmentDTO> results = new ArrayList<>();
 		try {
 			jdbcTemplate.batchUpdate(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_SL, new BatchPreparedStatementSetter() {
 				@Override
@@ -563,11 +653,100 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 					ReimbursementAssignmentDTO reimbursementAssignmentDTO = reimbursementAssignmentDTOs.get(i);
 					Long slId = getSequenceNo(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_SL_SEQUENCE_NAME);
 					if(reimbursementAssignmentDTO.getAssignedUserDetailsDTO() != null)
-						reimbursementAssignmentDTO.getAssignedUserDetailsDTO().setSlId(slId);
+						reimbursementAssignmentDTO.getAssignedUserDetailsDTO().setSlId(slId);					
 					java.sql.Date allocationDate = new java.sql.Date(new Date().getTime());
 					java.sql.Date dueDate = new java.sql.Date(new Date().getTime());
 					java.sql.Date createdDate = new java.sql.Date(new Date().getTime());
 					
+					ps.setLong(1, reimbursementAssignmentDTO.getId());
+					ps.setString(2, reimbursementAssignmentDTO.getRiskId());
+					ps.setString(3, reimbursementAssignmentDTO.getAssignedUserDetailsDTO().getUserId());
+					ps.setString(4, reimbursementAssignmentDTO.getAssignedUserDetailsDTO().getUserGroupId());
+					ps.setString(5,  "O");
+					ps.setDate(6, allocationDate);
+					ps.setDate(7, dueDate);
+					ps.setString(8, "SFR");//TODO: remove the hardcoded value based on the UID
+					ps.setString(9, null);
+					ps.setString(10, null);
+					ps.setString(11, null);
+					ps.setString(12, null);
+					ps.setString(13, "*");
+					ps.setLong(14, reimbursementAssignmentDTO.getAssignmentId());
+					ps.setString(15, "Primary");
+					ps.setLong(16,reimbursementAssignmentDTO.getAssignedUserDetailsDTO().getSlId());
+					ps.setLong(17, 0L);
+					ps.setString(18, reimbursementAssignmentDTO.getCreatedBy());
+					ps.setDate(19, createdDate);
+					ps.setString(20, "*");
+					ps.setString(21, "I");
+					results.add(reimbursementAssignmentDTO);
+				}
+				@Override
+				public int getBatchSize() {
+					return reimbursementAssignmentDTOs.size();
+				}
+			});
+		} catch (Exception e) {
+			writeLog(CLASS_NAME, "Exception occured while executing insertCTDSLEVELSL", ERROR, e);
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return results;
+	}
+	
+	private List<ReimbursementAssignmentDTO> updateCTDSLEVELSL(String compId,List<ReimbursementAssignmentDTO> reimbursementAssignmentDTOs,JdbcTemplate jdbcTemplate) throws DAOException {
+		List<ReimbursementAssignmentDTO> results = new ArrayList<>();
+		try {
+			jdbcTemplate.batchUpdate(REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_SL, new BatchPreparedStatementSetter() {
+				@Override
+				public void setValues(PreparedStatement ps, int i) throws SQLException {
+					ReimbursementAssignmentDTO reimbursementAssignmentDTO = reimbursementAssignmentDTOs.get(i);										
+					java.sql.Date allocationDate = new java.sql.Date(new Date().getTime());
+					java.sql.Date dueDate = new java.sql.Date(new Date().getTime());		
+					
+					ps.setString(1, reimbursementAssignmentDTO.getRiskId());
+					ps.setString(2, reimbursementAssignmentDTO.getAssignedUserDetailsDTO().getUserId());
+					ps.setString(3, reimbursementAssignmentDTO.getAssignedUserDetailsDTO().getUserGroupId());
+					ps.setString(4,  "O");
+					ps.setDate(5, allocationDate);
+					ps.setDate(6, dueDate);
+					ps.setString(7, "SFR");//TODO: remove the hardcoded value based on the UID
+					ps.setString(8, null);
+					ps.setString(9, null);
+					ps.setString(10, null);
+					ps.setString(11, null);
+					ps.setString(12, "*");
+					ps.setLong(13, reimbursementAssignmentDTO.getAssignmentId());
+					ps.setString(14, "Primary");
+					ps.setLong(15,reimbursementAssignmentDTO.getAssignedUserDetailsDTO().getSlId());
+					ps.setLong(16, 0L);					
+					ps.setString(17, "*");
+					ps.setString(18, "I");
+					ps.setLong(19, reimbursementAssignmentDTO.getId());
+					results.add(reimbursementAssignmentDTO);
+				}
+				@Override
+				public int getBatchSize() {
+					return reimbursementAssignmentDTOs.size();
+				}
+			});
+		} catch (Exception e) {
+			writeLog(CLASS_NAME, "Exception occured while executing insertCTDSLEVELSL", ERROR, e);
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return results;
+	}
+	
+	private boolean insertCHDSLEVELSL(String compId,List<ReimbursementAssignmentDTO> reimbursementAssignmentDTOs,JdbcTemplate jdbcTemplate) throws DAOException {		
+		try {
+			jdbcTemplate.batchUpdate(REIMBURSEMENT_QUERIES_INSERT_CHDS_LEVEL_SL, new BatchPreparedStatementSetter() {
+				@Override
+				public void setValues(PreparedStatement ps, int i) throws SQLException {
+					ReimbursementAssignmentDTO reimbursementAssignmentDTO = reimbursementAssignmentDTOs.get(i);					
+					java.sql.Date allocationDate = new java.sql.Date(new Date().getTime());
+					java.sql.Date dueDate = new java.sql.Date(new Date().getTime());
+					java.sql.Date createdDate = new java.sql.Date(new Date().getTime());					
 					ps.setLong(1, reimbursementAssignmentDTO.getId());
 					ps.setString(2, reimbursementAssignmentDTO.getRiskId());
 					ps.setString(3, reimbursementAssignmentDTO.getAssignedUserDetailsDTO().getUserId());
@@ -596,7 +775,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 				}
 			});
 		} catch (Exception e) {
-			writeLog(CLASS_NAME, "Exception occured while executing insertCTDSLEVELSL", ERROR, e);
+			writeLog(CLASS_NAME, "Exception occured while executing insertCHDSLEVELSL", ERROR, e);
 			e.printStackTrace();
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
 		}
@@ -606,10 +785,20 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 	public List<ReimbursementAssignmentDTO> insertReimbursementAssignmentDetails(String compId,List<ReimbursementAssignmentDTO> reimbursementAssignmentDTOs) throws DAOException {
 		boolean isSaved = false;
 		JdbcTemplate jdbcTemplate = DAOFactory.getJdbcTemplate("gm");
-
 		insertCTDSLEVELC(compId, reimbursementAssignmentDTOs, jdbcTemplate);
 		insertCTDSLEVELCP(compId, reimbursementAssignmentDTOs, jdbcTemplate);
-		insertCTDSLEVELSL(compId, reimbursementAssignmentDTOs, jdbcTemplate);
+		List<ReimbursementAssignmentDTO> results = insertCTDSLEVELSL(compId, reimbursementAssignmentDTOs, jdbcTemplate);
+		insertCHDSLEVELSL(compId, results, jdbcTemplate);
+		return reimbursementAssignmentDTOs;
+	}
+	
+	public List<ReimbursementAssignmentDTO> updateReimbursementAssignmentDetails(String compId,List<ReimbursementAssignmentDTO> reimbursementAssignmentDTOs) throws DAOException {
+		boolean isSaved = false;
+		JdbcTemplate jdbcTemplate = DAOFactory.getJdbcTemplate("gm");
+		updateCTDSLEVELC(compId, reimbursementAssignmentDTOs, jdbcTemplate);
+		updateCTDSLEVELCP(compId, reimbursementAssignmentDTOs, jdbcTemplate);
+		List<ReimbursementAssignmentDTO> results = updateCTDSLEVELSL(compId, reimbursementAssignmentDTOs, jdbcTemplate);
+		insertCHDSLEVELSL(compId, results, jdbcTemplate);
 		return reimbursementAssignmentDTOs;
 	}
 
