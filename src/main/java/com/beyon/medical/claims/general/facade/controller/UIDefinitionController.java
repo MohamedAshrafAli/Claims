@@ -1,4 +1,4 @@
-package com.beyon.medical.claims.ui.facade.controller;
+package com.beyon.medical.claims.general.facade.controller;
 
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.*;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_UID_ENCOUNTER_TYPE;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.beyon.medical.claims.exception.MedicalClaimsException;
-import com.beyon.medical.claims.ui.facade.service.GeneralServiceFacade;
+import com.beyon.medical.claims.general.facade.service.GeneralServiceFacade;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @RestController

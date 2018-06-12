@@ -1,4 +1,4 @@
-package com.beyon.medical.claims.ui.facade.service;
+package com.beyon.medical.claims.general.facade.service;
 
 import static com.beyon.framework.util.Constants.INTERNAL_ERROR_OCCURED;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_ASSIGNMENT_USER_STATUS_COUNT;

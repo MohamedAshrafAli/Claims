@@ -3,6 +3,7 @@ package com.beyon.medical.claims.reimbursement.dto;
 import java.util.List;
 
 import com.beyon.medical.claims.general.dto.DiagnosisDTO;
+import com.beyon.medical.claims.providerpaper.dto.ProviderPaperBatchDTO;
 
 public class ReimbursementProcessingDTO extends ReimbursementDTO {
 	
@@ -15,7 +16,8 @@ public class ReimbursementProcessingDTO extends ReimbursementDTO {
 	private String claimCondition;
 	private String claimStatusReason;
 	private boolean isChanged;
-	
+	private Long serviceGroupId;
+
 	public List<ReimbursementProcessingServiceDTO> getProcessingServiceDTOs() {
 		return processingServiceDTOs;
 	}
@@ -69,6 +71,12 @@ public class ReimbursementProcessingDTO extends ReimbursementDTO {
 	}
 	public void setChanged(boolean isChanged) {
 		this.isChanged = isChanged;
+	}
+	public Long getServiceGroupId() {
+		return serviceGroupId;
+	}
+	public void setServiceGroupId(Long serviceGroupId) {
+		this.serviceGroupId = serviceGroupId;
 	}
 	
 }

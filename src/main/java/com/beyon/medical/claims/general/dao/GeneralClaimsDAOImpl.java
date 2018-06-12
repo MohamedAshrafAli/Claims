@@ -86,9 +86,11 @@ public class GeneralClaimsDAOImpl extends BaseClaimsDAOImpl {
 		ObjectNode objectNode = FoundationUtils.createObjectNode();
 		try {
 			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(inputNode, Map.class);
+			StringBuilder builder = new StringBuilder(strQuery);
+			inputMap.computeIfPresent("modType", (key, value) -> builder.append("UID_MODULE_TYP = " + (String)inputMap.get("modType")) );
 			NamedParameterJdbcTemplate namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
 			ArrayNode jsonArray = FoundationUtils.createArrayNode();
-			namedParameterJdbcTemplate.query(strQuery, inputMap , new RowCallbackHandler() {
+			namedParameterJdbcTemplate.query(builder.toString(), inputMap , new RowCallbackHandler() {
 				@Override
 				public void processRow(ResultSet rs) throws SQLException {
 					ObjectNode objectNode = FoundationUtils.createObjectNode();

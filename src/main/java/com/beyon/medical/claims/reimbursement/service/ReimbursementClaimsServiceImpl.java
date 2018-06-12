@@ -28,6 +28,7 @@ import com.beyon.medical.claims.constants.ClaimConstants;
 import com.beyon.medical.claims.exception.DAOException;
 import com.beyon.medical.claims.exception.MedicalClaimsException;
 import com.beyon.medical.claims.general.dto.DiagnosisDTO;
+import com.beyon.medical.claims.general.facade.service.GeneralServiceFacade;
 import com.beyon.medical.claims.reimbursement.dao.ReimbursementClaimsDAOImpl;
 import com.beyon.medical.claims.reimbursement.dto.RegistrationFileDTO;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementAssignmentDTO;
@@ -35,7 +36,6 @@ import com.beyon.medical.claims.reimbursement.dto.ReimbursementProcessingDTO;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementProcessingServiceDTO;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementRegistrationDTO;
 import com.beyon.medical.claims.reimbursement.mapper.ReimbAssignmentMapper;
-import com.beyon.medical.claims.ui.facade.service.GeneralServiceFacade;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Service

@@ -1,6 +1,4 @@
-package com.beyon.medical.claims.ui.facade.controller;
-
-import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_UID_CLAIM_CONDITION;
+package com.beyon.medical.claims.general.facade.controller;
 
 import java.util.List;
 
@@ -16,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.beyon.medical.claims.exception.MedicalClaimsException;
-import com.beyon.medical.claims.ui.facade.service.GeneralServiceFacade;
+import com.beyon.medical.claims.general.facade.service.GeneralServiceFacade;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @RestController
@@ -76,7 +74,7 @@ public class MedicalClaimsGeneralController{
 	public  @ResponseBody ObjectNode getClaimNumbers(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
 		ObjectNode voucherNumbers = null;
 		try {
-			voucherNumbers = uiServiceFacade.getVoucherNumberList(inputMap);
+			voucherNumbers = uiServiceFacade.getClaimNumberList(inputMap);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
