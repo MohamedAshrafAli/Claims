@@ -3,6 +3,7 @@ package com.beyon.medical.claims.reimbursement.dto;
 import java.util.List;
 
 import com.beyon.medical.claims.general.dto.DiagnosisDTO;
+import com.beyon.medical.claims.providerpaper.dto.ProviderPaperBatchDTO;
 
 public class ReimbursementProcessingDTO extends ReimbursementDTO {
 	
