@@ -5,9 +5,10 @@
         .module('claims')
         .controller('ReimbursementRegistrationGeneralController', ReimbursementRegistrationGeneralController)
     
-    ReimbursementRegistrationGeneralController.$inject = ['$scope', '$rootScope', 'ReimbursementRegistrationService', '$state', '$uibModal', '$timeout', 'ngNotify', '$stateParams', 'claim', 'isNew', 'AutocompleteService', '$q', 'ReimbursementRegistrationFactory', 'UIDefinationService', 'SpinnerService', 'companyId'];
+    ReimbursementRegistrationGeneralController.$inject = ['$scope', '$rootScope', 'ReimbursementRegistrationService', '$state', '$uibModal', '$timeout', 'ngNotify', '$stateParams', 'claim', 'isNew', 'AutocompleteService', '$q', 'ReimbursementRegistrationFactory', 'UIDefinationService', 'SpinnerService', 'companyId', 'dateFormat'];
 
-    function ReimbursementRegistrationGeneralController($scope, $rootScope, ReimbursementRegistrationService, $state, $uibModal, $timeout, ngNotify, $stateParams, claim, isNew, AutocompleteService, $q, ReimbursementRegistrationFactory, UIDefinationService, SpinnerService, companyId) {
+    function ReimbursementRegistrationGeneralController($scope, $rootScope, ReimbursementRegistrationService, $state, $uibModal, $timeout, ngNotify, $stateParams, claim, isNew, AutocompleteService, $q, ReimbursementRegistrationFactory, UIDefinationService, SpinnerService, companyId, dateFormat) {
+        $scope.dateFormat = dateFormat;
         SpinnerService.stop();
         $scope.regDetail = claim;
         $scope.previewIndex = 0;
@@ -26,7 +27,7 @@
 
         var uiDefPromises = {};
         uiDefPromises['encounterTypes'] = UIDefinationService.getEncounterTypes({'compId' : companyId}).$promise;
-        uiDefPromises['requestTypes'] = UIDefinationService.getRequestTypes({'compId' : companyId}).$promise;
+        uiDefPromises['requestTypes'] = UIDefinationService.getRequestTypes({'compId' : companyId}).$promise;   
         uiDefPromises['reportByTypes'] = UIDefinationService.getReportByTypes({'compId' : companyId}).$promise;
         uiDefPromises['paymentTypes'] = UIDefinationService.getPaymentTypes({'compId' : companyId}).$promise;
         uiDefPromises['documentTypes'] = UIDefinationService.getDocumentTypes({'compId' : companyId}).$promise;

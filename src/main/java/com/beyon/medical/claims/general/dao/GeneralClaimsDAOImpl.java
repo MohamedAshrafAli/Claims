@@ -3,18 +3,15 @@ package com.beyon.medical.claims.general.dao;
 import static com.beyon.framework.util.AppLogger.ERROR;
 import static com.beyon.framework.util.AppLogger.writeLog;
 import static com.beyon.framework.util.Constants.INTERNAL_ERROR_OCCURED;
-import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_UID_DEFINITION_TYPES;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.context.annotation.Scope;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -86,11 +83,10 @@ public class GeneralClaimsDAOImpl extends BaseClaimsDAOImpl {
 		ObjectNode objectNode = FoundationUtils.createObjectNode();
 		try {
 			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(inputNode, Map.class);
-			StringBuilder builder = new StringBuilder(strQuery);
-			inputMap.computeIfPresent("modType", (key, value) -> builder.append("UID_MODULE_TYP = " + (String)inputMap.get("modType")) );
+			strQuery = inputMap.containsKey("modType") ? strQuery + " "+GENERAL_QUERIES_GET_UID_DEFINITION_CRITERIA_MODTYPE : strQuery;
 			NamedParameterJdbcTemplate namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
 			ArrayNode jsonArray = FoundationUtils.createArrayNode();
-			namedParameterJdbcTemplate.query(builder.toString(), inputMap , new RowCallbackHandler() {
+			namedParameterJdbcTemplate.query(strQuery, inputMap , new RowCallbackHandler() {
 				@Override
 				public void processRow(ResultSet rs) throws SQLException {
 					ObjectNode objectNode = FoundationUtils.createObjectNode();

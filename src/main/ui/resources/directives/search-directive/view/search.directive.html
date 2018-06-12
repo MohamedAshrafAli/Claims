@@ -12,7 +12,7 @@
         </md-input-container>
         <md-input-container ng-if="x.type == 'date'">
             <label>{{x.label}}</label>
-            <md-datepicker class="icon" ng-keyup="clearDatepickerKeyupValue($event)" ng-model="search[x.name]" md-hide-icons="triangle"
+            <md-datepicker class="icon" ng-keyup="clearDatepickerKeyupValue($event)" md-placeholder="{{dateFormat}}" ng-model="search[x.name]" md-hide-icons="triangle"
                 md-open-on-focus></md-datepicker>
         </md-input-container>
         <md-icon ng-class="x.iconClass" ng-if="x.type == 'autoSearch'" aria-label="{{x.label}}">

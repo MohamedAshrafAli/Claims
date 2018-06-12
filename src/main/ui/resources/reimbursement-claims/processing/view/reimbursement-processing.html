@@ -43,7 +43,7 @@
                                             <div class="ftsize" ng-show="localValidation && !reimbursementForm.primaryDiagnosis.$modelValue">Please enter the Primary Diagnosis</div>
                                         </md-autocomplete>
                                     </div>
-                                    <div class="fldsWrap clearfix">
+                                    <div class="clearfix">
                                         <md-input-container flex-gt-sm>
                                             <label>Primary Diagnosis Desc</label>
                                             <input type="text" ng-model="diagnosis.primaryDiag.DiagnosisName" disabled/>
@@ -72,7 +72,7 @@
                                             <div class="ftsize" ng-show="localValidation && !reimbursementForm.secondaryDiagnosis.$modelValue" class="error">Please enter the Secondary Diagnosis (ICD)</div>
                                         </md-autocomplete>
                                     </div>
-                                    <div class="fldsWrap clearfix">
+                                    <div class="clearfix">
                                         <md-input-container flex-gt-sm>
                                             <label>Secondary Diagnosis Description</label>
                                             <input type="text" ng-model="diagnosis.secondaryDiag.DiagnosisName" disabled/>
@@ -99,8 +99,10 @@
                                     <div class="fldsWrap clearfix">
                                         <md-input-container flex-gt-sm>
                                             <label>Event Country</label>
-                                            <input id="eventCountry" name="eventCountry" type="text" ng-model="selectedClaim.eventCountry" required />
-                                            <div class="ftsize" ng-show="localValidation && !reimbursementForm.eventCountry.$modelValue" class="error">Please enter the Event Country</div>
+                                            <md-select md-input-id="eventCountry" md-input-name="eventCountry" ng-model="selectedClaim.eventCountry" required>
+                                                <md-option value="{{option}}" ng-repeat="option in eventCountries">{{option}}</md-option>
+                                            </md-select>
+                                            <div class="ftsize" ng-show="localValidation && !selectedClaim.eventCountry" class="error">Please enter the Event Country</div>
                                         </md-input-container>
                                     </div>
                                     <div class="fldsWrap clearfix">
@@ -109,16 +111,16 @@
                                             <input name="providerCode" type="text" ng-model="selectedClaim.providerCode" ng-value="'4341'"/>
                                         </md-input-container>
                                     </div>
-                                    <div class="fldsWrap clearfix">
+                                    <div class="clearfix">
                                         <label class="colr">Provider Name</label>
                                         <p class="ft">{{selectedClaim.providerName}}</p>
                                     </div>
                                     <div ng-show="showProviderMore">
-                                        <div class="fldsWrap clearfix">
+                                        <div class="clearfix">
                                             <label class="colr">Provider License</label>
                                             <p class="ft">{{selectedClaim.providerLicense}}</p>
                                         </div>
-                                        <div class="fldsWrap clearfix">
+                                        <div class="clearfix">
                                             <label class="colr">Provider Network</label>
                                             <p class="ft">{{selectedClaim.providerNetwork}}</p>
                                         </div>
@@ -140,11 +142,11 @@
                                     </div>
                                 </uib-accordion-heading>
                                 <div class="accordion-input">
-                                    <div class="fldsWrap clearfix">
+                                    <div class="clearfix">
                                         <label class="colr">Voucher Number</label>
                                         <p class="ft">{{selectedClaim.voucherNumber}}</p>
                                     </div>
-                                    <div class="fldsWrap clearfix">
+                                    <div class="clearfix">
                                         <label class="colr">Encounter Type </label>
                                         <p class="ft"> {{encounterTypeMap[selectedClaim.encType]}}</p>
                                     </div>                                    
@@ -162,24 +164,24 @@
                                     </div>
                                 </uib-accordion-heading>
                                 <div class="accordion-input">
-                                    <div class="fldsWrap clearfix">
+                                    <div class="clearfix">
                                         <label class="colr">Policy No/Renewal No</label>
                                         <p class="ft">{{selectedClaim.policyNumber}}</p>
                                     </div>
-                                    <div class="fldsWrap clearfix">
+                                    <div class="clearfix">
                                         <label class="colr">Policy Name</label>
                                         <p class="ft">{{selectedClaim.policyName}}</p>
                                     </div>
                                     <div ng-show="showPolicyMore">
-                                        <div class="fldsWrap clearfix">
+                                        <div class="clearfix">
                                             <label class="colr">Policy Start</label>
                                             <p class="ft"> {{selectedClaim.policyFromDate | customeDate}}</p>
                                         </div>
-                                        <div class="fldsWrap clearfix">
+                                        <div class="clearfix">
                                             <label class="colr">Policy End</label>
                                             <p class="ft"> {{selectedClaim.policyToDate | customeDate}}</p>
                                         </div>
-                                        <div class="fldsWrap clearfix">
+                                        <div class="clearfix">
                                             <label class="colr">Claim Paid To</label>
                                             <p class="ft">{{selectedClaim.claimPaidTo}}</p>
                                         </div>
@@ -200,44 +202,44 @@
                                     </div>
                                 </uib-accordion-heading>
                                 <div class="accordion-input">
-                                    <div class="fldsWrap clearfix">
+                                    <div class="clearfix">
                                         <label class="colr">Member Name</label>
                                         <p class="ft">{{selectedClaim.memberName}}</p>
                                     </div>
-                                    <div class="fldsWrap clearfix">
+                                    <div class="clearfix">
                                         <label class="colr">Member No</label>
                                         <p class="ft">{{selectedClaim.memberNumber}}</p>
                                     </div>
-                                    <div class="fldsWrap clearfix">
+                                    <div class="clearfix">
                                         <label class="colr">Category</label>
                                         <p class="ft">{{selectedClaim.memberCategory}}</p>
                                     </div>
-                                    <div class="fldsWrap clearfix">
+                                    <div class="clearfix">
                                         <label class="colr">Gender</label>
                                         <p class="ft">{{selectedClaim.gender}}</p>
                                     </div>
                                     <div ng-show="showMemberMore">
-                                        <div class="fldsWrap clearfix">
+                                        <div class="clearfix">
                                             <label class="colr">Age</label>
                                             <p class="ft">{{selectedClaim.age}}</p>
                                         </div>
-                                        <div class="fldsWrap clearfix">
+                                        <div class="clearfix">
                                             <label class="colr">Member Network</label>
                                             <P class="ft">{{selectedClaim.memberNetwork}}</P>
                                         </div>
-                                        <div class="fldsWrap clearfix">
+                                        <div class="clearfix">
                                             <label class="colr">Member Start Date</label>
                                             <p>{{selectedClaim.memberStartDate | customeDate}}</p>
                                         </div>
-                                        <div class="fldsWrap clearfix">
+                                        <div class="clearfix">
                                             <label class="colr">Member Terminated Date</label>
                                             <p>{{selectedClaim.memberTerminatedDate | customeDate}}</p>
                                         </div>
-                                        <div class="fldsWrap clearfix">
+                                        <div class="clearfix">
                                             <label class="colr">Card Received Date</label>
                                             <p> {{selectedClaim.cardRecievedDate | customeDate}}</p>
                                         </div>
-                                        <div class="fldsWrap clearfix">
+                                        <div class="clearfix">
                                             <label class="colr">Dependency/Relation</label>
                                             <p class="ft">{{selectedClaim.relationWithPrimary}}</p>
                                         </div>
@@ -358,14 +360,14 @@
                                     <div class="float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 35% !important;">
                                         <md-input-container flex-gt-sm style="margin-top: 18px;">    
                                             <label>Service From</label>
-                                            <md-datepicker required ng-change="calculateDays()"  ng-keyup="clearDatepickerKeyupValue($event);" id="treatmentFromDate" name="treatmentFromDate" ng-model="claim.treatmentFromDate" md-hide-icons="triangle" md-open-on-focus></md-datepicker>
+                                            <md-datepicker required ng-change="calculateDays()"  md-placeholder="{{dateFormat}}" ng-keyup="clearDatepickerKeyupValue($event);" id="treatmentFromDate" name="treatmentFromDate" ng-model="claim.treatmentFromDate" md-hide-icons="triangle" md-open-on-focus></md-datepicker>
                                             <div class="ftsize" ng-show="localValidation && !reimbursementForm.treatmentFromDate.$modelValue">Please enter the Service From Date</div>
                                         </md-input-container>
                                     </div>
                                     <div class="float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 35% !important;">
                                         <md-input-container flex-gt-sm style="margin-top: 18px;">    
                                             <label>Service To</label>
-                                            <md-datepicker required ng-change="calculateDays()" ng-keyup="clearDatepickerKeyupValue($event);" id="treatmentToDate" name="treatmentToDate" ng-model="claim.treatmentToDate" md-hide-icons="triangle" md-open-on-focus></md-datepicker>
+                                            <md-datepicker required ng-change="calculateDays()" md-placeholder="{{dateFormat}}" ng-keyup="clearDatepickerKeyupValue($event);" id="treatmentToDate" name="treatmentToDate" ng-model="claim.treatmentToDate" md-hide-icons="triangle" md-open-on-focus></md-datepicker>
                                         </md-input-container>
                                         <div class="ftsize" ng-show="localValidation && !reimbursementForm.treatmentToDate.$modelValue">Please enter the Service To Date</div>
                                     </div>

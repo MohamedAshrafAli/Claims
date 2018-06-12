@@ -21,6 +21,7 @@ import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_SERVICE_CODE_DETAILS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_USER_LIST;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_REJECTION_CODE_DETAILS;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_COUNTRYIDS;
 
 import java.util.HashMap;
 import java.util.List;
@@ -281,7 +282,7 @@ public class GeneralServiceFacadeImpl implements GeneralServiceFacade {
 	public List<String> getCountryIds(String compId) throws DAOException {
 		List<String> countryIds = null;
 		try {
-			countryIds =  generalClaimsDao.getCountryIds(GENERAL_QUERIES_GET_COB_DETAIL,compId);
+			countryIds =  generalClaimsDao.getCountryIds(GENERAL_QUERIES_GET_COUNTRYIDS,compId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
