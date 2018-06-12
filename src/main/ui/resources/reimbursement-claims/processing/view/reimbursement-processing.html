@@ -81,7 +81,7 @@
                                     <div class="fldsWrap clearfix">
                                         <md-input-container flex-gt-sm>    
                                             <label>Claim Type</label>
-                                            <md-select md-input-id="claimType" md-input-name="claimType" ng-model="selectedClaim.claimType" required>
+                                            <md-select md-input-id="select_21" md-input-name="claimType" ng-model="selectedClaim.claimType" required>
                                                 <md-option value="{{option.id}}" ng-repeat="option in claimTypes">{{option.value}}</md-option>
                                             </md-select>
                                             <div ng-show="localValidation && !selectedClaim.claimType" class="error">Please enter the claim type</div>
@@ -90,7 +90,7 @@
                                     <div class="fldsWrap clearfix">
                                         <md-input-container flex-gt-sm>
                                             <label>Claim Condition</label>
-                                            <md-select md-input-id="claimCondition" md-input-name="claimCondition" ng-model="selectedClaim.claimCondition" required>
+                                            <md-select md-input-id="select_23" md-input-name="claimCondition" ng-model="selectedClaim.claimCondition" required>
                                                 <md-option value="{{option.id}}" ng-repeat="option in claimConditions">{{option.value}}</md-option>
                                             </md-select>
                                             <div ng-show="localValidation && !selectedClaim.claimCondition" class="error">Please enter the Claim Condition</div>
@@ -370,6 +370,7 @@
                                             <md-datepicker required ng-change="calculateDays()" md-placeholder="{{dateFormat}}" ng-keyup="clearDatepickerKeyupValue($event);" id="treatmentToDate" name="treatmentToDate" ng-model="claim.treatmentToDate" md-hide-icons="triangle" md-open-on-focus></md-datepicker>
                                         </md-input-container>
                                         <div class="ftsize" ng-show="localValidation && !reimbursementForm.treatmentToDate.$modelValue">Please enter the Service To Date</div>
+                                        <div class="ftsize" ng-show="reimbursementForm.treatmentToDate.$modelValue && (reimbursementForm.treatmentToDate.$modelValue < reimbursementForm.treatmentFromDate.$modelValue)"> Can't be greater than from date</div>
                                     </div>
                                     <div class="float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 20% !important;">
                                         <md-input-container flex-gt-sm style="margin-top: 18px;">    
