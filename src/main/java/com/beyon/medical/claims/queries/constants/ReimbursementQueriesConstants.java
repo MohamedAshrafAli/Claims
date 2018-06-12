@@ -63,6 +63,7 @@ public final class ReimbursementQueriesConstants implements Serializable{
 	
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_C = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelc");
 	public static final String REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_C = reimbursementResourceBundle.getString("reimbursement.queries.update.ctdslevelc");
+	public static final String REIMBURSEMENT_QUERIES_APPROVE_CTDS_LEVEL_C = reimbursementResourceBundle.getString("reimbursement.queries.approve.ctdslevelc");
 	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_MEMBER_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.ctds.assignment.member.details");
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_CP = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelcp");
 	public static final String REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_CP = reimbursementResourceBundle.getString("reimbursement.queries.update.ctdslevelcp");
@@ -80,10 +81,13 @@ public final class ReimbursementQueriesConstants implements Serializable{
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MSRVC = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelmsrvc");
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CHDS_LEVEL_MSRVC = reimbursementResourceBundle.getString("reimbursement.queries.insert.chdslevelmsrvc");
 	public static final String REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_MSRVC = reimbursementResourceBundle.getString("reimbursement.queries.update.ctdslevelmsrvc");
+	public static final String REIMBURSEMENT_QUERIES_DELETE_CTDS_LEVEL_MSRVC = reimbursementResourceBundle.getString("reimbursement.queries.delete.ctdslevelmsrvc");
+	public static final String REIMBURSEMENT_QUERIES_APPROVE_CTDS_LEVEL_MSRVC = reimbursementResourceBundle.getString("reimbursement.queries.approve.ctdslevelmsrvc");
 	public static final String REIMBURSEMENT_QUERIES_DETAILS_CTDS_LEVEL_MSRVC_VERSION = reimbursementResourceBundle.getString("reimbursement.queries.details.ctdslevelmsrvc.version");
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MSRVC_SEQUENCE_NAME = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelmsrvc.sequence.name");	
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MC = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelmc");
 	public static final String REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_MC = reimbursementResourceBundle.getString("reimbursement.queries.update.ctdslevelmc");
+	public static final String REIMBURSEMENT_QUERIES_APPROVE_CTDS_LEVEL_MC = reimbursementResourceBundle.getString("reimbursement.queries.approve.ctdslevelmc");
 	public static final String REIMBURSEMENT_QUERIES_PROCESSING_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.processing.details");
 	public static final String REIMBURSEMENT_QUERIES_PROCESSING_DETAILS_ID_CRITERIA = reimbursementResourceBundle.getString("reimbursement.queries.processing.details.id.criteria");
 	public static final String REIMBURSEMENT_QUERIES_PROCESSING_DETAILS_CLAIMNUMBER_CRITERIA = reimbursementResourceBundle.getString("reimbursement.queries.processing.details.claimnumber.criteria");
@@ -91,6 +95,8 @@ public final class ReimbursementQueriesConstants implements Serializable{
 	
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_E = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevele");
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CHDS_LEVEL_E = reimbursementResourceBundle.getString("reimbursement.queries.insert.chdslevele");
+	public static final String REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_E = reimbursementResourceBundle.getString("reimbursement.queries.update.approve.chdslevele");
+	public static final String REIMBURSEMENT_QUERIES_CHECK_EXISTENCE_CTDS_LEVEL_E = reimbursementResourceBundle.getString("reimbursement.queries.check.existance.chdslevele");
 
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_E_SEQUENCE_NAME = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevele.sequence.name");
 
