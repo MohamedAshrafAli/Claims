@@ -1117,6 +1117,78 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		return true;
 	}
 	
+	private boolean insertCHDSLEVELE(String compId, ReimbursementProcessingDTO reimbursementProcessingDTO,JdbcTemplate jdbcTemplate) throws DAOException {
+		java.sql.Date createdDate = new java.sql.Date(new Date().getTime());
+		java.sql.Date approvedDate = toSQLDate(reimbursementProcessingDTO.getProcessingServiceDTOs().get(0).getApprovedDate());
+		ReimbursementProcessingServiceDTO reimbursementProcessingServiceDTO = reimbursementProcessingDTO.getProcessingServiceDTOs().get(0);
+		
+		jdbcTemplate.update(REIMBURSEMENT_QUERIES_INSERT_CHDS_LEVEL_E,
+				new Object[] { reimbursementProcessingDTO.getServiceGroupId(), 
+						reimbursementProcessingDTO.getId(), 
+						reimbursementProcessingServiceDTO.getClaimsSequenceNo(), 
+						reimbursementProcessingDTO.getRiskId(),
+						reimbursementProcessingServiceDTO.getBenefitId(), 
+						reimbursementProcessingServiceDTO.getSubBenefitId(),
+						reimbursementProcessingServiceDTO.getSubBenefitId(),						
+						reimbursementProcessingServiceDTO.getEstType(), 
+						createdDate, 
+						reimbursementProcessingServiceDTO.getApprovedAmount(), 
+						reimbursementProcessingDTO.getCustomerId(),
+						reimbursementProcessingServiceDTO.getCreatedBy(), 
+						reimbursementProcessingServiceDTO.getApprovedAmount(),
+						null,
+						"P",
+						reimbursementProcessingDTO.getRiskCurrentExchangeRate(),
+						reimbursementProcessingDTO.getRiskCurrencyId(),
+						reimbursementProcessingServiceDTO.getApprovedAmountBC(),
+						reimbursementProcessingServiceDTO.getApprovedAmountBC(),
+						"1",
+						reimbursementProcessingServiceDTO.getApprovedBy(),
+						approvedDate,
+						reimbursementProcessingServiceDTO.getUpdatedBy(),
+						createdDate,
+						compId						
+		});
+
+		return true;
+	}
+	
+	private boolean insertCHDSLEVELE(String compId, ReimbursementEstimateDTO reimbursementEstimateDTO, JdbcTemplate jdbcTemplate) throws DAOException {
+		java.sql.Date createdDate = new java.sql.Date(new Date().getTime());		
+		jdbcTemplate.update(REIMBURSEMENT_QUERIES_INSERT_CHDS_LEVEL_E,
+				new Object[] {  
+						reimbursementEstimateDTO.getId(),
+						reimbursementEstimateDTO.getClaimsId(),
+						reimbursementEstimateDTO.getVersion(),
+						reimbursementEstimateDTO.getRiskId(),
+						reimbursementEstimateDTO.getBenefitId(), 
+						reimbursementEstimateDTO.getSubBenefitId(),
+						reimbursementEstimateDTO.getLossDescription(),						
+						reimbursementEstimateDTO.getEstimateType(), 
+						toSQLDate(reimbursementEstimateDTO.getEstimateDate()),
+						reimbursementEstimateDTO.getRevisedEstimatedAmt(),
+						reimbursementEstimateDTO.getOldEstimatedAmt(),
+						null,
+						reimbursementEstimateDTO.getCreatedBy(), 
+						reimbursementEstimateDTO.getReservedOutstandingAmt(),
+						null,
+						"P",
+						reimbursementEstimateDTO.getReservedOutstandingAmtBC(),
+						null,
+						reimbursementEstimateDTO.getExchangeRate(),
+						reimbursementEstimateDTO.getRevisedEstimatedAmtBC(),
+						reimbursementEstimateDTO.getOldEstimatedAmtBC(),
+						reimbursementEstimateDTO.getApprovedBy(),
+						toSQLDate(reimbursementEstimateDTO.getApprovedDate()),
+						toSQLDate(reimbursementEstimateDTO.getUpdatedDate()),
+						reimbursementEstimateDTO.getUpdatedBy(),												
+						"1",						
+						compId						
+		});
+
+		return true;
+	}
+	
 	private boolean updateCTDSLEVELE(String compId, ReimbursementEstimateDTO reimbursementEstimateDTO,
 			ReimbursementProcessingDTO reimbursementProcessingDTO, JdbcTemplate jdbcTemplate) throws DAOException {
 		java.sql.Date createdDate = new java.sql.Date(new Date().getTime());
@@ -1124,8 +1196,8 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		ReimbursementProcessingServiceDTO reimbursementProcessingServiceDTO = reimbursementProcessingDTO.getProcessingServiceDTOs().get(0);
 		jdbcTemplate.update(REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_E,
 				new Object[] {
-						reimbursementEstimateDTO.getOutStandingAmt(),
-						reimbursementEstimateDTO.getOutStandingAmtBC(),
+						reimbursementEstimateDTO.getReservedOutstandingAmt(),
+						reimbursementEstimateDTO.getReservedOutstandingAmtBC(),
 						reimbursementEstimateDTO.getEstimatedAmt(),
 						reimbursementEstimateDTO.getEstimatedAmtBC(),
 						reimbursementProcessingServiceDTO.getApprovedBy(),
@@ -1246,6 +1318,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 			Long dtlsSgsId = getSequenceNo(REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_E_SEQUENCE_NAME);
 			reimbursementProcessingDTO.setServiceGroupId(dtlsSgsId);
 			insertCTDSLEVELE(compId, reimbursementProcessingDTO, jdbcTemplate);
+			insertCHDSLEVELE(compId, reimbursementProcessingDTO, jdbcTemplate);
 			approveCTDSLEVELMSRVC(compId, reimbursementProcessingServiceDTO, jdbcTemplate);
 			approveCTDSLEVELC(compId, reimbursementProcessingServiceDTO, jdbcTemplate);
 			approveCTDSLEVELMC(compId, reimbursementProcessingDTO, jdbcTemplate);
@@ -1253,8 +1326,9 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		}
 		
 		setEstimatedAmt(reimbursementEstimateDTO, reimbursementProcessingDTO);
-		setOutstandingAmt(reimbursementEstimateDTO, reimbursementProcessingDTO);
+		//setOutstandingAmt(reimbursementEstimateDTO, reimbursementProcessingDTO);
 		updateCTDSLEVELE(compId, reimbursementEstimateDTO, reimbursementProcessingDTO, jdbcTemplate);
+		insertCHDSLEVELE(compId, reimbursementEstimateDTO, jdbcTemplate);
 		approveCTDSLEVELMSRVC(compId, reimbursementProcessingServiceDTO, jdbcTemplate);
 		approveCTDSLEVELC(compId, reimbursementProcessingServiceDTO, jdbcTemplate);
 		approveCTDSLEVELMC(compId, reimbursementProcessingDTO, jdbcTemplate);
@@ -1263,29 +1337,36 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 	
 	private void setEstimatedAmt(ReimbursementEstimateDTO reimbursementEstimateDTO, ReimbursementProcessingDTO reimbursementProcessingDTO) {
 		ReimbursementProcessingServiceDTO reimbursementProcessingServiceDTO = reimbursementProcessingDTO.getProcessingServiceDTOs().get(0);
-		BigDecimal existingEstimatedAmt = reimbursementEstimateDTO.getEstimatedAmt();
-		BigDecimal approvedAmt = reimbursementProcessingServiceDTO.getApprovedAmount();
-		if (existingEstimatedAmt != null && approvedAmt != null) {
-			reimbursementEstimateDTO.setEstimatedAmt(existingEstimatedAmt.add(approvedAmt));
+		BigDecimal oldEstimatedAmt = reimbursementEstimateDTO.getRevisedEstimatedAmt();
+		BigDecimal revisedEstimatedAmt = new BigDecimal(0);
+		if (oldEstimatedAmt != null) {
+			revisedEstimatedAmt = oldEstimatedAmt.add(reimbursementProcessingServiceDTO.getApprovedAmount());
+		} else {
+			revisedEstimatedAmt = reimbursementProcessingServiceDTO.getApprovedAmount();
 		}
 		
-		BigDecimal existingEstimatedAmtBC = reimbursementEstimateDTO.getEstimatedAmtBC();
-		BigDecimal approvedAmtBC = reimbursementProcessingServiceDTO.getApprovedAmountBC();
-		if (existingEstimatedAmtBC != null && approvedAmtBC != null) {
-			reimbursementEstimateDTO.setEstimatedAmtBC(existingEstimatedAmtBC.add(approvedAmtBC));
+		BigDecimal oldEstimatedAmtBC = reimbursementEstimateDTO.getRevisedEstimatedAmtBC();
+		BigDecimal revisedEstimatedAmtBC = new BigDecimal(0);
+		if (oldEstimatedAmtBC != null) {
+			revisedEstimatedAmtBC = oldEstimatedAmtBC.add(reimbursementProcessingServiceDTO.getApprovedAmountBC());
+		} else {
+			revisedEstimatedAmtBC = reimbursementProcessingServiceDTO.getApprovedAmountBC();
 		}
-	}
-	
-	private void setOutstandingAmt(ReimbursementEstimateDTO reimbursementEstimateDTO, ReimbursementProcessingDTO reimbursementProcessingDTO) {
-		ReimbursementProcessingServiceDTO reimbursementProcessingServiceDTO = reimbursementProcessingDTO.getProcessingServiceDTOs().get(0);
-		BigDecimal existingOutstandingAmt = reimbursementEstimateDTO.getOutStandingAmt();		
+		reimbursementEstimateDTO.setOldEstimatedAmt(oldEstimatedAmt);
+		reimbursementEstimateDTO.setOldEstimatedAmtBC(oldEstimatedAmtBC);
+		reimbursementEstimateDTO.setRevisedEstimatedAmt(revisedEstimatedAmt);
+		reimbursementEstimateDTO.setRevisedEstimatedAmtBC(revisedEstimatedAmtBC);
+		reimbursementEstimateDTO.setEstimatedAmt(revisedEstimatedAmt);
+		reimbursementEstimateDTO.setEstimatedAmtBC(revisedEstimatedAmtBC);
+		reimbursementEstimateDTO.setVersion(reimbursementEstimateDTO.getVersion()+1);
+		BigDecimal existingOutstandingAmt = reimbursementEstimateDTO.getReservedOutstandingAmt();		
 		if (existingOutstandingAmt != null) {
-			reimbursementEstimateDTO.setOutStandingAmt(existingOutstandingAmt.subtract(reimbursementEstimateDTO.getEstimatedAmt()));
+			reimbursementEstimateDTO.setReservedOutstandingAmt(existingOutstandingAmt.subtract(reimbursementEstimateDTO.getRevisedEstimatedAmt()));
 		}
 		
-		BigDecimal existingOutstandingAmtBC = reimbursementEstimateDTO.getOutStandingAmtBC();		
+		BigDecimal existingOutstandingAmtBC = reimbursementEstimateDTO.getReservedOutstandingAmtBC();		
 		if (existingOutstandingAmtBC != null) {
-			reimbursementEstimateDTO.setOutStandingAmtBC(existingOutstandingAmtBC.subtract(reimbursementEstimateDTO.getEstimatedAmtBC()));
+			reimbursementEstimateDTO.setReservedOutstandingAmtBC(existingOutstandingAmtBC.subtract(reimbursementEstimateDTO.getRevisedEstimatedAmtBC()));
 		}
 	}
 }

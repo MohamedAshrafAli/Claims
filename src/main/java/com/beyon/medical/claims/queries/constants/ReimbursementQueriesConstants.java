@@ -95,8 +95,8 @@ public final class ReimbursementQueriesConstants implements Serializable{
 	
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_E = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevele");
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CHDS_LEVEL_E = reimbursementResourceBundle.getString("reimbursement.queries.insert.chdslevele");
-	public static final String REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_E = reimbursementResourceBundle.getString("reimbursement.queries.update.approve.chdslevele");
-	public static final String REIMBURSEMENT_QUERIES_CHECK_EXISTENCE_CTDS_LEVEL_E = reimbursementResourceBundle.getString("reimbursement.queries.check.existance.chdslevele");
+	public static final String REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_E = reimbursementResourceBundle.getString("reimbursement.queries.update.approve.ctdslevele");
+	public static final String REIMBURSEMENT_QUERIES_CHECK_EXISTENCE_CTDS_LEVEL_E = reimbursementResourceBundle.getString("reimbursement.queries.check.existance.ctdslevele");
 
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_E_SEQUENCE_NAME = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevele.sequence.name");
 

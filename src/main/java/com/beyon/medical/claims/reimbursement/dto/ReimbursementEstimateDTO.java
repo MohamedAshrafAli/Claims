@@ -14,11 +14,20 @@ public class ReimbursementEstimateDTO {
 	private String estimateType;
 	private String estimateLevel;
 	private LocalDate estimateDate;
+	private BigDecimal revisedEstimatedAmt;
+	private BigDecimal oldEstimatedAmt;
+	private BigDecimal revisedEstimatedAmtBC;
+	private BigDecimal oldEstimatedAmtBC;
 	private BigDecimal estimatedAmt;
 	private BigDecimal estimatedAmtBC;
 	private String createdBy;
-	private BigDecimal outStandingAmt;
-	private BigDecimal outStandingAmtBC;
+	private LocalDate createdDate;
+	private String approvedBy;
+	private LocalDate approvedDate;
+	private String updatedBy;
+	private LocalDate updatedDate;
+	private BigDecimal reservedOutstandingAmt;
+	private BigDecimal reservedOutstandingAmtBC;
 	private Long settlementReferenceId;	
 	private Integer exchangeRate;
 	private String reserveCurrency;
@@ -83,6 +92,30 @@ public class ReimbursementEstimateDTO {
 	public void setEstimateDate(LocalDate estimateDate) {
 		this.estimateDate = estimateDate;
 	}
+	public BigDecimal getRevisedEstimatedAmt() {
+		return revisedEstimatedAmt;
+	}
+	public void setRevisedEstimatedAmt(BigDecimal revisedEstimatedAmt) {
+		this.revisedEstimatedAmt = revisedEstimatedAmt;
+	}
+	public BigDecimal getOldEstimatedAmt() {
+		return oldEstimatedAmt;
+	}
+	public void setOldEstimatedAmt(BigDecimal oldEstimatedAmt) {
+		this.oldEstimatedAmt = oldEstimatedAmt;
+	}
+	public BigDecimal getRevisedEstimatedAmtBC() {
+		return revisedEstimatedAmtBC;
+	}
+	public void setRevisedEstimatedAmtBC(BigDecimal revisedEstimatedAmtBC) {
+		this.revisedEstimatedAmtBC = revisedEstimatedAmtBC;
+	}
+	public BigDecimal getOldEstimatedAmtBC() {
+		return oldEstimatedAmtBC;
+	}
+	public void setOldEstimatedAmtBC(BigDecimal oldEstimatedAmtBC) {
+		this.oldEstimatedAmtBC = oldEstimatedAmtBC;
+	}	
 	public BigDecimal getEstimatedAmt() {
 		return estimatedAmt;
 	}
@@ -100,18 +133,18 @@ public class ReimbursementEstimateDTO {
 	}
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
-	}	
-	public BigDecimal getOutStandingAmt() {
-		return outStandingAmt;
 	}
-	public void setOutStandingAmt(BigDecimal outStandingAmt) {
-		this.outStandingAmt = outStandingAmt;
+	public BigDecimal getReservedOutstandingAmt() {
+		return reservedOutstandingAmt;
 	}
-	public BigDecimal getOutStandingAmtBC() {
-		return outStandingAmtBC;
+	public void setReservedOutstandingAmt(BigDecimal reservedOutstandingAmt) {
+		this.reservedOutstandingAmt = reservedOutstandingAmt;
 	}
-	public void setOutStandingAmtBC(BigDecimal outStandingAmtBC) {
-		this.outStandingAmtBC = outStandingAmtBC;
+	public BigDecimal getReservedOutstandingAmtBC() {
+		return reservedOutstandingAmtBC;
+	}
+	public void setReservedOutstandingAmtBC(BigDecimal reservedOutstandingAmtBC) {
+		this.reservedOutstandingAmtBC = reservedOutstandingAmtBC;
 	}
 	public Long getSettlementReferenceId() {
 		return settlementReferenceId;
@@ -130,5 +163,35 @@ public class ReimbursementEstimateDTO {
 	}
 	public void setReserveCurrency(String reserveCurrency) {
 		this.reserveCurrency = reserveCurrency;
+	}
+	public LocalDate getCreatedDate() {
+		return createdDate;
+	}
+	public void setCreatedDate(LocalDate createdDate) {
+		this.createdDate = createdDate;
+	}
+	public String getApprovedBy() {
+		return approvedBy;
+	}
+	public void setApprovedBy(String approvedBy) {
+		this.approvedBy = approvedBy;
+	}
+	public LocalDate getApprovedDate() {
+		return approvedDate;
+	}
+	public void setApprovedDate(LocalDate approvedDate) {
+		this.approvedDate = approvedDate;
+	}
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+	public LocalDate getUpdatedDate() {
+		return updatedDate;
+	}
+	public void setUpdatedDate(LocalDate updatedDate) {
+		this.updatedDate = updatedDate;
 	}	
 }
