@@ -289,21 +289,25 @@ angular
 
     angular
         .module('claims')
-        .controller('LanguageController', LanguageController)
+        .controller('AppController', AppController)
 
-    LanguageController.$inject = ['$translate', '$scope', '$rootScope'] ;
+    AppController.$inject = ['$translate', '$scope', '$rootScope', '$http'] ;
 
-    function LanguageController($translate, $scope, $rootScope) {
+    function AppController($translate, $scope, $rootScope, $http) {
         $scope.languages = {
             'en-US' : 'English',
             'ar-AR' : 'Arabic'
         }
-        $rootScope.selectedLanguage = 'en-US';
+        $scope.selectedLanguage = 'en-US';
         $scope.changelanguage = function() {
             $translate.use($scope.selectedLanguage).then(function() {
                 $translate.refresh();
             });
         }
+
+        $http.get('resources/static/properties/autocomplete-search.properties').then(function (response) {
+            $rootScope.searchProperties = response.data;
+        });
     }
 })();
 
