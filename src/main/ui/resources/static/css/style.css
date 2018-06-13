@@ -1984,7 +1984,6 @@ md-select[disabled] .md-select-value,
     font-size:12px;
     color: #6492a3 !important
 }
-
 .ftsize{
     font-size: 13px;
     color: RED;    
@@ -1992,7 +1991,6 @@ md-select[disabled] .md-select-value,
 .md-autocomplete-suggestions-container{  
     z-index:100000 !important;
 }
-
 .ic{
     width: 25px;
     height: 25px;
@@ -2004,4 +2002,7 @@ md-select[disabled] .md-select-value,
     padding-top: 2px;
     border-radius: 18px;
     border: 2px solid black;
+}
+button:disabled {
+    cursor: not-allowed;
 }

@@ -35,24 +35,25 @@
                             backdrop: 'static',
                             size: 'lg',
                             keyboard :false,
-                            controller : function($scope) {
+                            controller : function($scope, $uibModalInstance) {
                                 $scope.userAssignmentHeader = ListViewService.getUserAssignmentListViewHeader();
                                 var params = {compId : companyId, userName : "%"};
                                 AutocompleteService.getUserList(params, function(resp) {
                                     $scope.users = resp.rowData;
                                 })
-                                $scope.selectedUserToAssign = [];
-                                scope.getAutoCompleteList = function(userSearchText) {
-                                    if(userSearchText.length < 3) {
-                                        return [];
-                                    }
-                                    var params = {
-                                        compId : companyId,
-                                        userName : userSearchText + "%"
-                                    }
+                                $scope.getAutoCompleteList = function(userSearchText) {
+                                    if(userSearchText.length < 3) return [];
+                                    var params = {compId : companyId, userName : (userSearchText + "%")};
                                     return AutocompleteService.getUserList(params).$promise.then(function(resp) {
                                         return resp.rowData;
                                     });
+                                }
+                                $scope.assignedToSelectedUser = function() {
+                                    $uibModalInstance.close();
+                                }
+
+                                $scope.cancelModal = function() {
+                                    $uibModalInstance.dismiss();
                                 }
                             }
                         })
