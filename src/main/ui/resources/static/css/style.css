@@ -1992,6 +1992,7 @@ md-select[disabled] .md-select-value,
 .md-autocomplete-suggestions-container{  
     z-index:100000 !important;
 }
+
 .ic{
     width: 25px;
     height: 25px;
@@ -2003,4 +2004,4 @@ md-select[disabled] .md-select-value,
     padding-top: 2px;
     border-radius: 18px;
     border: 2px solid black;
-}   
+}
