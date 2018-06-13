@@ -24,8 +24,9 @@
         }else{
             $scope.isDisabled = false;
         }
-
+        var statusParam = {'compId' : companyId,'modType' : "03"}
         var uiDefPromises = {};
+        //uiDefPromises['statusTypes'] = UIDefinationService.getStatusTypes(statusParam).$promise;
         uiDefPromises['encounterTypes'] = UIDefinationService.getEncounterTypes({'compId' : companyId}).$promise;
         uiDefPromises['requestTypes'] = UIDefinationService.getRequestTypes({'compId' : companyId}).$promise;   
         uiDefPromises['reportByTypes'] = UIDefinationService.getReportByTypes({'compId' : companyId}).$promise;
@@ -43,7 +44,9 @@
             $scope.documentTypes[0]["boolean"] = true;
             $scope.documentMap = ReimbursementRegistrationFactory.constructUidMap($scope.documentTypes, "id", "value");
             $scope.sourceTypes = uidTypes['sourceTypes'].rowData;
-            $scope.sourceMap = ReimbursementRegistrationFactory.constructUidMap($scope.sourceTypes, "value", "id");            
+            $scope.sourceMap = ReimbursementRegistrationFactory.constructUidMap($scope.sourceTypes, "value", "id");
+            //$scope.status = uidTypes['statusTypes'].rowData;
+            //$scope.statusMap = ReimbursementRegistrationFactory.constructUidMap($scope.status, "value", "id");
         });        
         if($scope.regDetail.id && $scope.regDetail.registrationFileDTOs.length) {
             var promises = [];
@@ -88,12 +91,12 @@
 
         $scope.saveRegistrationDetails = function() {
             if($scope.form.$invalid){
-                if($scope.fileInfos == undefined || $scope.fileInfos.length == 0){
+                /*if($scope.fileInfos == undefined || $scope.fileInfos.length == 0){
                     $scope.documentsUpload();
                    
                 }else{
                     documentsTypes();
-                }
+                }*/
                 
                 $scope.localValidation = true;
                 return;
@@ -124,7 +127,6 @@
         $scope.uploadFiles = function(files, doc) {
             $scope.files = files;
             $scope.fileInfos = ($scope.fileInfos && $scope.fileInfos.length) ? $scope.fileInfos :[];
-            console.log('FILEINFO',$scope.fileInfos);
             $scope.uploadedId = $scope.hasMandatory ? Math.random() : null;
             var files = [];
             angular.forEach($scope.files, function(value, key) {
@@ -213,9 +215,10 @@
                     keyboard :false,
                     controller: function ($scope, $uibModalInstance, encounterTypeMap) {
                         var searchInfo = angular.copy(data);
+                        var properties = $rootScope.searchProperties.registrationGeneral;
                         var autoCompleteMapping = {
-                            memberNumber : 'ULME_MEMBER_ID',
-                            policyNumber : 'ILM_NO'
+                            memberNumber : properties["memberNumber"],
+                            policyNumber : properties["policyNumber"]
                         }
                         $scope.encounterTypeMap = encounterTypeMap;
                         $scope.searchObj = ReimbursementRegistrationFactory.constructSearchObj(autoCompleteMapping, searchInfo);

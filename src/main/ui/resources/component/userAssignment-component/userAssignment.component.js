@@ -4,19 +4,28 @@
     function UserAssignmentController($scope, $element, $attrs, $filter, AutocompleteService, companyId) {
 
         this.storeUser = [];
+        console.log(this.users);
 
         this.$onInit = function() {
             this.storeUser = angular.copy(this.users);
         }
 
-        this.filterByUser = function(userSearchText) {
-            if (userSearchText == "" || userSearchText == undefined || userSearchText == null) {
+        this.filterByUser = function(selectedUser) {
+            if (selectedUser == "" || selectedUser == undefined || selectedUser == null) {
                 this.users = angular.copy(this.storeUser);
                 if (this.selectedUser) {
                     this.selectedUser = {};
                 }
             } else {
-                this.users = $filter('filter')(this.storeUser, { name: userSearchText });
+                AutocompleteService.getStatusCountByUser({userId: selectedUser.UserId}, (resp) => {
+                    selectedUser.assigned = parseInt(resp.rowData[0].Total);
+                    this.users = [selectedUser];
+                    //this.users = $filter('filter')(this.storeUser, { name: selectedUser });
+                }, onerror);
+                function onerror() {
+                    console.log("Error Occured");
+                }
+
             }
         }
         
@@ -39,7 +48,7 @@
             .component('userAssignmentComponent', {
                 bindings : {
                     headers : '<',
-                    users: '<',
+                    users: '=',
                     selectedUser: '=',
                     assignedToSelectedUser: '&'
                 },

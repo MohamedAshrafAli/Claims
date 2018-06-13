@@ -3,7 +3,7 @@
 
     angular
         .module("claims")
-            .directive("claimsListView", function($rootScope, $filter, UIDefinationService, ReimbursementRegistrationFactory, ReimbursementProcessingService, ClaimsListViewService, companyId) {
+            .directive("claimsListView", function($rootScope, $filter, UIDefinationService, ReimbursementRegistrationFactory, ReimbursementProcessingService, ClaimsListViewService, companyId, $q) {
                 return {
                     restrict: 'E',
                     templateUrl: 'resources/directives/claimsListView-directive/view/claimslistview.directive.html',
@@ -24,18 +24,17 @@
                         scope.reverseSort = false;
                         scope.countByStatus = {};
                         scope.filteredClaims = [];
-
-                        UIDefinationService.getEncounterTypes({'compId' : companyId}, function(resp) {
-                            scope.encounterTypeMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
-                        });
-
-                        UIDefinationService.getStatusTypes({'compId' : companyId}, function(resp) {
-                            scope.statusMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
-                        });
-
-                        UIDefinationService.getPaymentTypes({'compId' : companyId}, function(resp) {
-                            scope.paymentMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "id", "value");
-                        });                       
+                        var statusParam = {'compId' : companyId,'modType' : "03"}
+                        var uidefPromises = {
+                            "encounterTypes" : UIDefinationService.getEncounterTypes({'compId' : companyId}).$promise,
+                            "paymentTypes" : UIDefinationService.getPaymentTypes({'compId' : companyId}).$promise,
+                            "statusTypes" : UIDefinationService.getStatusTypes(statusParam).$promise,
+                        }
+                        $q.all(uidefPromises).then((uidTypes) => {
+                            scope.encounterTypeMap = ReimbursementRegistrationFactory.constructUidMap(uidTypes['encounterTypes'].rowData, "id", "value");
+                            scope.paymentMap = ReimbursementRegistrationFactory.constructUidMap(uidTypes['paymentTypes'].rowData, "id", "value");
+                            scope.statusMap = ReimbursementRegistrationFactory.constructUidMap(uidTypes['statusTypes'].rowData, "id", "value");
+                        })                                             
 
                         function init() {
                             scope.currentTab = scope.tabsToDisplay ? scope.tabsToDisplay[0].tab : 'newRequest';
@@ -75,8 +74,8 @@
                                     scope.claimsRecords = angular.copy($filter('filter')(scope.allClaimRecords, {status: 'Waitingforapproval'}));
                                 break;
                                 case 'Assigned':
-                                    scope.filterByStatus = 'Assigned';
-                                    scope.claimsRecords = angular.copy($filter('filter')(scope.allClaimRecords, {status: 'Assigned'}));
+                                    scope.filterByStatus = 'ASN';
+                                    scope.claimsRecords = angular.copy($filter('filter')(scope.allClaimRecords, {status: 'ASN'}));
                                 break;
                                 case 'newRequest':
                                     scope.filterByStatus = 'CC';

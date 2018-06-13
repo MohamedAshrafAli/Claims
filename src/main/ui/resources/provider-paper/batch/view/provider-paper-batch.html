@@ -1,24 +1,20 @@
 <nav class="navbar pt-1 pb-1">
-        <span class="navbar-brand p-0 m-0">Eclaim Batch </span>
-    </nav>
-    <section>
-        <div class="leftContainer leftreg">
-            <div class="contentPart">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="searchBarRow reimbListTabl" style="display: block">
-                                <my-search-box search-info="searchFields" search-auto="registeredClaims" drop-down="dropdownValues" search-text="searchValue"
-                                    callback="filterValues(data)" btns-width="50%"></my-search-box>
-                            </div>
-                            <batch-directive module-name="moduleName" fields-info="fieldsInfo" records="batchRecords"></batch-directive>   
+    <span class="navbar-brand p-0 m-0">Provider Paper Batch </span>
+</nav>
+<section>
+    <div class="leftContainer leftreg">
+        <div class="contentPart">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="searchBarRow reimbListTabl" style="display: block">
+                            <my-search-box search-info="searchFields" search-auto="registeredClaims" drop-down="dropdownValues" search-text="searchValue"
+                                callback="filterValues(data)" btns-width="50%"></my-search-box>
                         </div>
+                        <batch-directive module-name="moduleName" fields-info="fieldsInfo" records="batchRecords"></batch-directive>   
                     </div>
                 </div>
             </div>
-            </div>
-    </section>
-    
-    
-    
-        
+        </div>
+        </div>
+</section>

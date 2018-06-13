@@ -60,7 +60,12 @@
                         scope.action = actionType;
                         var info = {action : actionType, data : record, index : rowIndex};
                         scope.onGridAction({info});
-                    }                    
+                    }
+
+                    scope.convertToDate = function(date) {
+                        if(date && typeof date == 'object') date = new Date(date[0], date[1]-1, date[2]);
+                        return date;
+                    }
 
                     $('#right-button').click(function(event) {
                         event.preventDefault();
