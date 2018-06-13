@@ -24,8 +24,9 @@
         }else{
             $scope.isDisabled = false;
         }
-
+        var statusParam = {'compId' : companyId,'modType' : "03"}
         var uiDefPromises = {};
+        //uiDefPromises['statusTypes'] = UIDefinationService.getStatusTypes(statusParam).$promise;
         uiDefPromises['encounterTypes'] = UIDefinationService.getEncounterTypes({'compId' : companyId}).$promise;
         uiDefPromises['requestTypes'] = UIDefinationService.getRequestTypes({'compId' : companyId}).$promise;   
         uiDefPromises['reportByTypes'] = UIDefinationService.getReportByTypes({'compId' : companyId}).$promise;
@@ -43,7 +44,9 @@
             $scope.documentTypes[0]["boolean"] = true;
             $scope.documentMap = ReimbursementRegistrationFactory.constructUidMap($scope.documentTypes, "id", "value");
             $scope.sourceTypes = uidTypes['sourceTypes'].rowData;
-            $scope.sourceMap = ReimbursementRegistrationFactory.constructUidMap($scope.sourceTypes, "value", "id");            
+            $scope.sourceMap = ReimbursementRegistrationFactory.constructUidMap($scope.sourceTypes, "value", "id");
+            //$scope.status = uidTypes['statusTypes'].rowData;
+            //$scope.statusMap = ReimbursementRegistrationFactory.constructUidMap($scope.status, "value", "id");
         });        
         if($scope.regDetail.id && $scope.regDetail.registrationFileDTOs.length) {
             var promises = [];

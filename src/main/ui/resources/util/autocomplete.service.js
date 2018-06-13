@@ -72,6 +72,10 @@
                     method: 'GET',
                     url: resourceUrl +'/getCountryIds/'+ companyId,
                     isArray : true
+                },
+                'getStatusCountByUser': {
+                    method: 'POST',
+                    url: resourceUrl +'/getStatusCountByUser'
                 }
             })
         }

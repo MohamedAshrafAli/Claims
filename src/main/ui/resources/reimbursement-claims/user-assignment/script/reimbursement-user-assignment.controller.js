@@ -4,9 +4,9 @@
         .module('claims')
         .controller('ReimbursementUserAssignmentController', ReimbursementUserAssignmentController)
 
-    ReimbursementUserAssignmentController.$inject = ['$scope', '$rootScope', 'ReimbursementUserAssignmentService', '$filter', '$state', '$stateParams', 'ngNotify', 'ListViewService', 'ClaimsListViewService', 'ReimbursementUserAssignmentFactory', 'AutocompleteService', 'ReimbursementRegistrationFactory', 'SpinnerService', 'companyId'];
+    ReimbursementUserAssignmentController.$inject = ['$scope', '$rootScope', 'ReimbursementUserAssignmentService', '$filter', '$state', 'ngNotify', 'ListViewService', 'ClaimsListViewService', 'ReimbursementUserAssignmentFactory', 'AutocompleteService', 'ReimbursementRegistrationFactory', 'SpinnerService', 'companyId','UIDefinationService'];
 
-    function ReimbursementUserAssignmentController($scope, $rootScope, ReimbursementUserAssignmentService, $filter, $state, $stateParams, ngNotify, ListViewService, ClaimsListViewService, ReimbursementUserAssignmentFactory, AutocompleteService, ReimbursementRegistrationFactory, SpinnerService, companyId) {
+    function ReimbursementUserAssignmentController($scope, $rootScope, ReimbursementUserAssignmentService, $filter, $state, ngNotify, ListViewService, ClaimsListViewService, ReimbursementUserAssignmentFactory, AutocompleteService, ReimbursementRegistrationFactory, SpinnerService, companyId, UIDefinationService) {
         $scope.model = "reimbursementUserAssignment";
         $scope.selectall = false;
         $scope.selectedUserToAssign;
@@ -17,7 +17,7 @@
         $scope.searchBy = {};
 
         var autoCompleteMapping = {
-            memberNumber : 'ULME_MEMBER_ID',
+            memberNumber : 'ULME_MEMBER_ID'
         }
         $scope.filterValues = function(searchValue) {
             if (searchValue) {
@@ -30,6 +30,10 @@
                 getClaimList({compId : companyId});
             }
         }
+        var statusParam = {"compId" : companyId, "modType" : "03"};
+        UIDefinationService.getStatusTypes(statusParam, function(resp) {
+            $scope.statusMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "value", "id");
+        });
 
         $scope.assignedToSelectedUser = function() {
             if ($scope.selectedUserToAssign != null && $scope.claimsToAssign != null && $scope.claimsToAssign.length > 0) {
@@ -40,7 +44,8 @@
                     };
                     angular.forEach($scope.claimsToAssign, function(value, key) {
                         userDto.slId = value.id;
-                        value.assignedUserDetailsDTO = userDto
+                        value.assignedUserDetailsDTO = userDto;
+                        value.status = $scope.statusMap['Assigned'];
                     }) 
                     SpinnerService.start();
                     ReimbursementUserAssignmentService.saveAssignmentDetails($scope.claimsToAssign, function(resp) {
@@ -49,7 +54,6 @@
                                 var actualClaim = $scope.claimList[key];
                                 if (claim['id'] == actualClaim['id']) {
                                     $scope.claimList[key] = resp[claimIndex];
-                                    $scope.claimList[key]['status'] = 'Assigned';
                                     $scope.claimList[key]['selected'] = false;
                                     break;
                                 }
