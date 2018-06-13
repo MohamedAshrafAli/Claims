@@ -27,29 +27,118 @@
         </span>&nbsp;
         <div class="claimRequestDetInner mb-2 clearfix" style="border-top:1px solid #e0e0e0 !important;width:98%">
             <table class="batchTable">
-                <tr class="row pb-1" ng-repeat="rows in fieldsInfo">
-                    <td class="col-sm" ng-repeat="columns in rows">
-                        <div ng-repeat="colGroup in columns.colGroup" ng-if="columns.colGroup">
-                            <div ng-if="!colGroup.subGroup">    
-                                <span>
-                                    <span class="{{colGroup.labelClass}}">{{colGroup.label}}</span> 
-                                    <span class="{{colGroup.valueClass}}">{{record[colGroup.name]}}</span>
-                                </span>
-                            </div>
-                            <div ng-if="colGroup.subGroup">
-                                <span ng-repeat="subgroupCol in colGroup.subGroup" ng-class="{'pr-4' : $even}"> 
-                                    <span class="{{subgroupCol.labelClass}}">{{subgroupCol.label}} </span>
-                                    <span class="{{subgroupCol.valueClass}}">{{record[subgroupCol.name]}}</span>
-                                </span>
-                            </div>
+                <tr class="row pb-1">
+                    <td class="col-sm">
+                        <div>
+                            <span class="boldText">Received Date:</span>
+                            <span>{{record.receivedDate}}</span>
                         </div>
-                        <div ng-if="!columns.colGroup">
-                            <span class="{{columns.labelClass}}">{{columns.label}}</span><br>
-                            <span class="{{columns.valueClass}}">{{record[columns.name]}}</span>
+                        <div>
+                            <span class="boldText">Request Type:</span>
+                            <span>{{record.requestType}}</span>
+                        </div>
+                        <div ng-if = "moduleName != 'providerPaper'">
+                            <span class="boldText">XML File Name:</span>
+                            <span>{{record.xmlFileName}}</span>
+                        </div> 
+                        <div>
+                            <span class="batchText">Batch ID:</span>
+                            <span class="batchText">{{record.batchId}}</span>
+                        </div>
+                    </td>
+                    <td class="col-sm">
+                        <div>
+                            <span class="boldText">Provider Code:</span>
+                            <span>{{record.providerCode}}</span>
+                        </div>
+                        <div>
+                            <span class="boldText">Provider License:</span>
+                            <span>{{record.providerLicense}}</span>
+                        </div>
+                        <div>
+                            <span class="boldText">Provider Name:</span>
+                            <span>{{record.providerName}}</span>
+                        </div>
+                        <div style="text-align:center;">
+                            <span class="ic" ng-show="!showit"><i class="oi oi-align-center" data-glyph="chevron-bottom" ng-click="showit = !showit" ></i></span>
+                            <span class="ic"  ng-show="showit"><i class="oi oi-align-center" data-glyph="chevron-top" ng-click="showit = !showit"></i></span>
+                        </div>
+                    </td>
+                    <td class="col-sm">
+                        <div>
+                            <span class="boldText">Registered Date:</span>
+                            <span>{{record.registeredDate}}</span>
+                            {{moduleName}}
+                        </div>
+                        <div ng-if = "moduleName != 'providerPaper'">
+                            <span class="boldText">Remittance Upload Date:</span>
+                            <span>{{record.remittanceUploadDate}}</span>
+                        </div>
+                        <div ng-if = "moduleName != 'providerPaper'">
+                            <span class="boldText">Rejection Code:</span>
+                            <span>{{record.rejectionCode}}</span>
                         </div>
                     </td>
                 </tr>
+               <tr>
+                </tr>
+                <tr class="row pb-1" ng-show="showit">
+                    <td class="col-sm">
+                        <div>
+                            <span>Total Claims</span><br>
+                            <span class="boldText">{{record.claims}}</span>
+                        </div>
+                    </td>
+                    <td class="col-sm">
+                        <div>
+                            <span>Processed</span><br>
+                            <span class="boldText">{{record.processed}}</span>
+                        </div>
+                    </td>
+                    <td class="col-sm">
+                        <div>
+                            <span>UnProcessed</span><br>
+                            <span class="boldText">{{record.unProcessed}}</span>
+                        </div>
+                    </td>
+                    <td class="col-sm">
+                        <div>
+                            <span>Batch Paid Amount</span><br>
+                            <span class="boldText">{{record.batchPaidAmount}}</span>
+                        </div>
+                    </td>
+                    <td class="col-sm">
+                        <div>
+                            <span>Rejected Amount</span><br>
+                            <span class="boldText">{{record.rejectedAmount}}</span>
+                        </div>
+                    </td>
+                    <td class="col-sm">
+                        <div>
+                            <span>Payment Reference</span><br>
+                            <span class="textColor">{{record.paymentReference}}</span>
+                        </div>
+                    </td>
+                    <td class="col-sm">
+                        <div>
+                            <span>Payment Date</span><br>
+                            <span class="textColor">{{record.paymentDate}}</span>
+                        </div>
+                    </td>
+                    <td class="col-sm">
+                        <div>
+                            <span>Payment Way</span><br>
+                            <span class="textColor">{{record.paymentWay}}</span>
+                        </div>                        
+                    </td>
+                    <td class="col-sm">
+                        <div ng-if = "moduleName != 'providerPaper'">
+                            <span>Rejection Description</span><br>
+                            <span class="textColor">{{record.paymentWay}}</span>
+                        </div>                        
+                    </td>   
+                </tr>
             </table>
-        </div>                    
+        </div>
     </div>
 </div>
