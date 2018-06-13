@@ -5,11 +5,11 @@
         .module('claims')
             .controller('ReimbursmentProcessingController', ReimbursmentProcessingController);
 
-        ReimbursmentProcessingController.$inject = ['$scope', '$rootScope', 'ReimbursementProcessingService', 'ngNotify', '$timeout', 'AutocompleteService','UIDefinationService', '$filter', 'reimbursementClaimInfo', 'ReimbursementRegistrationFactory', 'ReimbursementProcessingFactory', 'SpinnerService', 'companyId', '$q', 'dateFormat'];
+        ReimbursmentProcessingController.$inject = ['$scope', '$rootScope', 'ReimbursementProcessingService', 'ngNotify', '$timeout', 'AutocompleteService','UIDefinationService', '$filter', 'reimbursementClaimInfo', 'ReimbursementRegistrationFactory', 'ReimbursementProcessingFactory', 'SpinnerService', 'companyId', '$q', '$window', 'dateFormat'];
 
-        function ReimbursmentProcessingController($scope, $rootScope, ReimbursementProcessingService, ngNotify, $timeout, AutocompleteService, UIDefinationService, $filter, reimbursementClaimInfo, ReimbursementRegistrationFactory, ReimbursementProcessingFactory, SpinnerService, companyId, $q, dateFormat) {
-            $scope.dateFormat = dateFormat;
+        function ReimbursmentProcessingController($scope, $rootScope, ReimbursementProcessingService, ngNotify, $timeout, AutocompleteService, UIDefinationService, $filter, reimbursementClaimInfo, ReimbursementRegistrationFactory, ReimbursementProcessingFactory, SpinnerService, companyId, $q, $window, dateFormat) {
             SpinnerService.stop();
+            $scope.dateFormat = dateFormat;
             $scope.selectedClaim = reimbursementClaimInfo;
             $scope.selectedClaim.requestNumber = 1;
             $scope.selectedClaim.age = calculateAge();
@@ -120,8 +120,13 @@
                 $scope.localValidation = false;
                 if($scope.reimbursementForm.$invalid) {
                     $scope.localValidation = true;
+                    if($scope.infoForm.$invalid){
+                        $scope.infoToggle = true;
+                        $scope.infoForm.$error.required[0].$$element[0].focus();
+                    }
                     return;
-                }                
+                }    
+                $scope.dateValidation = false;     
                 var processingDto = mapClaimDTO();
                 SpinnerService.start();
                 ReimbursementProcessingService.saveProcessingDetails(processingDto, function(resp) {
@@ -246,14 +251,7 @@
 
             function validateInformationSection() {
                 $scope.submitted = true;
-                var policyErrorArray = [];
-                var memberErrorArray = [];
-                var claimErrorArray = [];
                 var providerErrorArray = [];
-
-                var policyDetailsRequiredFields = ['claimCondition'];
-                var memberDetailsRequiredFields = ['memberName','memberNo','category','gender'];
-                var claimDetailsRequiredFields = ['country'];
                 var providerDetailsRequiredFields = ['primaryDiagnosis', 'primaryDiagDisc', 'secDiagnosis', 'secDiagnosisDesc', 'providerName', 'providerCode', 
                                                     'providerLicense', 'voucherNumber', 'encounterType', 'claimType'];
                 
@@ -263,33 +261,12 @@
                     }
                 });
 
-                angular.forEach(claimDetailsRequiredFields, function(fieldName, key) {
-                    if ($scope.claimDetails[fieldName] == '' || $scope.claimDetails[fieldName] == null) {
-                        claimErrorArray.push(fieldName);
-                    }
-                });
-
-                angular.forEach(policyDetailsRequiredFields, function(fieldName, key) {
-                    if ($scope.policyDetails[fieldName] == '' || $scope.policyDetails[fieldName] == null) {
-                        policyErrorArray.push(fieldName);
-                    }
-                });
-
-                angular.forEach(memberDetailsRequiredFields, function(fieldName, key) {
-                    if ($scope.memberDetails[fieldName] == '' || $scope.memberDetails[fieldName] == null) {
-                        memberErrorArray.push(fieldName);
-                    }
-                });
-
                 $scope.accordionToggle.isProviderDetailOpen = (providerErrorArray.length > 0);
-                $scope.accordionToggle.isClaimDetailOpen = (claimErrorArray.length > 0);
-                $scope.accordionToggle.isPolicyDetailOpen = (policyErrorArray.length > 0);
-                $scope.accordionToggle.isMemberDetailOpen = (memberErrorArray.length > 0);                
                 $scope.isCloseOthers = $scope.processingForm.$valid;
                 if ($scope.processingForm.$invalid) {
                     swal("Please Enter all the required fields", "", "error").then(
                         function() {
-                            ($scope.processingForm.$error.required[0].$$element[0]).focus();
+                            ($scope.processingForm.$error.required[0]).focus();
                         }
                     );
                     $scope.infoToggle = true;
@@ -445,9 +422,11 @@
             }
 
             $scope.calculateDays = function() {
-                if($scope.claim.treatmentFromDate && $scope.claim.treatmentToDate) {
+                if($scope.claim.treatmentFromDate && $scope.claim.treatmentToDate && ($scope.claim.treatmentFromDate < $scope.claim.treatmentToDate)) {
                     var timeDiff = Math.abs($scope.claim.treatmentToDate.getTime() - $scope.claim.treatmentFromDate.getTime());
                     $scope.claim.noOfTreamentDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+                }else{
+                    $scope.claim.noOfTreamentDays = 0;
                 }
             }
 

@@ -6,250 +6,252 @@
         <div class="leftContainer">
             <div class="row m-0">
                 <div class="leftContentPart float-left pl-0" id="detailAccWrap" ng-class="{'detailAccWrapClose' : !infoToggle}">
-                    <div id="detailAcc" style="height:90%; overflow-y: auto;">
-                        <uib-accordion close-others="isCloseOthers">
-                            <div uib-accordion-group class="panel-default" is-open="accordionToggle.isProviderDetailOpen">
-                                <uib-accordion-heading>
-                                    <div class="p-1">
-                                        <h5 class="mb-0">
-                                            <button class="btn accordionBtn">Provider Details 
-                                                <span class="oi expanded" data-glyph="minus"></span>
-                                                <span class="oi collapsed" data-glyph="plus"></span>
-                                            </button>
-                                        </h5>
-                                    </div>
-                                </uib-accordion-heading>
-                                <div class="accordion-input">
-                                    <div class="clearfix">
-                                        <md-autocomplete
-                                            md-input-name="primaryDiagnosis" required
-                                            md-input-id	="primaryDiagnosis"
-                                            ng-disabled="!claim.treatmentFromDate"
-                                            md-selected-item="diagnosis.primaryDiag"
-                                            md-search-text="primaryDiagsearchText"
-                                            md-items="item in getAutoCompleteList(primaryDiagsearchText, 'diagnosisCode', 'getDiagnosisCodes')"
-                                            md-item-text="item.DiagnosisCode"
-                                            md-floating-label="Primary Diagnosis"
-                                            md-clear-button="true"
-                                            md-no-cache="true"
-                                            md-delay="500"
-                                            style="height: 55px;">
-                                            <md-item-template>
-                                                <span md-highlight-text="primaryDiagsearchText">{{item.DiagnosisCode}} </span>
-                                            </md-item-template>
-                                            <md-not-found>
-                                                No Result Found
-                                            </md-not-found>
-                                            <div class="ftsize" ng-show="localValidation && !reimbursementForm.primaryDiagnosis.$modelValue">Please enter the Primary Diagnosis</div>
-                                        </md-autocomplete>
-                                    </div>
-                                    <div class="clearfix">
-                                        <md-input-container flex-gt-sm>
-                                            <label>Primary Diagnosis Desc</label>
-                                            <input type="text" ng-model="diagnosis.primaryDiag.DiagnosisName" disabled/>
-                                        </md-input-container>
-                                    </div>
-                                    <div class="clearfix">
-                                        <md-autocomplete
-                                            md-input-name="secondaryDiagnosis" required
-                                            md-input-id	="secondaryDiagnosis"
-                                            ng-disabled="!claim.treatmentFromDate"
-                                            md-selected-item="diagnosis.secondaryDiag"
-                                            md-search-text="secDiagsearchText"
-                                            md-items="item in getAutoCompleteList(secDiagsearchText, 'diagnosisCode', 'getDiagnosisCodes')"
-                                            md-item-text="item.DiagnosisCode"
-                                            md-floating-label="Secondary Diagnosis (ICD)"
-                                            md-clear-button="true"
-                                            md-no-cache="true"
-                                            md-delay="500"
-                                            style="height: 55px;">
-                                            <md-item-template>
-                                                <span md-highlight-text="secDiagsearchText">{{item.DiagnosisCode}} </span>
-                                            </md-item-template>
-                                            <md-not-found>
-                                                No Result Found
-                                            </md-not-found>
-                                            <div class="ftsize" ng-show="localValidation && !reimbursementForm.secondaryDiagnosis.$modelValue" class="error">Please enter the Secondary Diagnosis (ICD)</div>
-                                        </md-autocomplete>
-                                    </div>
-                                    <div class="clearfix">
-                                        <md-input-container flex-gt-sm>
-                                            <label>Secondary Diagnosis Description</label>
-                                            <input type="text" ng-model="diagnosis.secondaryDiag.DiagnosisName" disabled/>
-                                        </md-input-container>
-                                    </div>
-                                    <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm>    
-                                            <label>Claim Type</label>
-                                            <md-select md-input-id="select_21" md-input-name="claimType" ng-model="selectedClaim.claimType" required>
-                                                <md-option value="{{option.id}}" ng-repeat="option in claimTypes">{{option.value}}</md-option>
-                                            </md-select>
-                                            <div ng-show="localValidation && !selectedClaim.claimType" class="error">Please enter the claim type</div>
-                                        </md-input-container>
-                                    </div>
-                                    <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm>
-                                            <label>Claim Condition</label>
-                                            <md-select md-input-id="select_23" md-input-name="claimCondition" ng-model="selectedClaim.claimCondition" required>
-                                                <md-option value="{{option.id}}" ng-repeat="option in claimConditions">{{option.value}}</md-option>
-                                            </md-select>
-                                            <div ng-show="localValidation && !selectedClaim.claimCondition" class="error">Please enter the Claim Condition</div>
-                                        </md-input-container>
-                                    </div>
-                                    <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm>
-                                            <label>Event Country</label>
-                                            <md-select md-input-id="eventCountry" md-input-name="eventCountry" ng-model="selectedClaim.eventCountry" required>
-                                                <md-option value="{{option}}" ng-repeat="option in eventCountries">{{option}}</md-option>
-                                            </md-select>
-                                            <div class="ftsize" ng-show="localValidation && !selectedClaim.eventCountry" class="error">Please enter the Event Country</div>
-                                        </md-input-container>
-                                    </div>
-                                    <div class="fldsWrap clearfix">
-                                        <md-input-container flex-gt-sm>
-                                            <label>Provider Code</label>
-                                            <input name="providerCode" type="text" ng-model="selectedClaim.providerCode" ng-value="'4341'"/>
-                                        </md-input-container>
-                                    </div>
-                                    <div class="clearfix">
-                                        <label class="colr">Provider Name</label>
-                                        <p class="ft">{{selectedClaim.providerName}}</p>
-                                    </div>
-                                    <div ng-show="showProviderMore">
+                    <ng-form name="infoForm">                    
+                        <div id="detailAcc" style="height:90%; overflow-y: auto;">
+                            <uib-accordion close-others="isCloseOthers">
+                                <div uib-accordion-group class="panel-default" is-open="accordionToggle.isProviderDetailOpen">
+                                    <uib-accordion-heading>
+                                        <div class="p-1">
+                                            <h5 class="mb-0">
+                                                <button class="btn accordionBtn">Provider Details 
+                                                    <span class="oi expanded" data-glyph="minus"></span>
+                                                    <span class="oi collapsed" data-glyph="plus"></span>
+                                                </button>
+                                            </h5>
+                                        </div>
+                                    </uib-accordion-heading>
+                                    <div class="accordion-input">
                                         <div class="clearfix">
-                                            <label class="colr">Provider License</label>
-                                            <p class="ft">{{selectedClaim.providerLicense}}</p>
+                                            <md-autocomplete
+                                                md-input-name="primaryDiagnosis" required
+                                                md-input-id	="primaryDiagnosis"
+                                                ng-disabled="!claim.treatmentFromDate"
+                                                md-selected-item="diagnosis.primaryDiag"
+                                                md-search-text="primaryDiagsearchText"
+                                                md-items="item in getAutoCompleteList(primaryDiagsearchText, 'diagnosisCode', 'getDiagnosisCodes')"
+                                                md-item-text="item.DiagnosisCode"
+                                                md-floating-label="Primary Diagnosis"
+                                                md-clear-button="true"
+                                                md-no-cache="true"
+                                                md-delay="500"
+                                                style="height: 55px;">
+                                                <md-item-template>
+                                                    <span md-highlight-text="primaryDiagsearchText">{{item.DiagnosisCode}} </span>
+                                                </md-item-template>
+                                                <md-not-found>
+                                                    No Result Found
+                                                </md-not-found>
+                                                <div class="ftsize" ng-show="localValidation && !infoForm.primaryDiagnosis.$modelValue">Please enter the Primary Diagnosis</div>
+                                            </md-autocomplete>
                                         </div>
                                         <div class="clearfix">
-                                            <label class="colr">Provider Network</label>
-                                            <p class="ft">{{selectedClaim.providerNetwork}}</p>
+                                            <md-input-container flex-gt-sm>
+                                                <label>Primary Diagnosis Desc</label>
+                                                <input type="text" ng-model="diagnosis.primaryDiag.DiagnosisName" disabled/>
+                                            </md-input-container>
                                         </div>
+                                        <div class="clearfix">
+                                            <md-autocomplete
+                                                md-input-name="secondaryDiagnosis" required
+                                                md-input-id	="secondaryDiagnosis"
+                                                ng-disabled="!claim.treatmentFromDate"
+                                                md-selected-item="diagnosis.secondaryDiag"
+                                                md-search-text="secDiagsearchText"
+                                                md-items="item in getAutoCompleteList(secDiagsearchText, 'diagnosisCode', 'getDiagnosisCodes')"
+                                                md-item-text="item.DiagnosisCode"
+                                                md-floating-label="Secondary Diagnosis (ICD)"
+                                                md-clear-button="true"
+                                                md-no-cache="true"
+                                                md-delay="500"
+                                                style="height: 55px;">
+                                                <md-item-template>
+                                                    <span md-highlight-text="secDiagsearchText">{{item.DiagnosisCode}} </span>
+                                                </md-item-template>
+                                                <md-not-found>
+                                                    No Result Found
+                                                </md-not-found>
+                                                <div class="ftsize" ng-show="localValidation && !infoForm.secondaryDiagnosis.$modelValue" class="error">Please enter the Secondary Diagnosis (ICD)</div>                                                
+                                            </md-autocomplete>
+                                        </div>
+                                        <div class="clearfix">
+                                            <md-input-container flex-gt-sm>
+                                                <label>Secondary Diagnosis Description</label>
+                                                <input type="text" ng-model="diagnosis.secondaryDiag.DiagnosisName" disabled/>
+                                            </md-input-container>
+                                        </div>
+                                        <div class="fldsWrap clearfix">
+                                            <md-input-container flex-gt-sm>    
+                                                <label>Claim Type</label>
+                                                <md-select md-input-id="select_21" md-input-name="claimType" ng-model="selectedClaim.claimType" required>
+                                                    <md-option value="{{option.id}}" ng-repeat="option in claimTypes">{{option.value}}</md-option>
+                                                </md-select>
+                                                <div ng-show="localValidation && !selectedClaim.claimType" class="error">Please enter the claim type</div>
+                                            </md-input-container>
+                                        </div>
+                                        <div class="fldsWrap clearfix">
+                                            <md-input-container flex-gt-sm>
+                                                <label>Claim Condition</label>
+                                                <md-select md-input-id="select_23" md-input-name="claimCondition" ng-model="selectedClaim.claimCondition" required>
+                                                    <md-option value="{{option.id}}" ng-repeat="option in claimConditions">{{option.value}}</md-option>
+                                                </md-select>
+                                                <div ng-show="localValidation && !selectedClaim.claimCondition" class="error">Please enter the Claim Condition</div>
+                                            </md-input-container>
+                                        </div>
+                                        <div class="fldsWrap clearfix">
+                                            <md-input-container flex-gt-sm>
+                                                <label>Event Country</label>
+                                                <md-select md-input-id="eventCountry" md-input-name="eventCountry" ng-model="selectedClaim.eventCountry" required>
+                                                    <md-option value="{{option}}" ng-repeat="option in eventCountries">{{option}}</md-option>
+                                                </md-select>
+                                                <div class="ftsize" ng-show="localValidation && !selectedClaim.eventCountry" class="error">Please enter the Event Country</div>
+                                            </md-input-container>
+                                        </div>
+                                        <div class="fldsWrap clearfix">
+                                            <md-input-container flex-gt-sm>
+                                                <label>Provider Code</label>
+                                                <input name="providerCode" type="text" ng-model="selectedClaim.providerCode" ng-value="'4341'"/>
+                                            </md-input-container>
+                                        </div>
+                                        <div class="clearfix">
+                                            <label class="colr">Provider Name</label>
+                                            <p class="ft">{{selectedClaim.providerName}}</p>
+                                        </div>
+                                        <div ng-show="showProviderMore">
+                                            <div class="clearfix">
+                                                <label class="colr">Provider License</label>
+                                                <p class="ft">{{selectedClaim.providerLicense}}</p>
+                                            </div>
+                                            <div class="clearfix">
+                                                <label class="colr">Provider Network</label>
+                                                <p class="ft">{{selectedClaim.providerNetwork}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="javascript:;" class="btn-link moreBtn" ng-show="!showProviderMore" ng-click="showProviderMore=!showProviderMore">More...</a>
+                                    <a href="javascript:;" class="btn-link moreBtn" ng-show="showProviderMore" ng-click="showProviderMore=!showProviderMore">Few...</a>
+                                </div> 
+                                    
+                                <div uib-accordion-group class="panel-default" is-open="accordionToggle.isClaimDetailOpen">
+                                    <uib-accordion-heading>
+                                        <div class="p-1">
+                                            <h5 class="mb-0">
+                                                <button class="btn accordionBtn">Claim Details
+                                                    <span class="oi expanded" data-glyph="minus"></span>
+                                                    <span class="oi collapsed" data-glyph="plus"></span>
+                                                </button>
+                                            </h5>
+                                        </div>
+                                    </uib-accordion-heading>
+                                    <div class="accordion-input">
+                                        <div class="clearfix">
+                                            <label class="colr">Voucher Number</label>
+                                            <p class="ft">{{selectedClaim.voucherNumber}}</p>
+                                        </div>
+                                        <div class="clearfix">
+                                            <label class="colr">Encounter Type </label>
+                                            <p class="ft"> {{encounterTypeMap[selectedClaim.encType]}}</p>
+                                        </div>                                    
                                     </div>
                                 </div>
-                                <a href="javascript:;" class="btn-link moreBtn" ng-show="!showProviderMore" ng-click="showProviderMore=!showProviderMore">More...</a>
-                                <a href="javascript:;" class="btn-link moreBtn" ng-show="showProviderMore" ng-click="showProviderMore=!showProviderMore">Few...</a>
-                            </div> 
-                                
-                            <div uib-accordion-group class="panel-default" is-open="accordionToggle.isClaimDetailOpen">
-                                <uib-accordion-heading>
-                                    <div class="p-1">
-                                        <h5 class="mb-0">
-                                            <button class="btn accordionBtn">Claim Details
-                                                <span class="oi expanded" data-glyph="minus"></span>
-                                                <span class="oi collapsed" data-glyph="plus"></span>
-                                            </button>
-                                        </h5>
+                                <div uib-accordion-group class="panel-default" is-open="accordionToggle.isPolicyDetailOpen">
+                                    <uib-accordion-heading>
+                                        <div class="p-1">
+                                            <h5 class="mb-0">
+                                                <button class="btn accordionBtn">Policy Details
+                                                    <span class="oi expanded" data-glyph="minus"></span>
+                                                    <span class="oi collapsed" data-glyph="plus"></span>
+                                                </button>
+                                            </h5>
+                                        </div>
+                                    </uib-accordion-heading>
+                                    <div class="accordion-input">
+                                        <div class="clearfix">
+                                            <label class="colr">Policy No/Renewal No</label>
+                                            <p class="ft">{{selectedClaim.policyNumber}}</p>
+                                        </div>
+                                        <div class="clearfix">
+                                            <label class="colr">Policy Name</label>
+                                            <p class="ft">{{selectedClaim.policyName}}</p>
+                                        </div>
+                                        <div ng-show="showPolicyMore">
+                                            <div class="clearfix">
+                                                <label class="colr">Policy Start</label>
+                                                <p class="ft"> {{selectedClaim.policyFromDate | customeDate}}</p>
+                                            </div>
+                                            <div class="clearfix">
+                                                <label class="colr">Policy End</label>
+                                                <p class="ft"> {{selectedClaim.policyToDate | customeDate}}</p>
+                                            </div>
+                                            <div class="clearfix">
+                                                <label class="colr">Claim Paid To</label>
+                                                <p class="ft">{{selectedClaim.claimPaidTo}}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </uib-accordion-heading>
-                                <div class="accordion-input">
-                                    <div class="clearfix">
-                                        <label class="colr">Voucher Number</label>
-                                        <p class="ft">{{selectedClaim.voucherNumber}}</p>
-                                    </div>
-                                    <div class="clearfix">
-                                        <label class="colr">Encounter Type </label>
-                                        <p class="ft"> {{encounterTypeMap[selectedClaim.encType]}}</p>
-                                    </div>                                    
+                                    <a href="javascript:;" class="btn-link moreBtn" ng-show="!showPolicyMore" ng-click="showPolicyMore=!showPolicyMore">More...</a>
+                                    <a href="javascript:;" class="btn-link moreBtn" ng-show="showPolicyMore" ng-click="showPolicyMore=!showPolicyMore">Few...</a>
                                 </div>
-                            </div>
-                            <div uib-accordion-group class="panel-default" is-open="accordionToggle.isPolicyDetailOpen">
-                                <uib-accordion-heading>
-                                    <div class="p-1">
-                                        <h5 class="mb-0">
-                                            <button class="btn accordionBtn">Policy Details
-                                                <span class="oi expanded" data-glyph="minus"></span>
-                                                <span class="oi collapsed" data-glyph="plus"></span>
-                                            </button>
-                                        </h5>
-                                    </div>
-                                </uib-accordion-heading>
-                                <div class="accordion-input">
-                                    <div class="clearfix">
-                                        <label class="colr">Policy No/Renewal No</label>
-                                        <p class="ft">{{selectedClaim.policyNumber}}</p>
-                                    </div>
-                                    <div class="clearfix">
-                                        <label class="colr">Policy Name</label>
-                                        <p class="ft">{{selectedClaim.policyName}}</p>
-                                    </div>
-                                    <div ng-show="showPolicyMore">
+                                <div uib-accordion-group class="panel-default" is-open="accordionToggle.isMemberDetailOpen">
+                                    <uib-accordion-heading>
+                                        <div class="p-1">
+                                            <h5 class="mb-0">
+                                                <button class="btn accordionBtn">Member Details 
+                                                    <span class="oi expanded" data-glyph="minus"></span>
+                                                    <span class="oi collapsed" data-glyph="plus"></span>
+                                                </button>
+                                            </h5>
+                                        </div>
+                                    </uib-accordion-heading>
+                                    <div class="accordion-input">
                                         <div class="clearfix">
-                                            <label class="colr">Policy Start</label>
-                                            <p class="ft"> {{selectedClaim.policyFromDate | customeDate}}</p>
+                                            <label class="colr">Member Name</label>
+                                            <p class="ft">{{selectedClaim.memberName}}</p>
                                         </div>
                                         <div class="clearfix">
-                                            <label class="colr">Policy End</label>
-                                            <p class="ft"> {{selectedClaim.policyToDate | customeDate}}</p>
+                                            <label class="colr">Member No</label>
+                                            <p class="ft">{{selectedClaim.memberNumber}}</p>
                                         </div>
                                         <div class="clearfix">
-                                            <label class="colr">Claim Paid To</label>
-                                            <p class="ft">{{selectedClaim.claimPaidTo}}</p>
+                                            <label class="colr">Category</label>
+                                            <p class="ft">{{selectedClaim.memberCategory}}</p>
+                                        </div>
+                                        <div class="clearfix">
+                                            <label class="colr">Gender</label>
+                                            <p class="ft">{{selectedClaim.gender}}</p>
+                                        </div>
+                                        <div ng-show="showMemberMore">
+                                            <div class="clearfix">
+                                                <label class="colr">Age</label>
+                                                <p class="ft">{{selectedClaim.age}}</p>
+                                            </div>
+                                            <div class="clearfix">
+                                                <label class="colr">Member Network</label>
+                                                <P class="ft">{{selectedClaim.memberNetwork}}</P>
+                                            </div>
+                                            <div class="clearfix">
+                                                <label class="colr">Member Start Date</label>
+                                                <p>{{selectedClaim.memberStartDate | customeDate}}</p>
+                                            </div>
+                                            <div class="clearfix">
+                                                <label class="colr">Member Terminated Date</label>
+                                                <p>{{selectedClaim.memberTerminatedDate | customeDate}}</p>
+                                            </div>
+                                            <div class="clearfix">
+                                                <label class="colr">Card Received Date</label>
+                                                <p> {{selectedClaim.cardRecievedDate | customeDate}}</p>
+                                            </div>
+                                            <div class="clearfix">
+                                                <label class="colr">Dependency/Relation</label>
+                                                <p class="ft">{{selectedClaim.relationWithPrimary}}</p>
+                                            </div>
                                         </div>
                                     </div>
+                                    <a href="javascript:;" class="btn-link moreBtn" ng-show="!showMemberMore" ng-click="showMemberMore=!showMemberMore">More...</a>
+                                    <a href="javascript:;" class="btn-link moreBtn" ng-show="showMemberMore" ng-click="showMemberMore=!showMemberMore">Few...</a>
                                 </div>
-                                <a href="javascript:;" class="btn-link moreBtn" ng-show="!showPolicyMore" ng-click="showPolicyMore=!showPolicyMore">More...</a>
-                                <a href="javascript:;" class="btn-link moreBtn" ng-show="showPolicyMore" ng-click="showPolicyMore=!showPolicyMore">Few...</a>
-                            </div>
-                            <div uib-accordion-group class="panel-default" is-open="accordionToggle.isMemberDetailOpen">
-                                <uib-accordion-heading>
-                                    <div class="p-1">
-                                        <h5 class="mb-0">
-                                            <button class="btn accordionBtn">Member Details 
-                                                <span class="oi expanded" data-glyph="minus"></span>
-                                                <span class="oi collapsed" data-glyph="plus"></span>
-                                            </button>
-                                        </h5>
-                                    </div>
-                                </uib-accordion-heading>
-                                <div class="accordion-input">
-                                    <div class="clearfix">
-                                        <label class="colr">Member Name</label>
-                                        <p class="ft">{{selectedClaim.memberName}}</p>
-                                    </div>
-                                    <div class="clearfix">
-                                        <label class="colr">Member No</label>
-                                        <p class="ft">{{selectedClaim.memberNumber}}</p>
-                                    </div>
-                                    <div class="clearfix">
-                                        <label class="colr">Category</label>
-                                        <p class="ft">{{selectedClaim.memberCategory}}</p>
-                                    </div>
-                                    <div class="clearfix">
-                                        <label class="colr">Gender</label>
-                                        <p class="ft">{{selectedClaim.gender}}</p>
-                                    </div>
-                                    <div ng-show="showMemberMore">
-                                        <div class="clearfix">
-                                            <label class="colr">Age</label>
-                                            <p class="ft">{{selectedClaim.age}}</p>
-                                        </div>
-                                        <div class="clearfix">
-                                            <label class="colr">Member Network</label>
-                                            <P class="ft">{{selectedClaim.memberNetwork}}</P>
-                                        </div>
-                                        <div class="clearfix">
-                                            <label class="colr">Member Start Date</label>
-                                            <p>{{selectedClaim.memberStartDate | customeDate}}</p>
-                                        </div>
-                                        <div class="clearfix">
-                                            <label class="colr">Member Terminated Date</label>
-                                            <p>{{selectedClaim.memberTerminatedDate | customeDate}}</p>
-                                        </div>
-                                        <div class="clearfix">
-                                            <label class="colr">Card Received Date</label>
-                                            <p> {{selectedClaim.cardRecievedDate | customeDate}}</p>
-                                        </div>
-                                        <div class="clearfix">
-                                            <label class="colr">Dependency/Relation</label>
-                                            <p class="ft">{{selectedClaim.relationWithPrimary}}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="javascript:;" class="btn-link moreBtn" ng-show="!showMemberMore" ng-click="showMemberMore=!showMemberMore">More...</a>
-                                <a href="javascript:;" class="btn-link moreBtn" ng-show="showMemberMore" ng-click="showMemberMore=!showMemberMore">Few...</a>
-                            </div>
-                        </uib-accordion>
-                    </div>         
+                            </uib-accordion>
+                        </div>
+                    </ng-form>
                 </div>
                 <div class="rightContentPart float-right pr-0 pb-3">
                     <a href="javascript:;" class="infoToggleBtn" ng-class="{'infoToggleBtnToggled' : infoToggle}" ng-click="toggleInfo();" ng-style="{'margin-left' : !infoToggle ? '12px' : '37px'}"><span class="oi" data-glyph="arrow-right"></span> <br />info</a>
@@ -400,7 +402,7 @@
                                                 No Result Found
                                             </md-not-found>
                                         </md-autocomplete>
-                                        <div class="ftsize" ng-show="localValidation && !reimbursementForm.treatmentCode.$modelValue">Please enter the treatment code/sub benefit</div>
+                                        <div class="ftsize" ng-show="localValidation && !reimbursementForm.treatmentCode.$modelValue">Please enter the treatment code/sub benefit</div>                                        
                                     </div>
                                     <div class="float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 30% !important;">
                                         <md-input-container flex-gt-sm style="margin-top: 18px;">    

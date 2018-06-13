@@ -26,7 +26,7 @@
                 delete searchparam.memberName;
                 searchparam.compId = companyId
                 getRegisteredClaimsList(searchparam);
-            } else {
+             } else {
                 getRegisteredClaimsList({compId:companyId});
             }
         }
