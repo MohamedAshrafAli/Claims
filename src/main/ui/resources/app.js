@@ -19,7 +19,8 @@ angular
     .config(translationConfig)
     .run(appConfig)
     .constant('urlRoutePrefix',contextPath)
-    .constant('companyId',"0021");
+    .constant('companyId',"0021")
+    .constant("dateFormat", "mm-dd-yyyy")
 
     stateConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
 
@@ -265,12 +266,13 @@ angular
         });
 
         $rootScope.clearDatepickerKeyupValue = function(event) {
-            if(event.keyCode != 9 && event.keyCode != 13 && event.keyCode != 37 && event.keyCode != 27
-                && event.keyCode != 38 && event.keyCode != 39 && event.keyCode != 40) {
-                event.target.value = "";
+            var key = event.keyCode;
+            if (key >= 65 && key <= 90) {
+                var value = event.target.value;
+                event.target.value = value.substring(0, value.length-1);
             }
         }
-        
+
         $rootScope.navigateTo = function(stateName, param) {
             if(param != null) {
                 $state.go(stateName, param);
@@ -287,21 +289,25 @@ angular
 
     angular
         .module('claims')
-        .controller('LanguageController', LanguageController)
+        .controller('AppController', AppController)
 
-    LanguageController.$inject = ['$translate', '$scope', '$rootScope'] ;
+    AppController.$inject = ['$translate', '$scope', '$rootScope', '$http'] ;
 
-    function LanguageController($translate, $scope, $rootScope) {
+    function AppController($translate, $scope, $rootScope, $http) {
         $scope.languages = {
             'en-US' : 'English',
             'ar-AR' : 'Arabic'
         }
-        $rootScope.selectedLanguage = 'en-US';
+        $scope.selectedLanguage = 'en-US';
         $scope.changelanguage = function() {
             $translate.use($scope.selectedLanguage).then(function() {
                 $translate.refresh();
             });
         }
+
+        $http.get('resources/static/properties/autocomplete-search.properties').then(function (response) {
+            $rootScope.searchProperties = response.data;
+        });
     }
 })();
 

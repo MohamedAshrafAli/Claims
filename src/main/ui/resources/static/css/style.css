@@ -259,23 +259,6 @@ section {
     color: #fff;
 }
 
-.fileuploadWrap {
-    border: 1px solid #f9b5ad;
-    background: #f36a5a;
-    height: 30px;
-    position: relative;
-    color: #fff;
-    padding: 0.2rem 1rem;
-    border-radius: 2px;
-    display: inline-block;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.fileuploadWrap:hover {
-    background: #ea6757;
-}
-
 input.fileupload {
     width: 100%;
     opacity: 0;
@@ -821,6 +804,7 @@ md-input-container md-select label,
 
 ._md-datepicker-floating-label._md-datepicker-has-calendar-icon>label:not(.md-no-float):not(.md-container-ignore) {
     left: 0px!important;
+    font-size : 16px;
 }
 
 #finilizationCont tr:hover td .finalizeBtn {
@@ -1983,8 +1967,25 @@ md-select[disabled] .md-select-value,
     font-size:12px;
     color: #6492a3 !important
 }
-
 .ftsize{
     font-size: 13px;
     color: RED;    
+}
+.md-autocomplete-suggestions-container{  
+    z-index:100000 !important;
+}
+.ic{
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    text-align: center;
+    line-height: 36px;
+    color: black;
+    background: white;
+    padding-top: 2px;
+    border-radius: 18px;
+    border: 2px solid black;
+}
+button:disabled {
+    cursor: not-allowed;
 }

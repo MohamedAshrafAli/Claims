@@ -114,6 +114,10 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 					builder.append(REIMBURSEMENT_QUERIES_CTDS_DETAILS_MEM_NO_CRITERIA + " ");
 				} else if (key.equalsIgnoreCase("voucherNumber")) {
 					builder.append(REIMBURSEMENT_QUERIES_CTDS_DETAILS_VOUCHER_CRITERIA + " ");
+				} else if (key.equalsIgnoreCase("cardNumber")) {
+					builder.append(REIMBURSEMENT_QUERIES_CTDS_DETAILS_CARD_NO_CRITERIA + " ");
+				} else if (key.equalsIgnoreCase("emiratesId")) {
+					builder.append(REIMBURSEMENT_QUERIES_CTDS_DETAILS_EMIRATES_CRITERIA + " ");
 				}
 			}
 			strQuery = strQuery.replaceAll("<CRITERIA>", builder.toString());
@@ -334,7 +338,7 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 		try {
 			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
 			String strQuery = REIMBURSEMENT_QUERIES_PROCESSING_DETAILS;
-			strQuery = getConstructedQuerywithCriterionForAssignment(strQuery, inputMap);
+			strQuery = getConstructedQuerywithCriterionForProcessing(strQuery, inputMap);
 
 			processingDTOs = reimbursementClaimsDAO.getProcessingDetails(strQuery, inputMap);
 			if (processingDTOs != null && !processingDTOs.isEmpty()) {

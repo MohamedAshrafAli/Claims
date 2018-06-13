@@ -11,7 +11,6 @@
                 </div>
             </div>
         </div>
-
         <div class="resultBox mb-4" ng-class="{'mt-3' : isNew}">
             <form name="form">
              <fieldset ng-disabled="isDisabled">
@@ -31,13 +30,13 @@
                         <div class="col-sm-6">
                             <md-input-container flex-gt-sm>
                                 <label>Policy Number</label>
-                                <input type="text" ng-model="regDetail.policyNumber" />
+                                <input type="text" ng-model="regDetail.policyNumber" ng-disabled="true">
                             </md-input-container>
                         </div>
                         <div class="col-sm-6 colborder">
                             <md-input-container flex-gt-sm>
                                 <label>Member Number</label>
-                                <input type="text"  ng-model="regDetail.memberNumber" />
+                                <input type="text"  ng-model="regDetail.memberNumber" ng-disabled="true"/>
                             </md-input-container>
                         </div>
                     </div>
@@ -47,13 +46,13 @@
                         <div class="col-sm-6">
                             <md-input-container flex-gt-sm>
                                 <label>Member Name</label>
-                                <input type="text"  ng-model="regDetail.memberName" />
+                                <input type="text"  ng-model="regDetail.memberName"/>
                             </md-input-container>
                         </div>
                         <div class="col-sm-6 colborder">
                             <md-input-container flex-gt-sm>
                                 <label>Emirates ID</label>
-                                <input type="text" ng-model="regDetail.uidId" />
+                                <input type="text" ng-model="regDetail.uidId" ng-disabled="true"/>
                             </md-input-container>
                         </div>
                     </div>
@@ -64,13 +63,13 @@
                         <div class="col-sm-6">
                             <md-input-container flex-gt-sm>
                                 <label>Mobile Number 1</label>
-                                <input type="text" ng-model="regDetail.mobileNum1" />
+                                <input type="text" ng-model="regDetail.mobileNum1" ng-disabled="true"/>
                             </md-input-container>
                         </div>
                         <div class="col-sm-6 colborder">
                             <md-input-container flex-gt-sm>
                                 <label>Email ID 1</label>
-                                <input  type="email"   ng-model="regDetail.email1" />
+                                <input  type="email"   ng-model="regDetail.email1" ng-disabled="true"/>
                             </md-input-container>
                         </div>
                     </div>
@@ -137,8 +136,8 @@
                     <div layout-gt-sm="row">
                         <div class="col-sm-6">
                             <md-input-container>
-                                <label>Request Received Date</label>
-                                <md-datepicker ng-keyup="clearDatepickerKeyupValue($event);" md-input-name="reqDate" ng-model="regDetail.reqReceivedDate" md-hide-icons="triangle"
+                                <label style="font-size:17px">Request Received Date</label>
+                                <md-datepicker ng-keyup="clearDatepickerKeyupValue($event);" md-placeholder="{{dateFormat}}" md-input-name="reqDate" ng-model="regDetail.reqReceivedDate" md-hide-icons="triangle"
                                     md-open-on-focus required ></md-datepicker>
                                     <div ng-if="localValidation && !regDetail.reqReceivedDate" class="error">Please Enter TheRequest Received Date</div>
                             </md-input-container>
@@ -146,13 +145,13 @@
                         <div class="col-sm-6 colborder">
                             <md-input-container>
                                 <label>Service From Date</label>
-                                <md-datepicker ng-keyup="clearDatepickerKeyupValue($event);" md-input-name="fromDate" ng-model="regDetail.serviceFmDate" md-hide-icons="triangle"
+                                <md-datepicker ng-keyup="clearDatepickerKeyupValue($event);"  md-placeholder="{{dateFormat}}"   md-input-name="fromDate" ng-model="regDetail.serviceFmDate" md-hide-icons="triangle"
                                     md-open-on-focus required ></md-datepicker>
                                     <div ng-if="localValidation && !regDetail.serviceFmDate" class="error">Please Enter The Service From Date</div>
                             </md-input-container>
                         </div>
                     </div>
-                </div>
+                </div> 
 
             <div class="fldsWrap clearfix">
                 <div class="fieldsCol fieldsFilledCol">

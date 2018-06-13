@@ -1,6 +1,6 @@
 <table class="table m-0">
     <thead>
-        <tr>
+        <tr class="pointer">
             <th ng-click="sortBy(header.fieldName)" ng-repeat="header in headers" class="{{header.class}}">
                 {{header.label}}
                 <span class="fa fa-sort" ng-show="fieldName == header.fieldName" ng-class="{'fa fa-sort-desc': reverse, 'fa fa-sort-asc' : !reverse}"></span>
@@ -8,7 +8,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="record in filteredRecords | orderBy : fieldName : reverse">
+        <tr  ng-repeat="record in filteredRecords | orderBy : fieldName : reverse">
             <td ng-repeat="header in headers" class="{{header.class}}">
                 <span ng-if="!header.redirectable && header.fieldName != 'assigned'">
                     <span ng-if="header.type == 'id'">#</span>

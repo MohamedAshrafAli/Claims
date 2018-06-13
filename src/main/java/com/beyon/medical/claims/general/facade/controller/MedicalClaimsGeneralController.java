@@ -203,7 +203,7 @@ public class MedicalClaimsGeneralController{
 		return countryIds;
 	}
 	
-	@GetMapping("/getStatusCountByUser")
+	@PostMapping("/getStatusCountByUser")
 	public   @ResponseBody ObjectNode getStatusCountByUser(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
 		ObjectNode statusCountByUser = null;
 		try {

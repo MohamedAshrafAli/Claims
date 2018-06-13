@@ -33,7 +33,7 @@ public class ReimbProcessingMapper {
 
 	private static void setDiagnosisDTO(ResultSet row, ReimbursementProcessingDTO processingDTO) throws SQLException {
 		if ("Primary".equalsIgnoreCase(row.getString("Diagtype"))) {
-			DiagnosisDTO diagnosisDTO = processingDTO.getPrimaryDiagnosis();
+			DiagnosisDTO diagnosisDTO = new DiagnosisDTO();
 			diagnosisDTO.setDiagId(row.getString("Diagid"));
 			diagnosisDTO.setDiagType(row.getString("Diagtype"));
 			diagnosisDTO.setCreatedBy(row.getString("Diagcreatedby"));

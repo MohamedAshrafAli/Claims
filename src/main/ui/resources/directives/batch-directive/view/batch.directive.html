@@ -1,39 +1,143 @@
 
-<div class="resultInfo pl-2 col-sm-12">
-    <a href="javascript:void(0);" class="btn btn-primary btn-sm finlizeBtn btn-finalize float-right" ng-click="rejectSelectedClaims();">Reject</a>
+<div class="row resultInfo col-sm-12 mt-3">
+    <div class="col-sm-2 pl-0">
+        <!-- <div class="align-middle selectline outline-none">
+            <a href="javascript:void(0);" id="selectAll" ng-click="selectAllBatches()">{{selectAll ? 'De-SelectAll' : 'Select All'}}</a>
+        </div>                -->
+        <span ng-click="selectAllBatches()" href="javascript:;" class="custCheckboxBtn batchCustCheckboxBtnSected float-left" ng-class="{'custCheckboxBtnSected' : selectAll}" style="cursor:pointer; outline:none">
+            <span class="oi" data-glyph="check"></span>
+        </span>&nbsp;
+    </div>
+    <div class="col-sm-10 pr-0">
+        <div class="float-right">
+            <button href="javascript:void(0);" class="btn btn-primary btn-sm finlizeBtn btn-finalize" ng-click="rejectBatches();" ng-disabled="selectedRecords.length == 0">Reject</button>
+        </div>
+        <div class="float-right pr-3">
+            <button href="javascript:void(0);" class="btn btn-primary btn-sm finlizeBtn btn-finalize" ng-click="assignBatches();" ng-disabled="selectedRecords.length  == 0">Assign</button>
+        </div>
+        <div class="float-right pr-3">
+            <button href="javascript:void(0);" class="btn btn-primary btn-sm finlizeBtn btn-finalize" ngf-select="uploadBatches($file)">Upload</button>
+        </div>
+    </div>        
 </div>
-<div class="mt-5 pb-1">
+<div class="mt-2 pb-1">
     <div class="row m-0"  ng-repeat="record in records">
-        <span href="javascript:;" class="custCheckboxBtn batchCustCheckboxBtnSected" ng-class="{'custCheckboxBtnSected' : isChecked}" ng-click="isChecked = !isChecked;" style="cursor:pointer; outline:none">
+        <span href="javascript:;" class="custCheckboxBtn batchCustCheckboxBtnSected" ng-class="{'custCheckboxBtnSected' : record.isChecked}" ng-click="record.isChecked = !record.isChecked; selectBatchRecords(record)" style="cursor:pointer; outline:none">
             <span class="oi" data-glyph="check"></span>
         </span>&nbsp;
         <div class="claimRequestDetInner mb-2 clearfix" style="border-top:1px solid #e0e0e0 !important;width:98%">
             <table class="batchTable">
-                <tr class="row pb-1" ng-repeat="rows in fieldsInfo">
-                    <td class="col-sm" ng-repeat="columns in rows">
-                        <div ng-repeat="colGroup in columns.colGroup" ng-if="columns.colGroup">
-                            <div ng-if="!colGroup.subGroup">    
-                                <span>
-                                    <span class="{{colGroup.labelClass}}">{{colGroup.label}}</span> 
-                                    <span class="{{colGroup.valueClass}}">{{record[colGroup.name]}}</span>
-                                </span>
-                            </div>
-                            <div ng-if="colGroup.subGroup">
-                                <span ng-repeat="subgroupCol in colGroup.subGroup" ng-class="{'pr-4' : $even}"> 
-                                    <span class="{{subgroupCol.labelClass}}">{{subgroupCol.label}} </span>
-                                    <span class="{{subgroupCol.valueClass}}">{{record[subgroupCol.name]}}</span>
-                                </span>
-                            </div>
+                <tr class="row pb-1">
+                    <td class="col-sm">
+                        <div>
+                            <span class="boldText">Received Date:</span>
+                            <span>{{record.receivedDate}}</span>
                         </div>
-                        <div ng-if="!columns.colGroup">
-                            <div>
-                                <span class="{{columns.labelClass}}">{{columns.label}}</span><br>
-                                <span class="{{columns.valueClass}}">{{record[columns.name]}}</span>
-                            </div>
+                        <div>
+                            <span class="boldText">Request Type:</span>
+                            <span>{{record.requestType}}</span>
+                        </div>
+                        <div ng-if = "moduleName != 'providerPaper'">
+                            <span class="boldText">XML File Name:</span>
+                            <span>{{record.xmlFileName}}</span>
+                        </div> 
+                        <div>
+                            <span class="batchText">Batch ID:</span>
+                            <span class="batchText">{{record.batchId}}</span>
+                        </div>
+                    </td>
+                    <td class="col-sm">
+                        <div>
+                            <span class="boldText">Provider Code:</span>
+                            <span>{{record.providerCode}}</span>
+                        </div>
+                        <div>
+                            <span class="boldText">Provider License:</span>
+                            <span>{{record.providerLicense}}</span>
+                        </div>
+                        <div>
+                            <span class="boldText">Provider Name:</span>
+                            <span>{{record.providerName}}</span>
+                        </div>
+                        <div style="text-align:center;">
+                            <span class="ic" ng-show="!showit"><i class="oi oi-align-center" data-glyph="chevron-bottom" ng-click="showit = !showit" ></i></span>
+                            <span class="ic"  ng-show="showit"><i class="oi oi-align-center" data-glyph="chevron-top" ng-click="showit = !showit"></i></span>
+                        </div>
+                    </td>
+                    <td class="col-sm">
+                        <div>
+                            <span class="boldText">Registered Date:</span>
+                            <span>{{record.registeredDate}}</span>
+                        </div>
+                        <div ng-if = "moduleName != 'providerPaper'">
+                            <span class="boldText">Remittance Upload Date:</span>
+                            <span>{{record.remittanceUploadDate}}</span>
+                        </div>
+                        <div ng-if = "moduleName != 'providerPaper'">
+                            <span class="boldText">Rejection Code:</span>
+                            <span>{{record.rejectionCode}}</span>
                         </div>
                     </td>
                 </tr>
+               <tr>
+                </tr>
+                <tr class="row pb-1" ng-show="showit">
+                    <td class="col-sm">
+                        <div>
+                            <span>Total Claims</span><br>
+                            <span class="boldText">{{record.claims}}</span>
+                        </div>
+                    </td>
+                    <td class="col-sm">
+                        <div>
+                            <span>Processed</span><br>
+                            <span class="boldText">{{record.processed}}</span>
+                        </div>
+                    </td>
+                    <td class="col-sm">
+                        <div>
+                            <span>UnProcessed</span><br>
+                            <span class="boldText">{{record.unProcessed}}</span>
+                        </div>
+                    </td>
+                    <td class="col-sm">
+                        <div>
+                            <span>Batch Paid Amount</span><br>
+                            <span class="boldText">{{record.batchPaidAmount}}</span>
+                        </div>
+                    </td>
+                    <td class="col-sm">
+                        <div>
+                            <span>Rejected Amount</span><br>
+                            <span class="boldText">{{record.rejectedAmount}}</span>
+                        </div>
+                    </td>
+                    <td class="col-sm">
+                        <div>
+                            <span>Payment Reference</span><br>
+                            <span class="textColor">{{record.paymentReference}}</span>
+                        </div>
+                    </td>
+                    <td class="col-sm">
+                        <div>
+                            <span>Payment Date</span><br>
+                            <span class="textColor">{{record.paymentDate}}</span>
+                        </div>
+                    </td>
+                    <td class="col-sm">
+                        <div>
+                            <span>Payment Way</span><br>
+                            <span class="textColor">{{record.paymentWay}}</span>
+                        </div>                        
+                    </td>
+                    <td class="col-sm">
+                        <div ng-if = "moduleName != 'providerPaper'">
+                            <span>Rejection Description</span><br>
+                            <span class="textColor">{{record.paymentWay}}</span>
+                        </div>                        
+                    </td>   
+                </tr>
             </table>
-        </div>                    
+        </div>
     </div>
 </div>

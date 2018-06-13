@@ -5,12 +5,14 @@
         .module('claims')
             .controller('ReimbursmentProcessingController', ReimbursmentProcessingController);
 
-        ReimbursmentProcessingController.$inject = ['$scope', '$rootScope', 'ReimbursementProcessingService', 'ngNotify', '$timeout', 'AutocompleteService','UIDefinationService', '$filter', 'reimbursementClaimInfo', 'ReimbursementRegistrationFactory', 'ReimbursementProcessingFactory', 'SpinnerService', 'companyId', '$q'];
+        ReimbursmentProcessingController.$inject = ['$scope', '$rootScope', 'ReimbursementProcessingService', 'ngNotify', '$timeout', 'AutocompleteService','UIDefinationService', '$filter', 'reimbursementClaimInfo', 'ReimbursementRegistrationFactory', 'ReimbursementProcessingFactory', 'SpinnerService', 'companyId', '$q', '$window', 'dateFormat'];
 
-        function ReimbursmentProcessingController($scope, $rootScope, ReimbursementProcessingService, ngNotify, $timeout, AutocompleteService, UIDefinationService, $filter, reimbursementClaimInfo, ReimbursementRegistrationFactory, ReimbursementProcessingFactory, SpinnerService, companyId, $q) {
+        function ReimbursmentProcessingController($scope, $rootScope, ReimbursementProcessingService, ngNotify, $timeout, AutocompleteService, UIDefinationService, $filter, reimbursementClaimInfo, ReimbursementRegistrationFactory, ReimbursementProcessingFactory, SpinnerService, companyId, $q, $window, dateFormat) {
             SpinnerService.stop();
+            $scope.dateFormat = dateFormat;
             $scope.selectedClaim = reimbursementClaimInfo;
             $scope.selectedClaim.requestNumber = 1;
+            $scope.selectedClaim.age = calculateAge();
             $scope.search = {};
             $scope.treatmentCodes = [];
             $scope.rejectionCode = [];
@@ -32,21 +34,29 @@
                 isPolicyDetailOpen : false,
                 isMemberDetailOpen : false
             }
+            var statusParam = {'compId' : companyId, 'modType' : "03"}
             var uiDefPromises = {};
             uiDefPromises['claimTypes'] = UIDefinationService.getClaimType({'compId' : companyId}).$promise;
             uiDefPromises['claimConditions'] = UIDefinationService.getClaimCondition({'compId' : companyId}).$promise;
             uiDefPromises['encounterType'] = UIDefinationService.getEncounterTypes({'compId' : companyId}).$promise;
             uiDefPromises['statusReason'] = UIDefinationService.getClaimsStatusReason({'compId' : companyId}).$promise;
+            uiDefPromises['statusTypes'] = UIDefinationService.getStatusTypes(statusParam).$promise;
+            // uiDefPromises['estTypes'] = UIDefinationService.getClaimantESTType({'compId' : companyId}).$promise;
+            // uiDefPromises['lossTypes'] = UIDefinationService.getClaimLossType({'compId' : companyId}).$promise;
             $q.all(uiDefPromises).then((uidTypes) => {
                 $scope.claimTypes = uidTypes['claimTypes'].rowData;
                 $scope.claimConditions = uidTypes['claimConditions'].rowData;
                 $scope.encounterTypeMap = ReimbursementRegistrationFactory.constructUidMap(uidTypes['encounterType'].rowData, "id", "value");
-                $scope.statusReasonMap = ReimbursementRegistrationFactory.constructUidMap(uidTypes['statusReason'].rowData, "id", "value");
+                $scope.statusReasonMap = ReimbursementRegistrationFactory.constructUidMap(uidTypes['statusReason'].rowData, "value", "id");
+                $scope.statusMap = ReimbursementRegistrationFactory.constructUidMap(uidTypes['statusTypes'].rowData, "value", "id");
             })
             AutocompleteService.getUniversalCurrencyDetails({'compId' : companyId}, function(resp) {
                 $scope.curencyList = resp.rowData;
                 $scope.exchangeRateMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "ExchangeCurrency", "ExchangeRate");
             });
+            AutocompleteService.geteventCountry(function(resp) {
+                $scope.eventCountries = resp;
+            })
             function init() {
                 $scope.isInlineEdit = false;
                 $scope.moduleName = 'reimbursement';
@@ -110,8 +120,13 @@
                 $scope.localValidation = false;
                 if($scope.reimbursementForm.$invalid) {
                     $scope.localValidation = true;
+                    if($scope.infoForm.$invalid){
+                        $scope.infoToggle = true;
+                        $scope.infoForm.$error.required[0].$$element[0].focus();
+                    }
                     return;
-                }                
+                }    
+                $scope.dateValidation = false;     
                 var processingDto = mapClaimDTO();
                 SpinnerService.start();
                 ReimbursementProcessingService.saveProcessingDetails(processingDto, function(resp) {
@@ -137,7 +152,7 @@
                 compareTableToUpdate(claimToSave);
                 $scope.claim.currencyId = claimToSave.baseCurrency;
                 $scope.claim.statusDate = new Date();
-                $scope.claim.claimStatusReason = $scope.statusReasonMap[$scope.claim.claimStatus];
+                claimToSave.claimStatusReason = $scope.statusReasonMap["WIP"];
                 $scope.claim.internalRejectionCode = $scope.claim.rejectionCode ? $scope.claim.rejectionCode.RejectionCode : undefined;
                 $scope.claim.serviceType = $scope.claim.treatmentCode.ServiceTypeId;
                 $scope.claim.serviceId = $scope.claim.treatmentCode.ServiceCode;
@@ -190,6 +205,17 @@
                 $scope.claim['dml'] = 'E';
                 $scope.createNew = true;
                 $scope.prevClaim = angular.copy($scope.claim);
+                // var params = {
+                //     "claimNumber" : $scope.selectedClaim.claimNumber.toString(),
+                //     "requestNumber" : $scope.selectedClaim.requestNumber.toString(),
+                //     "id" : entity.reimbursementProcessId.toString()
+                // };
+                // ReimbursementProcessingService.getReimbursementProcessingDetails(params, function(resp) {
+                //     console.log("resp ::", resp);
+                // }, onerror)
+                // function onerror(err) {
+                //     console.log("error occured");
+                // }
             }
 
             $scope.onCancel = function() {
@@ -225,14 +251,7 @@
 
             function validateInformationSection() {
                 $scope.submitted = true;
-                var policyErrorArray = [];
-                var memberErrorArray = [];
-                var claimErrorArray = [];
                 var providerErrorArray = [];
-
-                var policyDetailsRequiredFields = ['claimCondition'];
-                var memberDetailsRequiredFields = ['memberName','memberNo','category','gender'];
-                var claimDetailsRequiredFields = ['country'];
                 var providerDetailsRequiredFields = ['primaryDiagnosis', 'primaryDiagDisc', 'secDiagnosis', 'secDiagnosisDesc', 'providerName', 'providerCode', 
                                                     'providerLicense', 'voucherNumber', 'encounterType', 'claimType'];
                 
@@ -242,33 +261,12 @@
                     }
                 });
 
-                angular.forEach(claimDetailsRequiredFields, function(fieldName, key) {
-                    if ($scope.claimDetails[fieldName] == '' || $scope.claimDetails[fieldName] == null) {
-                        claimErrorArray.push(fieldName);
-                    }
-                });
-
-                angular.forEach(policyDetailsRequiredFields, function(fieldName, key) {
-                    if ($scope.policyDetails[fieldName] == '' || $scope.policyDetails[fieldName] == null) {
-                        policyErrorArray.push(fieldName);
-                    }
-                });
-
-                angular.forEach(memberDetailsRequiredFields, function(fieldName, key) {
-                    if ($scope.memberDetails[fieldName] == '' || $scope.memberDetails[fieldName] == null) {
-                        memberErrorArray.push(fieldName);
-                    }
-                });
-
                 $scope.accordionToggle.isProviderDetailOpen = (providerErrorArray.length > 0);
-                $scope.accordionToggle.isClaimDetailOpen = (claimErrorArray.length > 0);
-                $scope.accordionToggle.isPolicyDetailOpen = (policyErrorArray.length > 0);
-                $scope.accordionToggle.isMemberDetailOpen = (memberErrorArray.length > 0);                
                 $scope.isCloseOthers = $scope.processingForm.$valid;
                 if ($scope.processingForm.$invalid) {
                     swal("Please Enter all the required fields", "", "error").then(
                         function() {
-                            ($scope.processingForm.$error.required[0].$$element[0]).focus();
+                            ($scope.processingForm.$error.required[0]).focus();
                         }
                     );
                     $scope.infoToggle = true;
@@ -303,8 +301,8 @@
                 $scope.totalDeductionAmount = totalDeductionAmount;
             }
 
-            $scope.getAutoCompleteList = function (searchText, field, methodName) {
-                var searchParams = constructSearchparams(field, searchText);
+            $scope.getAutoCompleteList = function (searchText, fieldName, methodName) {
+                var searchParams = constructAutoCompleteSearchparams(searchText, fieldName);
                 return AutocompleteService[methodName](searchParams).$promise.then(function(resp) {
                     return resp.rowData;
                 })
@@ -345,21 +343,6 @@
                 searchObj["compId"] = companyId;
                 searchObj["serviceFrom"] = $filter('date')(new Date($scope.claim.treatmentFromDate), 'yyyy-MM-dd');
                 searchObj[fieldName] = searchText+"%"
-                return searchObj;
-            }            
-
-            function constructSearchparams(field, searchText) {
-                var searchObj = {}
-                if($scope.moduleName == 'reimbursement') {
-                    $scope.search.memberNumber =  $scope.search.memberName;
-                        searchObj["compId"] = companyId,
-                        searchObj["policyNumber"] = "%"
-                        searchObj["memberNumber"] = "%",
-                        searchObj["memberName"] = "%",
-                        searchObj["voucherNumber"] = "%",
-                        searchObj["cardNumber"] = "%",
-                        searchObj["emiratesId"] = field == 'emiratesId' ? searchText+"%" : ($scope.search.emiratesId ? $scope.search.emiratesId.CLMR_UID_ID : "%")
-                }
                 return searchObj;
             }
 
@@ -439,9 +422,11 @@
             }
 
             $scope.calculateDays = function() {
-                if($scope.claim.treatmentFromDate && $scope.claim.treatmentToDate) {
+                if($scope.claim.treatmentFromDate && $scope.claim.treatmentToDate && ($scope.claim.treatmentFromDate < $scope.claim.treatmentToDate)) {
                     var timeDiff = Math.abs($scope.claim.treatmentToDate.getTime() - $scope.claim.treatmentFromDate.getTime());
                     $scope.claim.noOfTreamentDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+                }else{
+                    $scope.claim.noOfTreamentDays = 0;
                 }
             }
 
@@ -450,6 +435,10 @@
                     $scope.claim.suggestedAmout = ($scope.claim.requestedAmount - ($scope.claim.policyDeductibleAmount || 0) - 
                                                   ($scope.claim.manualDeductionAmount || 0) - ($scope.claim.penaltyAmount || 0))
                 }                
+            }
+
+            function calculateAge() {
+                return $scope.selectedClaim.memberDOB ? (new Date().getFullYear() - $scope.selectedClaim.memberDOB[0]) : null;
             }
             init();
         }

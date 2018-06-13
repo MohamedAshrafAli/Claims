@@ -5,73 +5,77 @@
         .module('claims')
         .service('AutocompleteService', AutocompleteService);
     
-        AutocompleteService.$inject = ['$resource', 'urlRoutePrefix'];
+        AutocompleteService.$inject = ['$resource', 'urlRoutePrefix', 'companyId'];
 
-        function AutocompleteService($resource, urlRoutePrefix) {
-            var resourceUrl = '/api/medical/claims/ui';
+        function AutocompleteService($resource, urlRoutePrefix, companyId) {
+            var resourceUrl = urlRoutePrefix + '/api/medical/claims/ui';
 
             return $resource(resourceUrl, {}, {
                 'getMemberNumberList': {
                     method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getMemberNumberList'
+                    url: resourceUrl + '/getMemberNumberList'
                 },
                 'getPolicyNumberList': {
                     method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getPolicyNumberList'
+                    url: resourceUrl + '/getPolicyNumberList'
                 },
                 'getMedicalCardNumberList': {
                     method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getMedicalCardNumberList'
+                    url: resourceUrl + '/getMedicalCardNumberList'
                 },
                 'getMemberNameList': {
                     method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getMemberNameList'
+                    url: resourceUrl + '/getMemberNameList'
                 },
                 'getClaimsPolicyNumberList': {
                     method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getClaimsPolicyNumberList'
+                    url: resourceUrl + '/getClaimsPolicyNumberList'
                 },
                 'getEmiratesId': {
                     method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getEmiratesId'
+                    url: resourceUrl + '/getEmiratesId'
                 },
                 'getVoucherNumbers': {
                     method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getVoucherNumbers'
+                    url: resourceUrl + '/getVoucherNumbers'
                 },
                 'getCurrencyDetailsForPolicyNo': {
                     method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getCurrencyDetailsForPolicyNo'
+                    url: resourceUrl + '/getCurrencyDetailsForPolicyNo'
                 },
                 'getUserList': {
                     method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getUserList'
+                    url: resourceUrl + '/getUserList'
                 },
                 'getTreatmentCodes': {
                     method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getServiceCodeDetails'
+                    url: resourceUrl + '/getServiceCodeDetails'
                 },
                 'getRejectionCodes': {
                     method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getRejectionCodeDetails'
+                    url: resourceUrl + '/getRejectionCodeDetails'
                 },
                 'getDiagnosisCodes': {
                     method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getDiagnosisCodeDetails'
+                    url: resourceUrl + '/getDiagnosisCodeDetails'
                 },
                 //Reimbursement-Processing (providerCode)
                 'getProviderCodes': {
                     method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getEmiratesId'
-                },
-                //Reimbursement-Processing (Event Country)
-                'geteventCountry': {
-                    method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getEmiratesId'
-                },
+                    url: resourceUrl + '/getEmiratesId'
+                },                
                 'getUniversalCurrencyDetails': {
                     method: 'POST',
-                    url: urlRoutePrefix + resourceUrl + '/getUniversalCurrencyDetails'
+                    url: resourceUrl + '/getUniversalCurrencyDetails'
+                },
+                'geteventCountry': {
+                    method: 'GET',
+                    url: resourceUrl +'/getCountryIds/'+ companyId,
+                    isArray : true
+                },
+                'getStatusCountByUser': {
+                    method: 'POST',
+                    url: resourceUrl +'/getStatusCountByUser'
                 }
             })
         }

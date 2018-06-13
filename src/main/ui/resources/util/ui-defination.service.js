@@ -53,6 +53,10 @@
                 'getClaimantESTType' : {
                     method: 'POST',
                     url: resourceUrl + '/getClaimantESTType'
+                },
+                'getClaimLossType' : {
+                    method: 'POST',
+                    url: resourceUrl + '/getClaimLossType'
                 }
             })    
         }

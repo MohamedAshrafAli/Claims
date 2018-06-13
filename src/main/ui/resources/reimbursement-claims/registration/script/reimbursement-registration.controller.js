@@ -10,12 +10,13 @@
     function ReimbursementRegistrationController($scope, $rootScope, ReimbursementRegistrationService, ngNotify, $filter, $state, ListViewService, ReimbursementRegistrationFactory, SpinnerService, companyId) {
 
         $scope.reverse = true;
+        var properties = $rootScope.searchProperties.registration;
         var autoCompleteMapping = {
-            cardNumber : 'CLMR_TPA_CARD',
-            memberName : 'CLMR_MEMBER_ID',
-            emiratesId : 'CLMR_UID_ID',
-            policyNumber : 'CLF_ULM_NO',
-            voucherNumber : 'CLMF_VOUCH_NO'
+            cardNumber : properties["cardNumber"],
+            memberName : properties["memberNumber"],
+            emiratesId : properties["emiratesId"],
+            policyNumber : properties["policyNumber"],
+            voucherNumber : properties["voucherNumber"]
         }
         
         $scope.filterValues = function(searchValue) {
@@ -25,10 +26,9 @@
                 delete searchparam.memberName;
                 searchparam.compId = companyId
                 getRegisteredClaimsList(searchparam);
-            } else {
+             } else {
                 getRegisteredClaimsList({compId:companyId});
             }
-            
         }
 
         function getRegisteredClaimsList(searchParams) {
