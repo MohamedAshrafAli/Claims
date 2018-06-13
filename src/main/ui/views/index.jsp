@@ -129,19 +129,19 @@
         <script src="<s:url value="resources/pre-authorization/registration/script/pre-authorization-registration.service.js"/>"></script>
     
     </head>
-    <body >
+    <body ng-controller="AppController">
         <header class="clearfix">
             <div class="">
-                <span class="float-left" ng-click="navbar = !navbar"><i class="fa fa-bars toggle-menu menu-left"></i></span>
+                <span class="float-left" ng-click="$parent.navbar = !$parent.navbar"><i class="fa fa-bars toggle-menu menu-left"></i></span>
                 <span ><img class="headLeft float-left" src="<s:url value="resources/static/img/Beyontec_logo1.png"/>" alt=""/></span>
                 <span>&nbsp;</span>
                 <span ><img class="headRight float-right" src="<s:url value="resources/static/img/Beyontec_Identity_CMYK_Y60p-Horizontal-BG-Alpha.png"/>" alt=""/></span>
-                <span class="headRight float-right" ng-controller="LanguageController">
-                    <select ng-options="key as value for (key, value) in languages" ng-model="$parent.selectedLanguage" ng-change="changelanguage()"></select>
+                <span class="headRight float-right">
+                    <select ng-options="key as value for (key, value) in languages" ng-model="selectedLanguage" ng-change="changelanguage()"></select>
                 </span>
             </div>
         </header>
-        <nav id="navbar" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" ng-class="{'menu-open' : navbar}">
+        <nav id="navbar" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" ng-class="{'menu-open' : $parent.navbar}">
             <uib-accordion close-others="true">
                 <div uib-accordion-group class="panel-default">
                     <uib-accordion-heading> Transaction </uib-accordion-heading>

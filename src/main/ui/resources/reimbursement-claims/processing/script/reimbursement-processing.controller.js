@@ -324,8 +324,8 @@
                 $scope.totalDeductionAmount = totalDeductionAmount;
             }
 
-            $scope.getAutoCompleteList = function (searchText, field, methodName) {
-                var searchParams = constructSearchparams(field, searchText);
+            $scope.getAutoCompleteList = function (searchText, fieldName, methodName) {
+                var searchParams = constructAutoCompleteSearchparams(searchText, fieldName);
                 return AutocompleteService[methodName](searchParams).$promise.then(function(resp) {
                     return resp.rowData;
                 })
@@ -366,21 +366,6 @@
                 searchObj["compId"] = companyId;
                 searchObj["serviceFrom"] = $filter('date')(new Date($scope.claim.treatmentFromDate), 'yyyy-MM-dd');
                 searchObj[fieldName] = searchText+"%"
-                return searchObj;
-            }            
-
-            function constructSearchparams(field, searchText) {
-                var searchObj = {}
-                if($scope.moduleName == 'reimbursement') {
-                    $scope.search.memberNumber =  $scope.search.memberName;
-                        searchObj["compId"] = companyId,
-                        searchObj["policyNumber"] = "%"
-                        searchObj["memberNumber"] = "%",
-                        searchObj["memberName"] = "%",
-                        searchObj["voucherNumber"] = "%",
-                        searchObj["cardNumber"] = "%",
-                        searchObj["emiratesId"] = field == 'emiratesId' ? searchText+"%" : ($scope.search.emiratesId ? $scope.search.emiratesId.CLMR_UID_ID : "%")
-                }
                 return searchObj;
             }
 

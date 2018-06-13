@@ -91,12 +91,12 @@
 
         $scope.saveRegistrationDetails = function() {
             if($scope.form.$invalid){
-                if($scope.fileInfos == undefined || $scope.fileInfos.length == 0){
+                /*if($scope.fileInfos == undefined || $scope.fileInfos.length == 0){
                     $scope.documentsUpload();
                    
                 }else{
                     documentsTypes();
-                }
+                }*/
                 
                 $scope.localValidation = true;
                 return;
@@ -127,7 +127,6 @@
         $scope.uploadFiles = function(files, doc) {
             $scope.files = files;
             $scope.fileInfos = ($scope.fileInfos && $scope.fileInfos.length) ? $scope.fileInfos :[];
-            console.log('FILEINFO',$scope.fileInfos);
             $scope.uploadedId = $scope.hasMandatory ? Math.random() : null;
             var files = [];
             angular.forEach($scope.files, function(value, key) {
@@ -216,9 +215,10 @@
                     keyboard :false,
                     controller: function ($scope, $uibModalInstance, encounterTypeMap) {
                         var searchInfo = angular.copy(data);
+                        var properties = $rootScope.searchProperties.registrationGeneral;
                         var autoCompleteMapping = {
-                            memberNumber : 'ULME_MEMBER_ID',
-                            policyNumber : 'ILM_NO'
+                            memberNumber : properties["memberNumber"],
+                            policyNumber : properties["policyNumber"]
                         }
                         $scope.encounterTypeMap = encounterTypeMap;
                         $scope.searchObj = ReimbursementRegistrationFactory.constructSearchObj(autoCompleteMapping, searchInfo);
