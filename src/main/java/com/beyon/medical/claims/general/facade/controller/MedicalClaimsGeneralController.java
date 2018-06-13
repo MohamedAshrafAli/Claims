@@ -1,7 +1,5 @@
 package com.beyon.medical.claims.general.facade.controller;
 
-import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_UID_CLAIM_CONDITION;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +74,7 @@ public class MedicalClaimsGeneralController{
 	public  @ResponseBody ObjectNode getClaimNumbers(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
 		ObjectNode voucherNumbers = null;
 		try {
-			voucherNumbers = uiServiceFacade.getVoucherNumberList(inputMap);
+			voucherNumbers = uiServiceFacade.getClaimNumberList(inputMap);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
