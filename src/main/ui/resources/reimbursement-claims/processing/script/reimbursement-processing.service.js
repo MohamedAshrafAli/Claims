@@ -17,6 +17,11 @@
                 method: 'POST',
                 url: resourceUrl + '/saveProcessingDetails/'+ companyId,
                 isArray : false
+            },
+            'getReimbursementProcessingDetails' : {
+                method: 'POST',
+                url: resourceUrl + '/getReimbursementProcessingDetails',
+                isArray : false
             }
         })
     }

@@ -12,6 +12,7 @@
             SpinnerService.stop();
             $scope.selectedClaim = reimbursementClaimInfo;
             $scope.selectedClaim.requestNumber = 1;
+            $scope.selectedClaim.age = calculateAge();
             $scope.search = {};
             $scope.treatmentCodes = [];
             $scope.rejectionCode = [];
@@ -33,16 +34,21 @@
                 isPolicyDetailOpen : false,
                 isMemberDetailOpen : false
             }
+            var statusParam = {'compId' : companyId, 'modType' : "03"}
             var uiDefPromises = {};
             uiDefPromises['claimTypes'] = UIDefinationService.getClaimType({'compId' : companyId}).$promise;
             uiDefPromises['claimConditions'] = UIDefinationService.getClaimCondition({'compId' : companyId}).$promise;
             uiDefPromises['encounterType'] = UIDefinationService.getEncounterTypes({'compId' : companyId}).$promise;
             uiDefPromises['statusReason'] = UIDefinationService.getClaimsStatusReason({'compId' : companyId}).$promise;
+            uiDefPromises['statusTypes'] = UIDefinationService.getStatusTypes(statusParam).$promise;
+            // uiDefPromises['estTypes'] = UIDefinationService.getClaimantESTType({'compId' : companyId}).$promise;
+            // uiDefPromises['lossTypes'] = UIDefinationService.getClaimLossType({'compId' : companyId}).$promise;
             $q.all(uiDefPromises).then((uidTypes) => {
                 $scope.claimTypes = uidTypes['claimTypes'].rowData;
                 $scope.claimConditions = uidTypes['claimConditions'].rowData;
                 $scope.encounterTypeMap = ReimbursementRegistrationFactory.constructUidMap(uidTypes['encounterType'].rowData, "id", "value");
-                $scope.statusReasonMap = ReimbursementRegistrationFactory.constructUidMap(uidTypes['statusReason'].rowData, "id", "value");
+                $scope.statusReasonMap = ReimbursementRegistrationFactory.constructUidMap(uidTypes['statusReason'].rowData, "value", "id");
+                $scope.statusMap = ReimbursementRegistrationFactory.constructUidMap(uidTypes['statusTypes'].rowData, "value", "id");
             })
             AutocompleteService.getUniversalCurrencyDetails({'compId' : companyId}, function(resp) {
                 $scope.curencyList = resp.rowData;
@@ -141,7 +147,7 @@
                 compareTableToUpdate(claimToSave);
                 $scope.claim.currencyId = claimToSave.baseCurrency;
                 $scope.claim.statusDate = new Date();
-                $scope.claim.claimStatusReason = $scope.statusReasonMap[$scope.claim.claimStatus];
+                claimToSave.claimStatusReason = $scope.statusReasonMap["WIP"];
                 $scope.claim.internalRejectionCode = $scope.claim.rejectionCode ? $scope.claim.rejectionCode.RejectionCode : undefined;
                 $scope.claim.serviceType = $scope.claim.treatmentCode.ServiceTypeId;
                 $scope.claim.serviceId = $scope.claim.treatmentCode.ServiceCode;
@@ -194,6 +200,17 @@
                 $scope.claim['dml'] = 'E';
                 $scope.createNew = true;
                 $scope.prevClaim = angular.copy($scope.claim);
+                // var params = {
+                //     "claimNumber" : $scope.selectedClaim.claimNumber.toString(),
+                //     "requestNumber" : $scope.selectedClaim.requestNumber.toString(),
+                //     "id" : entity.reimbursementProcessId.toString()
+                // };
+                // ReimbursementProcessingService.getReimbursementProcessingDetails(params, function(resp) {
+                //     console.log("resp ::", resp);
+                // }, onerror)
+                // function onerror(err) {
+                //     console.log("error occured");
+                // }
             }
 
             $scope.onCancel = function() {
@@ -454,6 +471,10 @@
                     $scope.claim.suggestedAmout = ($scope.claim.requestedAmount - ($scope.claim.policyDeductibleAmount || 0) - 
                                                   ($scope.claim.manualDeductionAmount || 0) - ($scope.claim.penaltyAmount || 0))
                 }                
+            }
+
+            function calculateAge() {
+                return $scope.selectedClaim.memberDOB ? (new Date().getFullYear() - $scope.selectedClaim.memberDOB[0]) : null;
             }
             init();
         }
