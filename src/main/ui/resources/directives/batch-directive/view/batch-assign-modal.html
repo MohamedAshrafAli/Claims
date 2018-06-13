@@ -1,0 +1,52 @@
+<div class="container modal-header">
+    <h5 class="modal-title" id="modal-title"> Batch Assign Modal
+        <span style="float:right">
+            <button type="button" class="close" ng-click="cancelModal();">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </span>
+    </h5>
+</div>
+<div class="modal-body row" id="modal-body" style="max-height:800px; overflow:auto">
+    <div class="container-fluid">
+        <md-content>
+            <md-tabs md-dynamic-height>
+                <md-tab label="User">
+                    <md-content class="md-padding innerRight">
+                        <user-assignment-component headers="userAssignmentHeader" users="users" selected-user="selectedUserToAssign" assigned-to-selected-user="assignedToSelectedUser()" show-assigned="false"></user-assignment-component>
+                    </md-content>    
+                </md-tab>
+                <md-tab label="User Group">
+                    <md-content class="md-padding innerRight">
+                        <h3 class="pt-3">Assign to User Group</h3>
+                        <div class="row" style="padding:0 15px;">
+                            <span style="width:5%;padding: 7px 0;"><i class="oi align-middle" data-glyph="magnifying-glass"></i></span>
+                            <md-autocomplete style="width:92%" 
+                                md-selected-item="selectedItem" 
+                                md-search-text="userSearchText"
+                                md-selected-item-change="filterByUser(selectedItem)" 
+                                md-items="item in getAutoCompleteList(userSearchText);" 
+                                md-item-text="item.UserName" 
+                                placeholder="UserName"
+                                md-no-cache="true"
+                                md-delay="500">
+                                <md-item-template>
+                                    <span md-highlight-text="userSearchText">{{item.UserName}}</span>
+                                </md-item-template>
+                                <md-not-found>
+                                    No Result Found
+                                </md-not-found>
+                            </md-autocomplete>
+                        </div>
+                    </md-content> 
+                </md-tab>
+            </md-tabs>
+        </md-content>
+    </div>
+</div>
+<div class="modal-footer justify-content-center b0 pt-0">
+    <div class="col-sm-6 text-center">
+        &nbsp;
+        <!-- <button type="button" class="btn btn-primary" ng-click="newClaim()" ng-if="!registerNew">Assign</button> -->
+    </div>
+</div>

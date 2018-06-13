@@ -1989,3 +1989,6 @@ md-select[disabled] .md-select-value,
     font-size: 13px;
     color: RED;    
 }
+.md-autocomplete-suggestions-container{  
+    z-index:100000 !important;
+}
