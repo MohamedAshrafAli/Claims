@@ -16,7 +16,7 @@
             <button href="javascript:void(0);" class="btn btn-primary btn-sm finlizeBtn btn-finalize" ng-click="assignBatches();" ng-disabled="selectedRecords.length  == 0">Assign</button>
         </div>
         <div class="float-right pr-3">
-            <button href="javascript:void(0);" class="btn btn-primary btn-sm finlizeBtn btn-finalize" ng-click="uploadBatches();">Upload</button>
+            <button href="javascript:void(0);" class="btn btn-primary btn-sm finlizeBtn btn-finalize" ngf-select="uploadBatches($file)">Upload</button>
         </div>
     </div>        
 </div>

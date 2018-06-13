@@ -259,23 +259,6 @@ section {
     color: #fff;
 }
 
-.fileuploadWrap {
-    border: 1px solid #f9b5ad;
-    background: #f36a5a;
-    height: 30px;
-    position: relative;
-    color: #fff;
-    padding: 0.2rem 1rem;
-    border-radius: 2px;
-    display: inline-block;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.fileuploadWrap:hover {
-    background: #ea6757;
-}
-
 input.fileupload {
     width: 100%;
     opacity: 0;
