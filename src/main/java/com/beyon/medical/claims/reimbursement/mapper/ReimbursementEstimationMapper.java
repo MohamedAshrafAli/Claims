@@ -25,8 +25,8 @@ public class ReimbursementEstimationMapper {
 		reimbursementEstimateDTO.setEstimatedAmt(row.getBigDecimal("estimatedAmt"));
 		reimbursementEstimateDTO.setEstimatedAmtBC(row.getBigDecimal("estimatedAmtBC"));
 		reimbursementEstimateDTO.setCreatedBy(row.getString("createdBy"));
-		reimbursementEstimateDTO.setOutStandingAmt(row.getBigDecimal("outStandingAmt"));
-		reimbursementEstimateDTO.setOutStandingAmtBC(row.getBigDecimal("outStandingAmtBC"));
+		reimbursementEstimateDTO.setReservedOutstandingAmt(row.getBigDecimal("outStandingAmt"));
+		reimbursementEstimateDTO.setReservedOutstandingAmtBC(row.getBigDecimal("outStandingAmtBC"));
 		reimbursementEstimateDTO.setSettlementReferenceId(row.getLong("settlementReferenceId"));
 		reimbursementEstimateDTO.setExchangeRate(row.getInt("exchangeRate"));
 		reimbursementEstimateDTO.setReserveCurrency(row.getString("reserveCurrency"));
