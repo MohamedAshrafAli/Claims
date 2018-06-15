@@ -59,6 +59,10 @@ public final class ReimbursementQueriesConstants implements Serializable{
 	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.ctds.assignment.details");
 
 	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_CLAIMNUMBER_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.ctds.details.assignment.claimnumber.criteria");
+	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_CLAIMNUMBER_EMPTY_CRITERIA = reimbursementResourceBundle.getString("reimbursement.queries.ctds.details.assignment.claimnumber.empty.criteria");
+
+	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_BY_STATUS = reimbursementResourceBundle.getString("reimbursement.queries.ctds.details.assignment.by.status");
+
 	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_REQ_RECEIVED_FROM_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.ctds.details.assignment.reqreceivedfrom.criteria");
 	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_REQ_RECEIVED_TO_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.ctds.details.assignment.reqreceivedto.criteria");
 	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_REQ_RECEIVED_BETWEEN_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.ctds.details.assignment.reqreceivedfromto.criteria");
@@ -69,6 +73,8 @@ public final class ReimbursementQueriesConstants implements Serializable{
 	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_MEMBER_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.ctds.assignment.member.details");
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_CP = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelcp");
 	public static final String REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_CP = reimbursementResourceBundle.getString("reimbursement.queries.update.ctdslevelcp");
+	public static final String REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_FNOL_FOR_CLAIM_NUMBER = reimbursementResourceBundle.getString("reimbursement.queries.update.ctdslevelfnol");
+	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_STATUS_CRITERIA = reimbursementResourceBundle.getString("reimbursement.queries.ctds.details.assignment.status.criteria");
 
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_CP_SEQUENCE_NAME = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelcp.sequence.name");
 	

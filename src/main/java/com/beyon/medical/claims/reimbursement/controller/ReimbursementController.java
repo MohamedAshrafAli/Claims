@@ -167,5 +167,15 @@ public class ReimbursementController{
 		return reimbursementProcessingDTO;
 	}
 	
+	@PostMapping("/approveProcessingServiceLineItem/{compId}")
+	public  @ResponseBody ReimbursementProcessingDTO approveProcessingServiceLineItem(@PathVariable String compId, @RequestBody ReimbursementProcessingDTO reimbursementProcessingDTO) throws MedicalClaimsException {
+		ReimbursementProcessingDTO _reimbursementProcessingDTO = null;
+		try {
+			_reimbursementProcessingDTO = reimbursementClaimsService.approveServiceLineItem(compId,reimbursementProcessingDTO);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return _reimbursementProcessingDTO;
+	}
 	
 }

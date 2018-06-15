@@ -44,5 +44,8 @@ public interface ReimbursementClaimsService {
 
 	ReimbursementProcessingDTO getReimbursementInitProcessingDetails(ReimbursementAssignmentDTO reimbursementAssignmentDTO) throws DAOException;
 
+	ReimbursementProcessingDTO approveServiceLineItem(String compId,
+			ReimbursementProcessingDTO reimbursementProcessingDTO) throws DAOException;
+
 	
 }

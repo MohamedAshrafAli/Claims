@@ -17,6 +17,7 @@ public class ReimbursementProcessingDTO extends ReimbursementDTO {
 	private String claimStatusReason;
 	private boolean isChanged;
 	private Long serviceGroupId;
+	private String diagType;//for internal; use only
 
 	public List<ReimbursementProcessingServiceDTO> getProcessingServiceDTOs() {
 		return processingServiceDTOs;
@@ -77,6 +78,12 @@ public class ReimbursementProcessingDTO extends ReimbursementDTO {
 	}
 	public void setServiceGroupId(Long serviceGroupId) {
 		this.serviceGroupId = serviceGroupId;
+	}
+	public String getDiagType() {
+		return diagType;
+	}
+	public void setDiagType(String diagType) {
+		this.diagType = diagType;
 	}
 	
 }
