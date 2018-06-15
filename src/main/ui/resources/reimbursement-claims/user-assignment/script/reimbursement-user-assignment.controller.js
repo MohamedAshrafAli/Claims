@@ -4,9 +4,9 @@
         .module('claims')
         .controller('ReimbursementUserAssignmentController', ReimbursementUserAssignmentController)
 
-    ReimbursementUserAssignmentController.$inject = ['$scope', '$rootScope', 'ReimbursementUserAssignmentService', '$filter', '$state', 'ngNotify', 'ListViewService', 'ClaimsListViewService', 'ReimbursementUserAssignmentFactory', 'AutocompleteService', 'ReimbursementRegistrationFactory', 'SpinnerService', 'companyId','UIDefinationService'];
+    ReimbursementUserAssignmentController.$inject = ['$scope', '$rootScope', 'ReimbursementUserAssignmentService', '$filter', '$state', 'ngNotify', 'ListViewService', 'ClaimsListViewService', 'ReimbursementUserAssignmentFactory', 'AutocompleteService', 'ReimbursementRegistrationFactory', 'SpinnerService', 'companyId','UIDefinationService', '$q'];
 
-    function ReimbursementUserAssignmentController($scope, $rootScope, ReimbursementUserAssignmentService, $filter, $state, ngNotify, ListViewService, ClaimsListViewService, ReimbursementUserAssignmentFactory, AutocompleteService, ReimbursementRegistrationFactory, SpinnerService, companyId, UIDefinationService) {
+    function ReimbursementUserAssignmentController($scope, $rootScope, ReimbursementUserAssignmentService, $filter, $state, ngNotify, ListViewService, ClaimsListViewService, ReimbursementUserAssignmentFactory, AutocompleteService, ReimbursementRegistrationFactory, SpinnerService, companyId, UIDefinationService, $q) {
         $scope.model = "reimbursementUserAssignment";
         $scope.selectall = false;
         $scope.selectedUserToAssign;
@@ -33,11 +33,12 @@
         var statusParam = {"compId" : companyId, "modType" : "03"};
         UIDefinationService.getStatusTypes(statusParam, function(resp) {
             $scope.statusMap = ReimbursementRegistrationFactory.constructUidMap(resp.rowData, "value", "id");
+            getClaimListRecordsByStatus();
         });
 
         $scope.assignedToSelectedUser = function() {
             if ($scope.selectedUserToAssign != null && $scope.claimsToAssign != null && $scope.claimsToAssign.length > 0) {
-                if (true) {
+                if ($scope.selectedUserToAssign.assigned < 15) {
                     var userDto = {
                         userId : $scope.selectedUserToAssign.UserId,
                         userGroupId : $scope.selectedUserToAssign.UserGroupId
@@ -82,8 +83,7 @@
         }        
 
         function init() {
-            getClaimList({compId: companyId});
-            getUsersList();
+            //getClaimList({compId: companyId});
             $scope.userAssignmentHeader = ListViewService.getUserAssignmentListViewHeader();
             $scope.result = $scope.users;
             $scope.tabsToDisplay = ClaimsListViewService.getReimbursementTabsToDisplay();
@@ -91,6 +91,7 @@
         }
 
         function getClaimList(searchParams) {
+            searchParams.Status = $scope.status;
             SpinnerService.start();
             ReimbursementUserAssignmentService.getReimbursementAssignmentDetails(searchParams, function(resp) {
                 SpinnerService.stop();
@@ -98,21 +99,37 @@
                 $scope.claimList = resp;
                 $scope.rerenderView = !$scope.rerenderView;
             }, onError)
-        }
-
-        function getUsersList() {
-            var params = {
-                compId : companyId,
-                userName : "%"
-            }
-            AutocompleteService.getUserList(params, function(resp) {
-                $scope.users = resp.rowData;
-                $scope.userssearch = $scope.users;
-            })
-        }
+        }        
 
         function onError() {
             SpinnerService.stop();
+        }
+
+        $scope.getCurrentTabRecord = function(status) {    
+            $scope.status = status;
+            getClaimList({compId : companyId});
+        }
+
+        function getClaimListRecordsByStatus() {
+            SpinnerService.start();
+            var promises = {};
+            promises['newRequest'] = ReimbursementUserAssignmentService.getReimbursementAssignmentDetails({compId : companyId, Status : ""}).$promise;
+            promises['Assigned'] = ReimbursementUserAssignmentService.getReimbursementAssignmentDetails({compId : companyId, Status : $scope.statusMap['Assigned']}).$promise;
+            promises['Approved'] = ReimbursementUserAssignmentService.getReimbursementAssignmentDetails({compId : companyId, Status : $scope.statusMap['Approved']}).$promise;
+            $q.all(promises).then((records) => {
+                SpinnerService.stop();
+                var claimRecords = {};
+                claimRecords['newRequest'] = records['newRequest'];
+                claimRecords['Assigned'] = records['Assigned'];
+                claimRecords['Approved'] = records['Approved'];
+                $scope.recordTotal = claimRecords['newRequest'].length;
+                $scope.claimList = claimRecords['newRequest'];
+                $scope.rerenderView = !$scope.rerenderView;
+                console.log("claimRecords :: ", claimRecords);
+            }).catch((err) => {
+                SpinnerService.stop();
+                alert("Error");
+            })
         }
         
         init();

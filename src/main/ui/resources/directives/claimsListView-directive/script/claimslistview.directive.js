@@ -3,7 +3,7 @@
 
     angular
         .module("claims")
-            .directive("claimsListView", function($rootScope, $filter, UIDefinationService, ReimbursementRegistrationFactory, ReimbursementProcessingService, ClaimsListViewService, companyId, $q) {
+            .directive("claimsListView", function($rootScope, $filter, UIDefinationService, ReimbursementRegistrationFactory, ReimbursementUserAssignmentService, ClaimsListViewService, companyId, $q, SpinnerService) {
                 return {
                     restrict: 'E',
                     templateUrl: 'resources/directives/claimsListView-directive/view/claimslistview.directive.html',
@@ -14,7 +14,8 @@
                         navigateTo: '@',
                         rerenderView: '=',
                         searchBy: '=',
-                        modelDir:'='
+                        modelDir:'=',
+                        onTabChange: '&'
                     },
                     link: function(scope, element, attrs) {
                         
@@ -34,6 +35,9 @@
                             scope.encounterTypeMap = ReimbursementRegistrationFactory.constructUidMap(uidTypes['encounterTypes'].rowData, "id", "value");
                             scope.paymentMap = ReimbursementRegistrationFactory.constructUidMap(uidTypes['paymentTypes'].rowData, "id", "value");
                             scope.statusMap = ReimbursementRegistrationFactory.constructUidMap(uidTypes['statusTypes'].rowData, "id", "value");
+                            scope.statusValueMap = ReimbursementRegistrationFactory.constructUidMap(uidTypes['statusTypes'].rowData, "value", "id");
+                        }).catch((err) => {
+                            alert("Error");
                         })                                             
 
                         function init() {
@@ -56,34 +60,59 @@
                             scope.selectAll = false;
                             scope.currentTabIndex = tabIndex;
                             scope.currentTab = tabName;
-                            switch(tabName) {
-                                case 'Approved':
-                                    scope.filterByStatus = 'Approved';
-                                    scope.claimsRecords = angular.copy($filter('filter')(scope.allClaimRecords, {status: 'Approved'}));
-                                break;
-                                case 'InProgress':
-                                    scope.filterByStatus = 'InProgress';
-                                    scope.claimsRecords = angular.copy($filter('filter')(scope.allClaimRecords, {status: 'InProgress'}));
-                                break;
-                                case 'Rejected':
-                                    scope.filterByStatus = 'Rejected';
-                                    scope.claimsRecords = angular.copy($filter('filter')(scope.allClaimRecords, {status: 'Rejected'}));
-                                break;
-                                case 'Waitingforapproval':
-                                    scope.filterByStatus = 'Waitingforapproval';
-                                    scope.claimsRecords = angular.copy($filter('filter')(scope.allClaimRecords, {status: 'Waitingforapproval'}));
-                                break;
-                                case 'Assigned':
-                                    scope.filterByStatus = 'ASN';
-                                    scope.claimsRecords = angular.copy($filter('filter')(scope.allClaimRecords, {status: 'ASN'}));
-                                break;
-                                case 'newRequest':
-                                    scope.filterByStatus = 'CC';
-                                    scope.claimsRecords = angular.copy($filter('filter')(scope.allClaimRecords, {status: 'CC'}));
-                                break;
-                                default:
-                                    console.log('no tabs available...');
-                            }
+                            if(scope.statusValueMap) {
+                                scope.filterByStatus = scope.statusValueMap[tabName] ? scope.statusValueMap[tabName] : 'CC';
+                            }                                
+                            var status = tabName == 'newRequest' ? "" : scope.statusValueMap[tabName];
+                            scope.onTabChange({'status' : status});
+                            // switch(tabName) {
+                            //     case 'Approved':
+                            //         scope.filterByStatus = 'Approved';
+                            //         scope.claimsRecords = angular.copy($filter('filter')(scope.allClaimRecords, {status: 'Approved'}));
+                            //     break;
+                            //     case 'InProgress':
+                            //         scope.filterByStatus = 'InProgress';
+                            //         scope.claimsRecords = angular.copy($filter('filter')(scope.allClaimRecords, {status: 'InProgress'}));
+                            //     break;
+                            //     case 'Rejected':
+                            //         scope.filterByStatus = 'Rejected';
+                            //         scope.claimsRecords = angular.copy($filter('filter')(scope.allClaimRecords, {status: 'Rejected'}));
+                            //     break;
+                            //     case 'Waitingforapproval':
+                            //         scope.filterByStatus = 'Waitingforapproval';
+                            //         scope.claimsRecords = angular.copy($filter('filter')(scope.allClaimRecords, {status: 'Waitingforapproval'}));
+                            //     break;
+                            //     case 'Assigned':
+                            //         scope.filterByStatus = 'ASN';
+                            //         getClaimList("ASN");
+                            //         //scope.claimsRecords = angular.copy($filter('filter')(scope.allClaimRecords, {status: 'ASN'}));
+                            //     break;
+                            //     case 'newRequest':
+                            //         scope.filterByStatus = 'CC';
+                            //         getClaimList("");
+                            //         //scope.claimsRecords = angular.copy($filter('filter')(scope.allClaimRecords, {status: 'CC'}));
+                            //     break;
+                            //     default:
+                            //         console.log('no tabs available...');
+                            // }
+                        }
+
+                        function getClaimList(status) {
+                            var searchParams = {};
+                            searchParams.compId = companyId;
+                            searchParams.Status = status;
+                            SpinnerService.start();
+                            ReimbursementUserAssignmentService.getReimbursementAssignmentDetails(searchParams, function(resp) {
+                                scope.claimsRecords = resp;
+                                SpinnerService.stop();
+                                // $scope.recordTotal = resp.length;
+                                // $scope.claimList = resp;
+                                // $scope.rerenderView = !$scope.rerenderView;
+                            }, onError)
+                        }        
+                
+                        function onError() {
+                            SpinnerService.stop();
                         }
 
                         scope.selectAllClaims = function() {
@@ -122,8 +151,9 @@
                         }
 
                         scope.$watch('rerenderView', (newValue, oldValue, scope) => {
-                            scope.changeTab(scope.currentTab, scope.currentTabIndex);
+                            //scope.changeTab(scope.currentTab, scope.currentTabIndex);
                             setTabsCount(scope.currentTabIndex);
+                            scope.claimsRecords = scope.allClaimRecords;
                         });
 
                         scope.$watch('filteredClaims', (newValue, oldValue, scope) => {

@@ -21,6 +21,16 @@
             'getReimbursementProcessingDetails' : {
                 method: 'POST',
                 url: resourceUrl + '/getReimbursementProcessingDetails',
+                isArray : false,
+                transformResponse: function(data) {
+                    return {
+                        data : data
+                    }
+                }
+            },
+            'approveProcessingServiceLineItem' : {
+                method: 'POST',
+                url: resourceUrl + '/approveProcessingServiceLineItem/'+ companyId,
                 isArray : false
             }
         })

@@ -22,7 +22,8 @@
                 return [
                     //{'label': 'Registered', 'tab' : 'Registered', 'state': 'REG'},
                     {'label': 'New Request', 'tab' : 'newRequest', 'state': 'CC'},
-                    {'label': 'Assigned', 'tab' : 'Assigned', 'state': 'ASN'}
+                    {'label': 'Assigned', 'tab' : 'Assigned', 'state': 'ASN'},
+                    {'label': 'Approved', 'tab' : 'Approved', 'state': 'APP'}
                 ];
             }
 

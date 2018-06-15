@@ -5,19 +5,10 @@
         .module('claims')
             .controller('ReimbursmentProcessingController', ReimbursmentProcessingController);
 
-        ReimbursmentProcessingController.$inject = ['$scope', '$rootScope', 'ReimbursementProcessingService', 'ngNotify', '$timeout', 'AutocompleteService','UIDefinationService', '$filter', 'reimbursementClaimInfo', 'ReimbursementRegistrationFactory', 'ReimbursementProcessingFactory', 'SpinnerService', 'companyId', '$q', '$window', 'dateFormat'];
+        ReimbursmentProcessingController.$inject = ['$scope', '$rootScope', 'ReimbursementProcessingService', 'ngNotify', '$timeout', 'AutocompleteService','UIDefinationService', '$filter', 'ReimbursementRegistrationFactory', 'ReimbursementProcessingFactory', 'SpinnerService', 'companyId', '$q', '$window', 'dateFormat', 'ClaimsListViewService'];
 
-        function ReimbursmentProcessingController($scope, $rootScope, ReimbursementProcessingService, ngNotify, $timeout, AutocompleteService, UIDefinationService, $filter, reimbursementClaimInfo, ReimbursementRegistrationFactory, ReimbursementProcessingFactory, SpinnerService, companyId, $q, $window, dateFormat) {
-            SpinnerService.stop();
+        function ReimbursmentProcessingController($scope, $rootScope, ReimbursementProcessingService, ngNotify, $timeout, AutocompleteService, UIDefinationService, $filter, ReimbursementRegistrationFactory, ReimbursementProcessingFactory, SpinnerService, companyId, $q, $window, dateFormat, ClaimsListViewService) {
             $scope.dateFormat = dateFormat;
-            $scope.selectedClaim = reimbursementClaimInfo;
-            $scope.selectedClaim.requestNumber = 1;
-            $scope.selectedClaim.age = calculateAge();
-            $scope.search = {};
-            $scope.treatmentCodes = [];
-            $scope.rejectionCode = [];
-            $scope.createNew = true;
-            $scope.isBaseCurrency = false;
             $scope.diagnosis = {};
             var currencyFieldsMap = {
                 "requestedAmountBC" : "requestedAmount",
@@ -49,6 +40,8 @@
                 $scope.encounterTypeMap = ReimbursementRegistrationFactory.constructUidMap(uidTypes['encounterType'].rowData, "id", "value");
                 $scope.statusReasonMap = ReimbursementRegistrationFactory.constructUidMap(uidTypes['statusReason'].rowData, "value", "id");
                 $scope.statusMap = ReimbursementRegistrationFactory.constructUidMap(uidTypes['statusTypes'].rowData, "value", "id");
+            }).catch((err) => {
+                alert("Error");
             })
             AutocompleteService.getUniversalCurrencyDetails({'compId' : companyId}, function(resp) {
                 $scope.curencyList = resp.rowData;
@@ -58,12 +51,58 @@
                 $scope.eventCountries = resp;
             })
             function init() {
+                $scope.isInit = true;
                 $scope.isInlineEdit = false;
                 $scope.moduleName = 'reimbursement';
-                $scope.currencyType = '1';
                 $scope.claim = ReimbursementProcessingFactory.createNewReimbursmentObject();
-                // $scope.claimReqList = ReimbursementProcessingFactory.getClaimsRequest();
+                $scope.selectedClaim.requestNumber = $scope.selectedClaim.requestNumber ? $scope.selectedClaim.requestNumber : 1;
+                $scope.selectedClaim.age = calculateAge();
+                $scope.search = {};
+                $scope.treatmentCodes = [];
+                $scope.rejectionCode = [];
+                if($scope.isEditMode) {
+                    ReimbursementProcessingFactory.setPrevProcessingClaim(angular.copy($scope.selectedClaim));
+                    var diagObj = constructDiagToCompare($scope.selectedClaim.primaryDiagnosis.diagId, $scope.selectedClaim.secondaryDiagnosis.diagId);
+                    ReimbursementProcessingFactory.setPrevDiagnosis(angular.copy(diagObj));
+                    getDiagnosisCode('primaryDiag', 'primaryDiagnosis');
+                    getDiagnosisCode('secondaryDiag', 'secondaryDiagnosis');
+                }
+                $scope.isBaseCurrency = false;                
+                var data = $scope.selectedClaim.processingServiceDTOs ? $scope.selectedClaim.processingServiceDTOs : [];
                 initGrid();
+                $scope.gridOptions['data'] = data;
+            }
+
+            function getDiagnosisCode(field, dtoField) {
+                var searchObj = constructAutoCompleteSearchparams($scope.selectedClaim[dtoField].diagId, 'diagnosisCode')
+                AutocompleteService.getDiagnosisCodes(searchObj, function(resp) {
+                    $scope.diagnosis[field] = resp.rowData[0];
+                })                    
+            }            
+
+            var data = ClaimsListViewService.getClaim();
+            var params = {"id" : data.id};
+            SpinnerService.start();
+            ReimbursementProcessingService.getReimbursementProcessingDetails(params, function(resp) {
+                if(resp.data) {
+                    SpinnerService.stop();
+                    $scope.selectedClaim = JSON.parse(resp.data);
+                    $scope.createNew = false;
+                    $scope.isEditMode = true;
+                    init();
+                } else {
+                    ReimbursementProcessingService.getReimbursementInitProcessingDetails(data, function(initResp) {
+                        SpinnerService.stop();
+                        $scope.selectedClaim = initResp;
+                        $scope.createNew = true;
+                        init();                       
+                    }, onerror)
+                }
+                
+            }, onerror)
+            function onerror() {
+                console.log("Error");
+                SpinnerService.stop();
             }
 
             $scope.createNewClaim = function() {
@@ -102,9 +141,22 @@
 
             $scope.approveClaim = function(claim) {
                 if($scope.gridOptions.data.length) {
-                    ngNotify.set('Claim Approved Succesfully.', 'success');
+                    var claimToApprove = angular.copy($scope.selectedClaim);
+                    var currentClaim = angular.copy(claim);
+                    currentClaim.claimStatus = $scope.statusMap['Approved'];
+                    currentClaim.approvedAmount = currentClaim.suggestedAmout;
+                    currentClaim.approvedAmountBC = currentClaim.suggestedAmoutBC;
+                    claimToApprove.processingServiceDTOs = [currentClaim];
+                    SpinnerService.start();
+                    ReimbursementProcessingService.approveProcessingServiceLineItem(claimToApprove, function(resp) {
+                        SpinnerService.stop();
+                        ngNotify.set('Claim Approved Succesfully.', 'success');
+                        var claim = angular.extend(currentClaim, resp.processingServiceDTOs[0]);
+                        claim.dml="E";
+                        processClaim(claim);
+                    }, onerror) 
                 } else {
-                    swal("", "No Records to Approve", "warning");
+                   swal("", "No Records to Approve", "warning");
                 }
             }
     
@@ -130,8 +182,9 @@
                 var processingDto = mapClaimDTO();
                 SpinnerService.start();
                 ReimbursementProcessingService.saveProcessingDetails(processingDto, function(resp) {
+                    var diagObj = constructDiagToCompare($scope.diagnosis.primaryDiag.DiagnosisCode, $scope.diagnosis.secondaryDiag.DiagnosisCode);
                     ReimbursementProcessingFactory.setPrevProcessingClaim(angular.copy(resp));
-                    ReimbursementProcessingFactory.setPrevDiagnosis(angular.copy($scope.diagnosis));
+                    ReimbursementProcessingFactory.setPrevDiagnosis(angular.copy(diagObj));
                     $scope.claim = angular.extend($scope.claim, resp.processingServiceDTOs[0]);
                     $scope.selectedClaim = angular.extend($scope.selectedClaim, resp);
                     processClaim($scope.claim);
@@ -149,25 +202,26 @@
 
             function mapClaimDTO(claimToSave) {
                 var claimToSave = angular.copy($scope.selectedClaim);
-                compareTableToUpdate(claimToSave);
+                var currentClaim = angular.copy($scope.claim);
+                compareTableToUpdate(claimToSave, currentClaim);
                 $scope.claim.currencyId = claimToSave.baseCurrency;
                 $scope.claim.statusDate = new Date();
                 claimToSave.claimStatusReason = $scope.statusReasonMap["WIP"];
-                $scope.claim.internalRejectionCode = $scope.claim.rejectionCode ? $scope.claim.rejectionCode.RejectionCode : undefined;
-                $scope.claim.serviceType = $scope.claim.treatmentCode.ServiceTypeId;
-                $scope.claim.serviceId = $scope.claim.treatmentCode.ServiceCode;
-                $scope.claim.benefitId = $scope.claim.treatmentCode.BenefitId;
-                $scope.claim.subBenefitId = $scope.claim.treatmentCode.SubBenefitId;
-                $scope.claim.currencyType = $scope.selectedCurrency && ($scope.selectedCurrency != claimToSave.baseCurrency) ? 'F' : 'L';
-                $scope.claim.rejectedAmount = $scope.claim.claimStatus == 'A' ?  ($scope.claim.requestedAmount - $scope.claim.suggestedAmout) : 0;
-                $scope.claim.approvedAmount = $scope.claim.claimStatus == 'A' ?  $scope.claim.suggestedAmout : 0;
+                currentClaim.internalRejectionCode = $scope.claim.rejectionCode ? $scope.claim.rejectionCode.RejectionCode : undefined;
+                currentClaim.serviceType = $scope.claim.treatmentCode.ServiceTypeId;
+                currentClaim.serviceId = $scope.claim.treatmentCode.ServiceCode;
+                currentClaim.benefitId = $scope.claim.treatmentCode.BenefitId;
+                currentClaim.subBenefitId = $scope.claim.treatmentCode.SubBenefitId;
+                currentClaim.currencyType = $scope.selectedCurrency && ($scope.selectedCurrency != claimToSave.baseCurrency) ? 'F' : 'L';
+                currentClaim.rejectedAmount = $scope.claim.claimStatus == 'A' ?  ($scope.claim.requestedAmount - $scope.claim.suggestedAmout) : 0;
+                currentClaim.approvedAmount = $scope.claim.claimStatus == 'A' ?  $scope.claim.suggestedAmout : 0;
                 var exchangeRate = $scope.selectedCurrency ? $scope.exchangeRateMap[$scope.selectedCurrency] : $scope.exchangeRateMap[claimToSave.baseCurrency];
                 ReimbursementProcessingFactory.constructClaimBaseCurrencyFields(currencyFieldsMap, exchangeRate, $scope.claim);
-                claimToSave.processingServiceDTOs = [angular.copy($scope.claim)];
+                claimToSave.processingServiceDTOs = [angular.copy(currentClaim)];
                 return claimToSave;
             }            
 
-            function compareTableToUpdate(claimToSave) {
+            function compareTableToUpdate(claimToSave, currentClaim) {
                 var prevProcessingClaim = angular.copy(ReimbursementProcessingFactory.getPrevProcessingClaim());
                 var prevDiagnosis = angular.copy(ReimbursementProcessingFactory.getPrevDiagnosis());
                 if(prevProcessingClaim) {
@@ -175,7 +229,11 @@
                     claimToSave.isChanged = !angular.equals(claimToSave, prevProcessingClaim);
                 }    
                 if($scope.claim.dml == 'E') {
-                    $scope.claim.isChanged = !angular.equals($scope.claim, $scope.prevClaim);
+                    var prevClaim = angular.copy($scope.prevClaim);
+                    deleteServiceAndRejectionCode(currentClaim, prevClaim);
+                    var treatmentCodeChanged = !angular.equals($scope.claim.treatmentCode.serviceId, $scope.prevClaim.treatmentCode.serviceId);
+                    var rejectionCodeChanged = $scope.claim.rejectionCode ? !angular.equals($scope.claim.rejectionCode.RejectionCode, $scope.prevClaim.rejectionCode.RejectionCode) : false;
+                    currentClaim.isChanged = (treatmentCodeChanged || rejectionCodeChanged) ? true : !angular.equals(currentClaim, prevClaim);
                 }
                 claimToSave.primaryDiagnosis = {
                     'diagId' : $scope.diagnosis.primaryDiag.DiagnosisCode,
@@ -186,11 +244,18 @@
                     'diagType' : 'Secondary'
                 }
                 if(prevDiagnosis) {
-                    claimToSave.primaryDiagnosis.isChanged = !angular.equals($scope.diagnosis.primaryDiag, prevDiagnosis.primaryDiag);
-                    claimToSave.secondaryDiagnosis.isChanged = !angular.equals($scope.diagnosis.secondaryDiag, prevDiagnosis.secondaryDiag);    
+                    claimToSave.primaryDiagnosis.isChanged = !angular.equals($scope.diagnosis.primaryDiag.DiagnosisCode, prevDiagnosis.primaryDiag);
+                    claimToSave.secondaryDiagnosis.isChanged = !angular.equals($scope.diagnosis.secondaryDiag.DiagnosisCode, prevDiagnosis.secondaryDiag);    
                 };
             }
 
+            function deleteServiceAndRejectionCode(currentClaim, prevClaim) {
+                delete currentClaim.treatmentCode;
+                delete currentClaim.RejectionCode;
+                delete prevClaim.treatmentCode;
+                delete prevClaim.RejectionCode;
+            }
+            
             function deleteDiagAndServiceDto(claimToSave, prevProcessingClaim) {
                 delete claimToSave.primaryDiagnosis;
                 delete claimToSave.secondaryDiagnosis;
@@ -201,21 +266,11 @@
             }
 
             $scope.editClaim = function(entity) {
+                entity.treatmentCode = {'displayName' : entity.treatmentCodeDisplayName};
                 $scope.claim = angular.copy(entity);
                 $scope.claim['dml'] = 'E';
                 $scope.createNew = true;
                 $scope.prevClaim = angular.copy($scope.claim);
-                // var params = {
-                //     "claimNumber" : $scope.selectedClaim.claimNumber.toString(),
-                //     "requestNumber" : $scope.selectedClaim.requestNumber.toString(),
-                //     "id" : entity.reimbursementProcessId.toString()
-                // };
-                // ReimbursementProcessingService.getReimbursementProcessingDetails(params, function(resp) {
-                //     console.log("resp ::", resp);
-                // }, onerror)
-                // function onerror(err) {
-                //     console.log("error occured");
-                // }
             }
 
             $scope.onCancel = function() {
@@ -240,10 +295,20 @@
 
             $scope.submitForApproval = function(claim) {
                 if($scope.gridOptions.data.length) {
-                    if (validateInformationSection()) {
+                    //if (validateInformationSection()) {
+                        var datas = angular.copy($scope.gridOptions.data);
+                        var processingServiceDTOs = datas.filter((item) => {
+                            if(item.isChecked) {
+                                item.approvedAmount = item.suggestedAmout;
+                                item.approvedAmountBC = item.suggestedAmoutBC;
+                                item.claimStatus = $scope.statusMap['Approved'];
+                                return item;
+                            }
+                        })
+                        console.log('processingServiceDTOs ::', processingServiceDTOs);
                         $scope.infoToggle = false;
                         ngNotify.set('Claim Approved Succesfully.', 'success');
-                    }
+                    //}
                 } else {
                     swal("", "No Records to Approve", "warning");
                 }
@@ -359,7 +424,7 @@
 
             $scope.toggleInfo = function() {
                 $scope.infoToggle = !$scope.infoToggle;
-                $scope.accordionToggle.isProviderDetailOpen = $scope.accordionToggle.isProviderDetailOpen ? $scope.accordionToggle.isProviderDetailOpen : $scope.processingForm.$valid;
+                $scope.accordionToggle.isProviderDetailOpen = $scope.accordionToggle.isProviderDetailOpen ? $scope.accordionToggle.isProviderDetailOpen : $scope.infoForm.$valid;
                 $scope.isCloseOthers = true;
             }
 
@@ -395,7 +460,7 @@
                 var path = 'resources/directives/grid-directive/view/';
                 $scope.gridOptions.columnDefs = [
                     {name:'action', displayName:'', headerCellTemplate: (path + 'headerCheckboxTemplate.html'), cellTemplate: path + 'staticTemplate.html',width:40, pinnedLeft:true, enableColumnMenu: false},
-                    {name:'treatmentCode.displayName', displayName:'Treatment Code/SubBenefit',width:200},
+                    {name:'treatmentCodeDisplayName', displayName:'Treatment Code/SubBenefit',width:200},
                     {name:'treatmentFromDate', displayName:'Service From', cellTemplate: path + 'dateTemplate.html',width:120},
                     {name:'treatmentToDate', displayName:'Service To', cellTemplate: path + 'dateTemplate.html',width:110},
                     {name:'noOfTreamentDays', displayName:'Days', width:90},
@@ -440,6 +505,13 @@
             function calculateAge() {
                 return $scope.selectedClaim.memberDOB ? (new Date().getFullYear() - $scope.selectedClaim.memberDOB[0]) : null;
             }
-            init();
+
+            function constructDiagToCompare(primaryDiagId, secondaryDiagId) {
+                var diagnosis = {
+                    'primaryDiag' : primaryDiagId,
+                    'secondaryDiag' : secondaryDiagId
+                }
+                return diagnosis;
+            }
         }
 })()

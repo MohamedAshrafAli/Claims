@@ -1985,6 +1985,7 @@ md-select[disabled] .md-select-value,
     padding-top: 2px;
     border-radius: 18px;
     border: 2px solid black;
+    cursor: pointer;
 }
 button:disabled {
     cursor: not-allowed;

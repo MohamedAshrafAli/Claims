@@ -37,10 +37,6 @@
                             keyboard :false,
                             controller : function($scope, $uibModalInstance) {
                                 $scope.userAssignmentHeader = ListViewService.getUserAssignmentListViewHeader();
-                                var params = {compId : companyId, userName : "%"};
-                                AutocompleteService.getUserList(params, function(resp) {
-                                    $scope.users = resp.rowData;
-                                })
                                 $scope.getAutoCompleteList = function(userSearchText) {
                                     if(userSearchText.length < 3) return [];
                                     var params = {compId : companyId, userName : (userSearchText + "%")};

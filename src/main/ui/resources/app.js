@@ -110,12 +110,7 @@ angular
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('processing');
                         return $translate.refresh();
-                    }],
-                    reimbursementClaimInfo : function(SpinnerService, ClaimsListViewService, ReimbursementProcessingService) {
-                        SpinnerService.start();
-                        var data = ClaimsListViewService.getClaim();
-                        return ReimbursementProcessingService.getReimbursementInitProcessingDetails(data).$promise;
-                    }
+                    }]
                 }
             })
 
