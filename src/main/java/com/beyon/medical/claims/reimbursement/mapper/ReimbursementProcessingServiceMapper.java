@@ -52,6 +52,7 @@ public class ReimbursementProcessingServiceMapper {
 		reimbursementProcessingServiceDTO.setApprovedBy(row.getString("Approvedby"));
 		reimbursementProcessingServiceDTO.setApprovedDate(DateUtil.convertSQlDateToLocalDate(row.getDate("Approveddate")));
 		reimbursementProcessingServiceDTO.setCurrencyType(row.getString("Currencytype"));
+		reimbursementProcessingServiceDTO.setTreatmentCodeDisplayName((row.getString("Serviceid")) + " / " + (row.getString("Subbenefitid")));
 		
 		return reimbursementProcessingServiceDTO;
 	}

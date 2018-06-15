@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -70,6 +72,7 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 		List<ReimbursementAssignmentDTO> reimbursementAssignmentDetails = null;
 		try {
 			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
+
 			String strQuery = REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_DETAILS;
 			strQuery = getConstructedQuerywithCriterionForAssignment(strQuery, inputMap);
 			reimbursementAssignmentDetails = reimbursementClaimsDAO.getAssignmentListViewData(strQuery, inputMap);
@@ -121,14 +124,26 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 				}
 			}
 			strQuery = strQuery.replaceAll("<CRITERIA>", builder.toString());
-		}
+			strQuery += " order By CLF_CRD desc";
+		}		
 		return strQuery;
 	}
 
 	private String getConstructedQuerywithCriterionForAssignment(String strQuery, Map<String, Object> inputMap) {
+		StringBuilder builder = new StringBuilder("");
+		String orderByField;
+		if(StringUtils.isBlank((String) inputMap.get("Status"))) {
+			builder.append(REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_CLAIMNUMBER_EMPTY_CRITERIA + " ");
+			orderByField = "CLF_CRD desc";
+		} else {
+			strQuery = REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_BY_STATUS;
+			builder.append(" "+REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_STATUS_CRITERIA + " ");
+			orderByField = "CLC_CRD desc";
+
+		}
+
 		if (strQuery.contains("<CRITERIA>")) {
 			Iterator<String> mapIter = inputMap.keySet().iterator();
-			StringBuilder builder = new StringBuilder("");
 			while (mapIter.hasNext()) {
 				String key = (String) mapIter.next();
 				if (key.equalsIgnoreCase("claimNumber") && StringUtils.isNotBlank((String) inputMap.get(key))) {
@@ -147,6 +162,7 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 			}
 
 			strQuery = strQuery.replaceAll("<CRITERIA>", builder.toString());
+			strQuery += (" order By " + orderByField);
 		}
 		return strQuery;
 	}
@@ -314,7 +330,7 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 		}
 		return _reimbursementProcessingDTO;
 	}
-	
+
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false, rollbackFor = Exception.class)
 	public ReimbursementProcessingDTO updateProcessingDetails(String compId,
@@ -343,7 +359,22 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 			processingDTOs = reimbursementClaimsDAO.getProcessingDetails(strQuery, inputMap);
 			if (processingDTOs != null && !processingDTOs.isEmpty()) {
 				reimbursementProcessingDTO = processingDTOs.get(0);
-				processingDTOs.forEach(processingDTO -> processingServiceDTOs.addAll(processingDTO.getProcessingServiceDTOs()));
+				Map<Long, List<ReimbursementProcessingDTO>> groupById = 
+						processingDTOs.stream().collect(Collectors.groupingBy(a->a.getProcessingServiceDTOs().get(0).getReimbursementProcessId()));
+				for (Entry<Long, List<ReimbursementProcessingDTO>> entry : groupById.entrySet()) {
+					processingServiceDTOs.addAll(entry.getValue().get(0).getProcessingServiceDTOs());
+				}
+				Map<String, List<ReimbursementProcessingDTO>> groupByDiagType = 
+						processingDTOs.stream().collect(Collectors.groupingBy(ReimbursementProcessingDTO::getDiagType));
+				for (Entry<String, List<ReimbursementProcessingDTO>> entry : groupByDiagType.entrySet()) {
+					if(entry.getKey().equalsIgnoreCase("Primary")) {
+						reimbursementProcessingDTO.setPrimaryDiagnosis(entry.getValue().get(0).getPrimaryDiagnosis());
+					} else if(entry.getKey().equalsIgnoreCase("Secondary")) {
+						reimbursementProcessingDTO.setSecondaryDiagnosis(entry.getValue().get(0).getSecondaryDiagnosis());
+
+					}
+				}
+
 				reimbursementProcessingDTO.setProcessingServiceDTOs(processingServiceDTOs);
 			}
 		} catch (Exception e) {
@@ -352,7 +383,7 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 		}
 		return reimbursementProcessingDTO;
 	}
-	
+
 	private String getConstructedQuerywithCriterionForProcessing(String strQuery, Map<String, Object> inputMap) {
 		if (strQuery.contains("<CRITERIA>")) {
 			Iterator<String> mapIter = inputMap.keySet().iterator();
@@ -363,15 +394,17 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 					builder.append(REIMBURSEMENT_QUERIES_PROCESSING_DETAILS_CLAIMNUMBER_CRITERIA + " ");
 				} else if (key.equalsIgnoreCase("requestNumber") && StringUtils.isNotBlank((String) inputMap.get(key))) {
 					builder.append(REIMBURSEMENT_QUERIES_PROCESSING_DETAILS_REQUESTNUMBER_CRITERIA + " ");
-				} else if (key.equalsIgnoreCase("id") && StringUtils.isNotBlank((String) inputMap.get(key))) {
+				} else if (key.equalsIgnoreCase("id") & inputMap.get(key) != null) {
 					builder.append(REIMBURSEMENT_QUERIES_PROCESSING_DETAILS_ID_CRITERIA + " ");
 				}
 			}
 			strQuery = strQuery.replaceAll("<CRITERIA>", builder.toString());
+			strQuery += " order by CLMS_UPD desc";
 		}
+		
 		return strQuery;
 	}
-	
+
 	public 	ReimbursementProcessingDTO getReimbursementInitProcessingDetails(ReimbursementAssignmentDTO reimbursementAssignmentDTO) throws DAOException {
 		ReimbursementProcessingDTO reimbursementProcessingDTO =  new ReimbursementProcessingDTO();
 		try {
@@ -383,6 +416,21 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
 		}
 		return reimbursementProcessingDTO;
+	}
+	
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false, rollbackFor = Exception.class)
+	public ReimbursementProcessingDTO approveServiceLineItem(String compId,
+			ReimbursementProcessingDTO reimbursementProcessingDTO) throws DAOException {
+		ReimbursementProcessingDTO _reimbursementProcessingDTO = null;
+		try {
+			_reimbursementProcessingDTO = reimbursementClaimsDAO.approveServiceLineItem(compId,
+					reimbursementProcessingDTO);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return _reimbursementProcessingDTO;
 	}
 
 }

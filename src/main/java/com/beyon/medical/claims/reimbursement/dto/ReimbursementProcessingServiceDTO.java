@@ -44,6 +44,7 @@ public class ReimbursementProcessingServiceDTO {
 	private LocalDate approvedDate;
 	private String currencyType;
 	private boolean isChanged;
+	private String treatmentCodeDisplayName;
 	
 	
 	public Long getReimbursementProcessId() {
@@ -287,6 +288,12 @@ public class ReimbursementProcessingServiceDTO {
 	}
 	public void setChanged(boolean isChanged) {
 		this.isChanged = isChanged;
+	}
+	public String getTreatmentCodeDisplayName() {
+		return this.serviceId +" / "+ this.subBenefitId;
+	}
+	public void setTreatmentCodeDisplayName(String treatmentCodeDisplayName) {
+		this.treatmentCodeDisplayName = treatmentCodeDisplayName;
 	}	
 	
 }

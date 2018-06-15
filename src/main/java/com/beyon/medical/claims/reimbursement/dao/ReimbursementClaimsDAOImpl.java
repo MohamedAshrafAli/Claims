@@ -51,6 +51,7 @@ import java.util.Optional;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -792,6 +793,8 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		insertCTDSLEVELCP(compId, reimbursementAssignmentDTOs, jdbcTemplate);
 		List<ReimbursementAssignmentDTO> results = insertCTDSLEVELSL(compId, reimbursementAssignmentDTOs, jdbcTemplate);
 		//insertCHDSLEVELSL(compId, results, jdbcTemplate);
+		updateCTDSLEVELFNOL(results.get(0).getId(), results.get(0).getClaimNumber(), jdbcTemplate);
+
 		return reimbursementAssignmentDTOs;
 	}
 	
@@ -1069,6 +1072,19 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		return true;
 	}
 	
+	
+	private boolean updateCTDSLEVELFNOL(Long sgsId,String claimNumber,JdbcTemplate jdbcTemplate) throws DAOException {
+
+		jdbcTemplate.update(REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_FNOL_FOR_CLAIM_NUMBER,
+				new Object[] {  
+						claimNumber,
+						sgsId
+						
+		});
+
+		return true;
+	}
+	
 	private boolean updateCTDSLEVELMDIAG(String compId,Long sgsId,DiagnosisDTO diagnosisDTO, JdbcTemplate jdbcTemplate) throws DAOException {
 		java.sql.Date updatedDate = new java.sql.Date(new Date().getTime());		
 		jdbcTemplate.update(REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_MDIAG,
@@ -1131,22 +1147,24 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 						reimbursementProcessingServiceDTO.getSubBenefitId(),
 						reimbursementProcessingServiceDTO.getSubBenefitId(),						
 						reimbursementProcessingServiceDTO.getEstType(), 
-						createdDate, 
+						createdDate,
+						reimbursementProcessingServiceDTO.getApprovedAmount(),
 						reimbursementProcessingServiceDTO.getApprovedAmount(), 
 						reimbursementProcessingDTO.getCustomerId(),
 						reimbursementProcessingServiceDTO.getCreatedBy(), 
 						reimbursementProcessingServiceDTO.getApprovedAmount(),
 						null,
 						"P",
-						reimbursementProcessingDTO.getRiskCurrentExchangeRate(),
+						reimbursementProcessingServiceDTO.getApprovedAmount(),
 						reimbursementProcessingDTO.getRiskCurrencyId(),
+						reimbursementProcessingDTO.getRiskCurrentExchangeRate(),
 						reimbursementProcessingServiceDTO.getApprovedAmountBC(),
 						reimbursementProcessingServiceDTO.getApprovedAmountBC(),
-						"1",
 						reimbursementProcessingServiceDTO.getApprovedBy(),
 						approvedDate,
-						reimbursementProcessingServiceDTO.getUpdatedBy(),
 						createdDate,
+						reimbursementProcessingServiceDTO.getUpdatedBy(),
+						"1",
 						compId						
 		});
 
@@ -1301,16 +1319,18 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		boolean isSaved = false;
 		JdbcTemplate jdbcTemplate = DAOFactory.getJdbcTemplate("gm");
 		ReimbursementProcessingServiceDTO reimbursementProcessingServiceDTO = reimbursementProcessingDTO.getProcessingServiceDTOs().get(0);
-		ReimbursementEstimateDTO reimbursementEstimateDTO = jdbcTemplate.queryForObject(REIMBURSEMENT_QUERIES_CHECK_EXISTENCE_CTDS_LEVEL_E, 
+		ReimbursementEstimateDTO reimbursementEstimateDTO = jdbcTemplate.query(REIMBURSEMENT_QUERIES_CHECK_EXISTENCE_CTDS_LEVEL_E, 
 				new Object[] {
 						reimbursementProcessingServiceDTO.getClaimsRegistrationId(),
 						reimbursementProcessingDTO.getRiskId(),
 						reimbursementProcessingServiceDTO.getBenefitId(),
 						reimbursementProcessingServiceDTO.getSubBenefitId()
-				}, new RowMapper<ReimbursementEstimateDTO>() {
+				}, new ResultSetExtractor<ReimbursementEstimateDTO>() {
 					@Override
-					public ReimbursementEstimateDTO mapRow(ResultSet row, int count) throws SQLException {
-						return ReimbursementEstimationMapper.getReimbursementEstimateDTO(row);
+					public ReimbursementEstimateDTO extractData(ResultSet row) throws SQLException {
+						if (row.next())
+						return ReimbursementEstimationMapper.getReimbursementEstimateDTO(row);						
+						else return null;
 					}
 				});
 		if (reimbursementEstimateDTO == null) {

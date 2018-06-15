@@ -47,6 +47,8 @@
             $scope.sourceMap = ReimbursementRegistrationFactory.constructUidMap($scope.sourceTypes, "value", "id");
             //$scope.status = uidTypes['statusTypes'].rowData;
             //$scope.statusMap = ReimbursementRegistrationFactory.constructUidMap($scope.status, "value", "id");
+        }).catch((err) => {
+            alert("Error");
         });        
         if($scope.regDetail.id && $scope.regDetail.registrationFileDTOs.length) {
             var promises = [];
@@ -65,6 +67,8 @@
                 $scope.toggleInfo();
                 $scope.fileInfos = $scope.documents = $scope.regDetail.registrationFileDTOs;
                 $scope.uploaded = true;                
+            }).catch((err) => {
+                alert("Error");
             });
         }
 

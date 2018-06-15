@@ -21,6 +21,7 @@
                     <a class="float-left fa fa-file-pdf-o" href="resources/img/dis.png" download=""></a>
                 </span>
                 <span ng-if="header.fieldName == 'assigned'">
+                    <span class="fa fa-spinner fa-spin" ng-hide="request[header.fieldName] != null"></span>
                     <strong ng-class="{'text-success': request[header.fieldName] < 15,'text-danger': request[header.fieldName] > 14}" class="text-success">{{request[header.fieldName]}}</strong>
                 </span>
                 <div ng-if="header.isCheckBox" class="custom-control custom-radio" ng-click="$ctrl.getSelectedData(request);">

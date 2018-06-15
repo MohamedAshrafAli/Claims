@@ -517,7 +517,7 @@
                             </div>    
                         </div>
                     </div>                
-                    <grid-wrapper ui-Grid-Options="gridOptions" inline-Edit="isInlineEdit" module="moduleName" on-Grid-Action="gridAction(info)" 
+                    <grid-wrapper ng-if="isInit" ui-Grid-Options="gridOptions" inline-Edit="isInlineEdit" module="moduleName" on-Grid-Action="gridAction(info)" 
                     curency-list="curencyList" curency-list="curencyList" exchange-ratemap="exchangeRateMap" base-currency="selectedClaim.baseCurrency"></grid-wrapper>
                 </div>
             </div>
