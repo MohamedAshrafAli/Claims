@@ -75,6 +75,7 @@ import com.beyon.medical.claims.reimbursement.mapper.ReimbAssignmentMapper;
 import com.beyon.medical.claims.reimbursement.mapper.ReimbProcessingMapper;
 import com.beyon.medical.claims.reimbursement.mapper.ReimbRegistrationMapper;
 import com.beyon.medical.claims.reimbursement.mapper.ReimbursementEstimationMapper;
+import com.beyon.medical.claims.reimbursement.mapper.ReimbursementProcessingServiceMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Repository("reimbursementClaimsDAOImpl")
@@ -1239,6 +1240,7 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		insertCTDSLEVELMC(compId, processingDTO, jdbcTemplate);
 		insertCTDSLEVELMDIAG(compId, processingDTO.getId(), processingDTO.getPrimaryDiagnosis(), jdbcTemplate);
 		insertCTDSLEVELMDIAG(compId, processingDTO.getId(), processingDTO.getSecondaryDiagnosis(), jdbcTemplate);
+		updateStatusCTDSLEVELC(compId, processingDTO.getId(),"WIP", jdbcTemplate);
 		return processingDTO;
 	}
 	
@@ -1260,6 +1262,31 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 			@Override
 			public ReimbursementProcessingDTO mapRow(ResultSet row, int count) throws SQLException {
 				return ReimbProcessingMapper.getReimbursementProcessingDTO(row);
+			}
+		});
+	}
+	
+	public List<ReimbursementProcessingDTO> getProcessingDetailsForAssignment(String query ,Map<String,Object> inputMap) throws DAOException {
+		NamedParameterJdbcTemplate  namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValues(inputMap);
+		return namedParameterJdbcTemplate.query(query, parameters, new RowMapper<ReimbursementProcessingDTO>() {
+			@Override
+			public ReimbursementProcessingDTO mapRow(ResultSet row, int count) throws SQLException {
+				return ReimbProcessingMapper.getReimbursementProcessingDTOForAssignment(row);
+			}
+		});
+	}
+	
+	
+	public List<ReimbursementProcessingServiceDTO> getProcessingServiceDetails(String query ,Map<String,Object> inputMap) throws DAOException {
+		NamedParameterJdbcTemplate  namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValues(inputMap);
+		return namedParameterJdbcTemplate.query(query, parameters, new RowMapper<ReimbursementProcessingServiceDTO>() {
+			@Override
+			public ReimbursementProcessingServiceDTO mapRow(ResultSet row, int count) throws SQLException {
+				return ReimbursementProcessingServiceMapper.getReimbursementProcessingServiceDTO(row);
 			}
 		});
 	}
@@ -1295,22 +1322,21 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		return true;		
 	}
 	
-	private boolean approveCTDSLEVELC(String compId, ReimbursementProcessingServiceDTO reimbursementProcessingServiceDTO, JdbcTemplate jdbcTemplate) {		
-		jdbcTemplate.update(REIMBURSEMENT_QUERIES_APPROVE_CTDS_LEVEL_C,
+	private boolean updateStatusCTDSLEVELC(String compId, Long sgsId,String status, JdbcTemplate jdbcTemplate) {		
+		jdbcTemplate.update(REIMBURSEMENT_QUERIES_UPDATE_STATUS_CTDS_LEVEL_C,
 				new Object[] {  
-						reimbursementProcessingServiceDTO.getClaimStatus(),						
-						reimbursementProcessingServiceDTO.getReimbursementProcessId()
+						status,						
+						sgsId
 						
 		});
 		return true;		
 	}
 	
-	private boolean approveCTDSLEVELMC(String compId, ReimbursementProcessingDTO reimbursementProcessingDTO, JdbcTemplate jdbcTemplate) {		
-		jdbcTemplate.update(REIMBURSEMENT_QUERIES_APPROVE_CTDS_LEVEL_MC,
+	private boolean updateStatusCTDSLEVELMC(String compId, Long sgsId,String status, JdbcTemplate jdbcTemplate) {		
+		jdbcTemplate.update(REIMBURSEMENT_QUERIES_UPDATE_STATUS_CTDS_LEVEL_MC,
 				new Object[] {  
-						reimbursementProcessingDTO.getClaimStatusReason(),						
-						reimbursementProcessingDTO.getProcessingServiceDTOs().get(0).getReimbursementProcessId()
-						
+						status,						
+						sgsId
 		});
 		return true;		
 	}
@@ -1340,8 +1366,8 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 			insertCTDSLEVELE(compId, reimbursementProcessingDTO, jdbcTemplate);
 			insertCHDSLEVELE(compId, reimbursementProcessingDTO, jdbcTemplate);
 			approveCTDSLEVELMSRVC(compId, reimbursementProcessingServiceDTO, jdbcTemplate);
-			approveCTDSLEVELC(compId, reimbursementProcessingServiceDTO, jdbcTemplate);
-			approveCTDSLEVELMC(compId, reimbursementProcessingDTO, jdbcTemplate);
+			updateStatusCTDSLEVELC(compId, reimbursementProcessingServiceDTO.getClaimsRegistrationId(),reimbursementProcessingServiceDTO.getClaimStatus(), jdbcTemplate);
+			updateStatusCTDSLEVELMC(compId, reimbursementProcessingServiceDTO.getClaimsRegistrationId(),reimbursementProcessingDTO.getClaimStatusReason(), jdbcTemplate);
 			return reimbursementProcessingDTO;
 		}
 		
@@ -1350,8 +1376,8 @@ public class ReimbursementClaimsDAOImpl extends BaseClaimsDAOImpl {
 		updateCTDSLEVELE(compId, reimbursementEstimateDTO, reimbursementProcessingDTO, jdbcTemplate);
 		insertCHDSLEVELE(compId, reimbursementEstimateDTO, jdbcTemplate);
 		approveCTDSLEVELMSRVC(compId, reimbursementProcessingServiceDTO, jdbcTemplate);
-		approveCTDSLEVELC(compId, reimbursementProcessingServiceDTO, jdbcTemplate);
-		approveCTDSLEVELMC(compId, reimbursementProcessingDTO, jdbcTemplate);
+		updateStatusCTDSLEVELC(compId, reimbursementProcessingServiceDTO.getClaimsRegistrationId(),reimbursementProcessingServiceDTO.getClaimStatus(), jdbcTemplate);
+		updateStatusCTDSLEVELMC(compId, reimbursementProcessingServiceDTO.getClaimsRegistrationId(),reimbursementProcessingDTO.getClaimStatusReason(), jdbcTemplate);
 		return reimbursementProcessingDTO;		
 	}
 	

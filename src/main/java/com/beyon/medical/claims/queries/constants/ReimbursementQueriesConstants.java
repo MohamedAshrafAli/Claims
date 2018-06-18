@@ -69,7 +69,7 @@ public final class ReimbursementQueriesConstants implements Serializable{
 	
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_C = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelc");
 	public static final String REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_C = reimbursementResourceBundle.getString("reimbursement.queries.update.ctdslevelc");
-	public static final String REIMBURSEMENT_QUERIES_APPROVE_CTDS_LEVEL_C = reimbursementResourceBundle.getString("reimbursement.queries.approve.ctdslevelc");
+	public static final String REIMBURSEMENT_QUERIES_UPDATE_STATUS_CTDS_LEVEL_C = reimbursementResourceBundle.getString("reimbursement.queries.update.status.ctdslevelc");
 	public static final String REIMBURSEMENT_QUERIES_CTDS_ASSIGNMENT_MEMBER_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.ctds.assignment.member.details");
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_CP = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelcp");
 	public static final String REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_CP = reimbursementResourceBundle.getString("reimbursement.queries.update.ctdslevelcp");
@@ -95,8 +95,12 @@ public final class ReimbursementQueriesConstants implements Serializable{
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MSRVC_SEQUENCE_NAME = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelmsrvc.sequence.name");	
 	public static final String REIMBURSEMENT_QUERIES_INSERT_CTDS_LEVEL_MC = reimbursementResourceBundle.getString("reimbursement.queries.insert.ctdslevelmc");
 	public static final String REIMBURSEMENT_QUERIES_UPDATE_CTDS_LEVEL_MC = reimbursementResourceBundle.getString("reimbursement.queries.update.ctdslevelmc");
-	public static final String REIMBURSEMENT_QUERIES_APPROVE_CTDS_LEVEL_MC = reimbursementResourceBundle.getString("reimbursement.queries.approve.ctdslevelmc");
+	public static final String REIMBURSEMENT_QUERIES_UPDATE_STATUS_CTDS_LEVEL_MC = reimbursementResourceBundle.getString("reimbursement.queries.update.status.ctdslevelmc");
 	public static final String REIMBURSEMENT_QUERIES_PROCESSING_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.processing.details");
+	public static final String REIMBURSEMENT_QUERIES_PROCESSING_DETAILS_FOR_ASSIGNMENT = reimbursementResourceBundle.getString("reimbursement.queries.processing.details.for.assignment");
+	public static final String REIMBURSEMENT_QUERIES_PROCESSING_SERVICE_DETAILS = reimbursementResourceBundle.getString("reimbursement.queries.processing.service.details");
+
+	
 	public static final String REIMBURSEMENT_QUERIES_PROCESSING_DETAILS_ID_CRITERIA = reimbursementResourceBundle.getString("reimbursement.queries.processing.details.id.criteria");
 	public static final String REIMBURSEMENT_QUERIES_PROCESSING_DETAILS_CLAIMNUMBER_CRITERIA = reimbursementResourceBundle.getString("reimbursement.queries.processing.details.claimnumber.criteria");
 	public static final String REIMBURSEMENT_QUERIES_PROCESSING_DETAILS_REQUESTNUMBER_CRITERIA = reimbursementResourceBundle.getString("reimbursement.queries.processing.details.requestnumber.criteria");

@@ -8,6 +8,7 @@ import com.beyon.medical.claims.exception.DAOException;
 import com.beyon.medical.claims.exception.MedicalClaimsException;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementAssignmentDTO;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementProcessingDTO;
+import com.beyon.medical.claims.reimbursement.dto.ReimbursementProcessingServiceDTO;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementRegistrationDTO;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -40,9 +41,13 @@ public interface ReimbursementClaimsService {
 	ReimbursementProcessingDTO updateProcessingDetails(String compId,
 			ReimbursementProcessingDTO reimbursementProcessingDTO) throws DAOException;
 	
-	ReimbursementProcessingDTO getReimbursementProcessingDetailsById(ObjectNode inputMap) throws DAOException;
+	ReimbursementProcessingDTO getReimbursementProcessingDetails(ObjectNode inputMap) throws DAOException;
 
 	ReimbursementProcessingDTO getReimbursementInitProcessingDetails(ReimbursementAssignmentDTO reimbursementAssignmentDTO) throws DAOException;
+	
+	ReimbursementProcessingDTO getReimbursementProcessingDetailsForAssignment(ReimbursementAssignmentDTO reimbursementAssignmentDTO) throws DAOException;
+	
+	List<ReimbursementProcessingServiceDTO> getReimbursementProcessingServiceDetails(Long registrationId) throws DAOException;
 
 	ReimbursementProcessingDTO approveServiceLineItem(String compId,
 			ReimbursementProcessingDTO reimbursementProcessingDTO) throws DAOException;

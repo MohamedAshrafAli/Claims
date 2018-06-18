@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.beyon.medical.claims.exception.MedicalClaimsException;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementAssignmentDTO;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementProcessingDTO;
+import com.beyon.medical.claims.reimbursement.dto.ReimbursementProcessingServiceDTO;
 import com.beyon.medical.claims.reimbursement.dto.ReimbursementRegistrationDTO;
 import com.beyon.medical.claims.reimbursement.service.ReimbursementClaimsService;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -149,11 +150,33 @@ public class ReimbursementController{
 	public @ResponseBody ReimbursementProcessingDTO getReimbursementProcessingDetails(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
 		ReimbursementProcessingDTO reimbursementProcessingDTO = null;
 		try {
-			reimbursementProcessingDTO = reimbursementClaimsService.getReimbursementProcessingDetailsById( inputMap);
+			reimbursementProcessingDTO = reimbursementClaimsService.getReimbursementProcessingDetails( inputMap);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
 		return reimbursementProcessingDTO;
+	}
+	
+	@PostMapping("/getReimbursementProcessingDetailsForAssignment")
+	public @ResponseBody ReimbursementProcessingDTO getReimbursementProcessingDetailsForAssignment(@RequestBody ReimbursementAssignmentDTO reimbursementAssignmentDTO) throws MedicalClaimsException {
+		ReimbursementProcessingDTO reimbursementProcessingDTO = null;
+		try {
+			reimbursementProcessingDTO = reimbursementClaimsService.getReimbursementProcessingDetailsForAssignment( reimbursementAssignmentDTO);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return reimbursementProcessingDTO;
+	}
+	
+	@GetMapping("/getReimbursementProcessingServiceDetails")
+	public List<ReimbursementProcessingServiceDTO> getReimbursementProcessingServiceDetails(@RequestParam("registrationId") Long registrationId) throws MedicalClaimsException {
+		List<ReimbursementProcessingServiceDTO> reimbursementProcessingServiceDTOs = null;
+		try {
+			reimbursementProcessingServiceDTOs = reimbursementClaimsService.getReimbursementProcessingServiceDetails(registrationId);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return reimbursementProcessingServiceDTOs;
 	}
 	
 	@PostMapping("/getReimbursementInitProcessingDetails")

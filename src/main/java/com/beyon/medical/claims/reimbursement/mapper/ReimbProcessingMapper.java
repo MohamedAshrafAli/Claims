@@ -53,6 +53,48 @@ public class ReimbProcessingMapper {
 		
 		return processingDTO;
 	}
+	
+	public static ReimbursementProcessingDTO getReimbursementProcessingDTOForAssignment(ResultSet row) 
+			throws SQLException {
+		ReimbursementProcessingDTO processingDTO = new ReimbursementProcessingDTO();
+		List<ReimbursementProcessingServiceDTO> reimbursementProcessingServiceDTOs = new ArrayList<>();
+		processingDTO.setClaimNumber(row.getString("Claimnumber"));
+		processingDTO.setRequestNumber(row.getLong("Requestnumber"));		
+		processingDTO.setClaimType(row.getString("Claimtype"));
+		processingDTO.setEventCountry(row.getString("Eventcountry"));
+		processingDTO.setClaimCondition(row.getString("Claimcondition"));
+		processingDTO.setClaimStatusReason(row.getString("Claimstatusreason"));		
+		processingDTO.setDiagType(row.getString("Diagtype"));
+		/*processingDTO.setId(row.getLong("Claimsregistrationid"));
+		processingDTO.setBaseCurrency(row.getString("Currencyid"));
+		processingDTO.setPolicyNumber(row.getString("Policynumber"));
+		processingDTO.setCustomerId(row.getString("CustomerId"));
+		processingDTO.setProductId(row.getString("ProductId"));
+		processingDTO.setPolicyFromDate(DateUtil.convertSQlDateToLocalDate(row.getDate("PolicyFromDate")));
+		processingDTO.setPolicyToDate(DateUtil.convertSQlDateToLocalDate(row.getDate("PolicyToDate")));
+		processingDTO.setProviderId(row.getString("ProviderId"));
+		processingDTO.setCompId(row.getString("compId"));
+		processingDTO.setReqType(row.getString("RequestType"));
+		processingDTO.setEncType(row.getString("EncounterType"));
+		processingDTO.setVoucherNumber(row.getString("VoucherNumber"));
+		processingDTO.setMemberNumber(row.getString("MemberNumber"));		
+		processingDTO.setMemberName(row.getString("MemberName"));
+		processingDTO.setMemberType(row.getString("MemberType"));
+		processingDTO.setMemberCategory(row.getString("MemberCategory"));
+		processingDTO.setMemberDOB(DateUtil.convertSQlDateToLocalDate(row.getDate("MemberDOB")));
+		processingDTO.setRelationWithPrimary(row.getString("Relation"));
+		processingDTO.setCardNumber(row.getString("CardNumber"));
+		processingDTO.setRiskId(row.getString("riskId"));
+		processingDTO.setCardReceivedDate(DateUtil.convertSQlDateToLocalDate(row.getDate("CardReceivedDate")));*/
+		
+		if (row.getString("Diagtype") != null) {
+			setDiagnosisDTO(row, processingDTO);
+		}		
+//		reimbursementProcessingServiceDTOs.add(ReimbursementProcessingServiceMapper.getReimbursementProcessingServiceDTO(row));		
+		processingDTO.setProcessingServiceDTOs(reimbursementProcessingServiceDTOs);		
+		
+		return processingDTO;
+	}
 
 	private static void setDiagnosisDTO(ResultSet row, ReimbursementProcessingDTO processingDTO) throws SQLException {
 		if ("Primary".equalsIgnoreCase(row.getString("Diagtype"))) {

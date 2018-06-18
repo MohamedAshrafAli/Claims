@@ -347,7 +347,7 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 	}
 
 	@Transactional(propagation = Propagation.SUPPORTS, isolation = Isolation.READ_COMMITTED, readOnly = true)
-	public ReimbursementProcessingDTO getReimbursementProcessingDetailsById(ObjectNode paramMap) throws DAOException {
+	public ReimbursementProcessingDTO getReimbursementProcessingDetails(ObjectNode paramMap) throws DAOException {
 		List<ReimbursementProcessingDTO> processingDTOs = null;
 		List<ReimbursementProcessingServiceDTO> processingServiceDTOs = new ArrayList<>();
 		ReimbursementProcessingDTO reimbursementProcessingDTO = null;
@@ -431,6 +431,59 @@ public class ReimbursementClaimsServiceImpl implements ReimbursementClaimsServic
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
 		}
 		return _reimbursementProcessingDTO;
+	}
+	
+	@Override
+	public 	ReimbursementProcessingDTO getReimbursementProcessingDetailsForAssignment(ReimbursementAssignmentDTO reimbursementAssignmentDTO) throws DAOException {
+		ReimbursementProcessingDTO reimbursementProcessingDTO =  new ReimbursementProcessingDTO();
+		List<ReimbursementProcessingDTO> processingDTOs = null;
+		ReimbursementProcessingDTO _reimbursementProcessingDTO = null;
+		try {
+			BeanUtils.copyProperties(reimbursementAssignmentDTO, reimbursementProcessingDTO, "assignmentId","primaryDiagnosis", 
+					"secondaryDiagnosis","processingServiceDTOs", "eventCountry","claimCondition",
+					"requestNumber","claimType","claimStatusReason","assignedUserDetailsDTO");
+			Map<String, Object> inputMap = new HashMap<>();
+			String strQuery = REIMBURSEMENT_QUERIES_PROCESSING_DETAILS_FOR_ASSIGNMENT;
+			processingDTOs = reimbursementClaimsDAO.getProcessingDetailsForAssignment(strQuery, inputMap);
+			if (processingDTOs != null && !processingDTOs.isEmpty()) {
+				_reimbursementProcessingDTO = processingDTOs.get(0);
+				Map<String, List<ReimbursementProcessingDTO>> groupByDiagType = 
+						processingDTOs.stream().collect(Collectors.groupingBy(ReimbursementProcessingDTO::getDiagType));
+				for (Entry<String, List<ReimbursementProcessingDTO>> entry : groupByDiagType.entrySet()) {
+					if(entry.getKey().equalsIgnoreCase("Primary")) {
+						reimbursementProcessingDTO.setPrimaryDiagnosis(entry.getValue().get(0).getPrimaryDiagnosis());
+					} else if(entry.getKey().equalsIgnoreCase("Secondary")) {
+						reimbursementProcessingDTO.setSecondaryDiagnosis(entry.getValue().get(0).getSecondaryDiagnosis());
+					}
+				}
+				reimbursementProcessingDTO.setClaimNumber(_reimbursementProcessingDTO.getClaimNumber());
+				reimbursementProcessingDTO.setRequestNumber(_reimbursementProcessingDTO.getRequestNumber());		
+				reimbursementProcessingDTO.setClaimType(_reimbursementProcessingDTO.getClaimType());
+				reimbursementProcessingDTO.setEventCountry(_reimbursementProcessingDTO.getEventCountry());
+				reimbursementProcessingDTO.setClaimCondition(_reimbursementProcessingDTO.getClaimCondition());
+				reimbursementProcessingDTO.setClaimStatusReason(_reimbursementProcessingDTO.getClaimStatusReason());		
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return reimbursementProcessingDTO;
+	}
+	
+	
+	@Override
+	public 	List<ReimbursementProcessingServiceDTO> getReimbursementProcessingServiceDetails(Long registrationId) throws DAOException {
+		List<ReimbursementProcessingServiceDTO> processingServiceDTOs = null;
+		try {
+			String strQuery = REIMBURSEMENT_QUERIES_PROCESSING_SERVICE_DETAILS;
+			Map<String, Object> inputMap = new HashMap<>();
+			inputMap.put("id", registrationId);
+			processingServiceDTOs = reimbursementClaimsDAO.getProcessingServiceDetails(strQuery, inputMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return processingServiceDTOs;
 	}
 
 }
