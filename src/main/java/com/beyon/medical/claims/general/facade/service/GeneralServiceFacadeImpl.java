@@ -4,6 +4,7 @@ import static com.beyon.framework.util.Constants.INTERNAL_ERROR_OCCURED;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_ASSIGNMENT_USER_STATUS_COUNT;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_DIAGNOSIS_CODE_DETAILS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_COB_DETAIL;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_COUNTRYIDS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_CARD_NUMBERS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_CLAIM_NUMBERS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_CTDS_COLUMN_EMIRATES_IDS;
@@ -18,10 +19,9 @@ import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_MEMBER_NUMBERS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_UNIVERSAL_CURRENCIES;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_USER_DIVISION;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_REJECTION_CODE_DETAILS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_SERVICE_CODE_DETAILS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_USER_LIST;
-import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_REJECTION_CODE_DETAILS;
-import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_COUNTRYIDS;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +31,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.beyon.framework.util.FoundationUtils;
-import com.beyon.medical.claims.constants.ClaimConstants;
 import com.beyon.medical.claims.exception.DAOException;
 import com.beyon.medical.claims.general.dao.GeneralClaimsDAOImpl;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -41,9 +40,6 @@ public class GeneralServiceFacadeImpl implements GeneralServiceFacade {
 	
 	@Autowired
 	private GeneralClaimsDAOImpl generalClaimsDao;
-
-	private final ClaimConstants claimConstants = ClaimConstants.getInstance();
- 
 
 	@Override
 	public ObjectNode getMemberNumberList(ObjectNode paramMap) throws DAOException {

@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.beyon.medical.claims.constants.MedicalClaimTypes;
 import com.beyon.medical.claims.exception.MedicalClaimsException;
-import com.beyon.medical.claims.reimbursement.dto.ReimbursementAssignmentDTO;
-import com.beyon.medical.claims.reimbursement.dto.ReimbursementProcessingDTO;
-import com.beyon.medical.claims.reimbursement.dto.ReimbursementProcessingServiceDTO;
-import com.beyon.medical.claims.reimbursement.dto.ReimbursementRegistrationDTO;
-import com.beyon.medical.claims.reimbursement.service.ReimbursementClaimsService;
+import com.beyon.medical.claims.factory.ServiceLocatorFactory;
+import com.beyon.medical.claims.general.dto.AssignmentDTO;
+import com.beyon.medical.claims.general.dto.ProcessingDTO;
+import com.beyon.medical.claims.general.dto.ProcessingServiceDTO;
+import com.beyon.medical.claims.general.dto.RegistrationDTO;
+import com.beyon.medical.claims.registration.reimbursement.service.ReimbursementClaimRegistrationService;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @RestController
@@ -27,35 +29,24 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 public class ReimbursementController{
 	
 	@Autowired
-	private ReimbursementClaimsService reimbursementClaimsService;
+	private ReimbursementClaimRegistrationService reimbursementClaimRegistrationService;
 	
 	@PostMapping("/getReimbursementRegistrationDetails")
-	public  @ResponseBody List<ReimbursementRegistrationDTO> getReimbursementRegistrationDetails(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
-		List<ReimbursementRegistrationDTO> registrationDTOs = null;
+	public  @ResponseBody List<RegistrationDTO> getReimbursementRegistrationDetails(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		List<RegistrationDTO> registrationDTOs = null;
 		try {
-			registrationDTOs = reimbursementClaimsService.getReimbursementRegistrationDetails(inputMap);
+			registrationDTOs = ServiceLocatorFactory.getClaimRegistrationService(MedicalClaimTypes.REIMBURSEMENT).getRegistrationDetails(inputMap);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
 		return registrationDTOs;
 	}
 	
-	@PostMapping("/getReimbursementAssignmentDetails")
-	public  @ResponseBody List<ReimbursementAssignmentDTO> getReimbursementAssignmentDetails(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
-		List<ReimbursementAssignmentDTO> assignmentDTOs = null;
-		try {
-			assignmentDTOs = reimbursementClaimsService.getReimbursementAssignmentDetails(inputMap);
-		} catch (Exception ex) {
-			throw new MedicalClaimsException(ex.getMessage());
-		} 
-		return assignmentDTOs;
-	}
-	
 	@GetMapping("/getReimbursementRegistrationDetails/{id}")
-	public ReimbursementRegistrationDTO getReimbursementRegistrationDetailsById(@PathVariable String id) throws MedicalClaimsException {
-		ReimbursementRegistrationDTO registrationDTO = null;
+	public RegistrationDTO getReimbursementRegistrationDetailsById(@PathVariable String id) throws MedicalClaimsException {
+		RegistrationDTO registrationDTO = null;
 		try {
-			registrationDTO = reimbursementClaimsService.getReimbursementRegistrationDetailsById( id);
+			registrationDTO = ServiceLocatorFactory.getClaimRegistrationService(MedicalClaimTypes.REIMBURSEMENT).getRegistrationDetailsById( id);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
@@ -63,10 +54,10 @@ public class ReimbursementController{
 	}
 	
 	@PostMapping("/getReimbursementRegistrationDetailsForPolicyAndMemberNo")
-	public  @ResponseBody List<ReimbursementRegistrationDTO> getReimbursementRegistrationDetailsForPolicyAndMemberNo(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
-		List<ReimbursementRegistrationDTO> registrationDTOs = null;
+	public  @ResponseBody List<RegistrationDTO> getReimbursementRegistrationDetailsForPolicyAndMemberNo(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		List<RegistrationDTO> registrationDTOs = null;
 		try {
-			registrationDTOs = reimbursementClaimsService.getRegistrationDetailsForPolicyAndMemberNo(inputMap);
+			registrationDTOs = ServiceLocatorFactory.getClaimRegistrationService(MedicalClaimTypes.REIMBURSEMENT).getRegistrationDetailsForPolicyAndMemberNo(inputMap);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
@@ -74,12 +65,12 @@ public class ReimbursementController{
 	}
 	
 	@PostMapping("/saveRegistrationDetails/{compId}")
-	public  @ResponseBody ReimbursementRegistrationDTO saveRegistrationDetails(@PathVariable String compId, @RequestBody ReimbursementRegistrationDTO registrationDTO) throws MedicalClaimsException {
-		ReimbursementRegistrationDTO _registrationDTO = null;
+	public  @ResponseBody RegistrationDTO saveRegistrationDetails(@PathVariable String compId, @RequestBody RegistrationDTO registrationDTO) throws MedicalClaimsException {
+		RegistrationDTO _registrationDTO = null;
 		try {
-			_registrationDTO = reimbursementClaimsService.saveRegistrationDetails(compId,registrationDTO);
+			_registrationDTO = ServiceLocatorFactory.getClaimRegistrationService(MedicalClaimTypes.REIMBURSEMENT).saveRegistrationDetails(compId,registrationDTO);
 			if(_registrationDTO.getRegistrationFileDTOs() != null && !_registrationDTO.getRegistrationFileDTOs().isEmpty()) {
-				reimbursementClaimsService.uploadAndSaveDocuments(compId, _registrationDTO);
+				reimbursementClaimRegistrationService.uploadAndSaveDocuments(compId, _registrationDTO);
 			}
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
@@ -87,23 +78,13 @@ public class ReimbursementController{
 		return _registrationDTO;
 	}	
 	
-	@PostMapping("/saveAssignmentDetails/{compId}")
-	public  @ResponseBody List<ReimbursementAssignmentDTO> saveAssignmentDetails(@PathVariable String compId, @RequestBody List<ReimbursementAssignmentDTO> assignmentDTOs) throws MedicalClaimsException {
-		List<ReimbursementAssignmentDTO> _assignmentDTOs = null;
-		try {
-			_assignmentDTOs = reimbursementClaimsService.saveAssignmentDetails(compId,assignmentDTOs);
-		} catch (Exception ex) {
-			throw new MedicalClaimsException(ex.getMessage());
-		} 
-		return _assignmentDTOs;
-	}	
-	
+
 	
 	@GetMapping("/getReimbursementRegistrationDocument")
 	public  @ResponseBody byte[] getReimbursementRegistrationDocument(@RequestParam("pathName") String pathName) throws MedicalClaimsException {
 		byte[] docByte = null;
 		try {
-			docByte = reimbursementClaimsService.getDocumentDetails(pathName);
+			docByte = reimbursementClaimRegistrationService.getDocumentDetails(pathName);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
@@ -117,18 +98,40 @@ public class ReimbursementController{
 																	   @RequestParam("path") String path ) throws MedicalClaimsException {
 		boolean response = false;
 		try {
-			response = reimbursementClaimsService.deleteRegistrationDocument(id, docType, docName, path);
+			response = reimbursementClaimRegistrationService.deleteRegistrationDocument(id, docType, docName, path);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
 		return response;
 	}
 	
-	@PostMapping("/saveProcessingDetails/{compId}")
-	public  @ResponseBody ReimbursementProcessingDTO saveProcessingDetails(@PathVariable String compId, @RequestBody ReimbursementProcessingDTO reimbursementProcessingDTO) throws MedicalClaimsException {
-		ReimbursementProcessingDTO _reimbursementProcessingDTO = null;
+	@PostMapping("/getReimbursementAssignmentDetails")
+	public  @ResponseBody List<AssignmentDTO> getReimbursementAssignmentDetails(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		List<AssignmentDTO> assignmentDTOs = null;
 		try {
-			_reimbursementProcessingDTO = reimbursementClaimsService.saveProcessingDetails(compId,reimbursementProcessingDTO);
+			assignmentDTOs = ServiceLocatorFactory.getClaimAssignmentService(MedicalClaimTypes.REIMBURSEMENT).getReimbursementAssignmentDetails(inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return assignmentDTOs;
+	}
+	
+	@PostMapping("/saveAssignmentDetails/{compId}")
+	public  @ResponseBody List<AssignmentDTO> saveAssignmentDetails(@PathVariable String compId, @RequestBody List<AssignmentDTO> assignmentDTOs) throws MedicalClaimsException {
+		List<AssignmentDTO> _assignmentDTOs = null;
+		try {
+			_assignmentDTOs = ServiceLocatorFactory.getClaimAssignmentService(MedicalClaimTypes.REIMBURSEMENT).saveAssignmentDetails(compId,assignmentDTOs);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return _assignmentDTOs;
+	}	
+	
+	@PostMapping("/saveProcessingDetails/{compId}")
+	public  @ResponseBody ProcessingDTO saveProcessingDetails(@PathVariable String compId, @RequestBody ProcessingDTO reimbursementProcessingDTO) throws MedicalClaimsException {
+		ProcessingDTO _reimbursementProcessingDTO = null;
+		try {
+			_reimbursementProcessingDTO = ServiceLocatorFactory.getClaimProcessingService(MedicalClaimTypes.REIMBURSEMENT).saveProcessingDetails(compId,reimbursementProcessingDTO);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
@@ -136,10 +139,10 @@ public class ReimbursementController{
 	}
 	
 	@PostMapping("/updateProcessingDetails/{compId}")
-	public  @ResponseBody ReimbursementProcessingDTO updateProcessingDetails(@PathVariable String compId, @RequestBody ReimbursementProcessingDTO reimbursementProcessingDTO) throws MedicalClaimsException {
-		ReimbursementProcessingDTO _reimbursementProcessingDTO = null;
+	public  @ResponseBody ProcessingDTO updateProcessingDetails(@PathVariable String compId, @RequestBody ProcessingDTO reimbursementProcessingDTO) throws MedicalClaimsException {
+		ProcessingDTO _reimbursementProcessingDTO = null;
 		try {
-			_reimbursementProcessingDTO = reimbursementClaimsService.saveProcessingDetails(compId,reimbursementProcessingDTO);
+			_reimbursementProcessingDTO = ServiceLocatorFactory.getClaimProcessingService(MedicalClaimTypes.REIMBURSEMENT).saveProcessingDetails(compId,reimbursementProcessingDTO);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
@@ -147,10 +150,10 @@ public class ReimbursementController{
 	}
 	
 	@PostMapping("/getReimbursementProcessingDetails")
-	public @ResponseBody ReimbursementProcessingDTO getReimbursementProcessingDetails(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
-		ReimbursementProcessingDTO reimbursementProcessingDTO = null;
+	public @ResponseBody ProcessingDTO getReimbursementProcessingDetails(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ProcessingDTO reimbursementProcessingDTO = null;
 		try {
-			reimbursementProcessingDTO = reimbursementClaimsService.getReimbursementProcessingDetails( inputMap);
+			reimbursementProcessingDTO = ServiceLocatorFactory.getClaimProcessingService(MedicalClaimTypes.REIMBURSEMENT).getProcessingDetails( inputMap);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
@@ -158,10 +161,10 @@ public class ReimbursementController{
 	}
 	
 	@PostMapping("/getReimbursementProcessingDetailsForAssignment")
-	public @ResponseBody ReimbursementProcessingDTO getReimbursementProcessingDetailsForAssignment(@RequestBody ReimbursementAssignmentDTO reimbursementAssignmentDTO) throws MedicalClaimsException {
-		ReimbursementProcessingDTO reimbursementProcessingDTO = null;
+	public @ResponseBody ProcessingDTO getReimbursementProcessingDetailsForAssignment(@RequestBody AssignmentDTO reimbursementAssignmentDTO) throws MedicalClaimsException {
+		ProcessingDTO reimbursementProcessingDTO = null;
 		try {
-			reimbursementProcessingDTO = reimbursementClaimsService.getReimbursementProcessingDetailsForAssignment( reimbursementAssignmentDTO);
+			reimbursementProcessingDTO = ServiceLocatorFactory.getClaimProcessingService(MedicalClaimTypes.REIMBURSEMENT).getProcessingDetailsForAssignment( reimbursementAssignmentDTO);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
@@ -169,21 +172,22 @@ public class ReimbursementController{
 	}
 	
 	@GetMapping("/getReimbursementProcessingServiceDetails")
-	public List<ReimbursementProcessingServiceDTO> getReimbursementProcessingServiceDetails(@RequestParam("registrationId") Long registrationId) throws MedicalClaimsException {
-		List<ReimbursementProcessingServiceDTO> reimbursementProcessingServiceDTOs = null;
+	public List<ProcessingServiceDTO> getReimbursementProcessingServiceDetails(@RequestParam("registrationId") Long registrationId) throws MedicalClaimsException {
+		List<ProcessingServiceDTO> reimbursementProcessingServiceDTOs = null;
 		try {
-			reimbursementProcessingServiceDTOs = reimbursementClaimsService.getReimbursementProcessingServiceDetails(registrationId);
+			reimbursementProcessingServiceDTOs = ServiceLocatorFactory.getClaimProcessingService(MedicalClaimTypes.REIMBURSEMENT).getProcessingServiceDetails(registrationId);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
 		return reimbursementProcessingServiceDTOs;
 	}
+
 	
 	@PostMapping("/getReimbursementInitProcessingDetails")
-	public @ResponseBody ReimbursementProcessingDTO getReimbursementInitProcessingDetails(@RequestBody ReimbursementAssignmentDTO reimbursementAssignmentDTO) throws MedicalClaimsException {
-		ReimbursementProcessingDTO reimbursementProcessingDTO = null;
+	public @ResponseBody ProcessingDTO getReimbursementInitProcessingDetails(@RequestBody AssignmentDTO reimbursementAssignmentDTO) throws MedicalClaimsException {
+		ProcessingDTO reimbursementProcessingDTO = null;
 		try {
-			reimbursementProcessingDTO = reimbursementClaimsService.getReimbursementInitProcessingDetails(reimbursementAssignmentDTO);
+			reimbursementProcessingDTO = ServiceLocatorFactory.getClaimProcessingService(MedicalClaimTypes.REIMBURSEMENT).getInitProcessingDetails(reimbursementAssignmentDTO);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
@@ -191,10 +195,10 @@ public class ReimbursementController{
 	}
 	
 	@PostMapping("/approveProcessingServiceLineItem/{compId}")
-	public  @ResponseBody ReimbursementProcessingDTO approveProcessingServiceLineItem(@PathVariable String compId, @RequestBody ReimbursementProcessingDTO reimbursementProcessingDTO) throws MedicalClaimsException {
-		ReimbursementProcessingDTO _reimbursementProcessingDTO = null;
+	public  @ResponseBody ProcessingDTO approveProcessingServiceLineItem(@PathVariable String compId, @RequestBody ProcessingDTO reimbursementProcessingDTO) throws MedicalClaimsException {
+		ProcessingDTO _reimbursementProcessingDTO = null;
 		try {
-			_reimbursementProcessingDTO = reimbursementClaimsService.approveServiceLineItem(compId,reimbursementProcessingDTO);
+			_reimbursementProcessingDTO = ServiceLocatorFactory.getClaimProcessingService(MedicalClaimTypes.REIMBURSEMENT).approveServiceLineItem(compId,reimbursementProcessingDTO);
 		} catch (Exception ex) {
 			throw new MedicalClaimsException(ex.getMessage());
 		} 

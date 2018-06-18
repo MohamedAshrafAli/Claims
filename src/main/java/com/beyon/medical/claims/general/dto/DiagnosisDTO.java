@@ -1,8 +1,11 @@
 package com.beyon.medical.claims.general.dto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-
-public class DiagnosisDTO {
+@SuppressWarnings("unused")
+public class DiagnosisDTO implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private Long sgsId;
 	private String diagId;
 	private String diagType;
@@ -10,7 +13,6 @@ public class DiagnosisDTO {
 	private String updatedBy;
 	private LocalDate createdDate;
 	private LocalDate updatedDate;
-	private boolean isChanged;
 	public Long getSgsId() {
 		return sgsId;
 	}
@@ -52,12 +54,6 @@ public class DiagnosisDTO {
 	}
 	public void setUpdatedDate(LocalDate updatedDate) {
 		this.updatedDate = updatedDate;
-	}
-	public boolean isChanged() {
-		return isChanged;
-	}
-	public void setChanged(boolean isChanged) {
-		this.isChanged = isChanged;
 	}
 	
 }

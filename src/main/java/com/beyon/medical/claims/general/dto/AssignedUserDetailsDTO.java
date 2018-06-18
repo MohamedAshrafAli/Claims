@@ -1,6 +1,10 @@
 package com.beyon.medical.claims.general.dto;
 
-public class AssignedUserDetailsDTO {
+import java.io.Serializable;
+@SuppressWarnings("unused")
+public class AssignedUserDetailsDTO implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private Long slId;
 	private String userId;
 	private String userGroupId;

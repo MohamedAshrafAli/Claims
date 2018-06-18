@@ -64,6 +64,7 @@
 				</value>
 				<value>classpath:properties/*.properties</value>
 				<value>classpath:properties/client/*.properties</value>
+				<value>classpath:properties/queries/*.properties</value>
 			</list>
 		</property>
 	</bean>

@@ -1,7 +1,5 @@
 package com.beyon.medical.claims.exception;
 
-import com.beyon.medical.claims.constants.ClaimConstants;
-
 public class MedicalClaimsException extends  Exception
 {
 	private static final long serialVersionUID = 1L;

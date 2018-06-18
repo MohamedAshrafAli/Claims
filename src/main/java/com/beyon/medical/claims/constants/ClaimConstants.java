@@ -1,6 +1,6 @@
 package com.beyon.medical.claims.constants;
 
-import java.util.ResourceBundle;
+import com.beyon.framework.util.FoundationUtils;
 
 public class ClaimConstants
 {
@@ -22,17 +22,6 @@ public class ClaimConstants
 		return claimConstants;
 	}
 	
-	
-	public static ResourceBundle claimsResourceBundle = ResourceBundle.getBundle("com.beyon.medical.claims.properties.Claims");
-	public static final String CLAIM_REIMBURSEMENT_REGISTRATION_FILE_SERVER = claimsResourceBundle.getString("reimbursement.registration.file.server");
-
-	
-	
-	public String getCMErrPropValue(String key){
-		ResourceBundle bundle = ResourceBundle.getBundle("com.beyon.medical.properties.CMErrorMessages");
-		String value = bundle.getString(key);
-		return value;
-	}
-	
+	public static final String CLAIM_REIMBURSEMENT_REGISTRATION_FILE_SERVER = FoundationUtils.getProperty("reimbursement.registration.file.server");
 	
 }

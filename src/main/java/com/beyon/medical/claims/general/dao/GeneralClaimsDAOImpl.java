@@ -3,7 +3,8 @@ package com.beyon.medical.claims.general.dao;
 import static com.beyon.framework.util.AppLogger.ERROR;
 import static com.beyon.framework.util.AppLogger.writeLog;
 import static com.beyon.framework.util.Constants.INTERNAL_ERROR_OCCURED;
-import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.*;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_UID_DEFINITION_CRITERIA_MODTYPE;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_UID_DEFINITION_TYPES;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import com.beyon.framework.dao.DAOFactory;
 import com.beyon.framework.util.FoundationUtils;
+import com.beyon.medical.claims.base.dao.BaseClaimsDAOImpl;
 import com.beyon.medical.claims.exception.DAOException;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
