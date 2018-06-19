@@ -63,7 +63,7 @@
                             if(scope.statusValueMap) {
                                 scope.filterByStatus = scope.statusValueMap[tabName] ? scope.statusValueMap[tabName] : 'CC';
                             }                                
-                            scope.CurrentTabstatus = tabName == 'newRequest' ? "" : scope.statusValueMap[tabName];
+                            scope.CurrentTabstatus = tabName == 'newRequest' ? "" : scope.tabsToDisplay[tabIndex]['state']//scope.statusValueMap[tabName];
                             scope.onTabChange({'status' : scope.CurrentTabstatus});
                             // switch(tabName) {
                             //     case 'Approved':

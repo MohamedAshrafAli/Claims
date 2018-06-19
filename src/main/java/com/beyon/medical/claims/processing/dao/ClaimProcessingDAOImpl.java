@@ -31,6 +31,7 @@ import java.util.Map;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -68,7 +69,7 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 					java.sql.Date approvedDate = toSQLDate(processingServiceDTO.getApprovedDate());
 					java.sql.Date updatedDate = new java.sql.Date(new Date().getTime());
 					java.sql.Date createdDate = new java.sql.Date(new Date().getTime());
-					
+
 					ps.setLong(1, processingServiceDTO.getReimbursementProcessId());
 					ps.setLong(2, processingDTO.getId());
 					ps.setLong(3, 0);
@@ -125,7 +126,7 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 		processingDTO.setProcessingServiceDTOs(processingServiceResultDTOs);
 		return processingDTO;
 	}
-	
+
 	private boolean insertCHDSLEVELMSRVC(String compId,ProcessingDTO processingDTO,JdbcTemplate jdbcTemplate) throws DAOException {
 		try {
 			List<ProcessingServiceDTO> processingServiceDTOs  = processingDTO.getProcessingServiceDTOs();
@@ -139,7 +140,7 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 					java.sql.Date approvedDate = toSQLDate(processingServiceDTO.getApprovedDate());
 					java.sql.Date updatedDate = new java.sql.Date(new Date().getTime());
 					java.sql.Date createdDate = new java.sql.Date(new Date().getTime());
-					
+
 					ps.setLong(1, processingServiceDTO.getReimbursementProcessId());
 					ps.setLong(2, processingDTO.getId());
 					ps.setLong(3, 0);
@@ -224,7 +225,7 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 		});
 		return true;
 	}
-	
+
 	private ProcessingDTO updateCTDSLEVELMSRVC(String compId, ProcessingDTO processingDTO, JdbcTemplate jdbcTemplate) throws DAOException {
 		List<ProcessingServiceDTO> processingServiceResultDTOs  = new ArrayList<>();
 		try {
@@ -240,7 +241,7 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 					java.sql.Date statusDate = toSQLDate(processingServiceDTO.getStatusDate());
 					java.sql.Date approvedDate = toSQLDate(processingServiceDTO.getApprovedDate());
 					java.sql.Date updatedDate = new java.sql.Date(new Date().getTime());					
-					
+
 					ps.setLong(1, processingDTO.getId());					
 					ps.setLong(2, processingServiceDTO.getClaimsSequenceNo());
 					ps.setDate(3, treatmentFromDate);
@@ -296,7 +297,7 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 		processingDTO.setProcessingServiceDTOs(processingServiceResultDTOs);
 		return processingDTO;
 	}
-	
+
 	private boolean updateCTDSLEVELMC(String compId,ProcessingDTO processingDTO,JdbcTemplate jdbcTemplate) throws DAOException {
 
 		jdbcTemplate.update(QUERIES_UPDATE_CTDS_LEVEL_MC,
@@ -312,10 +313,10 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 
 		return true;
 	}
-	
 
 
-	
+
+
 	private boolean updateCTDSLEVELMDIAG(String compId,Long sgsId,DiagnosisDTO diagnosisDTO, JdbcTemplate jdbcTemplate) throws DAOException {
 		java.sql.Date updatedDate = new java.sql.Date(new Date().getTime());		
 		jdbcTemplate.update(QUERIES_UPDATE_CTDS_LEVEL_MDIAG,
@@ -329,7 +330,7 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 		});
 		return true;
 	}
-	
+
 	private boolean insertCTDSLEVELE(String compId,ProcessingDTO processingDTO,JdbcTemplate jdbcTemplate) throws DAOException {
 		java.sql.Date createdDate = new java.sql.Date(new Date().getTime());
 		java.sql.Date approvedDate = toSQLDate(processingDTO.getProcessingServiceDTOs().get(0).getApprovedDate());
@@ -342,7 +343,7 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 						processingDTO.getProcessingServiceDTOs().get(0).getBenefitId(), 
 						processingDTO.getProcessingServiceDTOs().get(0).getSubBenefitId(),
 						processingDTO.getProcessingServiceDTOs().get(0).getSubBenefitId(),
-						
+
 						processingDTO.getProcessingServiceDTOs().get(0).getEstType(), 
 						createdDate, 
 						processingDTO.getProcessingServiceDTOs().get(0).getApprovedAmount(), 
@@ -365,12 +366,12 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 
 		return true;
 	}	
-	
+
 	private boolean insertCHDSLEVELE(String compId, ProcessingDTO processingDTO,JdbcTemplate jdbcTemplate) throws DAOException {
 		java.sql.Date createdDate = new java.sql.Date(new Date().getTime());
 		java.sql.Date approvedDate = toSQLDate(processingDTO.getProcessingServiceDTOs().get(0).getApprovedDate());
 		ProcessingServiceDTO processingServiceDTO = processingDTO.getProcessingServiceDTOs().get(0);
-		
+
 		jdbcTemplate.update(QUERIES_INSERT_CHDS_LEVEL_E,
 				new Object[] { processingDTO.getServiceGroupId(), 
 						processingDTO.getId(), 
@@ -403,7 +404,7 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 
 		return true;
 	}
-	
+
 	private boolean insertCHDSLEVELE(String compId, ServiceLevelEstimateDTO serviceLevelEstimateDTO, JdbcTemplate jdbcTemplate) throws DAOException {
 		java.sql.Date createdDate = new java.sql.Date(new Date().getTime());		
 		jdbcTemplate.update(QUERIES_INSERT_CHDS_LEVEL_E,
@@ -439,7 +440,7 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 
 		return true;
 	}
-	
+
 	private boolean updateCTDSLEVELE(String compId, ServiceLevelEstimateDTO reimbursementEstimateDTO,
 			ProcessingDTO processingDTO, JdbcTemplate jdbcTemplate) throws DAOException {
 		java.sql.Date createdDate = new java.sql.Date(new Date().getTime());
@@ -464,7 +465,7 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 
 		return true;
 	}
-	
+
 	public ProcessingDTO insertProcessingDetails(String compId,ProcessingDTO processingDTO) throws DAOException {
 		JdbcTemplate jdbcTemplate = DAOFactory.getJdbcTemplate("gm");
 		ProcessingDTO _processingDTO = insertCTDSLEVELMSRVC(compId, processingDTO, jdbcTemplate);
@@ -475,7 +476,7 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 		updateStatusCTDSLEVELC(compId, processingDTO.getId(),"WIP", jdbcTemplate);
 		return _processingDTO;
 	}
-	
+
 	public ProcessingDTO updateProcessingDetails(String compId,ProcessingDTO processingDTO) throws DAOException {
 		JdbcTemplate jdbcTemplate = DAOFactory.getJdbcTemplate("gm");
 		ProcessingDTO result = null;
@@ -497,7 +498,7 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 		} 
 		return processingDTO;
 	}
-	
+
 	public List<ProcessingDTO> getProcessingDetails(String query ,Map<String,Object> inputMap) throws DAOException {
 		NamedParameterJdbcTemplate  namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
@@ -509,7 +510,7 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 			}
 		});
 	}
-	
+
 	public List<ProcessingDTO> getProcessingDetailsForAssignment(String query ,Map<String,Object> inputMap) throws DAOException {
 		NamedParameterJdbcTemplate  namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
@@ -521,8 +522,8 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 			}
 		});
 	}
-	
-	
+
+
 	public List<ProcessingServiceDTO> getProcessingServiceDetails(String query ,Map<String,Object> inputMap) throws DAOException {
 		NamedParameterJdbcTemplate  namedParameterJdbcTemplate = DAOFactory.getNamedTemplate("gm");
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
@@ -534,12 +535,12 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 			}
 		});
 	}
-	
+
 	private Long getLatestVersion(Long serviceId, JdbcTemplate jdbcTemplate) {
 		return jdbcTemplate.queryForObject(QUERIES_DETAILS_CTDS_LEVEL_MSRVC_VERSION, 
 				new Object[] {serviceId}, Long.class);
 	}
-	
+
 	private boolean approveCTDSLEVELMSRVC(String compId, ProcessingServiceDTO processingServiceDTO, JdbcTemplate jdbcTemplate) {		
 		java.sql.Date updatedDate = new java.sql.Date(new Date().getTime());
 		Long version = getLatestVersion(processingServiceDTO.getReimbursementProcessId(), jdbcTemplate);
@@ -557,21 +558,21 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 						processingServiceDTO.getApprovedAmount(),
 						processingServiceDTO.getApprovedAmountBC(),
 						processingServiceDTO.getReimbursementProcessId()
-						
+
 		});
 		return true;		
 	}
-	
+
 	private boolean updateStatusCTDSLEVELC(String compId, Long sgsId,String status, JdbcTemplate jdbcTemplate) {		
 		jdbcTemplate.update(QUERIES_UPDATE_STATUS_CTDS_LEVEL_C,
 				new Object[] {  
 						status,						
 						sgsId
-						
+
 		});
 		return true;		
 	}
-	
+
 	private boolean updateStatusCTDSLEVELMC(String compId, Long sgsId,String status, JdbcTemplate jdbcTemplate) {		
 		jdbcTemplate.update(QUERIES_UPDATE_STATUS_CTDS_LEVEL_MC,
 				new Object[] {  
@@ -580,45 +581,47 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 		});
 		return true;		
 	}
-	
+
 	public ProcessingDTO approveServiceLineItem(String compId,ProcessingDTO processingDTO) throws DAOException {
-		boolean isSaved = false;
 		JdbcTemplate jdbcTemplate = DAOFactory.getJdbcTemplate("gm");
-		ProcessingServiceDTO processingServiceDTO = processingDTO.getProcessingServiceDTOs().get(0);
-		ServiceLevelEstimateDTO reimbursementEstimateDTO = jdbcTemplate.queryForObject(QUERIES_CHECK_EXISTENCE_CTDS_LEVEL_E, 
-				new Object[] {
-						processingServiceDTO.getClaimsRegistrationId(),
-						processingDTO.getPolicyDetailsDTO().getRiskId(),
-						processingServiceDTO.getBenefitId(),
-						processingServiceDTO.getSubBenefitId()
-				}, new RowMapper<ServiceLevelEstimateDTO>() {
+		List<ProcessingServiceDTO> processingServiceDTOs = processingDTO.getProcessingServiceDTOs();
+		if (processingServiceDTOs != null && !processingServiceDTOs.isEmpty()) {
+			for (ProcessingServiceDTO processingServiceDTO : processingServiceDTOs) {
+				ServiceLevelEstimateDTO serviceLevelEstimateDTO = jdbcTemplate.query(QUERIES_CHECK_EXISTENCE_CTDS_LEVEL_E, 
+						new Object[] {
+								processingServiceDTO.getClaimsRegistrationId(),
+								processingDTO.getPolicyDetailsDTO().getRiskId(),
+								processingServiceDTO.getBenefitId(),
+								processingServiceDTO.getSubBenefitId()
+				}, new ResultSetExtractor<ServiceLevelEstimateDTO>() {
 					@Override
-					public ServiceLevelEstimateDTO mapRow(ResultSet row, int count) throws SQLException {
-						return ServiceLevelEstimationMapper.getServiceLevelEstimateDTO(row);
+					public ServiceLevelEstimateDTO extractData(ResultSet row) throws SQLException {
+						if (row.next()) {
+							return ServiceLevelEstimationMapper.getServiceLevelEstimateDTO(row);
+						}
+						return null;
 					}
 				});
-		if (reimbursementEstimateDTO == null) {
-			//AutoGenerated Sequence Id
-			Long dtlsSgsId = getSequenceNo(QUERIES_INSERT_CTDS_LEVEL_E_SEQUENCE_NAME);
-			processingDTO.setServiceGroupId(dtlsSgsId);
-			insertCTDSLEVELE(compId, processingDTO, jdbcTemplate);
-			insertCHDSLEVELE(compId, processingDTO, jdbcTemplate);
-			approveCTDSLEVELMSRVC(compId, processingServiceDTO, jdbcTemplate);
-			updateStatusCTDSLEVELC(compId, processingServiceDTO.getClaimsRegistrationId(),processingServiceDTO.getClaimStatus(), jdbcTemplate);
-			updateStatusCTDSLEVELMC(compId, processingServiceDTO.getClaimsRegistrationId(),processingDTO.getClaimStatusReason(), jdbcTemplate);
-			return processingDTO;
-		}
-		
-		setEstimatedAmt(reimbursementEstimateDTO, processingDTO);
-		//setOutstandingAmt(reimbursementEstimateDTO, processingDTO);
-		updateCTDSLEVELE(compId, reimbursementEstimateDTO, processingDTO, jdbcTemplate);
-		insertCHDSLEVELE(compId, reimbursementEstimateDTO, jdbcTemplate);
-		approveCTDSLEVELMSRVC(compId, processingServiceDTO, jdbcTemplate);
-		updateStatusCTDSLEVELC(compId, processingServiceDTO.getClaimsRegistrationId(),processingServiceDTO.getClaimStatus(), jdbcTemplate);
-		updateStatusCTDSLEVELMC(compId, processingServiceDTO.getClaimsRegistrationId(),processingDTO.getClaimStatusReason(), jdbcTemplate);
-		return processingDTO;		
+				if (serviceLevelEstimateDTO == null) {
+					//AutoGenerated Sequence Id
+					Long dtlsSgsId = getSequenceNo(QUERIES_INSERT_CTDS_LEVEL_E_SEQUENCE_NAME);
+					processingDTO.setServiceGroupId(dtlsSgsId);
+					insertCTDSLEVELE(compId, processingDTO, jdbcTemplate);
+					insertCHDSLEVELE(compId, processingDTO, jdbcTemplate);
+				} else {
+					setEstimatedAmt(serviceLevelEstimateDTO, processingDTO);
+					updateCTDSLEVELE(compId, serviceLevelEstimateDTO, processingDTO, jdbcTemplate);
+					insertCHDSLEVELE(compId, serviceLevelEstimateDTO, jdbcTemplate);
+				}
+				approveCTDSLEVELMSRVC(compId, processingServiceDTO, jdbcTemplate);
+				updateStatusCTDSLEVELC(compId, processingServiceDTO.getClaimsRegistrationId(),processingServiceDTO.getClaimStatus(), jdbcTemplate);
+				updateStatusCTDSLEVELMC(compId, processingServiceDTO.getClaimsRegistrationId(),processingDTO.getClaimStatusReason(), jdbcTemplate);
+				return processingDTO;
+			}			
+		}	
+		return processingDTO;	
 	}
-	
+
 	private void setEstimatedAmt(ServiceLevelEstimateDTO reimbursementEstimateDTO, ProcessingDTO processingDTO) {
 		ProcessingServiceDTO processingServiceDTO = processingDTO.getProcessingServiceDTOs().get(0);
 		BigDecimal oldEstimatedAmt = reimbursementEstimateDTO.getRevisedEstimatedAmt();
@@ -628,7 +631,7 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 		} else {
 			revisedEstimatedAmt = processingServiceDTO.getApprovedAmount();
 		}
-		
+
 		BigDecimal oldEstimatedAmtBC = reimbursementEstimateDTO.getRevisedEstimatedAmtBC();
 		BigDecimal revisedEstimatedAmtBC = new BigDecimal(0);
 		if (oldEstimatedAmtBC != null) {
@@ -647,12 +650,12 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 		if (existingOutstandingAmt != null) {
 			reimbursementEstimateDTO.setReservedOutstandingAmt(existingOutstandingAmt.subtract(reimbursementEstimateDTO.getRevisedEstimatedAmt()));
 		}
-		
+
 		BigDecimal existingOutstandingAmtBC = reimbursementEstimateDTO.getReservedOutstandingAmtBC();		
 		if (existingOutstandingAmtBC != null) {
 			reimbursementEstimateDTO.setReservedOutstandingAmtBC(existingOutstandingAmtBC.subtract(reimbursementEstimateDTO.getRevisedEstimatedAmtBC()));
 		}
 	}
-	
+
 
 }

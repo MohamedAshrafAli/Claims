@@ -33,11 +33,12 @@ public class ClaimFinalizationDAOImpl extends BaseClaimsDAOImpl {
 		});
 	}
 	
-	public boolean finalizeClaims(String compId, ProcessingDTO processingDTO, JdbcTemplate jdbcTemplate) {
+	public ProcessingDTO finalizeClaims(String compId, ProcessingDTO processingDTO) {
+		JdbcTemplate jdbcTemplate = DAOFactory.getJdbcTemplate("gm");
 		return insertCTDSLEVELMSRVCP(compId, processingDTO, jdbcTemplate);
 	}
 
-	private boolean insertCTDSLEVELMSRVCP(String compId, ProcessingDTO processingDTO, JdbcTemplate jdbcTemplate) {		
+	private ProcessingDTO insertCTDSLEVELMSRVCP(String compId, ProcessingDTO processingDTO, JdbcTemplate jdbcTemplate) {		
 		ProcessingServiceDTO processingServiceDTO = processingDTO.getProcessingServiceDTOs().get(0);
 		Long clmspSgsId = getSequenceNo(QUERIES_INSERT_CTDS_LEVEL_MSRVCP_SEQUENCE_NAME);
 		jdbcTemplate.update(QUERIES_INSERT_CTDS_LEVEL_MSRVCP,
@@ -55,6 +56,6 @@ public class ClaimFinalizationDAOImpl extends BaseClaimsDAOImpl {
 						null  //TODO: need to clarify on invoice #				
 		});
 
-		return true;
+		return processingDTO;
 	}
 }

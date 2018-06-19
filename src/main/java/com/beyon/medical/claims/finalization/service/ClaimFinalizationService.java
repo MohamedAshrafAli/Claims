@@ -8,5 +8,6 @@ import com.beyon.medical.claims.general.dto.ProcessingDTO;
 public interface ClaimFinalizationService {
 
 	List<ProcessingDTO> getFinalizedProcessingDTOs(String compId) throws DAOException;
-
+	
+	ProcessingDTO finalizeProcess(String compId, ProcessingDTO processingDTO) throws DAOException;
 }

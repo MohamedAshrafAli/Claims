@@ -33,4 +33,17 @@ public class ReimbursementClaimFinalizationServiceImpl implements ReimbursementC
 		return processingDTOs;
 	}
 	
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false, rollbackFor = Exception.class)
+	public ProcessingDTO finalizeProcess(String compId, ProcessingDTO reimbursementProcessingDTO) throws DAOException {
+		ProcessingDTO processingDTO = null;
+		try {
+			processingDTO = claimFinalizationDAOImpl.finalizeClaims(compId, reimbursementProcessingDTO);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return processingDTO;
+	}
+	
 }

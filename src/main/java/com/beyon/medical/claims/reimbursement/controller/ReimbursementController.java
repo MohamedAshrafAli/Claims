@@ -1,4 +1,4 @@
-package com.beyon.medical.claims.reimbursement.controller;
+ package com.beyon.medical.claims.reimbursement.controller;
 
 import java.util.List;
 
@@ -215,5 +215,17 @@ public class ReimbursementController{
 		} 
 		return processingDTOs;		
 	}	
+	
+	@PostMapping("/finalizeTheClaim")
+	public @ResponseBody ProcessingDTO finalizeReimbursementProcessingDTOs(@RequestParam("compId") String compId, 
+			@RequestBody ProcessingDTO reimbursementProcessingDTO) throws MedicalClaimsException {
+		ProcessingDTO processingDTO = null;
+		try {
+			processingDTO = ServiceLocatorFactory.getClaimFinalizationService(MedicalClaimTypes.REIMBURSEMENT).finalizeProcess(compId, reimbursementProcessingDTO);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return processingDTO;	
+	}
 	
 }

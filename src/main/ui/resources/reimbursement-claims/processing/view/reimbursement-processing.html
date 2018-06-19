@@ -94,10 +94,9 @@
                                         <div class="fldsWrap clearfix">
                                             <md-input-container flex-gt-sm>
                                                 <label>Claim Condition</label>
-                                                <md-select md-input-id="select_23" md-input-name="claimCondition" ng-model="selectedClaim.claimCondition" required>
+                                                <md-select md-input-id="select_23" md-input-name="claimCondition" ng-model="selectedClaim.claimCondition">
                                                     <md-option value="{{option.id}}" ng-repeat="option in claimConditions">{{option.value}}</md-option>
                                                 </md-select>
-                                                <div ng-show="localValidation && !selectedClaim.claimCondition" class="error">Please enter the Claim Condition</div>
                                             </md-input-container>
                                         </div>
                                         <div class="fldsWrap clearfix">
@@ -375,7 +374,7 @@
                                             <md-datepicker required ng-change="calculateDays()" md-placeholder="{{dateFormat}}" ng-keyup="clearDatepickerKeyupValue($event);" id="treatmentToDate" name="treatmentToDate" ng-model="claim.treatmentToDate" md-hide-icons="triangle" md-open-on-focus></md-datepicker>
                                         </md-input-container>
                                         <div class="ftsize" ng-show="localValidation && !reimbursementForm.treatmentToDate.$modelValue">Please enter the Service To Date</div>
-                                        <div class="ftsize" ng-show="reimbursementForm.treatmentToDate.$modelValue && (reimbursementForm.treatmentToDate.$modelValue < reimbursementForm.treatmentFromDate.$modelValue)"> Can't be greater than from date</div>
+                                        <!-- <div class="ftsize" ng-show="reimbursementForm.treatmentToDate.$modelValue && (reimbursementForm.treatmentToDate.$modelValue < reimbursementForm.treatmentFromDate.$modelValue)"> Can't be greater than from date</div> -->
                                     </div>
                                     <div class="float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 20% !important;">
                                         <md-input-container flex-gt-sm style="margin-top: 18px;">    
@@ -409,16 +408,16 @@
                                         <div class="ftsize" ng-show="validInputValidation && !claim.treatmentCode && reimbursementForm.treatmentCode.$modelValue">Please Select Valid  Treatment code</div>
                                                                         </div>
                                     <div class="float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 30% !important;">
-                                        <md-input-container flex-gt-sm style="margin-top: 18px;">    
+                                        <md-input-container flex-gt-sm style="margin-top: 18px">    
                                             <label>Requested Amount</label>
-                                            <input id="requestedAmount01" id="requestedAmount" name="requestedAmount" type="number" ng-model="claim.requestedAmount" autocomplete="off" ng-change="calculateSuggestedAmount()" required>
+                                            <input style="text-align:right"id="requestedAmount01" id="requestedAmount" name="requestedAmount" type="number" ng-model="claim.requestedAmount" autocomplete="off" ng-change="calculateSuggestedAmount()" required>
                                         </md-input-container>
                                         <div class="ftsize" ng-show="localValidation && !reimbursementForm.requestedAmount.$modelValue">Please enter the Requested Amount</div>
                                     </div>
                                     <div class="cfloat-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 30% !important;">
                                         <md-input-container flex-gt-sm style="margin-top: 18px;">    
                                             <label>Manual Deduction</label>
-                                            <input type="number" ng-model="claim.manualDeductionAmount" autocomplete="off" ng-change="calculateSuggestedAmount()">
+                                            <input style="text-align:right" type="number" ng-model="claim.manualDeductionAmount" autocomplete="off" ng-change="calculateSuggestedAmount()">
                                         </md-input-container>
                                     </div>
                                     <div class="masterCodes float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 40% !important;">
@@ -465,13 +464,13 @@
                                         <div class="col-sm-2 float-left">
                                             <md-input-container flex-gt-sm style="margin-top: 18px;">
                                                 <label>Approved Amount</label>
-                                                <input type="number" ng-model="claim.approvedAmount" ng-init="claim.approvedAmount=0" ng-disabled="true">
+                                                <input   type="number" ng-model="claim.approvedAmount" ng-init="claim.approvedAmount=0" ng-disabled="true">
                                             </md-input-container>
                                         </div>
                                         <div class="col-sm-2 float-left">
                                             <md-input-container flex-gt-sm style="margin-top: 18px;">
                                                 <label>Rejected Amount</label>
-                                                <input type="number" ng-model="claim.rejectedAmount" ng-init="claim.rejectedAmount=0" ng-disabled="true">
+                                                <input  type="number" ng-model="claim.rejectedAmount" ng-init="claim.rejectedAmount=0" ng-disabled="true">
                                             </md-input-container>
                                         </div>
                                         <div class="col-sm-2 float-left" style="width: auto !important;">
@@ -535,19 +534,19 @@
                     </li>
                     <li class="float-left">
                         <span>Total deduction</span>
-                        <strong>{{totalDeductionAmount | number}}</strong>
+                        <strong>{{totalDeductionAmount | number : 2}}</strong>
                     </li>
                     <li class="float-left">
                         <span>Total Penalty Amount</span>
-                        <strong>{{totalPenaltyAmount | number}}</strong>
+                        <strong>{{totalPenaltyAmount | number : 2}}</strong>
                     </li>
                     <li class="float-left">
                         <span>Total Approved Amount</span>
-                        <strong>{{totalApprovedAmount | number}}</strong>
+                        <strong>{{totalApprovedAmount | number : 2}}</strong>
                     </li>
                     <li class="float-left">
                         <span>Rejected Amount</span>
-                        <strong>{{totalRejectedAmount | number}}</strong>
+                        <strong>{{totalRejectedAmount | number : 2}}</strong>
                     </li>
                 </ul>
                 

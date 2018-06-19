@@ -37,6 +37,8 @@
             $scope.encounterTypes = uidTypes['encounterTypes'].rowData;
             $scope.encounterTypeMap = ReimbursementRegistrationFactory.constructUidMap($scope.encounterTypes, "id", "value");
             $scope.requestTypes = uidTypes['requestTypes'].rowData;
+            $scope.requestTypeMap = ReimbursementRegistrationFactory.constructUidMap($scope.requestTypes, "value", "id");
+            $scope.regDetail.reqType = $scope.requestTypeMap['Initial'];
             $scope.reportByTypes = uidTypes['reportByTypes'].rowData;
             $scope.reportByMap = ReimbursementRegistrationFactory.constructUidMap($scope.reportByTypes, "id", "value");
             $scope.paymentTypes = uidTypes['paymentTypes'].rowData;
@@ -275,6 +277,7 @@
     
                 modalInstance.result.then(function(result) {
                     $scope.regDetail = ReimbursementRegistrationFactory.constructClaim(result, $scope.sourceMap['Reimbursement'])
+                    $scope.regDetail.reqType = $scope.regDetail.reqType ? $scope.regDetail.reqType : $scope.requestTypeMap['Initial'];
                     $('.modal-backdrop').remove();
                     $scope.setReportedBy($scope.regDetail.reportedBy);
                     $scope.setPaymentWay($scope.regDetail.paymentWay);

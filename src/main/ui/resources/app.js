@@ -20,7 +20,7 @@ angular
     .run(appConfig)
     .constant('urlRoutePrefix',contextPath)
     .constant('companyId',"0021")
-    .constant("dateFormat", "mm-dd-yyyy")
+    .constant("dateFormat", "MM/dd/yyyy")
 
     stateConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
 

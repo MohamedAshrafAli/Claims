@@ -3,7 +3,7 @@
 
     angular
         .module('claims')
-        .directive('gridWrapper', function(ReimbursementRegistrationFactory) {
+        .directive('gridWrapper', function(ReimbursementRegistrationFactory, dateFormat) {
             return {
                 restict: 'AEC',
                 templateUrl: 'resources/directives/grid-directive/view/gridwrapper.directive.html',
@@ -17,6 +17,7 @@
                     isLoading : '='
                 },
                 link: function(scope, elem, attrs, ngModel) {
+                    scope.dateFormat = dateFormat;
                     scope.currencyType = scope.baseCurrency;
                     scope.noRecordsAvailable = scope.uiGridOptions['data'].length == 0;
                     var path = 'resources/directives/grid-directive/view/';
@@ -64,7 +65,7 @@
                     }
 
                     scope.convertToDate = function(date) {
-                        if(date && typeof date == 'object') date = new Date(date[0], date[1]-1, date[2]);
+                        if(date && date.length ) date = date[1]+'/'+date[2]+'/'+date[0];
                         return date;
                     }
 
