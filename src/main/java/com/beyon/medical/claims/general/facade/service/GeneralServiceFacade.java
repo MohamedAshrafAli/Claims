@@ -45,5 +45,6 @@ public interface GeneralServiceFacade{
 	
 	ObjectNode getStatusCount(ObjectNode paramMap) throws DAOException;
 
+	ObjectNode getMedicalCardInfoDetails(ObjectNode paramMap) throws DAOException;
 
 }

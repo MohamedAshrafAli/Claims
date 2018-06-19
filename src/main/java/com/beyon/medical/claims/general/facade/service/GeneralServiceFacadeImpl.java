@@ -319,4 +319,28 @@ public class GeneralServiceFacadeImpl implements GeneralServiceFacade {
 		return userList;
 	}
 	
+	@Override
+	public ObjectNode getMedicalCardInfoDetails(ObjectNode paramMap) throws DAOException {
+		ObjectNode userList = null;
+		try {
+			Map<Integer, String> outputMap = new HashMap<>();
+			outputMap.put(1, "InsuredName");
+			outputMap.put(2, "Age");
+			outputMap.put(1, "MemberNW");
+			outputMap.put(2, "Gender");
+			outputMap.put(1, "Consultation");
+			outputMap.put(2, "Inpatient");
+			outputMap.put(1, "Dental");
+			outputMap.put(2, "MatiralStatus");
+			outputMap.put(1, "Pharmaceuticals");
+			outputMap.put(2, "Diagnostics");
+			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
+			userList =  generalClaimsDao.getSearchDataList(GENERAL_QUERIES_STATUS_COUNT, inputMap, outputMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return userList;
+	}
+	
 }

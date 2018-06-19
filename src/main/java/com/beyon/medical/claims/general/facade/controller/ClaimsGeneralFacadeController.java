@@ -225,4 +225,15 @@ public class ClaimsGeneralFacadeController{
 		return statusCount;
 	}
 	
+	@PostMapping("/getMedicalCardInfoDetails")
+	public   @ResponseBody ObjectNode getMedicalCardInfoDetails(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode statusCount = null;
+		try {
+			statusCount = uiServiceFacade.getMedicalCardInfoDetails(inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return statusCount;
+	}
+	
 }
