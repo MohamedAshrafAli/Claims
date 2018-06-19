@@ -81,6 +81,7 @@ public final class GeneralQueriesConstants implements Serializable{
 	public static final String GENERAL_QUERIES_REJECTION_CODE_DETAILS = FoundationUtils.getProperty("medical.claim.general.queries.rejection.code.details");
 
 	public static final String GENERAL_QUERIES_ASSIGNMENT_USER_STATUS_COUNT = FoundationUtils.getProperty("medical.claim.general.queries.assignment.user.status.count");
+	public static final String GENERAL_QUERIES_STATUS_COUNT = FoundationUtils.getProperty("medical.claim.general.queries.status.count");
 
 
 }

@@ -21,6 +21,7 @@ import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_GET_USER_DIVISION;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_REJECTION_CODE_DETAILS;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_SERVICE_CODE_DETAILS;
+import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_STATUS_COUNT;
 import static com.beyon.medical.claims.queries.constants.GeneralQueriesConstants.GENERAL_QUERIES_USER_LIST;
 
 import java.util.HashMap;
@@ -295,6 +296,22 @@ public class GeneralServiceFacadeImpl implements GeneralServiceFacade {
 			outputMap.put(2, "Status");
 			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
 			userList =  generalClaimsDao.getSearchDataList(GENERAL_QUERIES_ASSIGNMENT_USER_STATUS_COUNT, inputMap, outputMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
+		}
+		return userList;
+	}
+	
+	@Override
+	public ObjectNode getStatusCount(ObjectNode paramMap) throws DAOException {
+		ObjectNode userList = null;
+		try {
+			Map<Integer, String> outputMap = new HashMap<>();
+			outputMap.put(1, "Total");
+			outputMap.put(2, "Status");
+			Map<String, Object> inputMap = FoundationUtils.getObjectMapper().convertValue(paramMap, Map.class);
+			userList =  generalClaimsDao.getSearchDataList(GENERAL_QUERIES_STATUS_COUNT, inputMap, outputMap);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);

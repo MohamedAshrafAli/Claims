@@ -92,7 +92,7 @@ public class ClaimRegistrationDAOImpl extends BaseClaimsDAOImpl {
 	}
 
 
-	public Map<String, Object> getClaimsRefNo(String docType,Long sequenceNumber,String productId) throws DAOException {
+	public Map<String, Object> getClaimRefNo(String docType,Long sequenceNumber,String productId) throws DAOException {
 		Map<String, Object> simpleJdbcCallResult = null;
 		try {
 			//TODO:No Hardcoding move the constants to constant file
@@ -175,7 +175,7 @@ public class ClaimRegistrationDAOImpl extends BaseClaimsDAOImpl {
 		Long dtlsSgsId = getSequenceNo(QUERIES_INSERT_SEQUENCE_NAME);
 		registrationDTO.setId(dtlsSgsId);
 		//Claim reference Number Procedure
-		Map<String, Object> refNoMap = getClaimsRefNo("FN", dtlsSgsId, registrationDTO.getPolicyDetailsDTO().getProductId());
+		Map<String, Object> refNoMap = getClaimRefNo("FN", dtlsSgsId, registrationDTO.getPolicyDetailsDTO().getProductId());
 		String claimRefNo = (String)refNoMap.get("P_DOC_NO");
 		registrationDTO.setClaimRefNo(claimRefNo);
 		//Classofbusiness for policynumber

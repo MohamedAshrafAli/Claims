@@ -65,7 +65,6 @@ public class ReimbursementClaimAssignmentServiceImpl implements ReimbursementCla
 			builder.append(" "+QUERIES_CTDS_ASSIGNMENT_STATUS_CRITERIA + " ");
 			orderByCriteria = QUERIES_CTDS_ASSIGNMENT_STATUS_CRITERIA_ORDER_BY;
 		}
-
 		if (strQuery.contains("<CRITERIA>")) {
 			Iterator<String> mapIter = inputMap.keySet().iterator();
 			while (mapIter.hasNext()) {
@@ -84,7 +83,6 @@ public class ReimbursementClaimAssignmentServiceImpl implements ReimbursementCla
 			} else if (StringUtils.isNotBlank((String) inputMap.get("reqReceivedTo"))) {
 				builder.append(QUERIES_CTDS_ASSIGNMENT_REQ_RECEIVED_TO_DETAILS + " ");
 			}
-
 			strQuery = strQuery.replaceAll("<CRITERIA>", builder.toString());
 			strQuery += (" "+ orderByCriteria);
 		}
@@ -113,7 +111,7 @@ public class ReimbursementClaimAssignmentServiceImpl implements ReimbursementCla
 		List<AssignmentDTO> _assignmentDTOs = null;
 		try {
 			for (AssignmentDTO reimbursementAssignmentDTO : assignmentDTOs) {
-				Map<String, Object> refNoMap = claimAssignmentDAOImpl.getClaimsRefNo("CL", reimbursementAssignmentDTO.getId(), reimbursementAssignmentDTO.getPolicyDetailsDTO().getProductId());
+				Map<String, Object> refNoMap = claimAssignmentDAOImpl.getClaimNo("C", compId, reimbursementAssignmentDTO.getPolicyDetailsDTO().getProductId());
 				String claimRefNo = (String) refNoMap.get("P_DOC_NO");
 				reimbursementAssignmentDTO.setClaimNumber(claimRefNo);
 				ObjectNode objectNode = FoundationUtils.createObjectNode();

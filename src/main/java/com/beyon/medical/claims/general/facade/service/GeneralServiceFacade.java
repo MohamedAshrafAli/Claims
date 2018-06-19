@@ -42,5 +42,8 @@ public interface GeneralServiceFacade{
 	List<String> getCountryIds(String compId) throws DAOException;
 	
 	ObjectNode getStatusCountByUser(ObjectNode paramMap) throws DAOException;
+	
+	ObjectNode getStatusCount(ObjectNode paramMap) throws DAOException;
+
 
 }

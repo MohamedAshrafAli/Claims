@@ -203,7 +203,7 @@ public class ClaimsGeneralFacadeController{
 		return countryIds;
 	}
 	
-	@GetMapping("/getStatusCountByUser")
+	@PostMapping("/getStatusCountByUser")
 	public   @ResponseBody ObjectNode getStatusCountByUser(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
 		ObjectNode statusCountByUser = null;
 		try {
@@ -212,6 +212,17 @@ public class ClaimsGeneralFacadeController{
 			throw new MedicalClaimsException(ex.getMessage());
 		} 
 		return statusCountByUser;
+	}
+	
+	@PostMapping("/getStatusCount")
+	public   @ResponseBody ObjectNode getStatusCount(@RequestBody ObjectNode inputMap) throws MedicalClaimsException {
+		ObjectNode statusCount = null;
+		try {
+			statusCount = uiServiceFacade.getStatusCount(inputMap);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return statusCount;
 	}
 	
 }

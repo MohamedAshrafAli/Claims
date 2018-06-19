@@ -89,18 +89,18 @@ public class ClaimAssignmentDAOImpl extends BaseClaimsDAOImpl {
 	}
 
 
-	public Map<String, Object> getClaimsRefNo(String docType,Long sequenceNumber,String productId) throws DAOException {
+	public Map<String, Object> getClaimNo(String docType,String compId ,String productId) throws DAOException {
 		Map<String, Object> simpleJdbcCallResult = null;
 		try {
 			//TODO:No Hardcoding move the constants to constant file
 			JdbcTemplate jdbcTemplate = DAOFactory.getJdbcTemplate("gm");
 			Map<String, Object> inParamMap = new HashMap<String, Object>();
-			inParamMap.put("P_DOC_TYPE", docType);
-			inParamMap.put("P_CLF_SGS_ID", sequenceNumber);
-			inParamMap.put("P_PROD_ID", productId);
-			String strProcName = "UWP_GENERATE_DOC_NO";
+			inParamMap.put("P_UDDH_COMP_ID", compId);
+			inParamMap.put(" P_UDDH_TYP", docType);
+			inParamMap.put("P_UDDH_PROD_ID", productId);
+			String strProcName = "COP_DOC_NO_GEN";
 			SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(jdbcTemplate)
-					.withProcedureName(strProcName).withCatalogName("CLK_GENERAL");
+					.withProcedureName(strProcName).withCatalogName("COK_DOC_NO_GEN");
 			SqlParameterSource in = new MapSqlParameterSource(inParamMap);
 			simpleJdbcCallResult = simpleJdbcCall.execute(in);
 		}catch(Exception e) {
