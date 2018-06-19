@@ -7,7 +7,7 @@
     ReimbursementFinalizationController.$inject = ['$scope', '$rootScope', 'ReimbursementFinalizationService', '$filter', 'ngNotify'];
 
     function ReimbursementFinalizationController($scope, $rootScope, ReimbursementFinalizationService, $filter, ngNotify) {
-
+        
         $scope.selectall = false;
         $scope.result = [];
         $scope.claimsToFinalize = [];
@@ -43,6 +43,7 @@
                 $scope.searchBy = {};
             }
         }
+
 
         function init() {
             $scope.data = ReimbursementFinalizationService.getFinailzationRecords();

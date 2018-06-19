@@ -14,9 +14,11 @@ public class ProcessingDTO extends ClaimBaseDTO {
 	private String eventCountry;
 	private String claimCondition;
 	private String claimStatusReason;
-	private boolean isChanged;
+	private boolean changed;
 	private Long serviceGroupId;
 	private String diagType;//for internal; use only
+	private boolean serviceAdded;
+	private boolean created;
 
 	public DiagnosisDTO getPrimaryDiagnosis() {
 		return primaryDiagnosis;
@@ -66,12 +68,6 @@ public class ProcessingDTO extends ClaimBaseDTO {
 	public void setClaimStatusReason(String claimStatusReason) {
 		this.claimStatusReason = claimStatusReason;
 	}
-	public boolean isChanged() {
-		return isChanged;
-	}
-	public void setChanged(boolean isChanged) {
-		this.isChanged = isChanged;
-	}
 	public Long getServiceGroupId() {
 		return serviceGroupId;
 	}
@@ -83,6 +79,24 @@ public class ProcessingDTO extends ClaimBaseDTO {
 	}
 	public void setDiagType(String diagType) {
 		this.diagType = diagType;
+	}
+	public boolean isServiceAdded() {
+		return serviceAdded;
+	}
+	public void setServiceAdded(boolean serviceAdded) {
+		this.serviceAdded = serviceAdded;
+	}
+	public boolean isCreated() {
+		return created;
+	}
+	public void setCreated(boolean created) {
+		this.created = created;
+	}
+	public boolean isChanged() {
+		return changed;
+	}
+	public void setChanged(boolean changed) {
+		this.changed = changed;
 	}
 	
 }

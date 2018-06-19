@@ -63,8 +63,8 @@
                             if(scope.statusValueMap) {
                                 scope.filterByStatus = scope.statusValueMap[tabName] ? scope.statusValueMap[tabName] : 'CC';
                             }                                
-                            var status = tabName == 'newRequest' ? "" : scope.statusValueMap[tabName];
-                            scope.onTabChange({'status' : status});
+                            scope.CurrentTabstatus = tabName == 'newRequest' ? "" : scope.statusValueMap[tabName];
+                            scope.onTabChange({'status' : scope.CurrentTabstatus});
                             // switch(tabName) {
                             //     case 'Approved':
                             //         scope.filterByStatus = 'Approved';
@@ -147,7 +147,8 @@
 
                         scope.redirectTo = function(stateName, data) {
                             ClaimsListViewService.setClaim(data);
-                            $rootScope.navigateTo(stateName);
+                            var param = {'tabStatus' : scope.CurrentTabstatus}
+                            $rootScope.navigateTo(stateName, param);
                         }
 
                         scope.$watch('rerenderView', (newValue, oldValue, scope) => {

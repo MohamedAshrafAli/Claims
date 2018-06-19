@@ -46,7 +46,7 @@ public class ProcessingServiceDTO implements Serializable {
 	private String approvedBy;
 	private LocalDate approvedDate;
 	private String currencyType;
-	private boolean isChanged;
+	private boolean changed;
 	private String treatmentCodeDisplayName;
 
 	
@@ -284,17 +284,17 @@ public class ProcessingServiceDTO implements Serializable {
 	public void setCurrencyType(String currencyType) {
 		this.currencyType = currencyType;
 	}
-	public boolean isChanged() {
-		return isChanged;
-	}
-	public void setChanged(boolean isChanged) {
-		this.isChanged = isChanged;
-	}
 	
 	public String getTreatmentCodeDisplayName() {
 		return this.serviceId +" / "+ this.subBenefitId;
 	}
 	public void setTreatmentCodeDisplayName(String treatmentCodeDisplayName) {
 		this.treatmentCodeDisplayName = treatmentCodeDisplayName;
+	}
+	public boolean isChanged() {
+		return changed;
+	}
+	public void setChanged(boolean changed) {
+		this.changed = changed;
 	}	
 }

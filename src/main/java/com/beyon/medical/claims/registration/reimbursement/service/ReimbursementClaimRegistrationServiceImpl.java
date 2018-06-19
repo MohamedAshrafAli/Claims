@@ -6,6 +6,7 @@ import static com.beyon.medical.claims.queries.constants.RegistrationQueriesCons
 import static com.beyon.medical.claims.queries.constants.RegistrationQueriesConstants.QUERIES_CTDS_DETAILS_EMIRATES_CRITERIA;
 import static com.beyon.medical.claims.queries.constants.RegistrationQueriesConstants.QUERIES_CTDS_DETAILS_ID;
 import static com.beyon.medical.claims.queries.constants.RegistrationQueriesConstants.QUERIES_CTDS_DETAILS_MEM_NO_CRITERIA;
+import static com.beyon.medical.claims.queries.constants.RegistrationQueriesConstants.QUERIES_CTDS_DETAILS_ORDER_BY;
 import static com.beyon.medical.claims.queries.constants.RegistrationQueriesConstants.QUERIES_CTDS_DETAILS_POLICY_CRITERIA;
 import static com.beyon.medical.claims.queries.constants.RegistrationQueriesConstants.QUERIES_CTDS_DETAILS_VOUCHER_CRITERIA;
 import static com.beyon.medical.claims.queries.constants.RegistrationQueriesConstants.QUERIES_DETAILS;
@@ -100,7 +101,7 @@ public class ReimbursementClaimRegistrationServiceImpl implements ReimbursementC
 				}
 			}
 			strQuery = strQuery.replaceAll("<CRITERIA>", builder.toString());
-			strQuery += " order By CLF_CRD desc";
+			strQuery += " " + QUERIES_CTDS_DETAILS_ORDER_BY;
 
 		}
 		return strQuery;

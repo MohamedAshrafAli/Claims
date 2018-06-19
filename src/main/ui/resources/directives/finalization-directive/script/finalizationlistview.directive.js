@@ -28,6 +28,9 @@
                         function init() {
                             console.log('finalization list view');
                             scope.allFinalizationRecords = angular.copy(scope.finalizationRecords);
+                            scope.allFinalizationRecords.forEach(item=>{
+                                item.editablePaymnetAmount = item.batchPaidAmount;
+                            })
                         }
 
                         scope.selectAllRecords = function() {
@@ -42,6 +45,16 @@
                                 scope.selectedClaims = [];
                             }
                         }
+
+                        scope.enableEditor = function(recordValue) {
+                            recordValue.editorEnabled = true;
+                            scope.editablePaymnetAmount = recordValue.editablePaymnetAmount;
+                        };
+                        
+                        scope.save = function(paymentAmount,editablePaymnetAmount) {
+                            paymentAmount.editablePaymnetAmount = editablePaymnetAmount;
+                            paymentAmount.editorEnabled = false;
+                        };
 
                         scope.selectClaimToFinalize = function(claimRecord) {
                             if (claimRecord['selected']) {

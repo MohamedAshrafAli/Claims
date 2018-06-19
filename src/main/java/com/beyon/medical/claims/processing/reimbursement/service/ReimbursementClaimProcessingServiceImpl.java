@@ -5,6 +5,7 @@ import static com.beyon.medical.claims.queries.constants.ProcessingQueriesConsta
 import static com.beyon.medical.claims.queries.constants.ProcessingQueriesConstants.QUERIES_PROCESSING_DETAILS_CLAIMNUMBER_CRITERIA;
 import static com.beyon.medical.claims.queries.constants.ProcessingQueriesConstants.QUERIES_PROCESSING_DETAILS_FOR_ASSIGNMENT;
 import static com.beyon.medical.claims.queries.constants.ProcessingQueriesConstants.QUERIES_PROCESSING_DETAILS_ID_CRITERIA;
+import static com.beyon.medical.claims.queries.constants.ProcessingQueriesConstants.QUERIES_PROCESSING_DETAILS_ORDER_BY;
 import static com.beyon.medical.claims.queries.constants.ProcessingQueriesConstants.QUERIES_PROCESSING_DETAILS_REQUESTNUMBER_CRITERIA;
 import static com.beyon.medical.claims.queries.constants.ProcessingQueriesConstants.QUERIES_PROCESSING_SERVICE_DETAILS;
 
@@ -44,8 +45,13 @@ public class ReimbursementClaimProcessingServiceImpl implements ReimbursementCla
 			throws DAOException {
 		ProcessingDTO _reimbursementProcessingDTO = null;
 		try {
-			_reimbursementProcessingDTO = claimProcessingDAOImpl.insertReimbursementProcessingDetails(compId,
+			if(reimbursementProcessingDTO.isCreated()) {
+				_reimbursementProcessingDTO = claimProcessingDAOImpl.insertProcessingDetails(compId,
 					reimbursementProcessingDTO);
+			} else {
+				_reimbursementProcessingDTO = claimProcessingDAOImpl.updateProcessingDetails(compId,
+					reimbursementProcessingDTO);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException(INTERNAL_ERROR_OCCURED[0], INTERNAL_ERROR_OCCURED[1]);
@@ -59,7 +65,7 @@ public class ReimbursementClaimProcessingServiceImpl implements ReimbursementCla
 			throws DAOException {
 		ProcessingDTO _reimbursementProcessingDTO = null;
 		try {
-			_reimbursementProcessingDTO = claimProcessingDAOImpl.updateReimbursementProcessingDetails(compId,
+			_reimbursementProcessingDTO = claimProcessingDAOImpl.updateProcessingDetails(compId,
 					reimbursementProcessingDTO);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -123,7 +129,7 @@ public class ReimbursementClaimProcessingServiceImpl implements ReimbursementCla
 				}
 			}
 			strQuery = strQuery.replaceAll("<CRITERIA>", builder.toString());
-			strQuery += " order by CLMS_UPD desc";
+			strQuery += (" " + QUERIES_PROCESSING_DETAILS_ORDER_BY);
 		}
 		return strQuery;
 
@@ -168,6 +174,8 @@ public class ReimbursementClaimProcessingServiceImpl implements ReimbursementCla
 					"secondaryDiagnosis","processingServiceDTOs", "eventCountry","claimCondition",
 					"requestNumber","claimType","claimStatusReason","assignedUserDetailsDTO");
 			Map<String, Object> inputMap = new HashMap<>();
+			inputMap.put("id", reimbursementAssignmentDTO.getId());
+
 			String strQuery = QUERIES_PROCESSING_DETAILS_FOR_ASSIGNMENT;
 			processingDTOs = claimProcessingDAOImpl.getProcessingDetailsForAssignment(strQuery, inputMap);
 			if (processingDTOs != null && !processingDTOs.isEmpty()) {

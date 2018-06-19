@@ -30,10 +30,10 @@
                 <tr ng-repeat="claim in filteredClaims | filter : filterByStatus | orderBy: orderByField: reverseSort" ng-if="modelDir =='reimbursementUserAssignment'">
                     <td>
                         <div class="text-nowrap">
-                            <span class="d-inline-block pr-2" ng-show="claim.status != 'ASN'"><strong>Claim Ref No: </strong>
+                            <span class="d-inline-block pr-2" ng-show="claim.status != 'ASN' && claim.status != 'WIP' && claim.status != 'APP'"><strong>Claim Ref No: </strong>
                                 <a class="currencyTypeCustom">#{{claim.claimRefNo}}</a>
                             </span>
-                            <span class="d-inline-block pr-2" ng-show="claim.status == 'ASN'"><strong>Claim No: </strong>
+                            <span class="d-inline-block pr-2" ng-show="claim.status == 'ASN' || claim.status == 'WIP' || claim.status == 'APP'"><strong>Claim No: </strong>
                                 <a class="currencyTypeCustom" href="javascript:void(0);"ng-click="redirectTo(navigateTo, claim);">#{{claim.claimNumber}}</a>
                             </span>
                             <span class="d-inline-block pr-2">
@@ -46,9 +46,9 @@
                         </div>
                         <div class="text-nowrap">
                             <div class="receiveInfo d-inline-block pr-3"><span class="oi" data-glyph="timer"></span> Request recieved on: {{claim.reqReceivedDate | customeDate}}</div>
-                            <div class="statusInfo d-inline-block text-success" ng-class="{'text-inprogress': claim.status=='InProgress','text-assigned': claim.status=='ASN','text-waiting': claim.status=='Waitingforapproval','text-new': claim.status=='CC','text-success': claim.status=='Approved','text-danger': claim.status!='Approved'}">
-                                <span ng-if="claim.status=='Approved'" class="oi" data-glyph="thumb-up"></span>
-                                <span ng-if="claim.status!='Approved'" class="oi" data-glyph="thumb-down"></span> &nbsp;{{statusMap[claim.status] ? statusMap[claim.status] :  'Open'}}
+                            <div class="statusInfo d-inline-block text-success" ng-class="{'text-inprogress': claim.status=='InProgress','text-assigned': claim.status=='ASN','text-waiting': claim.status=='Waitingforapproval','text-new': claim.status=='CC','text-success': claim.status=='APP','text-danger': claim.status!='APP'}">
+                                <span ng-if="claim.status=='APP'" class="oi" data-glyph="thumb-up"></span>
+                                <span ng-if="claim.status!='APP'" class="oi" data-glyph="thumb-down"></span> &nbsp;{{statusMap[claim.status] ? statusMap[claim.status] :  'Open'}}
                             </div>
                         </div>
                     </td>
@@ -109,9 +109,9 @@
                         </div>
                         <div class="text-nowrap">
                             <div class="receiveInfo d-inline-block pr-3"><span class="oi" data-glyph="timer"></span> Registered Date: {{claim.registered}}</div>
-                            <div class="statusInfo d-inline-block text-success" ng-class="{'text-inprogress': claim.status=='InProgress','text-assigned': claim.status=='ASN','text-waiting': claim.status=='Waitingforapproval','text-new': claim.status=='New Request','text-success': claim.status=='Approved','text-danger': claim.status!='Approved'}">
-                                <span ng-if="claim.status=='Approved'" class="oi" data-glyph="thumb-up"></span>
-                                <span ng-if="claim.status!='Approved'" class="oi" data-glyph="thumb-down"></span> &nbsp;{{claim.status}}
+                            <div class="statusInfo d-inline-block text-success" ng-class="{'text-inprogress': claim.status=='InProgress','text-assigned': claim.status=='ASN','text-waiting': claim.status=='Waitingforapproval','text-new': claim.status=='New Request','text-success': claim.status=='APP','text-danger': claim.status!='APP'}">
+                                <span ng-if="claim.status=='APP'" class="oi" data-glyph="thumb-up"></span>
+                                <span ng-if="claim.status!='APP'" class="oi" data-glyph="thumb-down"></span> &nbsp;{{claim.status}}
                             </div>
                         </div>
                     </td>
@@ -178,9 +178,9 @@
                         </div>
                         <div class="text-nowrap">
                             <div class="receiveInfo d-inline-block pr-3"><span class="oi" data-glyph="timer"></span> Registered Date: {{claim.receivedDate}}</div>
-                            <div class="statusInfo d-inline-block text-success" ng-class="{'text-inprogress': claim.status=='InProgress','text-assigned': claim.status=='ASN','text-waiting': claim.status=='Waitingforapproval','text-new': claim.status=='New Request','text-success': claim.status=='Approved','text-danger': claim.status!='Approved'}">
-                                <span ng-if="claim.status=='Approved'" class="oi" data-glyph="thumb-up"></span>
-                                <span ng-if="claim.status!='Approved'" class="oi" data-glyph="thumb-down"></span> &nbsp;{{claim.status}}
+                            <div class="statusInfo d-inline-block text-success" ng-class="{'text-inprogress': claim.status=='InProgress','text-assigned': claim.status=='ASN','text-waiting': claim.status=='Waitingforapproval','text-new': claim.status=='New Request','text-success': claim.status=='APP','text-danger': claim.status!='APP'}">
+                                <span ng-if="claim.status=='APP'" class="oi" data-glyph="thumb-up"></span>
+                                <span ng-if="claim.status!='APP'" class="oi" data-glyph="thumb-down"></span> &nbsp;{{claim.status}}
                             </div>
                         </div>
                     </td>
@@ -243,9 +243,9 @@
                         </div>
                         <div class="text-nowrap">
                             <div class="receiveInfo d-inline-block pr-3"><span class="oi" data-glyph="timer"></span> Registered Date: {{claim.receivedDate}}</div>
-                            <div class="statusInfo d-inline-block text-success" ng-class="{'text-inprogress': claim.status=='InProgress','text-assigned': claim.status=='ASN','text-waiting': claim.status=='Waitingforapproval','text-new': claim.status=='New Request','text-success': claim.status=='Approved','text-danger': claim.status!='Approved'}">
-                                <span ng-if="claim.status=='Approved'" class="oi" data-glyph="thumb-up"></span>
-                                <span ng-if="claim.status!='Approved'" class="oi" data-glyph="thumb-down"></span> &nbsp;{{claim.status}}
+                            <div class="statusInfo d-inline-block text-success" ng-class="{'text-inprogress': claim.status=='InProgress','text-assigned': claim.status=='ASN','text-waiting': claim.status=='Waitingforapproval','text-new': claim.status=='New Request','text-success': claim.status=='APP','text-danger': claim.status!='APP'}">
+                                <span ng-if="claim.status=='APP'" class="oi" data-glyph="thumb-up"></span>
+                                <span ng-if="claim.status!='APP'" class="oi" data-glyph="thumb-down"></span> &nbsp;{{claim.status}}
                             </div>
                         </div>
                     </td>
@@ -312,9 +312,9 @@
                         </div>
                         <div class="text-nowrap">
                             <div class="receiveInfo d-inline-block pr-3"><span class="oi" data-glyph="timer"></span> Registration Date: {{claim.registrationDate}}</div>
-                            <div class="statusInfo d-inline-block text-success" ng-class="{'text-inprogress': claim.status=='InProgress','text-assigned': claim.status=='ASN','text-waiting': claim.status=='Waitingforapproval','text-new': claim.status=='New Request','text-success': claim.status=='Approved','text-danger': claim.status!='Approved'}">
-                                <span ng-if="claim.status=='Approved'" class="oi" data-glyph="thumb-up"></span>
-                                <span ng-if="claim.status!='Approved'" class="oi" data-glyph="thumb-down"></span> &nbsp;{{claim.status}}
+                            <div class="statusInfo d-inline-block text-success" ng-class="{'text-inprogress': claim.status=='InProgress','text-assigned': claim.status=='ASN','text-waiting': claim.status=='Waitingforapproval','text-new': claim.status=='New Request','text-success': claim.status=='APP','text-danger': claim.status!='APP'}">
+                                <span ng-if="claim.status=='APP'" class="oi" data-glyph="thumb-up"></span>
+                                <span ng-if="claim.status!='APP'" class="oi" data-glyph="thumb-down"></span> &nbsp;{{claim.status}}
                             </div>
                         </div>
                     </td>

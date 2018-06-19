@@ -32,6 +32,16 @@
                 method: 'POST',
                 url: resourceUrl + '/approveProcessingServiceLineItem/'+ companyId,
                 isArray : false
+            },
+            'getReimbursementProcessingDetailsForAssignment' : {
+                method: 'POST',
+                url: resourceUrl + '/getReimbursementProcessingDetailsForAssignment',
+                isArray : false
+            },
+            'getReimbursementProcessingServiceDetails' : {
+                method : 'GET',
+                url: resourceUrl + '/getReimbursementProcessingServiceDetails',
+                isArray : true
             }
         })
     }

@@ -13,6 +13,7 @@ public class DiagnosisDTO implements Serializable {
 	private String updatedBy;
 	private LocalDate createdDate;
 	private LocalDate updatedDate;
+	private boolean changed;
 	public Long getSgsId() {
 		return sgsId;
 	}
@@ -54,6 +55,12 @@ public class DiagnosisDTO implements Serializable {
 	}
 	public void setUpdatedDate(LocalDate updatedDate) {
 		this.updatedDate = updatedDate;
+	}
+	public boolean isChanged() {
+		return changed;
+	}
+	public void setChanged(boolean isChanged) {
+		this.changed = isChanged;
 	}
 	
 }

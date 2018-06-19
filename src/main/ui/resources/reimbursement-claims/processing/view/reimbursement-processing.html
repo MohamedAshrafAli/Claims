@@ -42,6 +42,8 @@
                                                     No Result Found
                                                 </md-not-found>
                                                 <div class="ftsize" ng-show="localValidation && !infoForm.primaryDiagnosis.$modelValue">Please enter the Primary Diagnosis</div>
+                                                <div class="ftsize" ng-show="validInputValidation && !diagnosis.primaryDiag && infoForm.primaryDiagnosis.$modelValue">Please Select Valid Primary Diagnosis</div>
+
                                             </md-autocomplete>
                                         </div>
                                         <div class="clearfix">
@@ -70,7 +72,8 @@
                                                 <md-not-found>
                                                     No Result Found
                                                 </md-not-found>
-                                                <div class="ftsize" ng-show="localValidation && !infoForm.secondaryDiagnosis.$modelValue" class="error">Please enter the Secondary Diagnosis (ICD)</div>                                                
+                                                <div class="ftsize" ng-show="localValidation && !infoForm.secondaryDiagnosis.$modelValue" class="error">Please enter the Secondary Diagnosis (ICD)</div> 
+                                                <div class="ftsize" ng-show="validInputValidation && !diagnosis.secondaryDiag && infoForm.secondaryDiagnosis.$modelValue">Please Select Valid Secondary Diagnosis</div>
                                             </md-autocomplete>
                                         </div>
                                         <div class="clearfix">
@@ -402,8 +405,9 @@
                                                 No Result Found
                                             </md-not-found>
                                         </md-autocomplete>
-                                        <div class="ftsize" ng-show="localValidation && !reimbursementForm.treatmentCode.$modelValue">Please enter the treatment code/sub benefit</div>                                        
-                                    </div>
+                                        <div class="ftsize" ng-show="localValidation && !reimbursementForm.treatmentCode.$modelValue">Please enter the treatment code/sub benefit</div>
+                                        <div class="ftsize" ng-show="validInputValidation && !claim.treatmentCode && reimbursementForm.treatmentCode.$modelValue">Please Select Valid  Treatment code</div>
+                                                                        </div>
                                     <div class="float-left" style="border: 1px solid #b3b3b3;margin: 0 3px;width: 30% !important;">
                                         <md-input-container flex-gt-sm style="margin-top: 18px;">    
                                             <label>Requested Amount</label>
@@ -516,8 +520,8 @@
                                 </div>
                             </div>    
                         </div>
-                    </div>                
-                    <grid-wrapper ng-if="isInit" ui-Grid-Options="gridOptions" inline-Edit="isInlineEdit" module="moduleName" on-Grid-Action="gridAction(info)" 
+                    </div>
+                    <grid-wrapper ng-if="isInit" ui-Grid-Options="gridOptions" inline-Edit="isInlineEdit" module="moduleName" on-Grid-Action="gridAction(info)" is-loading="isloadingData"
                     curency-list="curencyList" curency-list="curencyList" exchange-ratemap="exchangeRateMap" base-currency="selectedClaim.baseCurrency"></grid-wrapper>
                 </div>
             </div>

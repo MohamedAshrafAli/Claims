@@ -44,11 +44,12 @@
             <span class="oi" data-glyph="chevron-left"></span>
         </a>
     </div>
-    <div class="table eclaimRequestTabl">
+    <div class="table eclaimRequestTabl" ng-class="{'inline-spinner' : isLoading}">
         <div ui-grid="gridOptions" ui-grid-pinning="" ui-grid-edit="" ng-if="inlineEdit" class="eclaimRequestTabl"></div>
         <div ui-grid="gridOptions" ui-grid-pinning="" ng-if="!inlineEdit" class="eclaimRequestTabl"></div>
+        <div ng-show="isLoading"><span class="fa fa-spinner fa-3x fa-spin"></span></div>
     </div>
-    <div ng-show="noRecordsAvailable">
+    <div ng-show="noRecordsAvailable && !isLoading">
         No Record Available...
     </div>
 </div>

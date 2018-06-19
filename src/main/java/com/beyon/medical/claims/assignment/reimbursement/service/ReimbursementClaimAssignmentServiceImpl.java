@@ -4,12 +4,14 @@ import static com.beyon.framework.util.Constants.INTERNAL_ERROR_OCCURED;
 import static com.beyon.medical.claims.queries.constants.AssignmentQueriesConstants.QUERIES_CTDS_ASSIGNMENT_BY_STATUS;
 import static com.beyon.medical.claims.queries.constants.AssignmentQueriesConstants.QUERIES_CTDS_ASSIGNMENT_CLAIMNUMBER_DETAILS;
 import static com.beyon.medical.claims.queries.constants.AssignmentQueriesConstants.QUERIES_CTDS_ASSIGNMENT_CLAIMNUMBER_EMPTY_CRITERIA;
+import static com.beyon.medical.claims.queries.constants.AssignmentQueriesConstants.QUERIES_CTDS_ASSIGNMENT_CLAIMNUMBER_EMPTY_CRITERIA_ORDER_BY;
 import static com.beyon.medical.claims.queries.constants.AssignmentQueriesConstants.QUERIES_CTDS_ASSIGNMENT_DETAILS;
 import static com.beyon.medical.claims.queries.constants.AssignmentQueriesConstants.QUERIES_CTDS_ASSIGNMENT_MEMBER_DETAILS;
 import static com.beyon.medical.claims.queries.constants.AssignmentQueriesConstants.QUERIES_CTDS_ASSIGNMENT_REQ_RECEIVED_BETWEEN_DETAILS;
 import static com.beyon.medical.claims.queries.constants.AssignmentQueriesConstants.QUERIES_CTDS_ASSIGNMENT_REQ_RECEIVED_FROM_DETAILS;
 import static com.beyon.medical.claims.queries.constants.AssignmentQueriesConstants.QUERIES_CTDS_ASSIGNMENT_REQ_RECEIVED_TO_DETAILS;
 import static com.beyon.medical.claims.queries.constants.AssignmentQueriesConstants.QUERIES_CTDS_ASSIGNMENT_STATUS_CRITERIA;
+import static com.beyon.medical.claims.queries.constants.AssignmentQueriesConstants.QUERIES_CTDS_ASSIGNMENT_STATUS_CRITERIA_ORDER_BY;
 import static com.beyon.medical.claims.queries.constants.RegistrationQueriesConstants.QUERIES_CTDS_DETAILS_MEM_NO_CRITERIA;
 
 import java.util.Iterator;
@@ -54,15 +56,14 @@ public class ReimbursementClaimAssignmentServiceImpl implements ReimbursementCla
 
 	private String getConstructedQuerywithCriterionForAssignment(String strQuery, Map<String, Object> inputMap) {
 		StringBuilder builder = new StringBuilder("");
-		String orderByField;
+		String orderByCriteria;
 		if(StringUtils.isBlank((String) inputMap.get("Status"))) {
 			builder.append(QUERIES_CTDS_ASSIGNMENT_CLAIMNUMBER_EMPTY_CRITERIA + " ");
-			orderByField = "CLF_CRD desc";
+			orderByCriteria =  QUERIES_CTDS_ASSIGNMENT_CLAIMNUMBER_EMPTY_CRITERIA_ORDER_BY;
 		} else {
 			strQuery = QUERIES_CTDS_ASSIGNMENT_BY_STATUS;
 			builder.append(" "+QUERIES_CTDS_ASSIGNMENT_STATUS_CRITERIA + " ");
-			orderByField = "CLC_CRD desc";
-
+			orderByCriteria = QUERIES_CTDS_ASSIGNMENT_STATUS_CRITERIA_ORDER_BY;
 		}
 
 		if (strQuery.contains("<CRITERIA>")) {
@@ -85,7 +86,7 @@ public class ReimbursementClaimAssignmentServiceImpl implements ReimbursementCla
 			}
 
 			strQuery = strQuery.replaceAll("<CRITERIA>", builder.toString());
-			strQuery += (" order By " + orderByField);
+			strQuery += (" "+ orderByCriteria);
 		}
 		return strQuery;
 	}

@@ -1990,3 +1990,9 @@ md-select[disabled] .md-select-value,
 button:disabled {
     cursor: not-allowed;
 }
+.inline-spinner {
+    opacity :0.75;
+    width: 100%; 
+    background-color: #eeeeee; 
+    z-index: 5000
+}

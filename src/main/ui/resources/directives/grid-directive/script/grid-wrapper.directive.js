@@ -13,7 +13,8 @@
                     module : '=',
                     onGridAction: '&',
                     curencyList : '=',
-                    baseCurrency : '='
+                    baseCurrency : '=',
+                    isLoading : '='
                 },
                 link: function(scope, elem, attrs, ngModel) {
                     scope.currencyType = scope.baseCurrency;

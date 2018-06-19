@@ -38,8 +38,6 @@ public final class ProcessingQueriesConstants implements Serializable{
 	public static final String QUERIES_PROCESSING_DETAILS = FoundationUtils.getProperty("queries.processing.details");
 	public static final String QUERIES_PROCESSING_DETAILS_FOR_ASSIGNMENT = FoundationUtils.getProperty("queries.processing.details.for.assignment");
 	public static final String QUERIES_PROCESSING_SERVICE_DETAILS = FoundationUtils.getProperty("queries.processing.service.details");
-
-	
 	public static final String QUERIES_PROCESSING_DETAILS_ID_CRITERIA = FoundationUtils.getProperty("queries.processing.details.id.criteria");
 	public static final String QUERIES_PROCESSING_DETAILS_CLAIMNUMBER_CRITERIA = FoundationUtils.getProperty("queries.processing.details.claimnumber.criteria");
 	public static final String QUERIES_PROCESSING_DETAILS_REQUESTNUMBER_CRITERIA = FoundationUtils.getProperty("queries.processing.details.requestnumber.criteria");
@@ -49,5 +47,6 @@ public final class ProcessingQueriesConstants implements Serializable{
 	public static final String QUERIES_CHECK_EXISTENCE_CTDS_LEVEL_E = FoundationUtils.getProperty("queries.check.existance.ctdslevele");
 	public static final String QUERIES_INSERT_CTDS_LEVEL_E_SEQUENCE_NAME = FoundationUtils.getProperty("queries.insert.ctdslevele.sequence.name");
 	public static final String QUERIES_UPDATE_STATUS_CTDS_LEVEL_C = FoundationUtils.getProperty("queries.update.status.ctdslevelc");
+	public static final String QUERIES_PROCESSING_DETAILS_ORDER_BY = FoundationUtils.getProperty("queries.processing.details.orderby");
 
 }

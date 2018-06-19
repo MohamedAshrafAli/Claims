@@ -47,5 +47,6 @@ public final class RegistrationQueriesConstants implements Serializable{
 	public static final String CLAIMANT_IS_THE_CUSTOMER = "Y";
 	public static final String CLAIM_REPORTED_BY_INSURED = "01";
 	public static final String CLAIM_MOD_TYPE = "GM";
+	public static final String QUERIES_CTDS_DETAILS_ORDER_BY = FoundationUtils.getProperty("queries.ctds.details.orderby");
 
 }

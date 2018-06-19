@@ -103,7 +103,7 @@ angular
             })
 
             .state('reimbursement-processing', {
-                url: "/reimbursement-processing",
+                url: "/{tabStatus}//reimbursement-processing",
                 templateUrl: "resources/reimbursement-claims/processing/view/reimbursement-processing.html",
                 controller: 'ReimbursmentProcessingController',
                 resolve: {

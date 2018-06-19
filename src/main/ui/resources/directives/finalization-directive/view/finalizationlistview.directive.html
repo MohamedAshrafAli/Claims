@@ -42,16 +42,32 @@
                                 <span class="tablLal" style="display: contents !important;">Paid To:</span>
                                 <span class="tablCont">{{record.PaidTo}}</span>
                             </div>
+                            <div class="text-nowrap">
+                                <strong class="tablLal tablLal1">Payment Way:</strong>
+                                <strong>{{record.paymentWay}}</strong>
+                            </div>
+                            
                         </td>
                         <td ng-if="modelName=='reimbursementFinalization'">
                             <div class="text-nowrap">
                                 <strong class="tablLal tablLal1">{{record.status=="Approved" ? 'ApprovedAmount' : 'RejectedAmount'}}</strong>
                                 <strong>Rs.{{record.rejectedAmount}}</strong>
                             </div>
-                            <div class="text-nowrap">
-                                <strong class="tablLal tablLal1">Payment Way:</strong>
-                                <strong>{{record.paymentWay}}</strong>
+                            <div ng-hide="record.editorEnabled">
+                                <strong class="tablLal tablLal1">Payment Amount:</strong>
+                                {{record.editablePaymnetAmount}}
+                                <span ng-click="enableEditor(record)" class="oi align-middle l-8" data-glyph="pencil" style="color:#007bff; font-size: 10px;"></span>
                             </div>
+                            <div ng-show="record.editorEnabled">
+                                <input ng-model="editablePaymnetAmount" ng-show="record.editorEnabled == true" ng-value="editablePaymnetAmount">
+                                <span ng-click="save(record,editablePaymnetAmount)" class="oi align-middle l-8 text-success" data-glyph="check" style="font-size: 10px;"></span>
+                                     &nbsp;
+                                <span ng-click="record.editorEnabled = false" class="oi align-middle l-8 text-danger" data-glyph="x" style="font-size: 10px;"></span>
+                            </div>
+                            <div class="text-nowrap">
+                                    <strong class="tablLal tablLal1">Outstanding Amount: </strong>
+                                    <strong>&nbsp;&nbsp;&nbsp;Rs.{{record.rejectedAmount}}</strong>
+                                </div>
                         </td>
                         <td ng-if="modelName=='reimbursementFinalization'">
                             <div class="text-nowrap">

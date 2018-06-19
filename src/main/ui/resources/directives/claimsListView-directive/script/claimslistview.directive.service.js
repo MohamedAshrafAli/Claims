@@ -21,8 +21,9 @@
             this.getReimbursementTabsToDisplay = function() {
                 return [
                     //{'label': 'Registered', 'tab' : 'Registered', 'state': 'REG'},
-                    {'label': 'New Request', 'tab' : 'newRequest', 'state': 'CC'},
+                    {'label': 'New Request', 'tab' : "", 'state': 'CC'},
                     {'label': 'Assigned', 'tab' : 'Assigned', 'state': 'ASN'},
+                    {'label': 'In Progress', 'tab' : 'Work in Progress', 'state': 'WIP'},
                     {'label': 'Approved', 'tab' : 'Approved', 'state': 'APP'}
                 ];
             }

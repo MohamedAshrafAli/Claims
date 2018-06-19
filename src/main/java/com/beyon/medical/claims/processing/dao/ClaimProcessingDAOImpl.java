@@ -269,7 +269,7 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 					ps.setString(26, processingServiceDTO.getClaimStatus());
 					ps.setDate(27, statusDate);
 					ps.setString(28, processingServiceDTO.getInternalRemarks());
-					ps.setString(39, processingServiceDTO.getExternalRemarks());
+					ps.setString(29, processingServiceDTO.getExternalRemarks());
 					ps.setString(30, processingServiceDTO.getLossType());
 					ps.setString(31, processingServiceDTO.getEstType());
 					ps.setString(32, "");
@@ -324,7 +324,8 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 						diagnosisDTO.getDiagType(),						
 						diagnosisDTO.getUpdatedBy(),
 						updatedDate,
-						sgsId
+						sgsId,
+						diagnosisDTO.getDiagType()
 		});
 		return true;
 	}
@@ -464,7 +465,7 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 		return true;
 	}
 	
-	public ProcessingDTO insertReimbursementProcessingDetails(String compId,ProcessingDTO processingDTO) throws DAOException {
+	public ProcessingDTO insertProcessingDetails(String compId,ProcessingDTO processingDTO) throws DAOException {
 		JdbcTemplate jdbcTemplate = DAOFactory.getJdbcTemplate("gm");
 		ProcessingDTO _processingDTO = insertCTDSLEVELMSRVC(compId, processingDTO, jdbcTemplate);
 		insertCHDSLEVELMSRVC(compId, _processingDTO, jdbcTemplate);
@@ -475,13 +476,25 @@ public class ClaimProcessingDAOImpl extends BaseClaimsDAOImpl {
 		return _processingDTO;
 	}
 	
-	public ProcessingDTO updateReimbursementProcessingDetails(String compId,ProcessingDTO processingDTO) throws DAOException {
+	public ProcessingDTO updateProcessingDetails(String compId,ProcessingDTO processingDTO) throws DAOException {
 		JdbcTemplate jdbcTemplate = DAOFactory.getJdbcTemplate("gm");
-		ProcessingDTO result = updateCTDSLEVELMSRVC(compId, processingDTO, jdbcTemplate);
-		insertCHDSLEVELMSRVC(compId, result, jdbcTemplate);
-		updateCTDSLEVELMC(compId, processingDTO, jdbcTemplate);
-		updateCTDSLEVELMDIAG(compId, processingDTO.getId(), processingDTO.getPrimaryDiagnosis(), jdbcTemplate);
-		updateCTDSLEVELMDIAG(compId, processingDTO.getId(), processingDTO.getSecondaryDiagnosis(), jdbcTemplate);
+		ProcessingDTO result = null;
+		if(processingDTO.isServiceAdded() ) {
+			result = insertCTDSLEVELMSRVC(compId, processingDTO, jdbcTemplate);
+			insertCHDSLEVELMSRVC(compId, result, jdbcTemplate);
+		} else if(processingDTO.getProcessingServiceDTOs().get(0).isChanged()) {
+			result = updateCTDSLEVELMSRVC(compId, processingDTO, jdbcTemplate);
+			insertCHDSLEVELMSRVC(compId, result, jdbcTemplate);
+		} 
+		if(processingDTO.isChanged()) {
+			updateCTDSLEVELMC(compId, processingDTO, jdbcTemplate);
+		} 
+		if(processingDTO.getPrimaryDiagnosis().isChanged()){
+			updateCTDSLEVELMDIAG(compId, processingDTO.getId(), processingDTO.getPrimaryDiagnosis(), jdbcTemplate);
+		}
+		if(processingDTO.getSecondaryDiagnosis().isChanged()){
+			updateCTDSLEVELMDIAG(compId, processingDTO.getId(), processingDTO.getSecondaryDiagnosis(), jdbcTemplate);
+		} 
 		return processingDTO;
 	}
 	

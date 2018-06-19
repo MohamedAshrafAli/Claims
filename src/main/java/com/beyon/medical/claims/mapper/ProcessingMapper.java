@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.beyon.medical.claims.general.dto.DiagnosisDTO;
+import com.beyon.medical.claims.general.dto.MemberDetailsDTO;
+import com.beyon.medical.claims.general.dto.PolicyDetailsDTO;
 import com.beyon.medical.claims.general.dto.ProcessingDTO;
 import com.beyon.medical.claims.general.dto.ProcessingServiceDTO;
 import com.beyon.medical.claims.utils.DateUtil;
@@ -15,6 +17,8 @@ public class ProcessingMapper {
 	public static ProcessingDTO getProcessingDTO(ResultSet row) 
 			throws SQLException {
 		ProcessingDTO processingDTO = new ProcessingDTO();
+		processingDTO.setPolicyDetailsDTO(new PolicyDetailsDTO());
+		processingDTO.setMemberDetailsDTO(new MemberDetailsDTO());
 		List<ProcessingServiceDTO> processingServiceDTOs = new ArrayList<>();
 		processingDTO.setClaimNumber(row.getString("Claimnumber"));
 		processingDTO.setRequestNumber(row.getLong("Requestnumber"));		

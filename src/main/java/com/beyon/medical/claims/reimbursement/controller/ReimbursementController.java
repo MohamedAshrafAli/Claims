@@ -205,4 +205,15 @@ public class ReimbursementController{
 		return _reimbursementProcessingDTO;
 	}
 	
+	@GetMapping("/getFinalizeList")
+	public List<ProcessingDTO> getFinalizeReimbursementProcessingDTOs(@RequestParam("compId") String compId) throws MedicalClaimsException {
+		List<ProcessingDTO> processingDTOs = null;
+		try {
+			processingDTOs = ServiceLocatorFactory.getClaimFinalizationService(MedicalClaimTypes.REIMBURSEMENT).getFinalizedProcessingDTOs(compId);
+		} catch (Exception ex) {
+			throw new MedicalClaimsException(ex.getMessage());
+		} 
+		return processingDTOs;		
+	}	
+	
 }

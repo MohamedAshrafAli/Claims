@@ -3,6 +3,7 @@ package com.beyon.medical.claims.factory;
 import com.beyon.framework.util.FoundationUtils;
 import com.beyon.medical.claims.assignment.service.ClaimAssignmentService;
 import com.beyon.medical.claims.constants.MedicalClaimTypes;
+import com.beyon.medical.claims.finalization.service.ClaimFinalizationService;
 import com.beyon.medical.claims.processing.service.ClaimProcessingService;
 import com.beyon.medical.claims.registration.service.ClaimRegistrationService;
 
@@ -31,7 +32,7 @@ public class ServiceLocatorFactory {
     }
     
     
-    public static ClaimProcessingService getClaimFinalizationService(MedicalClaimTypes claimTypes) {
+    public static ClaimFinalizationService getClaimFinalizationService(MedicalClaimTypes claimTypes) {
     	switch (claimTypes) {
 		case ECLAIMS:
 //			return (ClaimRegistrationService) FoundationUtils.getObject("ReimbursementClaimRegistrationServiceImpl");
@@ -42,7 +43,7 @@ public class ServiceLocatorFactory {
 		case PROVIDERPAPER:
 //			return (ClaimRegistrationService) FoundationUtils.getObject("ReimbursementClaimRegistrationServiceImpl");
 		case REIMBURSEMENT:
-//			return (ClaimRegistrationService) FoundationUtils.getObject("ReimbursementClaimRegistrationServiceImpl");
+			return (ClaimFinalizationService) FoundationUtils.getObject("reimbursementClaimFinalizationServiceImpl");
 		default :
 			return null;
 		}

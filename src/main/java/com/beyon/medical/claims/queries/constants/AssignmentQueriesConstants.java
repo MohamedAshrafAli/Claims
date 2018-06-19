@@ -41,5 +41,6 @@ public final class AssignmentQueriesConstants implements Serializable{
 	public static final String QUERIES_UPDATE_CTDS_LEVEL_SL = FoundationUtils.getProperty("queries.update.ctdslevelsl");
 	public static final String QUERIES_INSERT_CHDS_LEVEL_SL = FoundationUtils.getProperty("queries.insert.chdslevelsl");
 	public static final String QUERIES_INSERT_CTDS_LEVEL_SL_SEQUENCE_NAME = FoundationUtils.getProperty("queries.insert.ctdslevelsl.sequence.name");
-
+	public static final String QUERIES_CTDS_ASSIGNMENT_CLAIMNUMBER_EMPTY_CRITERIA_ORDER_BY = FoundationUtils.getProperty("queries.ctds.details.assignment.claimnumber.empty.criteria.orderby");
+	public static final String QUERIES_CTDS_ASSIGNMENT_STATUS_CRITERIA_ORDER_BY = FoundationUtils.getProperty("queries.ctds.details.assignment.claimnumber.status.criteria.orderby");
 }
