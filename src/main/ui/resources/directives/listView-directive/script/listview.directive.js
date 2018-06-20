@@ -19,9 +19,10 @@
                         scope.filteredRecords = [];
                         scope.reverse = true;
 
-                        scope.sortBy = function(fieldName) {
-                            scope.reverse = (scope.fieldName === fieldName) ? !scope.reverse : false;
-                            scope.fieldName = fieldName;
+                        scope.sortBy = function(fieldName, innerObjectName) {
+                            var currentFieldName = innerObjectName ? (innerObjectName+'.'+fieldName) : fieldName;
+                            scope.reverse = (scope.fieldName === currentFieldName) ? !scope.reverse : false;
+                            scope.fieldName = currentFieldName;
                         }
                 
                         scope.navigateTo = function(requestData) {

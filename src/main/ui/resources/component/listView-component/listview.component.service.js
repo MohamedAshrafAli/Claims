@@ -13,12 +13,12 @@
             this.getRegistrationListViewHeader = function() {
                 return [
                     {'label': 'Claim Ref Number', 'fieldName' : 'claimRefNo', 'redirectable' : true},
-                    {'label': 'Card Number', 'fieldName' : 'cardNumber', 'redirectable' : false},
-                    {'label': 'Member Name', 'fieldName' : 'memberName', 'redirectable' : false},
-                    {'label': 'Emirates Id', 'fieldName' : 'uidId', 'redirectable' : false},
+                    {'label': 'Card Number', 'fieldName' : 'cardNumber', 'innerObjectName':'memberDetailsDTO', 'redirectable' : false},
+                    {'label': 'Member Name', 'fieldName' : 'memberName', 'innerObjectName':'memberDetailsDTO', 'redirectable' : false},
+                    {'label': 'Emirates Id', 'fieldName' : 'uidId', 'innerObjectName':'memberDetailsDTO','redirectable' : false},
                     {'label': 'Voucher Number', 'fieldName' : 'voucherNumber', 'redirectable' : false},
-                    {'label': 'Policy Number', 'fieldName' : 'policyNumber', 'redirectable' : false},
-                    {'label': 'Mobile Number', 'fieldName' : 'mobileNum1', 'redirectable' : false},
+                    {'label': 'Policy Number', 'fieldName' : 'policyNumber', 'innerObjectName':'policyDetailsDTO','redirectable' : false},
+                    {'label': 'Mobile Number', 'fieldName' : 'mobileNum1', 'innerObjectName':'memberDetailsDTO','redirectable' : false},
                     {'label': 'Service From Date', 'fieldName' : 'serviceFmDate', 'redirectable' : false, type:"date"}
                 ];
             }

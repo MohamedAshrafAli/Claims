@@ -109,7 +109,7 @@
             }
             $scope.localValidation = false;
             $scope.regDetail['registrationFileDTOs'] = $scope.documents;
-            var params = { policyNumber: $scope.regDetail.policyNumber, compId : companyId };
+            var params = { policyNumber: $scope.regDetail.policyDetailsDTO.policyNumber, compId : companyId };
             SpinnerService.start();
             AutocompleteService.getCurrencyDetailsForPolicyNo(params, function(response) {
                 var currencyInfo = response.rowData[0];

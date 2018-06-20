@@ -67,17 +67,17 @@
                 </div>
                 <div class="row" ng-repeat="claim in filteredRecords" ng-if="registerNew" style="border-bottom: 1px solid #dee2e6; padding:6px;">
                     <div class="col-sm-3">
-                        <span>{{claim.policyNumber}}</span>
+                        <span>{{claim.policyDetailsDTO.policyNumber}}</span>
                     </div>
                     <div class="col-sm-2">
-                        <span>{{claim.memberNumber}}</span>
+                        <span>{{claim.memberDetailsDTO.memberNumber}}</span>
                     </div>
                     <div class="col-sm-3">
-                        <span>{{claim.memberName}}</span>
+                        <span>{{claim.memberDetailsDTO.memberName}}</span>
                     </div>  
                     <div class="col-sm-4 row">
                         <div class="col-sm-5">
-                            <span>{{claim.policyFromDate | customeDate }}</span>
+                            <span>{{claim.policyDetailsDTO.policyFromDate | customeDate }}</span>
                         </div>
                         <div class="col-sm-7 text-right">
                             <button type="button" class="btn btn-outline-primary btn-sm" ng-click="continue(claim)">Continue</button>
@@ -86,10 +86,10 @@
                 </div>
                 <div class="row" ng-repeat="claim in filteredRecords" ng-if="!registerNew" style="border-bottom: 1px solid #dee2e6; padding:6px;">
                     <div class="col-sm-3">
-                        <span>{{claim.memberName}}</span>
+                        <span>{{claim.memberDetailsDTO.memberName}}</span>
                     </div>
                     <div class="col-sm-2">
-                        <span>{{claim.mobileNum1}}</span>
+                        <span>{{claim.memberDetailsDTO.mobileNum1}}</span>
                     </div>
                     <div class="col-sm-2">
                         <span>{{claim.prevRequest}}</span>
