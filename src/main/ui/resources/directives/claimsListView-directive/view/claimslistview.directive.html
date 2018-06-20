@@ -37,7 +37,7 @@
                                 <a class="currencyTypeCustom" href="javascript:void(0);"ng-click="redirectTo(navigateTo, claim);">#{{claim.claimNumber}}</a>
                             </span>
                             <span class="d-inline-block pr-2">
-                                <strong>Member No: {{claim.memberNumber}}</strong>
+                                <strong>Member No:{{claim.memberDetailsDTO.memberNumber}}</strong>
                             </span>
                         </div>
                         <div class="text-nowrap">
@@ -53,7 +53,7 @@
                         </div>
                     </td>
                     <td class="align-bottom">
-                        <div class="text-nowrap">Emirates ID :{{claim.uidId}}</a></div>
+                        <div class="text-nowrap">Emirates ID :{{claim.memberDetailsDTO.uidId}}</a></div>
                         <div class="text-nowrap">Document Link :
                             <a href="">{{claim.documentLink}}</a>
                         </div>
@@ -76,9 +76,7 @@
                     <td class="text-right">
                         <div class="text-nowrap">
                             Requested Amount
-                            <h4>{{claim.currencyCode}} {{claim.requestAmt}}</h4>
-                            Approved Amount: 
-                            <!-- {{claim.currencyCode}} {{claim.approvedAmount}} -->
+                            <h4>{{claim.baseCurrency}} {{claim.requestAmt}}</h4>
                         </div>
                     </td>
                     <td class="align-middle text-center">
